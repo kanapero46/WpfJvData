@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -202,7 +204,7 @@ namespace WpfApp1
                 {
                     /* 全ファイルデータ読み込み終了 */
                     ProgressStatus.Visibility = Visibility.Hidden;
-                    MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
+                    this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
                     LabelRaceNum.Content = "OK"; 
                     break;
 
@@ -372,6 +374,12 @@ namespace WpfApp1
 
         }
 
+        /** **********************************
+         * @func  表示レース切り替え処理
+         * @event リストボックスが変更されたとき
+         * @inPrm
+         * @OutPrm
+         * */
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SolidColorBrush solidColor = new SolidColorBrush();
@@ -390,7 +398,7 @@ namespace WpfApp1
             db = new dbConnect();
 
 
-            /* 夏競馬開催「 */
+            /* 夏競馬開催 */
             db.TextReader(fromtime, "RA", 1, ref TextArray);
             for(int i = 0; i < TextArray.Count; i++)
             {
@@ -423,7 +431,7 @@ namespace WpfApp1
                 case "小倉":
                     if (West) { MainBack.Fill = System.Windows.Media.Brushes.Purple; }
                     else { MainBack.Fill = System.Windows.Media.Brushes.DarkGreen; }
-                    break;
+                    break;   
                 case "福島":
                 case "新潟":
                     if (East) { MainBack.Fill = System.Windows.Media.Brushes.Purple; }
@@ -470,6 +478,8 @@ namespace WpfApp1
 
         }
 
+
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -508,6 +518,11 @@ namespace WpfApp1
         private void LogingText(String Log)
         {
             LogText.Text += Log;
+        }
+
+        private void hogehoge()
+        {
+           
         }
     }
 
