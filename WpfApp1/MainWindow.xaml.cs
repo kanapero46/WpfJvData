@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LibJvConv;
+using WpfApp1.Class;
 using WpfApp1.dbAccess;
 using WpfApp1.form;
 
@@ -32,6 +33,15 @@ namespace WpfApp1
 
         /* DB書き込みクラス */
         dbConnect db;
+
+        /* メインデータ書き込みクラス */
+        MainDataClass mainDataClass = new MainDataClass();
+
+        /* *******定数定義******* */
+        const int RA_RACECOURCE = 2;
+        const int RA_KAIJI = 3;
+        const int RA_NICHIJI = 4;
+        const int RA_RACE_NAME = 7;
 
         public MainWindow()
         {
@@ -55,7 +65,6 @@ namespace WpfApp1
             int ret;
             ret = JVForm.JvForm_JvInit();
 
-            String fromtime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
             int op = 2;
             int rdCount = 0;
             int dlCount = 0;
@@ -68,7 +77,7 @@ namespace WpfApp1
 
             LogText.Visibility = Visibility.Collapsed;
             LogingText("JvInit・・・OK\n");
-            ret = JVForm.JvForm_JvOpen("RACE", fromtime + "000000", op, ref rdCount, ref dlCount, ref lastStamp);
+            ret = JVForm.JvForm_JvOpen("RACE", "00000000000000", op, ref rdCount, ref dlCount, ref lastStamp);
            
             /* JvOpenエラーハンドリング */
             if (ret != 0)
@@ -136,7 +145,9 @@ namespace WpfApp1
                             JV_RACE = new JVData_Struct.JV_RA_RACE();
                             tmp = "";
                             JV_RACE.SetDataB(ref buff);
-                            tmp = JV_RACE.id.Year + JV_RACE.id.MonthDay + ",";
+                            tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + JV_RACE.id.JyoCD + JV_RACE.id.Kaiji + JV_RACE.id.Nichiji +
+                                JV_RACE.id.RaceNum + ",";
+                            tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + ",";
                             tmp += JV_RACE.id.JyoCD + ",";
                             tmp += JV_RACE.id.Kaiji + "," + JV_RACE.id.Nichiji + "," + JV_RACE.id.RaceNum + ",";
                             tmp += JV_RACE.RaceInfo.YoubiCD + ",";
@@ -171,6 +182,8 @@ namespace WpfApp1
                             JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             tmp = "";
                             JV_SE_UMA.SetDataB(ref buff);
+                            tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + JV_SE_UMA.id.JyoCD + JV_SE_UMA.id.Kaiji +
+                                JV_SE_UMA.id.Nichiji + JV_SE_UMA.id.RaceNum + JV_SE_UMA.Umaban + ",";
                             tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + ",";
                             tmp += JV_SE_UMA.id.JyoCD + ",";
                             tmp += JV_SE_UMA.id.Kaiji + ",";
@@ -224,7 +237,7 @@ namespace WpfApp1
             }
 
             /* 場名リスト更新 */
-            AddComboBox(fromtime);
+            AddComboBox(mainDataClass.getRaceDate());
 
        JVForm.JvForm_JvClose();
 
@@ -253,9 +266,9 @@ namespace WpfApp1
             //fromtime = (Int32.Parse(fromtime) + 1).ToString();
 
             /* DBから取得 */
-            db.TextReader(fromtime, "RA", 6, ref RaceName);
-            db.TextReader(fromtime, "RA", 1, ref Cource);
-            db.TextReader(fromtime, "RA", 4, ref RaceNum);
+            db.TextReader(fromtime, "RA", RA_RACE_NAME, ref RaceName);
+            db.TextReader(fromtime, "RA", RA_RACECOURCE, ref Cource);
+            db.TextReader(fromtime, "RA", 5, ref RaceNum);
 
             /* エラーチェック */
             if(Cource.Count == 0)
@@ -273,8 +286,7 @@ namespace WpfApp1
             int Func = 2001;    // 2001：競馬場コード
 
             for (int i = 0; i< Cource.Count; i++)
-            {
-              
+            { 
                 LibOutParam = "";
                 LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&Func, Cource[i], ref LibOutParam);
                 Cource[i] = LibOutParam;
@@ -355,18 +367,6 @@ namespace WpfApp1
         /* リストの変更イベント */
         private void ComboBox_TextChanged(object sender, SelectionChangedEventArgs e)
         {
-            SolidColorBrush solidColor = new SolidColorBrush();
-            String RaceCource = RaceListBox.Text.Substring(0, 2);
-            
-            switch(RaceCource)
-            {
-                case "中山":
-                    MainBack.Fill = System.Windows.Media.Brushes.Blue;
-                    break;
-                case "阪神":
-                    MainBack.Fill = System.Windows.Media.Brushes.Green;
-                    break;
-            }
         }
         
         private void ComboBoxAddList(String[] RaceName)
@@ -377,10 +377,11 @@ namespace WpfApp1
         /** **********************************
          * @func  表示レース切り替え処理
          * @event リストボックスが変更されたとき
+         * @note  ここでのレース情報を今後のデータとして扱う
          * @inPrm
          * @OutPrm
-         * */
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+         ********************************** */
+        unsafe private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SolidColorBrush solidColor = new SolidColorBrush();
             String RaceCource ="";
@@ -397,10 +398,13 @@ namespace WpfApp1
             List<String> TextArray = new List<string>();
             db = new dbConnect();
 
-
-            /* 夏競馬開催 */
-            db.TextReader(fromtime, "RA", 1, ref TextArray);
-            for(int i = 0; i < TextArray.Count; i++)
+            /* 競馬場名取得（コード） */
+            db.TextReader(fromtime, "RA", RA_RACECOURCE, ref TextArray);
+            /* クラスにセット */
+            mainDataClass.setRaceCoutce(TextArray[Select]);
+            
+            /* 夏競馬開催判定 */
+            for (int i = 0; i < TextArray.Count; i++)
             {
                 switch(TextArray[i])
                 {
@@ -443,34 +447,48 @@ namespace WpfApp1
                     break;
             }
 
-
-
-            /* レース開催日は+1する */
-            //fromtime = (Int32.Parse(fromtime) + 1).ToString();
-
+            int CODE;
+            String tmp = "";
             try
             {
                 /* 競馬場名入力 */
-                LabelCource.Content = RaceCource;
+                CODE = LibJvConvFuncClass.COURCE_CODE;
+                String inParam = mainDataClass.getRaceCource();
+                LibJvConvFuncClass.jvSysConvFunction(&CODE, inParam, ref tmp);
+                LabelCource.Content = tmp;
+                /* クラスにセット */
 
                 /* レース番号入力 */
-                db.TextReader(fromtime, "RA", 4, ref TextArray);
+                db.TextReader(fromtime, "RA", 5, ref TextArray);
                 LabelRaceNum.Content = TextArray[Select].ToUpper() + "Ｒ";
+                mainDataClass.setRaceNum(Int32.Parse(TextArray[Select]));
 
                 TextArray.Clear();
 
                 /* レース名 */
-                db.TextReader(fromtime, "RA", 6, ref TextArray);
+                db.TextReader(fromtime, "RA", RA_RACE_NAME, ref TextArray);
                 LabelRaceName.Content = TextArray[Select];
 
                 /* グレード */
                 TextArray.Clear();
-                db.TextReader(fromtime, "RA", 15, ref TextArray);
+                db.TextReader(fromtime, "RA", 16, ref TextArray);
                 if (!(TextArray[Select] == "一般" || TextArray[Select] == "特別"))
                 {
                     LabelRaceName.Content += "（" + TextArray[Select] + "）";
                 }
-            }catch(ArgumentOutOfRangeException)
+
+                /* 回次：非表示 */
+                TextArray.Clear();
+                db.TextReader(fromtime, "RA", RA_KAIJI, ref TextArray);
+                mainDataClass.setRaceKaiji(TextArray[Select]);
+
+                /* 日次：非表示 */
+                TextArray.Clear();
+                db.TextReader(fromtime, "RA", RA_NICHIJI, ref TextArray);
+                mainDataClass.setRaceNichiji(TextArray[Select]);
+
+            }
+            catch (ArgumentOutOfRangeException)
             {
 
                 /* ファイル更新中にコールされるため、Exceptionはスルーする */
@@ -491,7 +509,11 @@ namespace WpfApp1
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if (OffLineFlag.IsVisible)
+            String fromtime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
+
+            mainDataClass.setRaceDate(fromtime);
+
+            if ((bool)this.OffLineFlag.IsChecked)
             {
                 if(DateText.SelectedDate == null) { MessageBox.Show("レース日を入力してください。"); return; }
                 AddComboBox(CngDataToString(DateText.SelectedDate.Value.ToShortDateString()));
@@ -501,6 +523,30 @@ namespace WpfApp1
                 InitMain();
             }
         }
+
+        /** **********************************
+         * @func  「出馬表」ボタンをクリックしたときの処理
+         * @event リストボックスが変更されたとき
+         * @inPrmMainDataGrid
+         * @OutPrm
+         ********************************** */
+        private void SyutubaButton_Click(object sender, RoutedEventArgs e)
+        {
+            String RaceCource = mainDataClass.getRaceCource();
+            int RaceNum = mainDataClass.getRaceNum();
+
+            if(RaceCource == "" || RaceNum == 0)
+            {
+                /* 競馬場名・レース名が選択されていない場合 */
+                return;
+            }
+            
+
+
+
+
+        }
+
 
         private void Button_Click_InitData(object sender, RoutedEventArgs e)
         {

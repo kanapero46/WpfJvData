@@ -272,7 +272,42 @@ namespace WpfApp1.dbAccess
             }
         }
 
+        public void Read_KeyData(String dtSpec, String key, String date, int Kind, ref String tmp)
+        {
+            String file = @"" + dtSpec + "/" + date + "/" + dtSpec + date + ".csv";
 
+            try
+            {
+                // csvファイルを開く
+                using (var sr = new StreamReader(file))
+                {
+                    // ストリームの末尾まで繰り返す
+                    while (!sr.EndOfStream)
+                    {
+                        // ファイルから一行読み込む
+                        var line = sr.ReadLine();
 
+                        //一行もなければ終了
+                        if (line.Length == 0) { return; }
+
+                        // 読み込んだ一行をカンマ毎に分けて配列に格納する
+                        var values = line.Split(',');
+
+                        // キーと一致するかチェック
+                        if (values[0] == key)
+                        {
+                            tmp = values[Kind];
+                            return;
+                        }
+                    }
+                }
+            }
+            catch(IOException ex)
+            {
+                MessageBox.Show("データファイルにアクセス出来ませんでした。\n別プロセスで実行中です。");
+                Console.WriteLine(ex);
+            }
+
+        }
     }
 }

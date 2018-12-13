@@ -14,7 +14,7 @@
         <DatePicker x:Name="DateText" HorizontalAlignment="Left" Margin="25,10,0,0" VerticalAlignment="Top" Width="306" SelectedDateFormat="Long"/>
         <Button Content="実行" HorizontalAlignment="Left" Height="24" Margin="359,10,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click_2"/>
         <ComboBox x:Name="RaceListBox" HorizontalAlignment="Right" Margin="0,12,10,0" VerticalAlignment="Top" Width="272" Grid.ColumnSpan="2" SelectionChanged="ComboBox_SelectionChanged"/>
-        <Button x:Name="SyutubaButton" Content="出馬表" HorizontalAlignment="Left" Height="24" Margin="25,50,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click"/>
+        <Button x:Name="SyutubaButton" Content="出馬表" HorizontalAlignment="Left" Height="24" Margin="25,50,0,0" VerticalAlignment="Top" Width="101" Click="SyutubaButton_Click"/>
         <Button x:Name="ButtonFunction2" Content="血統表" HorizontalAlignment="Left" Height="24" Margin="142,50,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click"/>
         <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="259,50,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click"/>
         <Rectangle x:Name="MainBack" HorizontalAlignment="Left" Height="33" Margin="10,79,0,0" Stroke="Black" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="772"/>
@@ -25,7 +25,7 @@
         <ProgressBar x:Name="ProgressStatus" HorizontalAlignment="Left" Height="33" Margin="10,79,0,0" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" Visibility="Hidden"/>
         <TextBox x:Name="LogText" HorizontalAlignment="Left" Height="60" Margin="10,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" UndoLimit="102" Visibility="Hidden"/>
         <CheckBox x:Name="OffLineFlag" Content="" HorizontalAlignment="Left" Margin="478,15,0,0" VerticalAlignment="Top"/>
-        <DataGrid x:Name="MainData" HorizontalAlignment="Left" Height="292" Margin="10,117,0,0" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" SelectionMode="Single">
+        <DataGrid x:Name="MainDataGrid" HorizontalAlignment="Left" Height="292" Margin="10,117,0,0" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" IsReadOnly="True"/>
             </DataGrid.Columns>
