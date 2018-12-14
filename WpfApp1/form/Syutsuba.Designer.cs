@@ -37,13 +37,17 @@
             this.Futan = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.M = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.LabeCource = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.枠,
@@ -114,13 +118,25 @@
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.flowLayoutPanel1.Controls.Add(this.LabeCource);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(735, 32);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
-            // Form2
+            // LabeCource
+            // 
+            this.LabeCource.AutoSize = true;
+            this.LabeCource.Location = new System.Drawing.Point(3, 0);
+            this.LabeCource.Name = "LabeCource";
+            this.LabeCource.Size = new System.Drawing.Size(35, 12);
+            this.LabeCource.TabIndex = 0;
+            this.LabeCource.Text = "label1";
+            // 
+            // Syutsuba
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -128,10 +144,12 @@
             this.ClientSize = new System.Drawing.Size(1141, 459);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.dataGridView1);
-            this.Name = "Form2";
+            this.Name = "Syutsuba";
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -147,5 +165,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Futan;
         private System.Windows.Forms.DataGridViewTextBoxColumn M;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Label LabeCource;
     }
 }
