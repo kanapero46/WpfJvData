@@ -37,7 +37,7 @@
             this.Futan = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.M = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.LabeCource = new System.Windows.Forms.Label();
+            this.LabelCource = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -121,20 +121,20 @@
             this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.flowLayoutPanel1.Controls.Add(this.LabeCource);
+            this.flowLayoutPanel1.Controls.Add(this.LabelCource);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(735, 32);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
-            // LabeCource
+            // LabelCource
             // 
-            this.LabeCource.AutoSize = true;
-            this.LabeCource.Location = new System.Drawing.Point(3, 0);
-            this.LabeCource.Name = "LabeCource";
-            this.LabeCource.Size = new System.Drawing.Size(35, 12);
-            this.LabeCource.TabIndex = 0;
-            this.LabeCource.Text = "label1";
+            this.LabelCource.AutoSize = true;
+            this.LabelCource.Location = new System.Drawing.Point(3, 0);
+            this.LabelCource.Name = "LabelCource";
+            this.LabelCource.Size = new System.Drawing.Size(35, 12);
+            this.LabelCource.TabIndex = 0;
+            this.LabelCource.Text = "label1";
             // 
             // Syutsuba
             // 
@@ -165,6 +165,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Futan;
         private System.Windows.Forms.DataGridViewTextBoxColumn M;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Label LabeCource;
+        private System.Windows.Forms.Label LabelCource;
     }
 }

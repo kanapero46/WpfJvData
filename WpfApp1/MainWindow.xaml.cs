@@ -218,8 +218,9 @@ namespace WpfApp1
                     /* 全ファイルデータ読み込み終了 */
                     ProgressStatus.Visibility = Visibility.Hidden;
                     this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
-                    LabelCource.Content = "";
+                    InitCompLabelText();    /* 障害Issue#3 */
                     LabelRaceNum.Content = "OK"; 
+                    
                     break;
 
                 }
@@ -389,6 +390,9 @@ namespace WpfApp1
             Boolean East = false;
             Boolean West = false;
             int Select = RaceListBox.SelectedIndex;
+
+            if (Select == -1) { return; } /* 障害Issue#3 */
+
             try
             {
                 RaceCource = RaceListBox.SelectedItem.ToString().Substring(0, 2);
@@ -462,7 +466,7 @@ namespace WpfApp1
                 /* レース番号入力 */
                 db.TextReader(fromtime, "RA", 5, ref TextArray);
                 LabelRaceNum.Content = TextArray[Select].ToUpper() + "Ｒ";
-                mainDataClass.setRaceNum(Int32.Parse(TextArray[Select]));
+                mainDataClass.setRaceNum(TextArray[Select]);
 
                 TextArray.Clear();
 
@@ -533,43 +537,24 @@ namespace WpfApp1
          ********************************** */
         unsafe private void SyutubaButton_Click(object sender, RoutedEventArgs e)
         {
-            String key;
+            String key = "";
             String tmp = "";
             String RaceCource = mainDataClass.getRaceCource();
-            int RaceNum = mainDataClass.getRaceNum();
+            String RaceNum = mainDataClass.getRaceNum();
             String Date = mainDataClass.getRaceDate();
             var horces = new ObservableCollection<HorceProgramClass>();
             HorceProgramClass _horce = new HorceProgramClass();
-            DataGridColumn.
-            MainDataGrid.Columns.Add("テキスト");
 
-            if (RaceCource == "" || RaceNum == 0)
+            if (RaceCource == "" || RaceNum == "")
             {
                 /* 競馬場名・レース名が選択されていない場合 */
                 return;
             }
 
-            key = mainDataClass.GET_RA_KEY();
-            db.Read_KeyData("SE", key, Date, 5, ref tmp);   //枠番
-           // int Wakuban = Int32.Parse(tmp);
-            
-            for(int i = 0; ;i++)
-            {
-                db.Read_KeyData("SE", key, Date, 5, ref tmp);   //枠番
-                _horce.Wakuban = tmp;
-                this.MainDataGrid.Columns.Add("ID");
-                MainDataGrid.
-            }
+            mainDataClass.GET_AUTO_RA_KEY(ref key);
 
-
-
-
-            this.MainDataGrid.ItemsSource = horces;
-
-
-            this.MainDataGrid.Items.Add(new DataItem { Column1 = "a.1", Column2 = "a.2", Column3 = "a.3", Column4 = "a.4" });
-
-
+            Syutsuba syutsuba = new Syutsuba(key);
+            syutsuba.Show();
         }
 
 
@@ -608,7 +593,7 @@ namespace WpfApp1
         {
             LabelCource.Content = "";
             LabelRaceNum.Content = "";
-            LabelRaceNum.Content = "";
+            LabelRaceName.Content = "";
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibJvConv;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,8 +15,9 @@ namespace WpfApp1.form
     public partial class Syutsuba : Form
     {
         /* DB書き込みクラス */
-        dbConnect db = new dbConnect();
+        dbConnect db;
         Class.MainDataClass DataClass = new Class.MainDataClass();
+        String Cource;
 
         public Syutsuba()
         {
@@ -26,16 +28,18 @@ namespace WpfApp1.form
         public Syutsuba(String RA)
         {
             String tmp = "";
-
+            db = new dbConnect();
             //DBからレース名を検索
             db.Read_KeyData("RA", RA, RA.Substring(0, 6), 5, ref tmp);
             DataClass.SET_RA_KEY(RA);
-            DataClass.setRaceDate(RA.Substring(0, 6));
-            DataClass.setRaceCoutce(RA.Substring(6, 2));
-            DataClass.setRaceKaiji(RA.Substring(8, 2));
-            DataClass.setRaceNichiji(RA.Substring(10, 2));
-            DataClass.setRaceNum(int.Parse(RA.Substring(12, 2)));
+            DataClass.setRaceDate(RA.Substring(0, 8));
+            DataClass.setRaceCoutce(RA.Substring(8, 2));
+            DataClass.setRaceKaiji(RA.Substring(10, 2));
+            DataClass.setRaceNichiji(RA.Substring(12, 2));
+            DataClass.setRaceNum(RA.Substring(14,2));
+            InitForm();
         }
+
 
         /************** private **************/
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -45,15 +49,20 @@ namespace WpfApp1.form
 
         unsafe private void Form2_Load(object sender, EventArgs e)
         {
+ 
+
+        }
+
+        unsafe private void InitForm()
+        {
             String LibTmp = "";
-            int CODE = LibJvConvFuncClass.RACE_NAME;
+            int CODE = LibJvConvFuncClass.COURCE_CODE;
 
             String tmp = DataClass.getRaceCource();
             LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref LibTmp);
-            LabeCource.Text = LibTmp;
+            Cource = LibTmp;
 
             DataClass.getRaceNum().ToString();
-
         }
     }
 }

@@ -25,9 +25,9 @@ namespace WpfApp1.Class
         public void setRaceCoutce(String rc) { this.RaceCource = rc; }
 
         //レース番号
-        private int RaceNum = 0;
-        public int getRaceNum() { return RaceNum; }
-        public void setRaceNum(int inParam) { this.RaceNum = inParam; }
+        private String RaceNum = "";
+        public String getRaceNum() { return RaceNum; }
+        public void setRaceNum(String inParam) { this.RaceNum = inParam; }
 
         //回次
         private String RaceKaiji;
@@ -45,12 +45,12 @@ namespace WpfApp1.Class
         //RAキーの自動生成
         public int GET_AUTO_RA_KEY(ref String inParam)
         {
-            if(RaceDate == "" || RaceCource == "" || RaceKaiji == "" || RaceNichiji == ""|| RaceNum == 0)
+            if(RaceDate == "" || RaceCource == "" || RaceKaiji == "" || RaceNichiji == ""|| RaceNum == "")
             {
                 return 0;
             }
 
-            inParam = String.Join(RaceDate, RaceCource, RaceKaiji, RaceNichiji, RaceNum);
+            inParam = RaceDate + RaceCource + RaceKaiji + RaceNichiji + RaceNum;
             return 1;
         }
     }
