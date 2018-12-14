@@ -25,9 +25,10 @@
         <ProgressBar x:Name="ProgressStatus" HorizontalAlignment="Left" Height="33" Margin="10,79,0,0" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" Visibility="Hidden"/>
         <TextBox x:Name="LogText" HorizontalAlignment="Left" Height="60" Margin="10,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" UndoLimit="102" Visibility="Hidden"/>
         <CheckBox x:Name="OffLineFlag" Content="" HorizontalAlignment="Left" Margin="478,15,0,0" VerticalAlignment="Top"/>
-        <DataGrid x:Name="MainDataGrid" HorizontalAlignment="Left" Height="292" Margin="10,117,0,0" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" SelectionMode="Single">
+        <DataGrid x:Name="MainDataGrid" HorizontalAlignment="Left" Height="292" Margin="10,117,0,0" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" SelectionMode="Single" EnableColumnVirtualization="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="WAKU" Binding="{x:Null}" ClipboardContentBinding="{x:Null}" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="UMA" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

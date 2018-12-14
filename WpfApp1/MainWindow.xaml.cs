@@ -218,6 +218,7 @@ namespace WpfApp1
                     /* 全ファイルデータ読み込み終了 */
                     ProgressStatus.Visibility = Visibility.Hidden;
                     this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
+                    LabelCource.Content = "";
                     LabelRaceNum.Content = "OK"; 
                     break;
 
@@ -530,19 +531,43 @@ namespace WpfApp1
          * @inPrmMainDataGrid
          * @OutPrm
          ********************************** */
-        private void SyutubaButton_Click(object sender, RoutedEventArgs e)
+        unsafe private void SyutubaButton_Click(object sender, RoutedEventArgs e)
         {
+            String key;
+            String tmp = "";
             String RaceCource = mainDataClass.getRaceCource();
             int RaceNum = mainDataClass.getRaceNum();
+            String Date = mainDataClass.getRaceDate();
+            var horces = new ObservableCollection<HorceProgramClass>();
+            HorceProgramClass _horce = new HorceProgramClass();
+            DataGridColumn.
+            MainDataGrid.Columns.Add("テキスト");
 
-            if(RaceCource == "" || RaceNum == 0)
+            if (RaceCource == "" || RaceNum == 0)
             {
                 /* 競馬場名・レース名が選択されていない場合 */
                 return;
             }
+
+            key = mainDataClass.GET_RA_KEY();
+            db.Read_KeyData("SE", key, Date, 5, ref tmp);   //枠番
+           // int Wakuban = Int32.Parse(tmp);
             
+            for(int i = 0; ;i++)
+            {
+                db.Read_KeyData("SE", key, Date, 5, ref tmp);   //枠番
+                _horce.Wakuban = tmp;
+                this.MainDataGrid.Columns.Add("ID");
+                MainDataGrid.
+            }
 
 
+
+
+            this.MainDataGrid.ItemsSource = horces;
+
+
+            this.MainDataGrid.Items.Add(new DataItem { Column1 = "a.1", Column2 = "a.2", Column3 = "a.3", Column4 = "a.4" });
 
 
         }
@@ -569,6 +594,21 @@ namespace WpfApp1
         private void hogehoge()
         {
            
+        }
+
+        /** **********************************
+         * @func  ステータス状態の初期化
+         * @event
+         * @note 
+         * @inPrm
+         * @OutPrm
+         * @Issue  0003
+         ********************************** */
+         private void InitCompLabelText()
+        {
+            LabelCource.Content = "";
+            LabelRaceNum.Content = "";
+            LabelRaceNum.Content = "";
         }
     }
 

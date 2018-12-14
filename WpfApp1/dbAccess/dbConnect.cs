@@ -65,10 +65,9 @@ namespace WpfApp1.dbAccess
                 ret = 0;
                 MessageBox.Show("ファイルの書き込みに失敗しました。");
             }
-
-
         }
 
+        /* DBファイルに接続・書き込み */
         public dbConnect(String Date, String dtSpec, ref String buff, ref int ret)
         {
             int res;
@@ -79,21 +78,9 @@ namespace WpfApp1.dbAccess
             if(Date == "000000" || dtSpec == "") { ret = 0; return; }
 
             TextWriter(Date, dtSpec, buff, ref ret);
-            /**
-            res = dbConnectInit(Date);
-            if(res == 0)
-            {
-                res = 0;
-                return;
-            }
-            */
+
             /* 初期化完了 */
             boolInit = true;
-
-            /**
-            res = dbConnectWriter(Date, dtSpec, buff);
-            */
-
          }
 
 
@@ -307,7 +294,9 @@ namespace WpfApp1.dbAccess
                 MessageBox.Show("データファイルにアクセス出来ませんでした。\n別プロセスで実行中です。");
                 Console.WriteLine(ex);
             }
-
         }
+
+
+
     }
 }
