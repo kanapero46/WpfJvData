@@ -5,11 +5,13 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -37,11 +39,22 @@ namespace WpfApp1
         /* メインデータ書き込みクラス */
         MainDataClass mainDataClass = new MainDataClass();
 
+        /* 別スレッドとのメッセージやり取り */
+       
+        Object msg;
+
         /* *******定数定義******* */
         const int RA_RACECOURCE = 2;
         const int RA_KAIJI = 3;
         const int RA_NICHIJI = 4;
         const int RA_RACE_NAME = 7;
+
+        const int JV_SYS_CLOSE_COMP_NOTICE = 1;
+        const int JV_SYS_CLOSE_FALUE_NOTICE = 2;
+        
+        /* *******グローバル変数定義******* */
+        String StatusInfo = "";
+
 
         public MainWindow()
         {
@@ -62,23 +75,33 @@ namespace WpfApp1
 
         unsafe public int InitMain()
         {
+            Thread thread = new Thread(new ParameterizedThreadStart(ThreadLogDataMain));
+            /* 状態書き込みスレッド作成 */
+            StatusInfo += "-----------------------\n";
+
             int ret;
             ret = JVForm.JvForm_JvInit();
+            msg = "JVFromの初期化終了[" + ret + "]\n";
+            thread.Start(msg);
+            thread.Abort();
+            
+            if (ret != 0) {
+#if DEBUG
+                StatusWrite("SIDがセットされていません。\n処理を終了します。\n");
+#else
+                StatusWrite("ソフト内部エラーです。\n処理を終了します。\n");
+#endif
+                return 0;
+            }
 
             int op = 2;
             int rdCount = 0;
             int dlCount = 0;
-            String lastStamp = "";            
-
-            if (ret != 0) {
-                MessageBox.Show("sidが正しくありません");
-                return 0;
-            }
-
-            LogText.Visibility = Visibility.Collapsed;
-            LogingText("JvInit・・・OK\n");
+            String lastStamp = "";
             ret = JVForm.JvForm_JvOpen("RACE", "00000000000000", op, ref rdCount, ref dlCount, ref lastStamp);
-           
+
+            StatusWrite("JVサーバをオープンしています。[" + ret + "]\n");
+
             /* JvOpenエラーハンドリング */
             if (ret != 0)
             {
@@ -86,6 +109,7 @@ namespace WpfApp1
 
                 if (ret != 1)
                 {
+                    StatusWrite("続行不可のエラーが発生しました。\n");
                     JVForm.JvForm_JvClose();
                     return 0; /* エラー */
                 }
@@ -96,24 +120,37 @@ namespace WpfApp1
                     /* 2回目の失敗はエラー */
                     if (ret != 0)
                     {
+                        StatusWrite("続行不可のエラーが発生しました。\n");
                         JVForm.JvForm_JvClose();
                         return 0; /* エラー */
                     }
 
                 }
             }
-                /* JvRead用変数の初期化 */
-                String buff = "";
-                ret = 1;
-                int size = 80000;
-                String fname = "";
 
-                /* JRA-VAN DataLab構造体 */
-                JVData_Struct.JV_RA_RACE JV_RACE;
+            StatusWrite("DataKind\t" + op + rdCount + dlCount + "\n");
+            StatusWrite("LastStamp\t" + lastStamp + "\n");
+    
+            /* JvRead用変数の初期化 */
+            ret = 1;
+
+            /* ロギング */
+            LogingText("JvRead・・・OK\n");
+
+            /* ロギングを別スレッドでスタートする */
+            msg = "JVRead Start\n";
+            
+            ret = 1;
+            String buff = "";
+            int size = 80000;
+            String fname = "";
+
+            /* JRA-VAN DataLab構造体 */
+            JVData_Struct.JV_RA_RACE JV_RACE;
             JVData_Struct.JV_SE_RACE_UMA JV_SE_UMA;
-                String tmp;
-                String LibTmp = "";
-                int CODE;
+            String tmp;
+            String LibTmp = "";
+            int CODE;
             int DbReturn = 1;
 
             /* DB初期化 */
@@ -121,8 +158,6 @@ namespace WpfApp1
             db.DeleteCsv("RA");
             db.DeleteCsv("SE");
 
-            /* ロギング */
-            LogingText("JvRead・・・OK\n");
 
             /* データリード */
             while (ret >= 1)
@@ -141,7 +176,7 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "RA":
-                            LogingText("*");
+                            StatusInfo += "*";
                             JV_RACE = new JVData_Struct.JV_RA_RACE();
                             tmp = "";
                             JV_RACE.SetDataB(ref buff);
@@ -189,6 +224,7 @@ namespace WpfApp1
                             tmp += JV_SE_UMA.id.Kaiji + ",";
                             tmp += JV_SE_UMA.id.Nichiji + ",";
                             tmp += JV_SE_UMA.Wakuban + ",";
+                            tmp += JV_SE_UMA.Umaban + ",";
                             tmp += JV_SE_UMA.KettoNum + ",";
                             tmp += JV_SE_UMA.Bamei.Trim() + ",";
                             tmp += JV_SE_UMA.UmaKigoCD + ",";
@@ -208,10 +244,10 @@ namespace WpfApp1
                             break;
                     }
 
-                    if(DbReturn == 0)
+                    if (DbReturn == 0)
                     {
                         break;
-                    }  
+                    }
                 }
                 else if (ret == 0)
                 {
@@ -219,8 +255,9 @@ namespace WpfApp1
                     ProgressStatus.Visibility = Visibility.Hidden;
                     this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
                     InitCompLabelText();    /* 障害Issue#3 */
-                    LabelRaceNum.Content = "OK"; 
-                    
+                    LabelRaceNum.Content = "OK";
+                    JvSysMain(JV_SYS_CLOSE_COMP_NOTICE);
+
                     break;
 
                 }
@@ -234,17 +271,28 @@ namespace WpfApp1
                 {
                     break;
                 }
-
-
             }
 
-            /* 場名リスト更新 */
-            AddComboBox(mainDataClass.getRaceDate());
-
-       JVForm.JvForm_JvClose();
 
             return 0;
         }
+
+        public void JvSysMain(int msg)
+        {
+            switch(msg)
+            {
+                case JV_SYS_CLOSE_COMP_NOTICE: //JV_SYS_CLOSE_COMP_NOTICE
+                    /* 場名リスト更新 */
+                    AddComboBox(mainDataClass.getRaceDate());
+                    JVForm.JvForm_JvClose();
+                    break;
+                case JV_SYS_CLOSE_FALUE_NOTICE:
+                    JVForm.JvForm_JvClose();
+                    break;
+
+            }
+        }
+
 
         private void InitForm()
         {
@@ -307,51 +355,51 @@ namespace WpfApp1
             switch (ret)
             {
                 case -1:
-                    MessageBox.Show("取得したデータがありませんでした。");
+                    StatusInfo += ("取得したデータがありませんでした。");
                     return 0;
                 case -2:
-                    MessageBox.Show("キャンセルしました。");
+                    StatusInfo +=("キャンセルしました。");
                     return 0;
                 case -111:
                 case -112:
                 case -114:
                 case -115:
                 case -116:
-                    MessageBox.Show("Jvopenでのパラメータが不正です。[E:" + ret + "]");
+                    StatusInfo +=("Jvopenでのパラメータが不正です。[E:" + ret + "]");
                     return 0;
                 case -201:
-                    MessageBox.Show("JvInitが行われていない");
+                    StatusInfo +=("JvInitが行われていない");
                     return 0;
                 case -202:
                     JVForm.JvForm_JvClose();
                     return 1;   /* 処理続行 */
                 case -211:
-                    MessageBox.Show("DataLab内部エラーです。[E:211]");
+                    StatusInfo +=("DataLab内部エラーです。[E:211]");
                     break;
                 case -301:
-                    MessageBox.Show("認証に失敗しました。[E:301]。");
+                    StatusInfo +=("認証に失敗しました。[E:301]。");
                     return 0;
                 case -302:
-                    MessageBox.Show("DataLabサービスキーの有効期限が切れています。\nサービス権を購入してください。");
+                    StatusInfo +=("DataLabサービスキーの有効期限が切れています。\nサービス権を購入してください。");
                     return 0;
                 case -303:
-                    MessageBox.Show("DataLabサービスキーが設定されていません。");
+                    StatusInfo +=("DataLabサービスキーが設定されていません。");
                     return 0;
                 case -401:
-                    MessageBox.Show("JV-Link内部エラーです。");
+                    StatusInfo +=("JV-Link内部エラーです。");
                     return 0;
                 case -411:
                 case -412:
                 case -413:
                 case -421:
                 case -431:
-                    MessageBox.Show("サーバーエラーです。[E:" + ret + "]");
+                    StatusInfo +=("サーバーエラーです。[E:" + ret + "]");
                     return 0;
                 case -501:
-                    MessageBox.Show("スタートキットが無効です。");
+                    StatusInfo +=("スタートキットが無効です。");
                     return 0;
                 case -504:
-                    MessageBox.Show("JRA-VANサーバーがメンテナンス中です。");
+                    StatusInfo +=("JRA-VANサーバーがメンテナンス中です。");
                     return 0;
                 default:
                     return 0;
@@ -512,16 +560,32 @@ namespace WpfApp1
 
         }
 
+        /* 実行ボタンを押下したときの処理 */
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+
+            if(DateText.SelectedDate == null)
+            {
+                System.Windows.MessageBox.Show("レース開催日が選択されていません。\n処理を終了します。\nERR:500", "データエラー");
+                return;
+            }
+
             String fromtime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
+
+            //ロギングデータ
+            StatusInfo = "";    //初期化
+            StatusInfo += "処理開始時間\t\t：" + DateTime.Now.ToLongTimeString() + "\n";
+            StatusInfo += "取得するレース開催日\t：" + fromtime + "\n";
+            StatusInfo += "DpSw\t\t\t：" + ((bool)this.OffLineFlag.IsChecked ? "1" : "0") + "\n";
 
             mainDataClass.setRaceDate(fromtime);
 
             if ((bool)this.OffLineFlag.IsChecked)
             {
-                if(DateText.SelectedDate == null) { MessageBox.Show("レース日を入力してください。"); return; }
                 AddComboBox(CngDataToString(DateText.SelectedDate.Value.ToShortDateString()));
+                StatusInfo += "DataLabからのデータの取得をスキップしました。\n";
+                StatusInfo += "処理が終了しました。\n";
+                StatusWriter();   //スレッド開始せずに呼び出し
             }
             else
             {
@@ -553,7 +617,25 @@ namespace WpfApp1
 
             mainDataClass.GET_AUTO_RA_KEY(ref key);
 
-            Syutsuba syutsuba = new Syutsuba(key);
+            //TODO：競馬場種別カラーを渡したいなぁー
+            System.Windows.Media.Brush brush = MainBack.Fill;
+            String Color = brush.ToString();
+            int JomeiColor = 0;
+            switch (Color)
+            {
+                case "#FF0000FF":
+                    JomeiColor = 1;
+                    break;
+                case "#FF006400":
+                    JomeiColor = 2;
+                    break;
+                case "FF800080":
+                    JomeiColor = 3;
+                    break;
+            }
+
+
+            Syutsuba syutsuba = new Syutsuba(key, JomeiColor);
             syutsuba.Show();
             
         }
@@ -595,6 +677,58 @@ namespace WpfApp1
             LabelCource.Content = "";
             LabelRaceNum.Content = "";
             LabelRaceName.Content = "";
+        }
+
+        /** **********************************
+         * @func  ログ出力用の関数
+         * @event リストボックスが変更されたとき
+         * @note  ここでのレース情報を今後のデータとして扱う
+         * @inPrm
+         * @OutPrm
+         ********************************** */
+         public void StatusWrite(String status)
+        {
+            Status.Text = status;
+        }
+
+
+        public void StatusWriter(){
+            try
+            {
+            }
+            catch(InvalidOperationException)
+            {
+
+            }           
+        }
+        
+        public void ThreadStatusWriter()
+        {
+            /* スレッド用 */
+            StatusWriter();
+            Thread.Sleep(20000);
+            StatusInfo = "";
+        }
+
+        unsafe private void ThreadJvReadFunction()
+        {
+  
+        }
+
+        delegate void delegate1(String text1);
+
+        void setFocus(String text1)
+        {
+            Status.Text = text1;
+        }
+
+        public void ThreadLogDataMain(object msg)
+        {
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                Status.Text=StatusInfo;
+            }));
+            Thread.Sleep(10);
         }
     }
 

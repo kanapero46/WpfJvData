@@ -18,6 +18,19 @@ namespace WpfApp1.form
         dbConnect db;
         Class.MainDataClass DataClass = new Class.MainDataClass();
         static String Cource;
+        int CourceColor;
+
+        /* 競走馬データ保存用 */
+        List<Class.MainDataHorceClass> horceClasses;
+
+        /* SEデータ取得用定数 */
+        const int SE_WAKU = 5;
+        const int SE_UMA = 6;
+        const int SE_KETTO = 7;
+        const int SE_NAME = 8;
+        const int SE_FUTAN = 13;
+        const int SE_JOCKEY = 16;
+        const int SE_MINARA = 17;
 
         public Syutsuba()
         {
@@ -25,7 +38,7 @@ namespace WpfApp1.form
 
         }
 
-        public Syutsuba(String RA)
+        public Syutsuba(String RA, int Color)
         {
             InitializeComponent();
             String tmp = "";
@@ -43,9 +56,9 @@ namespace WpfApp1.form
             /* グレード */
             db.Read_KeyData("RA", RA, RA.Substring(0, 8), 16, ref tmp);
             if (!(tmp == "")){ DataClass.setRaceGrade(tmp); }
-
+            CourceColor = Color;
             InitForm();
-            
+            InitHorceData();
         }
 
 
@@ -55,19 +68,92 @@ namespace WpfApp1.form
 
         }
 
+        /* 競走馬データ */
+        unsafe private void InitHorceData()
+        {
+            /* 他クラス共有用のクラスデータの初期化 */
+            horceClasses = new List<Class.MainDataHorceClass>();
+
+            /* 自クラス用クラスデータの定義 */
+            Class.MainDataHorceClass pHorceClasses;
+
+            /* ライブラリ用呼び出し指定変数 */
+            int CODE;
+
+            String SE_KEY = DataClass.GET_RA_KEY();
+            String tmp = "";
+            for(int i = 1; ;i++)
+            {
+                pHorceClasses = new Class.MainDataHorceClass();
+                String covData = String.Format("{0:00}", i);
+
+                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), 0, ref tmp);
+                if (tmp == "0"|| tmp == "") { break; }
+                else if (tmp.Substring(0,16) != SE_KEY) { break; }
+                pHorceClasses.KEY1 = tmp;
+
+                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_WAKU, ref tmp);
+                pHorceClasses.Waku1 = tmp;
+
+                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_UMA, ref tmp);
+                pHorceClasses.Umaban1 = tmp;
+
+                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_KETTO, ref tmp);
+                pHorceClasses.KettoNum1 = Int32.Parse(tmp);
+
+                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_NAME, ref tmp);
+                pHorceClasses.Name1 = tmp;
+
+                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_FUTAN, ref tmp);
+                pHorceClasses.Futan1 = tmp.Substring(0,2) + "." + tmp.Substring(2,1);
+
+                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_JOCKEY, ref tmp);
+                pHorceClasses.Jockey1 = tmp;
+
+                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_MINARA, ref tmp);
+                
+                CODE = LibJvConv.LibJvConvFuncClass.JOCKEY_MINARAI_CD;
+                LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref tmp);
+                pHorceClasses.MinaraiCd1 = tmp;
+                
+
+
+
+                /* 書き込み */
+                dataGridView1.Rows.Add(pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.Name1, pHorceClasses.MinaraiCd1,
+                    pHorceClasses.Jockey1, pHorceClasses.Futan1, "");
+            }
+
+
+        }
+
         unsafe private void Form2_Load(object sender, EventArgs e)
         {
             /* レース名書き込み */
             String Grade = DataClass.getRaceGrade();
 
-            if(Grade == "一般"||Grade == "特別"||Grade == "")
+            LabelCource.Text = Cource + DataClass.getRaceNum() + "Ｒ";
+
+            if (Grade == "一般"||Grade == "特別"||Grade == "")
             {
-                LabelCource.Text = Cource + DataClass.getRaceNum() + "Ｒ　" + DataClass.getRaceName();
+                LabelRaceName.Text = DataClass.getRaceName();
             }
             else
             {
-                LabelCource.Text = Cource + DataClass.getRaceNum() + "Ｒ　" + DataClass.getRaceName() + 
-                    "(" + DataClass.getRaceGrade() + ")";
+                LabelRaceName.Text = DataClass.getRaceName() + "(" + DataClass.getRaceGrade() + ")";
+            }
+
+            switch(CourceColor)
+            {
+                case 1:
+                    flowLayoutPanel1.BackColor = Color.Blue;
+                    break;
+                case 2:
+                    flowLayoutPanel1.BackColor = Color.Green;
+                    break;
+                case 3:
+                    flowLayoutPanel1.BackColor = Color.Purple;
+                    break;
             }
 
         }
@@ -100,6 +186,11 @@ namespace WpfApp1.form
         private void LabelCource_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

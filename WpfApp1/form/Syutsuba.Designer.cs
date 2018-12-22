@@ -38,6 +38,8 @@
             this.M = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.LabelCource = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.LabelRaceName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -122,21 +124,47 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.flowLayoutPanel1.Controls.Add(this.LabelCource);
+            this.flowLayoutPanel1.Controls.Add(this.LabelRaceName);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(735, 32);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(974, 32);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // LabelCource
             // 
             this.LabelCource.AutoSize = true;
-            this.LabelCource.Font = new System.Drawing.Font("Meiryo UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.LabelCource.Font = new System.Drawing.Font("Meiryo UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.LabelCource.ForeColor = System.Drawing.SystemColors.HighlightText;
             this.LabelCource.Location = new System.Drawing.Point(3, 0);
             this.LabelCource.Name = "LabelCource";
-            this.LabelCource.Size = new System.Drawing.Size(66, 24);
+            this.LabelCource.Size = new System.Drawing.Size(89, 30);
             this.LabelCource.TabIndex = 0;
             this.LabelCource.Text = "label1";
             this.LabelCource.Click += new System.EventHandler(this.LabelCource_Click);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button1.ForeColor = System.Drawing.Color.Red;
+            this.button1.Location = new System.Drawing.Point(1054, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 32);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "✕";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // LabelRaceName
+            // 
+            this.LabelRaceName.AutoSize = true;
+            this.LabelRaceName.Font = new System.Drawing.Font("Meiryo UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.LabelRaceName.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.LabelRaceName.Location = new System.Drawing.Point(98, 0);
+            this.LabelRaceName.Name = "LabelRaceName";
+            this.LabelRaceName.Size = new System.Drawing.Size(83, 30);
+            this.LabelRaceName.TabIndex = 3;
+            this.LabelRaceName.Text = "label1";
             // 
             // Syutsuba
             // 
@@ -144,6 +172,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(1141, 459);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "Syutsuba";
@@ -168,5 +197,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn M;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label LabelCource;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label LabelRaceName;
     }
 }
