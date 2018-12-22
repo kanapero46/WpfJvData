@@ -130,11 +130,13 @@
             // LabelCource
             // 
             this.LabelCource.AutoSize = true;
+            this.LabelCource.Font = new System.Drawing.Font("Meiryo UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.LabelCource.Location = new System.Drawing.Point(3, 0);
             this.LabelCource.Name = "LabelCource";
-            this.LabelCource.Size = new System.Drawing.Size(35, 12);
+            this.LabelCource.Size = new System.Drawing.Size(66, 24);
             this.LabelCource.TabIndex = 0;
             this.LabelCource.Text = "label1";
+            this.LabelCource.Click += new System.EventHandler(this.LabelCource_Click);
             // 
             // Syutsuba
             // 

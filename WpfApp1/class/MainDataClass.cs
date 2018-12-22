@@ -39,8 +39,15 @@ namespace WpfApp1.Class
         public String getRaceNichiji() { return RaceNichiji; }
         public void setRaceNichiji(String inParam) { this.RaceNichiji = inParam; }
 
+        //レース名(任意)
+        private String RaceName;
+        public String getRaceName() { return RaceName; }
+        public void setRaceName(String inParam) { this.RaceName = inParam; }
 
-
+        //レースグレード(任意)
+        private String RaceGrade;
+        public String getRaceGrade() { return RaceGrade; }
+        public void setRaceGrade(String inParam) { this.RaceGrade = inParam; }
 
         //RAキーの自動生成
         public int GET_AUTO_RA_KEY(ref String inParam)

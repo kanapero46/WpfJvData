@@ -555,6 +555,7 @@ namespace WpfApp1
 
             Syutsuba syutsuba = new Syutsuba(key);
             syutsuba.Show();
+            
         }
 
 
