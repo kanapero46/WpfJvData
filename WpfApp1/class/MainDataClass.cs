@@ -49,6 +49,16 @@ namespace WpfApp1.Class
         public String getRaceGrade() { return RaceGrade; }
         public void setRaceGrade(String inParam) { this.RaceGrade = inParam; }
 
+        //コース
+        private String CourceTrack;
+        public String getCourceTrack() { return CourceTrack; }
+        public void setCourceTrack(String inParam) { this.CourceTrack = inParam; }
+
+        //距離
+        private String Distance;
+        public String getDistance() { return Distance; }
+        public void setDistance(String inParam) { this.Distance = inParam; }
+
         //RAキーの自動生成
         public int GET_AUTO_RA_KEY(ref String inParam)
         {

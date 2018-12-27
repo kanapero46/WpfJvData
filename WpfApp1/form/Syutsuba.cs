@@ -6,9 +6,11 @@ using System.Data;
 using System.Drawing;   
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WpfApp1.dbAccess;
+using WpfApp1.form;
 
 namespace WpfApp1.form
 {
@@ -22,6 +24,9 @@ namespace WpfApp1.form
 
         /* 競走馬データ保存用 */
         List<Class.MainDataHorceClass> horceClasses;
+
+        /* プログレスバー用ステータス */
+        int ProgressStatus = 0;
 
         /* SEデータ取得用定数 */
         const int SE_WAKU = 5;
@@ -56,6 +61,12 @@ namespace WpfApp1.form
             /* グレード */
             db.Read_KeyData("RA", RA, RA.Substring(0, 8), 16, ref tmp);
             if (!(tmp == "")){ DataClass.setRaceGrade(tmp); }
+
+            db.Read_KeyData("RA", RA, RA.Substring(0, 8), 17, ref tmp);
+            DataClass.setCourceTrack(tmp);
+            db.Read_KeyData("RA", RA, RA.Substring(0, 8), 18, ref tmp);
+            DataClass.setDistance(tmp);
+
             CourceColor = Color;
             InitForm();
             InitHorceData();
@@ -80,14 +91,33 @@ namespace WpfApp1.form
             /* ライブラリ用呼び出し指定変数 */
             int CODE;
 
+            /* スレッド起動 */
+            Thread t = new Thread(new ParameterizedThreadStart(LogOutPutFormThread));
+            t.SetApartmentState(ApartmentState.STA);
+
             String SE_KEY = DataClass.GET_RA_KEY();
             String tmp = "";
-            for(int i = 1; ;i++)
+
+            //RA初回読み込み時にエラーチェック ０もエラー
+            if (db.Read_KeyData("RA", SE_KEY, SE_KEY.Substring(0, 8), 19, ref tmp) != 1)
+            {
+                return;
+            }
+
+            t.Start(tmp);
+
+            for (int i = 1; ;i++)
             {
                 pHorceClasses = new Class.MainDataHorceClass();
                 String covData = String.Format("{0:00}", i);
 
-                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), 0, ref tmp);
+
+                //SE初回読み込み時にエラーチェック ０もエラー
+                if (db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), 0, ref tmp)!=1)
+                {
+                    break;
+                }
+
                 if (tmp == "0"|| tmp == "") { break; }
                 else if (tmp.Substring(0,16) != SE_KEY) { break; }
                 pHorceClasses.KEY1 = tmp;
@@ -111,26 +141,105 @@ namespace WpfApp1.form
                 pHorceClasses.Jockey1 = tmp;
 
                 db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_MINARA, ref tmp);
+
+                if(db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 6, ref tmp)!=1)
+                {
+                    break;
+                }
+                pHorceClasses.F1 = tmp;
+                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 15, ref tmp);
+                pHorceClasses.F_NUM1 = tmp;
+
+                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 7, ref tmp);
+                pHorceClasses.M1 = tmp;
                 
+                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 9, ref tmp);
+                pHorceClasses.FM1 = tmp;
+                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 16, ref tmp);
+                pHorceClasses.FM_NUM1 = tmp;
+
+                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 10, ref tmp);
+                pHorceClasses.FFM1 = tmp;
+                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 17, ref tmp);
+                pHorceClasses.FFM_NUM1 = tmp;
+
+                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 18, ref tmp);
+                pHorceClasses.FF_NUM1 = tmp; //父父
+
+                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 19, ref tmp);
+                pHorceClasses.FFF_NUM1 = tmp; //父父父
+
+                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 20, ref tmp);
+                pHorceClasses.FMM_NUM1 = tmp; //母父父
+
                 CODE = LibJvConv.LibJvConvFuncClass.JOCKEY_MINARAI_CD;
                 LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref tmp);
                 pHorceClasses.MinaraiCd1 = tmp;
-                
 
-
+                /* 他クラス共有用のクラスに書き込み */
+                horceClasses.Add(pHorceClasses);
 
                 /* 書き込み */
                 dataGridView1.Rows.Add(pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.Name1, pHorceClasses.MinaraiCd1,
-                    pHorceClasses.Jockey1, pHorceClasses.Futan1, "");
+                    pHorceClasses.Jockey1, pHorceClasses.Futan1 + "kg", "",pHorceClasses.F1, "", pHorceClasses.FM1, "", pHorceClasses.FFM1);
+                
+                switch(pHorceClasses.Waku1)
+                {
+                    case "1":
+                        dataGridView1[0, i-1].Style.ForeColor = Color.Black;
+                        dataGridView1[0, i - 1].Style.BackColor = Color.White;
+                        break;
+                    case "2":
+                        dataGridView1[0, i-1].Style.ForeColor = Color.White;
+                        dataGridView1[0, i-1].Style.BackColor = Color.Black;
+                        break;            
+                    case "3":             
+                        dataGridView1[0, i-1].Style.ForeColor = Color.White;
+                        dataGridView1[0, i-1].Style.BackColor = Color.Red;
+                        break;            
+                    case "4":             
+                        dataGridView1[0, i-1].Style.ForeColor = Color.White;
+                        dataGridView1[0, i-1].Style.BackColor = Color.Blue;
+                        break;           
+                    case "5":            
+                        dataGridView1[0, i-1].Style.ForeColor = Color.Black;
+                        dataGridView1[0, i-1].Style.BackColor = Color.Yellow;
+                        break;            
+                    case "6":              
+                        dataGridView1[0, i-1].Style.ForeColor = Color.White;
+                        dataGridView1[0, i-1].Style.BackColor = Color.Green;
+                        break;            
+                    case "7":              
+                        dataGridView1[0, i-1].Style.ForeColor = Color.Black;
+                        dataGridView1[0, i-1].Style.BackColor = Color.Orange;
+                        break;            
+                    case "8":              
+                        dataGridView1[0, i-1].Style.ForeColor = Color.Black;
+                        dataGridView1[0, i-1].Style.BackColor = Color.Pink;
+                        break;
+
+                }
+                dataGridView1[6, i - 1].Style.BackColor = FuncBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
+                dataGridView1[8, i - 1].Style.BackColor = FuncBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1, null);
+                dataGridView1[10, i - 1].Style.BackColor = FuncBloodColor(pHorceClasses.FFM_NUM1, null, null);
+
+                /* プログレスバー更新 */
+                ProgressStatus++;
+
             }
 
-
+            t.Abort();
         }
+
+        /*  DataGridView1[0, 0].Style.BackColor =*/
 
         unsafe private void Form2_Load(object sender, EventArgs e)
         {
             /* レース名書き込み */
-            String Grade = DataClass.getRaceGrade();
+        String Grade = DataClass.getRaceGrade();
+
+            this.Text = Int32.Parse(DataClass.getRaceKaiji()) + Cource + Int32.Parse(DataClass.getRaceNichiji()) + " " 
+                + DataClass.getRaceNum() + "R:" +DataClass.getRaceName();
 
             LabelCource.Text = Cource + DataClass.getRaceNum() + "Ｒ";
 
@@ -156,6 +265,20 @@ namespace WpfApp1.form
                     break;
             }
 
+            /* トラック */
+
+            int CODE = 2009;
+            String tmp = DataClass.getCourceTrack();
+            String LibTmp = "";
+            LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref LibTmp);
+            DataClass.setCourceTrack(LibTmp);
+
+            LabelTrack.Text = DataClass.getCourceTrack() + "：" + DataClass.getDistance() + "m";
+
+            /* フォントの変更 */
+            dataGridView1.Font = new Font("Meiryo UI", 11);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Meiryo UI", 9);
+
         }
 
         unsafe private void InitForm()
@@ -166,6 +289,9 @@ namespace WpfApp1.form
             String tmp = DataClass.getRaceCource();
             LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref LibTmp);
             Cource = LibTmp;
+
+            /* DataGridViewの高さの変更を出来ないようにする */
+            dataGridView1.AllowUserToResizeRows = false;
 
             /* レース名 */
             LabelCource.Text = Cource;
@@ -180,6 +306,12 @@ namespace WpfApp1.form
             LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref LibTmp);
             Cource = LibTmp;
 
+            CODE = 2009;
+            tmp = DataClass.getCourceTrack();
+            LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref LibTmp);
+            DataClass.setCourceTrack(LibTmp);
+
+
             return (Cource);
         }
 
@@ -192,5 +324,196 @@ namespace WpfApp1.form
         {
             this.Close();
         }
+
+        /* 新種牡馬カラー取得関数 */
+        private Color FuncBloodColor(String Key, String Key2, String Key3)
+        {
+            String tmp = "";
+            String tmpColor = "";
+            String Serach = "";
+            int cnt = 0;
+            Color ret;
+            db = new dbConnect();
+            if(Key == null) { return Color.White; }
+
+            /* 1：設定データ(ST)からデータ取得する。 */
+            db.Read_KeyData("ST", Key, "0", 3, ref tmp);
+            if(tmp != "" )
+            {
+                cnt++;
+                 ret = g_FuncHorceKindColor(tmp);
+                if(ret != Color.White)
+                {
+                    return ret;
+                }
+            }
+
+            /* 1：設定データ(ST)からデータ取得する(3代)。 */
+            db.Read_KeyData("ST", Key2, "0", 3, ref tmp);
+            if (Key2 != null && tmp != "")
+            {
+                cnt++;
+                ret = g_FuncHorceKindColor(tmp);
+                if (ret != Color.White)
+                {
+                    return ret;
+                }
+            }
+
+            /* 1：設定データ(ST)からデータ取得する(2代)。 */
+            db.Read_KeyData("ST", Key3, "0", 3, ref tmp);
+            if (Key3 != null && tmp != "")
+            {
+                cnt++;
+                ret = g_FuncHorceKindColor(tmp);
+                if (ret != Color.White)
+                {
+                    return ret;
+                }
+            }
+
+            Serach = Key;
+
+            /* ２：父の父を探す。５代まで */
+            while (cnt < 5)
+            {
+                db.Read_KeyData("HN", Serach, "0", 4, ref tmp);
+                if (tmp != "")
+                {
+                    db.Read_KeyData("ST", tmp, "0", 3, ref tmpColor);
+                    if(tmpColor == "")
+                    {
+                        /* 検索に引っかからない場合はもう一度 */
+                        Serach = tmp;
+                        cnt++;
+                        continue;
+                    }
+
+                    ret = g_FuncHorceKindColor(tmpColor);
+
+                    if (ret != Color.White)
+                    {
+                        return ret;
+                    }
+                }
+                else
+                {
+
+                }
+                cnt++;
+            }
+            return Color.White;
+        }
+
+        private Color FuncHorceKindColor(String F, String FF, String FFF)
+        {
+            int All = 3;
+            String tmp = "";
+            db = new dbConnect();
+            Color clr;
+
+            if (F == "")
+            {
+                return Color.White;
+            }
+
+            if(FF == "")
+            {
+                All = 1;
+            }
+            else if(FFF == "")
+            {
+                All = 2;
+            }
+
+            db.Read_KeyData("ST", F, "0", 3, ref tmp);
+            if(tmp == "") {  }
+            else
+            {
+                return g_FuncHorceKindColor(tmp);
+            }
+
+            if (All == 1) { return Color.White; }
+
+            db.Read_KeyData("ST", FF, "0", 3, ref tmp);
+            if (tmp == "") { }
+            else
+            {
+                return g_FuncHorceKindColor(tmp);
+            }
+
+            if (All == 2) { return Color.White; }
+
+            db.Read_KeyData("ST", FFF, "0", 3, ref tmp);
+            if (tmp == "") { }
+            else
+            {
+                return g_FuncHorceKindColor(tmp);
+            }
+
+            return Color.White;
+        }
+
+        private Color g_FuncHorceKindColor(String Kind)
+        {
+            /** 種牡馬色定義　0：その他、１：ノーザンテースト系、２：ナスルーラ、３：ヘイロー系、４：サンデー系、５：ネイティブダンサー系
+             * ６：セントサイモン、７：ハンプトン系、８：テディ系、９：マンノウォー 、１０：マッチェム*/
+            db = new dbConnect();
+            //String tmp = Kind;
+    //        db.Read_KeyData("ST", Key, "0", 3, ref tmp);
+
+      //      if(tmp == "") { return Color.White; }
+
+            switch(Kind)
+            {
+                case "0":
+                    return Color.Brown;
+                case "1":
+                    return Color.SkyBlue;
+                case "2":
+                    return Color.DeepPink;
+                case "3":
+                    return Color.LightGreen;
+                case "4":
+                    return Color.Yellow;
+                case "5":
+                    return Color.Orange;
+                case "6":
+                    return Color.MediumPurple;
+                case "7":
+                    return Color.DarkGreen;
+                case "8":
+                    return Color.LightGray;
+                case "9":
+                    return Color.DarkGoldenrod;
+                case "10":
+                    return Color.DarkGray;
+                default:
+                    return Color.White;
+            }
+
+        }
+
+        private void LogOutPutFormThread(object Max)
+        {
+            Log LogForm = new Log(Int32.Parse(Max.ToString()));
+            LogForm.Show();
+
+            int ret = 0;
+
+            LogForm.InitLogData(ProgressStatus);
+
+            while (true)
+            {
+                ret = LogForm.LogCntUp(ProgressStatus);
+                Thread.Sleep(500); //0.5秒待機
+
+                if(ret != 0) //0は続行。それ以外は終了かエラー
+                {
+                    break;
+                }
+            }
+        }
+
     }
 }

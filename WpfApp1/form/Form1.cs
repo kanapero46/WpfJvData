@@ -11,13 +11,13 @@ using WpfApp1.dbAccess;
 
 namespace WpfApp1.form
 {
-    public partial class Form1 : Form
+    public partial class InitSettingForm : Form
     {
 
         JVForm JV_FORM = new JVForm();
         dbConnect db = new dbConnect();
 
-        public Form1()
+        public InitSettingForm()
         {
             InitializeComponent();
         }
@@ -137,7 +137,8 @@ namespace WpfApp1.form
             int ret;
             int LibRet = 0;
             ret = JV_FORM.JvForm_JvInit();
-            JVData_Struct.JV_BT_KEITO jVData = new JVData_Struct.JV_BT_KEITO();
+            JVData_Struct.JV_BT_KEITO JVData = new JVData_Struct.JV_BT_KEITO();
+            JVData_Struct.JV_HN_HANSYOKU JV_HNSYOKU = new JVData_Struct.JV_HN_HANSYOKU();
 
             if (ret != 0) { return ret; }
 
@@ -145,7 +146,7 @@ namespace WpfApp1.form
             int dlCount = 0;
             String lastTimeCount = "";
 
-            ret = JV_FORM.JvForm_JvOpen("BLOD", "00000000000000", 1, ref rdCount, ref dlCount, ref lastTimeCount);
+            ret = JV_FORM.JvForm_JvOpen("BLOD", "19900101000000", 3, ref rdCount, ref dlCount, ref lastTimeCount);
 
             /* JvOpenのエラーハンドリング */
             if (ret != 0)
@@ -153,7 +154,7 @@ namespace WpfApp1.form
                 if (ret == -202)
                 {
                     JV_FORM.JvForm_JvClose();
-                    ret = JV_FORM.JvForm_JvOpen("BLOD", "00000000000000", 1, ref rdCount, ref dlCount, ref lastTimeCount);
+                    ret = JV_FORM.JvForm_JvOpen("BLOD", "19900101000000", 3, ref rdCount, ref dlCount, ref lastTimeCount);
                     if (ret != 0)
                     {
                         JV_FORM.JvForm_JvClose();
@@ -168,20 +169,22 @@ namespace WpfApp1.form
             }
 
             String buff = "";
-            int size = 1000;
+            int size = 80000;
             String fname = "";
-
+            int DBreturn = 1;
 
             progressBar1.Value = 0;
             ret = 1;
-            db.DeleteCsv("BT");
+            db.DeleteCsv("BT_MST");
+            db.DeleteCsv("HN_MST");
 
             String tmp = "";
+            String statspec = "";
 
             while (ret >= 1)
             {
                 ret = JV_FORM.JvForm_JvRead(ref buff, out size, out fname);
-
+                
                 if (buff == "")
                 {
                     JV_FORM.JvForm_JvSkip();
@@ -190,23 +193,40 @@ namespace WpfApp1.form
 
                 if (ret > 0)
                 {
-                    progressBar1.Maximum = ret;
-                    progressBar1.Value++;
+                    //progressBar1.Maximum = ret;
+                    //progressBar1.Value++;
 
                     switch (buff.Substring(0, 2))
                     {
+                        case "HN":　//繁殖馬マスタ
+                            JV_HNSYOKU = new JVData_Struct.JV_HN_HANSYOKU();
+                            JV_HNSYOKU.SetDataB(ref buff);
+                            tmp = "";
+                            tmp += JV_HNSYOKU.HansyokuNum + ",";
+                            tmp += JV_HNSYOKU.Bamei + ",";
+                            tmp += JV_HNSYOKU.SanchiName + ",";
+                            tmp += JV_HNSYOKU.KettoNum + ",";
+                            tmp += JV_HNSYOKU.HansyokuFNum + ",";
+                            tmp += JV_HNSYOKU.HansyokuMNum + ",";
+                            db = new dbConnect("0", JV_HNSYOKU.head.RecordSpec, ref tmp, ref DBreturn);
+                            break;
                         case "BT":
-                            jVData.SetDataB(ref buff);
-                            tmp += jVData.HansyokuNum + ",";
-                            tmp += jVData.KeitoId + ",";
-                            tmp += jVData.KeitoName + ",";
-                            tmp += jVData.crlf;
-                            db = new dbConnect("BT", ref tmp, ref ret);
+                            JVData.SetDataB(ref buff);
+                            tmp = "";
+                            tmp = JVData.HansyokuNum + ",";
+                            tmp += JVData.KeitoId + ",";
+                            tmp += JVData.KeitoName.Trim() + ",";
+                            db = new dbConnect("0",JVData.head.RecordSpec, ref tmp, ref DBreturn);
                             break;
                         default:
                             JV_FORM.JvForm_JvSkip();
                             break;
                     }
+                }
+
+                if(DBreturn == 0)
+                {
+                    break;
                 }
 
                 if (ret == 0)

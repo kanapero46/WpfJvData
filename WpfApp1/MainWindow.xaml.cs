@@ -98,6 +98,9 @@ namespace WpfApp1
             int rdCount = 0;
             int dlCount = 0;
             String lastStamp = "";
+            //String FromTime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
+            //String WeekDay = DateText.SelectedDate.Value.DayOfWeek.ToString();
+            //String lastStamp = ChgToDate(FromTime, WeekDay) + "000000";
             ret = JVForm.JvForm_JvOpen("RACE", "00000000000000", op, ref rdCount, ref dlCount, ref lastStamp);
 
             StatusWrite("JVサーバをオープンしています。[" + ret + "]\n");
@@ -186,7 +189,6 @@ namespace WpfApp1
                             tmp += JV_RACE.id.JyoCD + ",";
                             tmp += JV_RACE.id.Kaiji + "," + JV_RACE.id.Nichiji + "," + JV_RACE.id.RaceNum + ",";
                             tmp += JV_RACE.RaceInfo.YoubiCD + ",";
-
                             CODE = LibJvConvFuncClass.RACE_NAME;
                             //レース名
                             if (JV_RACE.RaceInfo.Hondai.Trim() == "")
@@ -210,6 +212,9 @@ namespace WpfApp1
                             CODE = LibJvConvFuncClass.GRACE_CODE;
                             LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref LibTmp);
                             tmp += LibTmp + ",";
+                            tmp += JV_RACE.TrackCD + ",";
+                            tmp += JV_RACE.Kyori + ",";
+                            tmp += JV_RACE.TorokuTosu + ",";
                             db = new dbConnect((JV_RACE.id.Year + JV_RACE.id.MonthDay), JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             break;
                         case "SE":
@@ -274,7 +279,7 @@ namespace WpfApp1
             }
 
 
-            return 0;
+            return 1;
         }
 
         public void JvSysMain(int msg)
@@ -589,7 +594,10 @@ namespace WpfApp1
             }
             else
             {
-                InitMain();
+                if((bool)this.ToWeekFlag.IsChecked){ InitMain(); }
+                StatusInfo += "当週データの取得を終了しました。\n";
+                StatusWriter();
+                if ((bool)this.MasterFlag.IsChecked) { InitMSTMain(); }
             }
         }
 
@@ -643,7 +651,7 @@ namespace WpfApp1
 
         private void Button_Click_InitData(object sender, RoutedEventArgs e)
         {
-            Form1 form1 = new Form1();
+            InitSettingForm form1 = new InitSettingForm();
             form1.Show();
         }
 
@@ -730,6 +738,264 @@ namespace WpfApp1
             }));
             Thread.Sleep(10);
         }
+
+        /** **********************************
+         * @func  蓄積用データ取得
+         * @event 
+         * @note         
+         * @inPrm
+         * @OutPrm
+         ********************************** */
+        unsafe private int InitMSTMain()
+        {
+            int ret;
+            ret = JVForm.JvForm_JvInit();
+
+            if(ret != 0) { StatusWrite("SIDがセットされていません。\n処理を終了します。\n"); return 0; }
+
+            String FromTime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
+            String WeekDay = DateText.SelectedDate.Value.DayOfWeek.ToString();
+            String lastStamp = ChgToDate(FromTime, WeekDay);
+            int op = 2;
+            int rdCount = 0;
+            int dlCount = 0;
+
+            ret = JVForm.JvForm_JvOpen("RCOV", "00000000000000", op, ref rdCount, ref dlCount, ref lastStamp);
+
+            /* JvOpenエラーハンドリング */
+            if (ret != 0)
+            {
+                ret = CheckJvOpenRetErr(ret);
+
+                if (ret != 1)
+                {
+                    StatusWrite("続行不可のエラーが発生しました。\n");
+                    JVForm.JvForm_JvClose();
+                    return 0; /* エラー */
+                }
+                else
+                {
+                    /* JvCloseできていない場合、再度処理実施 */
+                    ret = JVForm.JvForm_JvOpen("RCOV", "00000000000000", op, ref rdCount, ref dlCount, ref lastStamp);
+                    /* 2回目の失敗はエラー */
+                    if (ret != 0)
+                    {
+                        StatusWrite("続行不可のエラーが発生しました。\n");
+                        JVForm.JvForm_JvClose();
+                        return 0; /* エラー */
+                    }
+
+                }
+            }
+
+            StatusWrite("DataKind\t" + op + rdCount + dlCount + "\n");
+            StatusWrite("LastStamp\t" + lastStamp + "\n");
+
+            /* JvRead用変数の初期化 */
+            ret = 1;
+
+            /* ロギング */
+            LogingText("JvRead・・・OK\n");
+
+            /* ロギングを別スレッドでスタートする */
+            msg = "JVRead Start\n";
+
+            ret = 1;
+            String buff = "";
+            int size = 80000;
+            String fname = "";
+
+            String tmp = "";
+
+            /* ライブラリ用変数 */
+            int CODE;
+            int DbReturn = 1;
+            String LibTmp = "";
+            
+            /* データを追加するにはここに構造体を追加 */
+            JVData_Struct.JV_RA_RACE JV_RACE = new JVData_Struct.JV_RA_RACE();
+            JVData_Struct.JV_SE_RACE_UMA JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
+            JVData_Struct.JV_UM_UMA JV_UMA = new JVData_Struct.JV_UM_UMA();
+
+            /* DB初期化 */
+            db = new dbConnect();
+            db.DeleteCsv("RA_MST");
+            db.DeleteCsv("SE_MST");
+            db.DeleteCsv("UM_MST");
+
+            while (ret >= 1)
+            {
+                ret = JVForm.JvForm_JvRead(ref buff, out size, out fname);
+
+                if (ret > 0)
+                {
+                    if (buff == "")
+                    {
+                        continue;
+                    }
+
+                    switch (buff.Substring(0, 2))
+                    {
+                        case "RA":
+                            StatusInfo += "*";
+                            JV_RACE = new JVData_Struct.JV_RA_RACE();
+                            tmp = "";
+                            JV_RACE.SetDataB(ref buff);
+                            tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + JV_RACE.id.JyoCD + JV_RACE.id.Kaiji + JV_RACE.id.Nichiji +
+                                JV_RACE.id.RaceNum + ",";
+                            tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + ",";
+                            tmp += JV_RACE.id.JyoCD + ",";
+                            tmp += JV_RACE.id.Kaiji + "," + JV_RACE.id.Nichiji + "," + JV_RACE.id.RaceNum + ",";
+                            tmp += JV_RACE.RaceInfo.YoubiCD + ",";
+
+                            CODE = LibJvConvFuncClass.RACE_NAME;
+                            //レース名
+                            if (JV_RACE.RaceInfo.Hondai.Trim() == "")
+                            {
+                                LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.JyokenInfo.SyubetuCD + JV_RACE.JyokenInfo.JyokenCD[4], ref LibTmp);
+                                tmp += LibTmp;
+                            }
+                            else
+                            {
+                                tmp += JV_RACE.RaceInfo.Hondai.Trim();
+                            }
+                            tmp += ",";
+                            tmp += JV_RACE.RaceInfo.Ryakusyo10.Trim() + ",";
+                            tmp += JV_RACE.RaceInfo.Fukudai.Trim() + ",";
+                            tmp += JV_RACE.RaceInfo.Kakko.Trim() + ",";
+                            tmp += JV_RACE.RaceInfo.HondaiEng.Trim() + ",";
+                            tmp += JV_RACE.RaceInfo.FukudaiEng.Trim() + ",";
+                            tmp += JV_RACE.JyokenInfo.SyubetuCD + ",";
+                            tmp += JV_RACE.JyokenInfo.JyokenCD[4] + ",";
+                            tmp += JV_RACE.RaceInfo.Nkai + ",";
+                            CODE = LibJvConvFuncClass.GRACE_CODE;
+                            LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref LibTmp);
+                            tmp += LibTmp + ",";
+                            db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
+                            break;
+                        case "SE":
+                            LogingText("@");
+                            JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
+                            tmp = "";
+                            JV_SE_UMA.SetDataB(ref buff);
+                            tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + JV_SE_UMA.id.JyoCD + JV_SE_UMA.id.Kaiji +
+                                JV_SE_UMA.id.Nichiji + JV_SE_UMA.id.RaceNum + JV_SE_UMA.Umaban + ",";
+                            tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + ",";
+                            tmp += JV_SE_UMA.id.JyoCD + ",";
+                            tmp += JV_SE_UMA.id.Kaiji + ",";
+                            tmp += JV_SE_UMA.id.Nichiji + ",";
+                            tmp += JV_SE_UMA.Wakuban + ",";
+                            tmp += JV_SE_UMA.Umaban + ",";
+                            tmp += JV_SE_UMA.KettoNum + ",";
+                            tmp += JV_SE_UMA.Bamei.Trim() + ",";
+                            tmp += JV_SE_UMA.UmaKigoCD + ",";
+                            tmp += JV_SE_UMA.SexCD + ",";
+                            tmp += JV_SE_UMA.Barei + ",";
+                            tmp += JV_SE_UMA.KeiroCD + ",";
+                            tmp += JV_SE_UMA.Futan + ",";
+                            tmp += JV_SE_UMA.Blinker + ",";
+                            tmp += JV_SE_UMA.KisyuCode + ",";
+                            tmp += JV_SE_UMA.KisyuRyakusyo + ",";
+                            tmp += JV_SE_UMA.MinaraiCD + ",";
+                            db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+
+                            break;
+
+                        case "UM": //競走馬マスタ
+                            JV_UMA = new JVData_Struct.JV_UM_UMA();
+                            JV_UMA.SetDataB(ref buff);
+                            tmp = "";
+                            tmp += JV_UMA.KettoNum + ","; //血統登録番号キー
+                            tmp += JV_UMA.Bamei.Trim() + ",";
+                            tmp += JV_UMA.BameiEng.Trim()+ ",";
+                            tmp += JV_UMA.UmaKigoCD+ ",";
+                            tmp += JV_UMA.SexCD + ",";
+                            tmp += JV_UMA.KeiroCD + ",";
+                            tmp += JV_UMA.Ketto3Info[0].Bamei.Trim() + ","; //父
+                            tmp += JV_UMA.Ketto3Info[1].Bamei.Trim() + ","; //母
+                            tmp += JV_UMA.Ketto3Info[2].Bamei.Trim() + ","; //父父
+                            tmp += JV_UMA.Ketto3Info[4].Bamei.Trim() + ","; //母父
+                            tmp += JV_UMA.Ketto3Info[12].Bamei.Trim() + ","; //母母父
+                            tmp += JV_UMA.Kyakusitu[0] + ",";
+                            tmp += JV_UMA.Kyakusitu[1] + ",";
+                            tmp += JV_UMA.Kyakusitu[2] + ",";
+                            tmp += JV_UMA.Kyakusitu[3] + ",";
+                            tmp += JV_UMA.Ketto3Info[0].HansyokuNum + ",";  //父の系統
+                            tmp += JV_UMA.Ketto3Info[4].HansyokuNum + ",";  //母父の系統
+                            tmp += JV_UMA.Ketto3Info[12].HansyokuNum + ",";  //母母父の系統
+                            tmp += JV_UMA.Ketto3Info[2].HansyokuNum + ",";  //父父の系統
+                            tmp += JV_UMA.Ketto3Info[6].HansyokuNum + ",";  //父父父の系統
+                            tmp += JV_UMA.Ketto3Info[10].HansyokuNum + ","; //母父父の血統
+                            db = new dbConnect("0", JV_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                            break;
+
+                        default:
+                            JVForm.JvForm_JvSkip();
+                            break;
+                    }
+
+                    if (DbReturn == 0)
+                    {
+                        break;
+                    }
+                }
+                else if (ret == 0)
+                {
+                    /* 全ファイルデータ読み込み終了 */
+                    ProgressStatus.Visibility = Visibility.Hidden;
+                    this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
+                    InitCompLabelText();    /* 障害Issue#3 */
+                    LabelRaceNum.Content = "OK";
+                    JvSysMain(JV_SYS_CLOSE_COMP_NOTICE);
+
+                    break;
+
+                }
+                else if (ret == -1)
+                {
+                    /* ファイル切り替わり */
+                    ret = 1;
+                    continue;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            JVForm.JvForm_JvClose();
+                return 1;
+        }
+
+        private String ChgToDate(String time, String WeekDay)
+        {
+            int IntTime = Int32.Parse(time);
+            switch(WeekDay)
+            {
+                case "Monday": //月曜日
+                    IntTime = IntTime - 4;
+                    break;
+                case "Tuesday":
+                    IntTime = IntTime - 5;
+                    break;
+                case "Wednesday":
+                    IntTime = IntTime - 6;
+                    break;
+                case "Thursday":  //木曜日基準
+                    break;
+                case "Friday":
+                    IntTime = IntTime - 1;
+                    break;
+                case "Saturday":
+                    IntTime = IntTime - 2;
+                    break;
+                case "Sunday":
+                    IntTime = IntTime - 3;
+                    break;
+            }
+            return IntTime.ToString();
+        }
     }
+
 
 }

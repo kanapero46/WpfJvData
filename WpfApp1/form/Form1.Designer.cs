@@ -1,6 +1,6 @@
 ﻿namespace WpfApp1.form
 {
-    partial class Form1
+    partial class InitSettingForm
     {
         /// <summary>
         /// Required designer variable.

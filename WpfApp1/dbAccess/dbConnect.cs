@@ -19,8 +19,6 @@ namespace WpfApp1.dbAccess
         OleDbCommand command;
         OleDbConnection connection;
 
-        /* SQL文の基礎 */
-        String strInsert = "INSERT INTO ";
 
         /* csvエンコード */
         Encoding enc = Encoding.GetEncoding("utf-8");
@@ -52,7 +50,7 @@ namespace WpfApp1.dbAccess
 #if DEBUG
                     //               File.AppendAllText(file, "#日付," + "\r\n", enc);
 #else
-                    File.AppendAllText(file, "#" + dtSpec + ":" + data + " encord:utf-8 \r\n", enc);
+                    //File.AppendAllText(file, "#" + dtSpec + ":" + date + " encord:utf-8 \r\n", enc);
 #endif
                 }
 
@@ -114,23 +112,7 @@ namespace WpfApp1.dbAccess
 
         private int dbConnectWriter(String Date, String dtSpec, String buff)
         {
-            int res = 0;
-            command = new OleDbCommand();
-            command.CommandText = strInsert + dtSpec + " VALUES " + buff;
-            command.Connection = connection;
-
-            try
-            {
-                /* 書き込み */
-                res = command.ExecuteNonQuery();
-            }
-            catch(InvalidOperationException ex)
-            {
-
-            }
-
-            connection.Close();
-            return res;
+            return 0;
         }
        
         private String convDbQurey(String data)
@@ -152,16 +134,30 @@ namespace WpfApp1.dbAccess
 
         private void TextWriter(String data ,String dtSpec, String buff, ref int ret)
         {
-            String file = @"" + dtSpec + "/" + data + "/" + dtSpec + data + ".csv";
-            
-
+            String file;
             try
             {
-                /* ディレクトリ存在有無の確認 */
-                if (!Directory.Exists(dtSpec + "/" + data + "/"))
+                if (data == "0")
                 {
-                    Directory.CreateDirectory(dtSpec + "/" + data + "/"); 
+                    file = @"" + dtSpec + "_MST" + "/" + dtSpec + ".csv";
+                    
+                    /* ディレクトリ存在有無の確認 */
+                    if (!Directory.Exists(dtSpec + "_MST/"))
+                    {
+                        Directory.CreateDirectory(dtSpec + "_MST/");
+                    }
                 }
+                else
+                {
+                    file = @"" + dtSpec + "/" + data + "/" + dtSpec + data + ".csv";
+
+                    /* ディレクトリ存在有無の確認 */
+                    if (!Directory.Exists(dtSpec + "/" + data + "/"))
+                    {
+                        Directory.CreateDirectory(dtSpec + "/" + data + "/");
+                    }
+                }
+               
 
                 /* ファイルの存在有無の確認 */
                 if (!Directory.Exists(file))
@@ -259,9 +255,17 @@ namespace WpfApp1.dbAccess
             }
         }
 
-        public void Read_KeyData(String dtSpec, String key, String date, int Kind, ref String tmp)
+        public int Read_KeyData(String dtSpec, String key, String date, int Kind, ref String tmp)
         {
-            String file = @"" + dtSpec + "/" + date + "/" + dtSpec + date + ".csv";
+            String file;
+            if(date == "0")
+            {
+                file = @"" + dtSpec + "_MST/" + dtSpec + ".csv";
+            }
+            else
+            {
+                file = @"" + dtSpec + "/" + date + "/" + dtSpec + date + ".csv";
+            }
 
             try
             {
@@ -275,7 +279,7 @@ namespace WpfApp1.dbAccess
                         var line = sr.ReadLine();
 
                         //一行もなければ終了
-                        if (line.Length == 0) { return; }
+                        if (line.Length == 0) { return -1; }
 
                         // 読み込んだ一行をカンマ毎に分けて配列に格納する
                         var values = line.Split(',');
@@ -284,15 +288,17 @@ namespace WpfApp1.dbAccess
                         if (values[0] == key)
                         {
                             tmp = values[Kind];
-                            return;
+                            return 1;
                         }
                     }
+                    return 0;
                 }
             }
             catch(IOException ex)
             {
                 MessageBox.Show("データファイルにアクセス出来ませんでした。\n別プロセスで実行中です。");
                 Console.WriteLine(ex);
+                return 0;
             }
         }
 
