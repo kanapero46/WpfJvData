@@ -116,6 +116,7 @@ namespace WpfApp1.form
                 //SE初回読み込み時にエラーチェック ０もエラー
                 if (db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), 0, ref tmp)!=1)
                 {
+                    MessageBpx.Show("DB読み込み中にエラーが発生しました。\nファイルが存在しないか、DBファイルが別プロセスで実行中です。");
                     break;
                 }
 
@@ -177,7 +178,6 @@ namespace WpfApp1.form
                 db.TextReader_aCell("UM", pHorceClasses.KettoNum1.ToString(), "0", 20, ref tmp);
 */
 
-                
 
                 /* 他クラス共有用のクラスに書き込み */
                 horceClasses.Add(pHorceClasses);
