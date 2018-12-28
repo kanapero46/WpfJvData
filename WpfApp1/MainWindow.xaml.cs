@@ -235,6 +235,8 @@ namespace WpfApp1
                             tmp += JV_SE_UMA.KisyuCode + ",";
                             tmp += JV_SE_UMA.KisyuRyakusyo + ",";
                             tmp += JV_SE_UMA.MinaraiCD + ",";
+                            tmp += JV_SE_UMA.DMTime + ",";
+                            tmp += JV_SE_UMA.DMJyuni + ",";
                             db = new dbConnect((JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay), JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
 
                             break;
