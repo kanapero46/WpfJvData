@@ -49,22 +49,22 @@ namespace WpfApp1.form
             String tmp = "";
             db = new dbConnect();
             //DBからレース名を検索
-            db.Read_KeyData("RA", RA, RA.Substring(0, 8), 5, ref tmp);
+            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 5, ref tmp);
             DataClass.SET_RA_KEY(RA);
             DataClass.setRaceDate(RA.Substring(0, 8));
             DataClass.setRaceCoutce(RA.Substring(8, 2));
             DataClass.setRaceKaiji(RA.Substring(10, 2));
             DataClass.setRaceNichiji(RA.Substring(12, 2));
             DataClass.setRaceNum(RA.Substring(14,2));
-            db.Read_KeyData("RA", RA, RA.Substring(0, 8), 7, ref tmp);
+            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 7, ref tmp);
             DataClass.setRaceName(tmp);
             /* グレード */
-            db.Read_KeyData("RA", RA, RA.Substring(0, 8), 16, ref tmp);
+            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 16, ref tmp);
             if (!(tmp == "")){ DataClass.setRaceGrade(tmp); }
 
-            db.Read_KeyData("RA", RA, RA.Substring(0, 8), 17, ref tmp);
+            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 17, ref tmp);
             DataClass.setCourceTrack(tmp);
-            db.Read_KeyData("RA", RA, RA.Substring(0, 8), 18, ref tmp);
+            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 18, ref tmp);
             DataClass.setDistance(tmp);
 
             CourceColor = Color;
@@ -100,7 +100,7 @@ namespace WpfApp1.form
             List<String> Arraytmp = new List<string>();
 
             //RA初回読み込み時にエラーチェック ０もエラー
-            if (db.Read_KeyData("RA", SE_KEY, SE_KEY.Substring(0, 8), 19, ref tmp) != 1)
+            if (db.TextReader_aCell("RA", SE_KEY, SE_KEY.Substring(0, 8), 19, ref tmp) != 1)
             {
                 return;
             }
@@ -114,7 +114,7 @@ namespace WpfApp1.form
 
 
                 //SE初回読み込み時にエラーチェック ０もエラー
-                if (db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), 0, ref tmp)!=1)
+                if (db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), 0, ref tmp)!=1)
                 {
                     break;
                 }
@@ -123,37 +123,41 @@ namespace WpfApp1.form
                 else if (tmp.Substring(0,16) != SE_KEY) { break; }
                 pHorceClasses.KEY1 = tmp;
 
-                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_WAKU, ref tmp);
-                pHorceClasses.Waku1 = tmp;
+                if(db.TextReader("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), ref Arraytmp)!=1)
+                {
+                    break;
+                }
 
-                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_UMA, ref tmp);
-                pHorceClasses.Umaban1 = tmp;
+                pHorceClasses.Waku1 = Arraytmp[SE_WAKU];
+                pHorceClasses.Umaban1 = Arraytmp[SE_UMA];
+                pHorceClasses.KettoNum1 = Int32.Parse(Arraytmp[SE_KETTO]);
+                pHorceClasses.Name1 = Arraytmp[SE_NAME];
+                pHorceClasses.Futan1 = Arraytmp[SE_FUTAN].Substring(0,2) + "." + Arraytmp[SE_FUTAN].Substring(2,1);
+                pHorceClasses.Jockey1 = Arraytmp[SE_JOCKEY];
 
-                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_KETTO, ref tmp);
-                pHorceClasses.KettoNum1 = Int32.Parse(tmp);
+                CODE = LibJvConv.LibJvConvFuncClass.JOCKEY_MINARAI_CD;
+                LibJvConvFuncClass.jvSysConvFunction(&CODE, Arraytmp[SE_MINARA], ref tmp);
+                pHorceClasses.MinaraiCd1 = tmp;
 
-                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_NAME, ref tmp);
-                pHorceClasses.Name1 = tmp;
+/**
+                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_WAKU, ref tmp);
+                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_UMA, ref tmp);
+                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_KETTO, ref tmp);
+                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_NAME, ref tmp);
+                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_FUTAN, ref tmp);
+                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_JOCKEY, ref tmp);
+*/
 
-                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_FUTAN, ref tmp);
-                pHorceClasses.Futan1 = tmp.Substring(0,2) + "." + tmp.Substring(2,1);
-
-                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_JOCKEY, ref tmp);
-                pHorceClasses.Jockey1 = tmp;
-
-                db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_MINARA, ref tmp);
-
-                if(db.TextReader("UM", pHorceClasses.KettoNum1.ToString(), "0", 6, ref Arraytmp)!=1)
+                /* 血統登録番号からマスタを取得 */
+                if(db.TextReader("UM", pHorceClasses.KettoNum1.ToString(), "0", ref Arraytmp)!=1)
                 {
                     break;
                 }
 
                 pHorceClasses.F1 = Arraytmp[6];
-              
                 pHorceClasses.M1 = Arraytmp[7];
                 pHorceClasses.FM1 = Arraytmp[9];
                 pHorceClasses.FFM1 = Arraytmp[10];
-
                 pHorceClasses.F_NUM1 = Arraytmp[15];
                 pHorceClasses.FM_NUM1 = Arraytmp[16];
                 pHorceClasses.FFM_NUM1 = Arraytmp[17];
@@ -161,20 +165,19 @@ namespace WpfApp1.form
                 pHorceClasses.FFF_NUM1 = Arraytmp[19]; //父父父
                 pHorceClasses.FMM_NUM1 = Arraytmp[20]; //母父父
 
-                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 15, ref tmp);
-                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 7, ref tmp);
-                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 9, ref tmp);
-                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 16, ref tmp);
-                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 10, ref tmp);
-                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 17, ref tmp);
-                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 18, ref tmp);
-                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 19, ref tmp);
-                db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 20, ref tmp);
-                
+/** 
+                db.TextReader_aCell("UM", pHorceClasses.KettoNum1.ToString(), "0", 15, ref tmp);
+                db.TextReader_aCell("UM", pHorceClasses.KettoNum1.ToString(), "0", 7, ref tmp);
+                db.TextReader_aCell("UM", pHorceClasses.KettoNum1.ToString(), "0", 9, ref tmp);
+                db.TextReader_aCell("UM", pHorceClasses.KettoNum1.ToString(), "0", 16, ref tmp);
+                db.TextReader_aCell("UM", pHorceClasses.KettoNum1.ToString(), "0", 10, ref tmp);
+                db.TextReader_aCell("UM", pHorceClasses.KettoNum1.ToString(), "0", 17, ref tmp);
+                db.TextReader_aCell("UM", pHorceClasses.KettoNum1.ToString(), "0", 18, ref tmp);
+                db.TextReader_aCell("UM", pHorceClasses.KettoNum1.ToString(), "0", 19, ref tmp);
+                db.TextReader_aCell("UM", pHorceClasses.KettoNum1.ToString(), "0", 20, ref tmp);
+*/
 
-                CODE = LibJvConv.LibJvConvFuncClass.JOCKEY_MINARAI_CD;
-                LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref tmp);
-                pHorceClasses.MinaraiCd1 = tmp;
+                
 
                 /* 他クラス共有用のクラスに書き込み */
                 horceClasses.Add(pHorceClasses);
@@ -337,7 +340,7 @@ namespace WpfApp1.form
             if(Key == null) { return Color.White; }
 
             /* 1：設定データ(ST)からデータ取得する。 */
-            db.Read_KeyData("ST", Key, "0", 3, ref tmp);
+            db.TextReader_aCell("ST", Key, "0", 3, ref tmp);
             if(tmp != "" )
             {
                 cnt++;
@@ -349,7 +352,7 @@ namespace WpfApp1.form
             }
 
             /* 1：設定データ(ST)からデータ取得する(3代)。 */
-            db.Read_KeyData("ST", Key2, "0", 3, ref tmp);
+            db.TextReader_aCell("ST", Key2, "0", 3, ref tmp);
             if (Key2 != null && tmp != "")
             {
                 cnt++;
@@ -361,7 +364,7 @@ namespace WpfApp1.form
             }
 
             /* 1：設定データ(ST)からデータ取得する(2代)。 */
-            db.Read_KeyData("ST", Key3, "0", 3, ref tmp);
+            db.TextReader_aCell("ST", Key3, "0", 3, ref tmp);
             if (Key3 != null && tmp != "")
             {
                 cnt++;
@@ -377,10 +380,10 @@ namespace WpfApp1.form
             /* ２：父の父を探す。５代まで */
             while (cnt < 5)
             {
-                db.Read_KeyData("HN", Serach, "0", 4, ref tmp);
+                db.TextReader_aCell("HN", Serach, "0", 4, ref tmp);
                 if (tmp != "")
                 {
-                    db.Read_KeyData("ST", tmp, "0", 3, ref tmpColor);
+                    db.TextReader_aCell("ST", tmp, "0", 3, ref tmpColor);
                     if(tmpColor == "")
                     {
                         /* 検索に引っかからない場合はもう一度 */
@@ -408,6 +411,7 @@ namespace WpfApp1.form
         private Color FuncHorceKindColor(String F, String FF, String FFF)
         {
             int All = 3;
+            int ret = 0;
             String tmp = "";
             db = new dbConnect();
             Color clr;
@@ -426,7 +430,7 @@ namespace WpfApp1.form
                 All = 2;
             }
 
-            db.Read_KeyData("ST", F, "0", 3, ref tmp);
+            db.TextReader_aCell("ST", F, "0", 3, ref tmp);
             if(tmp == "") {  }
             else
             {
@@ -435,7 +439,7 @@ namespace WpfApp1.form
 
             if (All == 1) { return Color.White; }
 
-            db.Read_KeyData("ST", FF, "0", 3, ref tmp);
+            db.TextReader_aCell("ST", FF, "0", 3, ref tmp);
             if (tmp == "") { }
             else
             {
@@ -444,7 +448,7 @@ namespace WpfApp1.form
 
             if (All == 2) { return Color.White; }
 
-            db.Read_KeyData("ST", FFF, "0", 3, ref tmp);
+            db.TextReader_aCell("ST", FFF, "0", 3, ref tmp);
             if (tmp == "") { }
             else
             {
@@ -459,10 +463,6 @@ namespace WpfApp1.form
             /** 種牡馬色定義　0：その他、１：ノーザンテースト系、２：ナスルーラ、３：ヘイロー系、４：サンデー系、５：ネイティブダンサー系
              * ６：セントサイモン、７：ハンプトン系、８：テディ系、９：マンノウォー 、１０：マッチェム*/
             db = new dbConnect();
-            //String tmp = Kind;
-    //        db.Read_KeyData("ST", Key, "0", 3, ref tmp);
-
-      //      if(tmp == "") { return Color.White; }
 
             switch(Kind)
             {

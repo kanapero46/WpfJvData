@@ -159,9 +159,16 @@ namespace WpfApp1.dbAccess
          * @OutPrm  int：取得結果　０：失敗・プロセス実行中
          *                      　１：取得成功
          **************************************************/  
-        public int TextReader(String Date, String dtSpec, int Kind, ref List<String> srt)
+        public int TextReader_Row(String Date, String dtSpec, int Kind, ref List<String> srt)
         {
-            return ReadCsv(Date, dtSpec, Kind, ref srt, 0);
+            /* たて列ぜんぶ */
+            return ReadCsv(Date, dtSpec, Kind, ref srt, 0, "");
+        }
+
+        public int TextReader_Col(String Date, String dtSpec, int Kind, ref List<String> srt, String Key)
+        {
+            /* よこ列ぜんぶ */
+            return ReadCsv(Date, dtSpec, Kind, ref srt, 1, Key);
         }
 
         /**************************************************
@@ -176,24 +183,37 @@ namespace WpfApp1.dbAccess
          * @OutPrm  int：取得結果　０：失敗・プロセス実行中
          *                      　１：取得成功
          **************************************************/  
-        public int TextReader_aCell(String Date, String dtSpec, int Kind, ref List<String> srt)
+        public int TextReader_aCell(String dtSpec, String Key, String Date, int Kind, ref String srt)
         {
-            return ReadCsv(Date, dtSpec, Kind, ref srt, 1);
+            int ret = 0;
+            List<String> ArrayStr = new List<string>();
+            ret = ReadCsv(Date, dtSpec, Kind, ref ArrayStr, 2, Key);
+
+            /* 取得データなし */
+            if(str.Count == 0)
+            {
+                str = "";
+                return 0;
+            }
+            
+            str = str[0];
+            return 1;
         }
 
         /**************************************************
-         * @func  先頭列(データキー)と合致するデータ提供関数(全ての列)
+         * @func  先頭列(データキー)と合致するデータ提供関数
+         *   ３つの関数を取りまとめ
          * @event 関数コール
          * @inPrm   dtSpec：データ種
          *          Key：キー(JvData仕様書で指定のもの)
          *          date：レース開催日
          *          ※Masterデータは「０」を指定
-         *          Kind：取得したいデータの列数(配列(0~))
+         *          Kind：取得したいデータの列数(配列(0~))もしくは行数
          *          tmp：データ保管場所の参照(ref)
          * @OutPrm  int：取得結果　０：失敗・プロセス実行中
          *                      　１：取得成功
          **************************************************/  
-        static int ReadCsv(String Date, String dtSpec,int Kind, ref List<String> str, int AllData)
+        static int ReadCsv(String Date, String dtSpec,int Kind, ref List<String> str, int AllData, String Key)
         {
             String file;
             int loop = 0;
@@ -224,7 +244,7 @@ namespace WpfApp1.dbAccess
                         {
                             if(AllData == 0)
                             {
-                                /* １行すべて？ */
+                                /* たて一列(TextReader_Row) */
                                 if (loop == Kind)
                                 {
                                     str.Add(value);
@@ -233,7 +253,19 @@ namespace WpfApp1.dbAccess
                             }
                             else if(AllData == 1)
                             {
-                                 // １セルだけ？
+                                 // よこ一列(TextReader_Col)
+                                if (values[0] == key)
+                                {
+                                    for(int i = 0; i < values.Count; i++)
+                                    {
+                                        str.Add(values[i]);
+                                    }
+                                    return 1;
+                                }
+                            }
+                            else if(AllData == 2)
+                            {
+                                 // １セルだけ(TextReader_aCell)
                                 if (values[0] == key)
                                 {
                                     str.Add(values[Kind]);
@@ -280,6 +312,7 @@ namespace WpfApp1.dbAccess
 
         /**************************************************
          * @func  先頭列(データキー)と合致するデータ提供関数(単語毎)
+         *　！！！！！！！この関数は使用しないこと！！！！！！！
          * @event 関数コール
          * @inPrm   dtSpec：データ種
          *          Key：キー(JvData仕様書で指定のもの)
@@ -292,6 +325,9 @@ namespace WpfApp1.dbAccess
          **************************************************/  
         public int Read_KeyData(String dtSpec, String key, String date, int Kind, ref String tmp)
         {
+
+            TextReader_aCell(date,  )
+
             String file;
             if(date == "0")
             {
