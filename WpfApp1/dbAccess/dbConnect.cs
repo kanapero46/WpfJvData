@@ -14,11 +14,6 @@ namespace WpfApp1.dbAccess
     public class dbConnect
     {
         Boolean boolInit;
-        String sCS = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=data/";
-        String sqlQuery;
-        OleDbCommand command;
-        OleDbConnection connection;
-
 
         /* csvエンコード */
         Encoding enc = Encoding.GetEncoding("utf-8");
@@ -80,35 +75,6 @@ namespace WpfApp1.dbAccess
             /* 初期化完了 */
             boolInit = true;
          }
-
-
-        public int dbConnectInit(String Date)
-        {
-            ADOX.Catalog cat = new ADOX.Catalog();
-            ADODB.Connection db1;
-            connection = new OleDbConnection();
-            /* DB接続 */
-            connection.ConnectionString = sCS + Date + ".accdb;";
-            /* DBオープン　 */
-            try
-            {
-                connection.Open();
-            }
-            catch(InvalidOperationException e)
-            {
-                cat.Create(sCS + Date + ".accdb;" + "Jet OLEDB:Engine Type=5");
-                cat = null;
-                return 1;
-            }
-            catch (OleDbException e)
-            {
-                db1 = cat.Create(sCS + Date + ".accdb;" + "Jet OLEDB:Engine Type=5");
-                db1.Close();
-                cat = null;
-                return 0;
-            }
-            return 1;
-        }
 
         private int dbConnectWriter(String Date, String dtSpec, String buff)
         {
@@ -181,37 +147,70 @@ namespace WpfApp1.dbAccess
         
         }
 
+        /**************************************************
+         * @func  先頭列(データキー)と合致するデータ提供関数(全て)のラッピング関数
+         * @event 関数コール
+         * @inPrm   dtSpec：データ種
+         *          Key：キー(JvData仕様書で指定のもの)
+         *          date：レース開催日
+         *          ※Masterデータは「０」を指定
+         *          Kind：取得したいデータの列数(配列(0~))
+         *          tmp：データ保管場所の参照(ref)
+         * @OutPrm  int：取得結果　０：失敗・プロセス実行中
+         *                      　１：取得成功
+         **************************************************/  
         public int TextReader(String Date, String dtSpec, int Kind, ref List<String> srt)
         {
-            ReadCsv(Date, dtSpec, Kind, ref srt);
-            /**
-          //  int strlen;
-            string str = "";
-            String[] tmp;
-            String file = @"" + Date + "/" + dtSpec + ".csv";
-            tmp = File.ReadAllLines(file, enc); 
-
-            for(int i=0; i < tmp.Length; i++)
-            {
-                
-                for(int j=0 ,strlen=0; j<tmp[i].Length; j = (strlen+1))
-                {
-                    strlen += tmp[i].Substring(j, tmp[i].Length).IndexOf(",");
-                    str += "'" + tmp[i].Substring(j, strlen) + "'";
-                    if(j == Kind) { srt.Add(str); break;  }
-                }
-            }
-            */
-            return 0;
+            return ReadCsv(Date, dtSpec, Kind, ref srt, 0);
         }
 
-        static void ReadCsv(String Date, String dtSpec,int Kind, ref List<String> str)
+        /**************************************************
+         * @func  先頭列(データキー)と合致するデータ提供関数(一つだけ)のラッピング関数
+         * @event 関数コール
+         * @inPrm   dtSpec：データ種
+         *          Key：キー(JvData仕様書で指定のもの)
+         *          date：レース開催日
+         *          ※Masterデータは「０」を指定
+         *          Kind：取得したいデータの列数(配列(0~))
+         *          tmp：データ保管場所の参照(ref)
+         * @OutPrm  int：取得結果　０：失敗・プロセス実行中
+         *                      　１：取得成功
+         **************************************************/  
+        public int TextReader_aCell(String Date, String dtSpec, int Kind, ref List<String> srt)
         {
+            return ReadCsv(Date, dtSpec, Kind, ref srt, 1);
+        }
+
+        /**************************************************
+         * @func  先頭列(データキー)と合致するデータ提供関数(全ての列)
+         * @event 関数コール
+         * @inPrm   dtSpec：データ種
+         *          Key：キー(JvData仕様書で指定のもの)
+         *          date：レース開催日
+         *          ※Masterデータは「０」を指定
+         *          Kind：取得したいデータの列数(配列(0~))
+         *          tmp：データ保管場所の参照(ref)
+         * @OutPrm  int：取得結果　０：失敗・プロセス実行中
+         *                      　１：取得成功
+         **************************************************/  
+        static int ReadCsv(String Date, String dtSpec,int Kind, ref List<String> str, int AllData)
+        {
+            String file;
             int loop = 0;
+
+            if(date == "0")
+            {
+                file = @"" + dtSpec + "_MST/" + dtSpec + ".csv";
+            }
+            else
+            {
+                file = @"" + dtSpec + "/" + date + "/" + dtSpec + date + ".csv";
+            }
+
             try
             {
                 // csvファイルを開く
-                using (var sr = new System.IO.StreamReader(@"" + dtSpec + "/" + Date + "/" + dtSpec + Date +".csv"))
+                using (var sr = new System.IO.StreamReader(file))
                 {
                     // ストリームの末尾まで繰り返す
                     while (!sr.EndOfStream)
@@ -223,25 +222,48 @@ namespace WpfApp1.dbAccess
                         // 出力する
                         foreach (String value in values)
                         {
-                            if (loop == Kind)
+                            if(AllData == 0)
                             {
-                                str.Add(value);
-                                break;
+                                /* １行すべて？ */
+                                if (loop == Kind)
+                                {
+                                    str.Add(value);
+                                    break;
+                                }
+                            }
+                            else if(AllData == 1)
+                            {
+                                 // １セルだけ？
+                                if (values[0] == key)
+                                {
+                                    str.Add(values[Kind]);
+                                    return 1;
+                                }
                             }
                             loop++;
                         }
                         loop = 0;
                     }
+                    return 1;
                 }
+                return 0;
             }
             catch (System.Exception e)
             {
                 // ファイルを開くのに失敗したとき
                 System.Console.WriteLine(e.Message);
+                return 0;
             }
         }
 
-        public void DeleteCsv(String dtSpec)
+        /**************************************************
+         * @func  ファイル(DB)の削除
+         * @event 関数コール
+         * @inPrm   dtSpec：削除するデータ種
+         * @OutPrm  int：結果　　　０：失敗・プロセス実行中
+         *                      　１：取得成功
+         **************************************************/ 
+        public int DeleteCsv(String dtSpec)
         {
             String file = @"" + dtSpec + "/";
             try
@@ -250,11 +272,24 @@ namespace WpfApp1.dbAccess
             }
             catch(IOException ex)
             {
-                MessageBox.Show("データファイルにアクセス出来ませんでした。\n別プロセスで実行中です。");
                 Console.WriteLine(ex);
+                return 0;
             }
+            return 1;
         }
 
+        /**************************************************
+         * @func  先頭列(データキー)と合致するデータ提供関数(単語毎)
+         * @event 関数コール
+         * @inPrm   dtSpec：データ種
+         *          Key：キー(JvData仕様書で指定のもの)
+         *          date：レース開催日
+         *          ※Masterデータは「０」を指定
+         *          Kind：取得したいデータの列数(配列(0~))
+         *          tmp：データ保管場所の参照(ref)
+         * @OutPrm  int：取得結果　０：失敗・プロセス実行中
+         *                      　１：取得成功
+         **************************************************/  
         public int Read_KeyData(String dtSpec, String key, String date, int Kind, ref String tmp)
         {
             String file;

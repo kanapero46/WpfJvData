@@ -731,12 +731,8 @@ namespace WpfApp1
         }
 
         public void ThreadLogDataMain(object msg)
-        {
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-                Status.Text=StatusInfo;
-            }));
-            Thread.Sleep(10);
+        {   
+            Log LogForm = new Log();
         }
 
         /** **********************************

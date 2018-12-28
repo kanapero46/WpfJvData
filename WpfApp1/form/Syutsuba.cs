@@ -97,6 +97,7 @@ namespace WpfApp1.form
 
             String SE_KEY = DataClass.GET_RA_KEY();
             String tmp = "";
+            List<String> Arraytmp = new List<string>();
 
             //RA初回読み込み時にエラーチェック ０もエラー
             if (db.Read_KeyData("RA", SE_KEY, SE_KEY.Substring(0, 8), 19, ref tmp) != 1)
@@ -142,35 +143,34 @@ namespace WpfApp1.form
 
                 db.Read_KeyData("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_MINARA, ref tmp);
 
-                if(db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 6, ref tmp)!=1)
+                if(db.TextReader("UM", pHorceClasses.KettoNum1.ToString(), "0", 6, ref Arraytmp)!=1)
                 {
                     break;
                 }
-                pHorceClasses.F1 = tmp;
+
+                pHorceClasses.F1 = Arraytmp[6];
+              
+                pHorceClasses.M1 = Arraytmp[7];
+                pHorceClasses.FM1 = Arraytmp[9];
+                pHorceClasses.FFM1 = Arraytmp[10];
+
+                pHorceClasses.F_NUM1 = Arraytmp[15];
+                pHorceClasses.FM_NUM1 = Arraytmp[16];
+                pHorceClasses.FFM_NUM1 = Arraytmp[17];
+                pHorceClasses.FF_NUM1 = Arraytmp[18]; //父父
+                pHorceClasses.FFF_NUM1 = Arraytmp[19]; //父父父
+                pHorceClasses.FMM_NUM1 = Arraytmp[20]; //母父父
+
                 db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 15, ref tmp);
-                pHorceClasses.F_NUM1 = tmp;
-
                 db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 7, ref tmp);
-                pHorceClasses.M1 = tmp;
-                
                 db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 9, ref tmp);
-                pHorceClasses.FM1 = tmp;
                 db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 16, ref tmp);
-                pHorceClasses.FM_NUM1 = tmp;
-
                 db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 10, ref tmp);
-                pHorceClasses.FFM1 = tmp;
                 db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 17, ref tmp);
-                pHorceClasses.FFM_NUM1 = tmp;
-
                 db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 18, ref tmp);
-                pHorceClasses.FF_NUM1 = tmp; //父父
-
                 db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 19, ref tmp);
-                pHorceClasses.FFF_NUM1 = tmp; //父父父
-
                 db.Read_KeyData("UM", pHorceClasses.KettoNum1.ToString(), "0", 20, ref tmp);
-                pHorceClasses.FMM_NUM1 = tmp; //母父父
+                
 
                 CODE = LibJvConv.LibJvConvFuncClass.JOCKEY_MINARAI_CD;
                 LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref tmp);

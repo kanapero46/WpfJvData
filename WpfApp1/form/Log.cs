@@ -48,6 +48,11 @@ namespace WpfApp1.form
             return 0;
         }
 
+        public void AddLogMsg(String msg)
+        {
+            
+        }
+
         private void Log_Load(object sender, EventArgs e)
         {
 
