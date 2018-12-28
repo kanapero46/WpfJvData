@@ -970,7 +970,7 @@ namespace WpfApp1
             int rdCount = 0;
             int dlCount = 0;
 
-            ret = JVForm.JvForm_JvRTOpen( Dt, "00000000000000", op, ref rdCount, ref dlCount, ref lastStamp);
+            ret = JVForm.JvForm_JvRTOpen( Dt, FromTime);
 
             /* JvOpenエラーハンドリング */
             if (ret != 0)
@@ -986,7 +986,7 @@ namespace WpfApp1
                 else
                 {
                     /* JvCloseできていない場合、再度処理実施 */
-                    ret = JVForm.JvForm_JvOpen( Dt, "00000000000000", op, ref rdCount, ref dlCount, ref lastStamp);
+                    ret = JVForm.JvForm_JvRTOpen( Dt, FromTime);
                     /* 2回目の失敗はエラー */
                     if (ret != 0)
                     {
