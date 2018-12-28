@@ -72,7 +72,27 @@ namespace WpfApp1.form
             InitHorceData();
         }
 
+        public void LogOutPutFormThread(object Max)
+        {
+            Log LogForm = new Log(Int32.Parse(Max.ToString()));
+            LogForm.Show();
 
+            int ret = 0;
+
+            LogForm.InitLogData(ProgressStatus);
+
+            while (true)
+            {
+                ret = LogForm.LogCntUp(ProgressStatus);
+                Thread.Sleep(500); //0.5秒待機
+
+                if(ret != 0) //0は続行。それ以外は終了かエラー
+                {
+                    break;
+                }
+            }
+        }
+        
         /************** private **************/
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -494,26 +514,6 @@ namespace WpfApp1.form
 
         }
 
-        private void LogOutPutFormThread(object Max)
-        {
-            Log LogForm = new Log(Int32.Parse(Max.ToString()));
-            LogForm.Show();
-
-            int ret = 0;
-
-            LogForm.InitLogData(ProgressStatus);
-
-            while (true)
-            {
-                ret = LogForm.LogCntUp(ProgressStatus);
-                Thread.Sleep(500); //0.5秒待機
-
-                if(ret != 0) //0は続行。それ以外は終了かエラー
-                {
-                    break;
-                }
-            }
-        }
 
     }
 }

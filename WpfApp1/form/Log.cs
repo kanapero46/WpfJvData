@@ -25,6 +25,13 @@ namespace WpfApp1.form
             MaxValue = Max;
         }
 
+        /* 初期値に再設定します。 */
+        public void SettingMaxValue(int MaxValue)
+        {
+            progressBar1.Maximum = MaxValue;
+            progressBar1.Value = 0;
+        }
+
         public void InitLogData(int InitValue)
         {
             progressBar1.Maximum = MaxValue;

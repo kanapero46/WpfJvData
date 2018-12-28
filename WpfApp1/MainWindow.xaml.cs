@@ -55,6 +55,8 @@ namespace WpfApp1
         /* *******グローバル変数定義******* */
         String StatusInfo = "";
 
+        int ProgressStatus = 0;
+        int MaxValue = 100;
 
         public MainWindow()
         {
@@ -657,7 +659,7 @@ namespace WpfApp1
 
         private int JvMainErrorFunction(int res)
         {
-            ProgressStatus.Visibility = Visibility.Hidden;
+            //ProgressStatus.Visibility = Visibility.Hidden;
 
             return res;
         }
@@ -799,6 +801,7 @@ namespace WpfApp1
             String fname = "";
 
             String tmp = "";
+            String strBuff = "";
 
             /* ライブラリ用変数 */
             int CODE;
@@ -816,6 +819,11 @@ namespace WpfApp1
             db.DeleteCsv("SE_MST");
             db.DeleteCsv("UM_MST");
 
+            /* ログスレッド起動 */
+            Thread t = new Thread(new ParameterizedThreadStart(LogMainOutPutFormThread));
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start("100"); //仮で100を設定
+
             while (ret >= 1)
             {
                 ret = JVForm.JvForm_JvRead(ref buff, out size, out fname);
@@ -825,6 +833,12 @@ namespace WpfApp1
                     if (buff == "")
                     {
                         continue;
+                    }
+                    else if(strBuff == buff.Substring(0, 2))
+                    {
+                        /* 排他制御にする。 */
+                        Interlocked.Exchange(MaxValue, ret);
+                        Interlocked.Exchange(ProgressStatus, 0);
                     }
 
                     switch (buff.Substring(0, 2))
@@ -864,6 +878,7 @@ namespace WpfApp1
                             LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref LibTmp);
                             tmp += LibTmp + ",";
                             db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
+                            ProgressStatus++;
                             break;
                         case "SE":
                             JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
@@ -889,6 +904,7 @@ namespace WpfApp1
                             tmp += JV_SE_UMA.KisyuRyakusyo + ",";
                             tmp += JV_SE_UMA.MinaraiCD + ",";
                             db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                            ProgressStatus++;
                             break;
 
                         case "UM": //競走馬マスタ
@@ -917,6 +933,7 @@ namespace WpfApp1
                             tmp += JV_UMA.Ketto3Info[6].HansyokuNum + ",";  //父父父の系統
                             tmp += JV_UMA.Ketto3Info[10].HansyokuNum + ","; //母父父の血統
                             db = new dbConnect("0", JV_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                            ProgressStatus++;
                             break;
 
                         default:
@@ -932,7 +949,7 @@ namespace WpfApp1
                 else if (ret == 0)
                 {
                     /* 全ファイルデータ読み込み終了 */
-                    ProgressStatus.Visibility = Visibility.Hidden;
+                    //ProgressStatus.Visibility = Visibility.Hidden;
                     this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
                     InitCompLabelText();    /* 障害Issue#3 */
                     LabelRaceNum.Content = "OK";
@@ -1061,7 +1078,7 @@ namespace WpfApp1
                 else if (ret == 0)
                 {
                     /* 全ファイルデータ読み込み終了 */
-                    ProgressStatus.Visibility = Visibility.Hidden;
+                    //ProgressStatus.Visibility = Visibility.Hidden;
                     this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
                     InitCompLabelText();    /* 障害Issue#3 */
                     LabelRaceNum.Content = "OK";
@@ -1118,7 +1135,33 @@ namespace WpfApp1
             }
             return IntTime.ToString();
         }
+
+        private void LogMainOutPutFormThread(object Max)
+        {
+            Log LogForm = new Log(Int32.Parse(Max.ToString()));
+            LogForm.Show();
+
+            int ret = 0;
+
+            LogForm.InitLogData(ProgressStatus);
+
+            while (true)
+            {
+                LogForm.MaxValue(MaxValue);     //ここでValueが0になる。
+                ret = LogForm.LogCntUp(ProgressStatus);
+                Thread.Sleep(500); //0.5秒待機
+
+                if(ret != 0) //0は続行。それ以外は終了かエラー
+                {
+                    break;
+                }
+            }
+        }
+
+
     }
+
+    
 
 
 }
