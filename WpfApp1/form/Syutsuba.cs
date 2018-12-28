@@ -116,7 +116,7 @@ namespace WpfApp1.form
                 //SE初回読み込み時にエラーチェック ０もエラー
                 if (db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), 0, ref tmp)!=1)
                 {
-                    MessageBpx.Show("DB読み込み中にエラーが発生しました。\nファイルが存在しないか、DBファイルが別プロセスで実行中です。");
+                    MessageBox.Show("DB読み込み中にエラーが発生しました。\nファイルが存在しないか、DBファイルが別プロセスで実行中です。");
                     break;
                 }
 
@@ -124,7 +124,7 @@ namespace WpfApp1.form
                 else if (tmp.Substring(0,16) != SE_KEY) { break; }
                 pHorceClasses.KEY1 = tmp;
 
-                if(db.TextReader("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), ref Arraytmp)!=1)
+                if(db.TextReader_Col("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), ref Arraytmp)!=1)
                 {
                     break;
                 }
@@ -150,7 +150,7 @@ namespace WpfApp1.form
 */
 
                 /* 血統登録番号からマスタを取得 */
-                if(db.TextReader("UM", pHorceClasses.KettoNum1.ToString(), "0", ref Arraytmp)!=1)
+                if(db.TextReader_Col("UM", pHorceClasses.KettoNum1.ToString(), "0", ref Arraytmp)!=1)
                 {
                     break;
                 }
