@@ -79,21 +79,11 @@ namespace WpfApp1
             /* 状態書き込みスレッド作成 */
             StatusInfo += "-----------------------\n";
 
-            int ret;
-            ret = JVForm.JvForm_JvInit();
+            int ret = 0;
             msg = "JVFromの初期化終了[" + ret + "]\n";
             thread.Start(msg);
             thread.Abort();
             
-            if (ret != 0) {
-#if DEBUG
-                StatusWrite("SIDがセットされていません。\n処理を終了します。\n");
-#else
-                StatusWrite("ソフト内部エラーです。\n処理を終了します。\n");
-#endif
-                return 0;
-            }
-
             int op = 2;
             int rdCount = 0;
             int dlCount = 0;
@@ -151,6 +141,7 @@ namespace WpfApp1
             /* JRA-VAN DataLab構造体 */
             JVData_Struct.JV_RA_RACE JV_RACE;
             JVData_Struct.JV_SE_RACE_UMA JV_SE_UMA;
+            JVData_Struct.JV_DM_INFO Jv_DT_MD;
             String tmp;
             String LibTmp = "";
             int CODE;
@@ -160,6 +151,7 @@ namespace WpfApp1
             db = new dbConnect();
             db.DeleteCsv("RA");
             db.DeleteCsv("SE");
+            db.DeleteCsv("DT");
 
 
             /* データリード */
@@ -569,6 +561,8 @@ namespace WpfApp1
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
 
+            int ret = 0;
+
             if(DateText.SelectedDate == null)
             {
                 System.Windows.MessageBox.Show("レース開催日が選択されていません。\n処理を終了します。\nERR:500", "データエラー");
@@ -594,6 +588,12 @@ namespace WpfApp1
             }
             else
             {
+                if(JVForm.JvForm_JvInit() != 0)
+                {
+                    StatusWrite("SIDがセットされていません。\n処理を終了します。\n");
+                    return;
+                }
+
                 if((bool)this.ToWeekFlag.IsChecked){ InitMain(); }
                 StatusInfo += "当週データの取得を終了しました。\n";
                 StatusWriter();
@@ -745,9 +745,6 @@ namespace WpfApp1
         unsafe private int InitMSTMain()
         {
             int ret;
-            ret = JVForm.JvForm_JvInit();
-
-            if(ret != 0) { StatusWrite("SIDがセットされていません。\n処理を終了します。\n"); return 0; }
 
             String FromTime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
             String WeekDay = DateText.SelectedDate.Value.DayOfWeek.ToString();
@@ -833,7 +830,6 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "RA":
-                            StatusInfo += "*";
                             JV_RACE = new JVData_Struct.JV_RA_RACE();
                             tmp = "";
                             JV_RACE.SetDataB(ref buff);
@@ -870,7 +866,6 @@ namespace WpfApp1
                             db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             break;
                         case "SE":
-                            LogingText("@");
                             JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             tmp = "";
                             JV_SE_UMA.SetDataB(ref buff);
@@ -894,7 +889,6 @@ namespace WpfApp1
                             tmp += JV_SE_UMA.KisyuRyakusyo + ",";
                             tmp += JV_SE_UMA.MinaraiCD + ",";
                             db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
-
                             break;
 
                         case "UM": //競走馬マスタ
@@ -962,6 +956,139 @@ namespace WpfApp1
             JVForm.JvForm_JvClose();
                 return 1;
         }
+
+        /* データマイニング情報取得(リアルタイム) */
+        unsafe private int InitRealTimeDataMaining()
+        {
+            int ret;
+
+            String FromTime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
+            String WeekDay = DateText.SelectedDate.Value.DayOfWeek.ToString();
+            String lastStamp = ChgToDate(FromTime, WeekDay);
+            String Dt = "MING";
+            int op = 1;
+            int rdCount = 0;
+            int dlCount = 0;
+
+            ret = JVForm.JvForm_JvRTOpen( Dt, "00000000000000", op, ref rdCount, ref dlCount, ref lastStamp);
+
+            /* JvOpenエラーハンドリング */
+            if (ret != 0)
+            {
+                ret = CheckJvOpenRetErr(ret);
+
+                if (ret != 1)
+                {
+                    StatusWrite("続行不可のエラーが発生しました。\n");
+                    JVForm.JvForm_JvClose();
+                    return 0; /* エラー */
+                }
+                else
+                {
+                    /* JvCloseできていない場合、再度処理実施 */
+                    ret = JVForm.JvForm_JvOpen( Dt, "00000000000000", op, ref rdCount, ref dlCount, ref lastStamp);
+                    /* 2回目の失敗はエラー */
+                    if (ret != 0)
+                    {
+                        StatusWrite("続行不可のエラーが発生しました。\n");
+                        JVForm.JvForm_JvClose();
+                        return 0; /* エラー */
+                    }
+
+                }
+            }
+
+            StatusWrite("DataKind\t" + op + rdCount + dlCount + "\n");
+            StatusWrite("LastStamp\t" + lastStamp + "\n");
+
+            /* JvRead用変数の初期化 */
+            ret = 1;
+
+            /* ライブラリ用変数 */
+            int CODE;
+            int DbReturn = 1;
+            String LibTmp = "";
+            String tmp = "";
+            
+            /* データを追加するにはここに構造体を追加 */
+            JVData_Struct.Jv_DT_MD JV_DTMD = new JVData_Struct.Jv_DT_MD();
+            
+            /* DB初期化 */
+            db = new dbConnect();
+            db.DeleteCsv("DM");
+
+            while (ret >= 1)
+            {
+                ret = JVForm.JvForm_JvRead(ref buff, out size, out fname);
+
+                if (ret > 0)
+                {
+                    if (buff == "")
+                    {
+                        continue;
+                    }
+
+                    switch (buff.Substring(0, 2))
+                    {
+                        case "DT":  /* 対戦型 */
+                        case "TM":  /* タイム型 */
+                            JV_DTMD.SetDataB(ref buff);
+                            for(i = 0; i < 18 - 1; i++)
+                            {
+                                tmp = "";
+                                tmp += JV_DTMD.id.Year + JV_DTMD.id.MonthDay + JV_DTMD.id.JyoCD + JV_DTMD.id.Kaiji +
+                                    JV_DTMD.id.Nichiji + JV_DTMD.id.RaceNum + JV_DTMD.DMInfo.Umaban[i] +  ",";
+                                tmp += JV_DTMD.head.RecordSpec + ",";
+                                tmp += JV_DTMD.head.DataKubun + ",";
+                                tmp += JV_DTMD.DMInfo.Umaban[i] + ",";
+                                tmp += JV_DTMD.DMInfo.DMTime + ",";
+                                tmp += JV_DTMD.DMInfo.DMGosaP + ",";
+                                tmp += JV_DTMD.DMInfo.DMGosaM + ",";
+                                db = new dbConnect((JV_DTMD.id.Year + JV_DTMD.id.MonthDay), JV_DTMD.head.RecordSpec, ref tmp, ref DbReturn);
+                            }
+                            break;
+                        default:
+                            JVForm.JvForm_JvSkip();
+                            break;
+
+                    }
+
+                    if (DbReturn == 0)
+                    {
+                        break;
+                    }
+                }
+                else if (ret == 0)
+                {
+                    /* 全ファイルデータ読み込み終了 */
+                    ProgressStatus.Visibility = Visibility.Hidden;
+                    this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
+                    InitCompLabelText();    /* 障害Issue#3 */
+                    LabelRaceNum.Content = "OK";
+                    JvSysMain(JV_SYS_CLOSE_COMP_NOTICE);
+
+                    break;
+
+                }
+                else if (ret == -1)
+                {
+                    /* ファイル切り替わり */
+                    ret = 1;
+                    continue;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            JVForm.JvForm_JvClose();
+            return 1;
+
+
+
+
+        } 
 
         private String ChgToDate(String time, String WeekDay)
         {
