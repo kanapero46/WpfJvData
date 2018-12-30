@@ -24,6 +24,7 @@ namespace WpfApp1.form
         Class.MainDataClass DataClass = new Class.MainDataClass();
         static String Cource;
         int CourceColor;
+        MainWindow main = new MainWindow();
 
         /* 競走馬データ保存用 */
         List<Class.MainDataHorceClass> horceClasses;
@@ -125,7 +126,7 @@ namespace WpfApp1.form
             /* スレッド起動 */
             Thread t = new Thread(new ParameterizedThreadStart(LogOutPutFormThread));
             t.SetApartmentState(ApartmentState.STA);
-
+            main.LogMainCancelFlagChanger(true);        //スレッド開始処理
             String SE_KEY = DataClass.GET_RA_KEY();
             String tmp = "";
             List<String> Arraytmp;
@@ -133,6 +134,7 @@ namespace WpfApp1.form
             //RA初回読み込み時にエラーチェック ０もエラー
             if (db.TextReader_aCell("RA", SE_KEY, SE_KEY.Substring(0, 8), 19, ref tmp) != 1)
             {
+                main.LogMainCancelFlagChanger(false);        //スレッド開始処理
                 return;
             }
 
@@ -268,7 +270,8 @@ namespace WpfApp1.form
                 ProgressStatus++;
 
             }
-
+            main.LogMainCancelFlagChanger(false);        //スレッド開始処理
+            t.Join();
             t.Abort();
         }
 

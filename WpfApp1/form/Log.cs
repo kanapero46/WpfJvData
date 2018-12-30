@@ -13,6 +13,7 @@ namespace WpfApp1.form
     public partial class Log : Form
     {
         private int MaxValue = 100;
+        private Boolean Cancel_Flag = false;
 
         public Log()
         {
@@ -23,6 +24,7 @@ namespace WpfApp1.form
         {
             InitializeComponent();
             MaxValue = Max;
+            Cancel_Flag = false;
         }
 
         /* 初期値に再設定します。 */
@@ -60,9 +62,19 @@ namespace WpfApp1.form
             
         }
 
+        public Boolean CancelFlag()
+        {
+            return Cancel_Flag;
+        }
+
         private void Log_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void Cancel_Click(object sender, EventArgs e)
+        {
+            Cancel_Flag = true;
         }
     }
 }

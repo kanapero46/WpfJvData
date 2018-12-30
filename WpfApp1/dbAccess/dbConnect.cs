@@ -296,24 +296,47 @@ namespace WpfApp1.dbAccess
          **************************************************/ 
         public int DeleteCsv(String dtSpec)
         {
-            return DeleteCsv(dtSpec, "");
+            return DeleteCsv(dtSpec, "", true);
         }
 
         public int DeleteCsv(String dtSpec, String filename)
         {
-            String file = @"" + dtSpec + "/"  + filename;
+            return DeleteCsv(dtSpec, filename, true);
+        }
+
+        public int DeleteCsv(String dtSpec, String filename, Boolean DirectoryFlag)
+        {
+            String file = @"" + dtSpec + "/" + filename; ;
+            int ret = 0;
 
             try
             {
-                Directory.Delete(file, true);
-            }
-            catch (IOException ex)
-            {
-                Console.WriteLine(ex);
-                return 0;
-            }
-            return 1;
+                if (DirectoryFlag)
+                {
+                    /* ファイル削除 */
+                    Directory.Delete(file, true);
+                    ret = 1;
+                }
+                else
+                {
+                    /* 一時的にコピー */
+                    File.Copy(file, @"" + "COPY/" + dtSpec + filename);
 
+                    /* ディレクトリ削除 */
+                    Directory.Delete(@"" + dtSpec + "/", true);
+
+                    /* ファイルを元に戻す */
+                    File.Copy(@"" + "COPY/" + dtSpec + filename, file);
+
+                    ret = 1;
+                }
+            } 
+            catch (IOException)
+            {
+                ret = 0;
+            }
+
+            return ret;
         }
 
         /**************************************************

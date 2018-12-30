@@ -54,6 +54,8 @@ namespace WpfApp1
         
         /* *******グローバル変数定義******* */
         String StatusInfo = "";
+        Boolean Cancel_Flag = false;
+        Boolean ThreadFlag = false;
 
         int ProgressStatusValue = 0;
         int MaxValue = 100;
@@ -83,9 +85,11 @@ namespace WpfApp1
 
             int ret = 0;
             msg = "JVFromの初期化終了[" + ret + "]\n";
+            ThreadFlag = true;
             thread.Start(msg);
-            thread.Abort();
-            
+            thread.Abort();          
+
+
             int op = 2;
             int rdCount = 0;
             int dlCount = 0;
@@ -106,6 +110,7 @@ namespace WpfApp1
                 {
                     StatusWrite("続行不可のエラーが発生しました。\n" + ret);
                     JVForm.JvForm_JvClose();
+                    ThreadFlag = false;     //スレッドの終了を通知
                     return 0; /* エラー */
                 }
                 else
@@ -117,6 +122,7 @@ namespace WpfApp1
                     {
                         StatusWrite("続行不可のエラーが発生しました。\n" + ret);
                         JVForm.JvForm_JvClose();
+                        ThreadFlag = false;     //スレッドの終了を通知
                         return 0; /* エラー */
                     }
 
@@ -274,7 +280,8 @@ namespace WpfApp1
                 }
             }
 
-
+            ThreadFlag = false;     //スレッドの終了を通知
+            thread.Join();
             return 1;
         }
 
@@ -453,7 +460,12 @@ namespace WpfApp1
             db = new dbConnect();
 
             /* 競馬場名取得（コード） */
-            db.TextReader_Row(fromtime, "RA", RA_RACECOURCE, ref TextArray);
+            if(db.TextReader_Row(fromtime, "RA", RA_RACECOURCE, ref TextArray) != 1)
+            {
+                System.Windows.MessageBox.Show("データが取得出来ていません。", "エラー");
+                return;
+            }
+
             /* クラスにセット */
             mainDataClass.setRaceCoutce(TextArray[Select]);
             
@@ -1040,7 +1052,8 @@ namespace WpfApp1
 
             /* DB初期化 */
             db = new dbConnect();
-            db.DeleteCsv("TM");
+            //db.DeleteCsv("TM");
+            db.DeleteCsv("TM", Date.Substring(0, 8) + ".csv", false);
 
             while (ret >= 1)
             {
@@ -1284,7 +1297,7 @@ namespace WpfApp1
             LogForm.SettingMaxValue(MaxValue);     //ここでValueが0になる。
             LogForm.InitLogData(ProgressStatusValue);
 
-            while (true)
+            while (ThreadFlag)
             {
                 LogForm.SettingMaxValue(MaxValue);     //ここでValueが0になる。
                 ret = LogForm.LogCntUp(ProgressStatusValue);
@@ -1295,6 +1308,11 @@ namespace WpfApp1
                     break;
                 }
             }
+        }
+
+        public void LogMainCancelFlagChanger(Boolean flag)
+        {
+            Cancel_Flag = flag;
         }
 
 
