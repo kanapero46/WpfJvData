@@ -28,5 +28,6 @@
         <TextBox x:Name="Status" Height="197" Margin="10,117,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" AcceptsReturn="True" RenderTransformOrigin="0.5,0.5" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
         <CheckBox x:Name="MasterFlag" Content="" HorizontalAlignment="Left" Margin="411,50,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="ToWeekFlag" Content="" HorizontalAlignment="Left" Margin="386,50,0,0" VerticalAlignment="Top"/>
+        <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="503,48,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click_1"/>
     </Grid>
 </Window>

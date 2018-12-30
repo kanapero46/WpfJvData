@@ -15,6 +15,8 @@ namespace WpfApp1.form
         private int MaxValue = 100;
         private Boolean Cancel_Flag = false;
 
+        MainWindow main = new MainWindow();
+
         public Log()
         {
             InitializeComponent();
@@ -74,7 +76,8 @@ namespace WpfApp1.form
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            Cancel_Flag = true;
+            Cancel_Flag = false;
+            main.LogMainCancelFlagChanger(false);
         }
     }
 }

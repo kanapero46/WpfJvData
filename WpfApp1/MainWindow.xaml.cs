@@ -570,7 +570,7 @@ namespace WpfApp1
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
+            KinnProcess();
         }
 
         /* 実行ボタンを押下したときの処理 */
@@ -615,6 +615,11 @@ namespace WpfApp1
                 StatusWriter();
                 if ((bool)this.MasterFlag.IsChecked) { InitMSTMain(); }
             }
+        }
+
+        public void KinnProcess()
+        {
+                
         }
 
         /** **********************************
@@ -1071,7 +1076,7 @@ namespace WpfApp1
                         case "DM":  /* 対戦型 */
                         case "TM":  /* タイム型 */
                             JV_TMMD.SetDataB(ref buff);
-                            for (int i = 0; i < 18 - 1; i++)
+                            for (int i = 0; i < 18; i++)
                             {
                                 tmp = "";
                                 tmp += JV_TMMD.id.Year + JV_TMMD.id.MonthDay + JV_TMMD.id.JyoCD + JV_TMMD.id.Kaiji +
@@ -1204,7 +1209,7 @@ namespace WpfApp1
                         case "DM":  /* 対戦型 */
                         case "TM":  /* タイム型 */
                             JV_DTMD.SetDataB(ref buff);
-                            for(int i = 0; i < 18 - 1; i++)
+                            for(int i = 0; i < 18; i++)
                             {
                                 tmp = "";
                                 tmp += JV_DTMD.id.Year + JV_DTMD.id.MonthDay + JV_DTMD.id.JyoCD + JV_DTMD.id.Kaiji +
@@ -1315,7 +1320,10 @@ namespace WpfApp1
             Cancel_Flag = flag;
         }
 
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 
     
