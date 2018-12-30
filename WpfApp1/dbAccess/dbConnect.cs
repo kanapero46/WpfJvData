@@ -183,20 +183,20 @@ namespace WpfApp1.dbAccess
          * @OutPrm  int：取得結果　０：失敗・プロセス実行中
          *                      　１：取得成功
          **************************************************/  
-        public int TextReader_aCell(String dtSpec, String Key, String Date, int Kind, ref String srt)
+        public int TextReader_aCell(String dtSpec, String Key, String Date, int Kind, ref String str)
         {
             int ret = 0;
             List<String> ArrayStr = new List<string>();
             ret = ReadCsv(Date, dtSpec, Kind, ref ArrayStr, 2, Key);
 
             /* 取得データなし */
-            if(str.Count == 0)
+            if(ArrayStr.Count == 0)
             {
                 str = "";
                 return 0;
             }
-            
-            str = str[0];
+
+            str = ArrayStr[0];
             return 1;
         }
 
@@ -218,13 +218,13 @@ namespace WpfApp1.dbAccess
             String file;
             int loop = 0;
 
-            if(date == "0")
+            if(Date == "0")
             {
                 file = @"" + dtSpec + "_MST/" + dtSpec + ".csv";
             }
             else
             {
-                file = @"" + dtSpec + "/" + date + "/" + dtSpec + date + ".csv";
+                file = @"" + dtSpec + "/" + Date + "/" + dtSpec + Date + ".csv";
             }
 
             try
@@ -254,9 +254,9 @@ namespace WpfApp1.dbAccess
                             else if(AllData == 1)
                             {
                                  // よこ一列(TextReader_Col)
-                                if (values[0] == key)
+                                if (values[0] == Key)
                                 {
-                                    for(int i = 0; i < values.Count; i++)
+                                    for(int i = 0; i < values.Length; i++)
                                     {
                                         str.Add(values[i]);
                                     }
@@ -266,7 +266,7 @@ namespace WpfApp1.dbAccess
                             else if(AllData == 2)
                             {
                                  // １セルだけ(TextReader_aCell)
-                                if (values[0] == key)
+                                if (values[0] == Key)
                                 {
                                     str.Add(values[Kind]);
                                     return 1;
@@ -278,7 +278,6 @@ namespace WpfApp1.dbAccess
                     }
                     return 1;
                 }
-                return 0;
             }
             catch (System.Exception e)
             {
@@ -325,9 +324,6 @@ namespace WpfApp1.dbAccess
          **************************************************/  
         public int Read_KeyData(String dtSpec, String key, String date, int Kind, ref String tmp)
         {
-
-            TextReader_aCell(date,  )
-
             String file;
             if(date == "0")
             {

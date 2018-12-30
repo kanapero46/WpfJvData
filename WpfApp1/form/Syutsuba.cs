@@ -37,6 +37,9 @@ namespace WpfApp1.form
         const int SE_JOCKEY = 16;
         const int SE_MINARA = 17;
 
+        /* 定数定義 */
+        const int MAX_TOSU = 19;
+
         public Syutsuba()
         {
             InitializeComponent();
@@ -117,7 +120,7 @@ namespace WpfApp1.form
 
             String SE_KEY = DataClass.GET_RA_KEY();
             String tmp = "";
-            List<String> Arraytmp = new List<string>();
+            List<String> Arraytmp;
 
             //RA初回読み込み時にエラーチェック ０もエラー
             if (db.TextReader_aCell("RA", SE_KEY, SE_KEY.Substring(0, 8), 19, ref tmp) != 1)
@@ -131,12 +134,12 @@ namespace WpfApp1.form
             {
                 pHorceClasses = new Class.MainDataHorceClass();
                 String covData = String.Format("{0:00}", i);
+                Arraytmp = new List<string>();
 
 
                 //SE初回読み込み時にエラーチェック ０もエラー
-                if (db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), 0, ref tmp)!=1)
+                if (db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), 0, ref tmp) != 1)
                 {
-                    MessageBox.Show("DB読み込み中にエラーが発生しました。\nファイルが存在しないか、DBファイルが別プロセスで実行中です。");
                     break;
                 }
 
@@ -144,7 +147,7 @@ namespace WpfApp1.form
                 else if (tmp.Substring(0,16) != SE_KEY) { break; }
                 pHorceClasses.KEY1 = tmp;
 
-                if(db.TextReader_Col("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), ref Arraytmp)!=1)
+                if(db.TextReader_Col(SE_KEY.Substring(0, 8), "SE", 0, ref Arraytmp, SE_KEY + covData)!= 1)
                 {
                     break;
                 }
@@ -160,18 +163,21 @@ namespace WpfApp1.form
                 LibJvConvFuncClass.jvSysConvFunction(&CODE, Arraytmp[SE_MINARA], ref tmp);
                 pHorceClasses.MinaraiCd1 = tmp;
 
-/**
-                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_WAKU, ref tmp);
-                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_UMA, ref tmp);
-                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_KETTO, ref tmp);
-                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_NAME, ref tmp);
-                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_FUTAN, ref tmp);
-                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_JOCKEY, ref tmp);
+                /**
+                                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_WAKU, ref tmp);
+                                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_UMA, ref tmp);
+                                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_KETTO, ref tmp);
+                                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_NAME, ref tmp);
+                                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_FUTAN, ref tmp);
+                                db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), SE_JOCKEY, ref tmp);
 */
 
+                Arraytmp = new List<string>();
+
                 /* 血統登録番号からマスタを取得 */
-                if(db.TextReader_Col("UM", pHorceClasses.KettoNum1.ToString(), "0", ref Arraytmp)!=1)
+                if(db.TextReader_Col("0", "UM", 0, ref Arraytmp, pHorceClasses.KettoNum1.ToString())!= 1)
                 {
+                    
                     break;
                 }
 
@@ -203,7 +209,7 @@ namespace WpfApp1.form
                 horceClasses.Add(pHorceClasses);
 
                 /* 書き込み */
-                dataGridView1.Rows.Add(pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.Name1, pHorceClasses.MinaraiCd1,
+                dataGridView1.Rows.Add(pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.Name1, "", "", pHorceClasses.MinaraiCd1,
                     pHorceClasses.Jockey1, pHorceClasses.Futan1 + "kg", "",pHorceClasses.F1, "", pHorceClasses.FM1, "", pHorceClasses.FFM1);
                 
                 switch(pHorceClasses.Waku1)
@@ -242,9 +248,9 @@ namespace WpfApp1.form
                         break;
 
                 }
-                dataGridView1[6, i - 1].Style.BackColor = FuncBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
-                dataGridView1[8, i - 1].Style.BackColor = FuncBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1, null);
-                dataGridView1[10, i - 1].Style.BackColor = FuncBloodColor(pHorceClasses.FFM_NUM1, null, null);
+                dataGridView1[8, i - 1].Style.BackColor = FuncBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
+                dataGridView1[10, i - 1].Style.BackColor = FuncBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1, null);
+                dataGridView1[12, i - 1].Style.BackColor = FuncBloodColor(pHorceClasses.FFM_NUM1, null, null);
 
                 /* プログレスバー更新 */
                 ProgressStatus++;
@@ -299,7 +305,7 @@ namespace WpfApp1.form
             LabelTrack.Text = DataClass.getCourceTrack() + "：" + DataClass.getDistance() + "m";
 
             /* フォントの変更 */
-            dataGridView1.Font = new Font("Meiryo UI", 11);
+            dataGridView1.DefaultCellStyle.Font = new Font("Meiryo UI", 12);
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Meiryo UI", 9);
 
         }
@@ -514,6 +520,137 @@ namespace WpfApp1.form
 
         }
 
+        private void LabelRaceName_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MainWindow main = new MainWindow();
+            DataGridViewColumn column = new DataGridViewColumn();
+            String Date = DataClass.getRaceDate();
+            List<String> tmp = new List<string>();
+            int ret = main.InitRealTimeDataMaining(Date);
+            ret += main.InitRealBattleDataMaining(Date);
+
+            if (ret != 2)
+            {
+                MessageBox.Show("データの取得に失敗しました。");
+                return;
+            }
+
+            db = new dbConnect();
+            //if(db.TextReader_Row(Date, "TM", 4, ref tmp) != 1)
+            //{
+            //    return;
+            //}
+
+            String str = "";
+            String covData;
+            int MaxTimeDM = 0;
+            int MaxBattleDM = 99999;
+            int SecondTimeDM = 0;
+            int SecondBattleDM = 99999;
+            int ThaadTimeDM = 0;
+            int ThaadBattleDM = 99999;
+
+            int Count = 0;
+
+
+
+            dataGridView1.Columns["TM"].Visible = true;
+            dataGridView1.Columns["DM"].Visible = true;
+
+            for (int i = 1; i <= MAX_TOSU; i++)
+            {
+                covData = String.Format("{0:00}", i);
+
+                /* タイム型データマイニング */
+                if (db.TextReader_aCell("TM", DataClass.GET_RA_KEY() + covData, Date, 4, ref str) != 1)
+                {
+                    Count = i;
+                    break;
+                }
+
+                dataGridView1.Rows[i-1].Cells[3].Value = Int32.Parse(str);
+
+                if(MaxTimeDM < Int32.Parse(str))
+                {
+                    SecondTimeDM = MaxTimeDM;
+                    ThaadTimeDM = SecondTimeDM;
+                    MaxTimeDM = Int32.Parse(str);
+                }
+                else if (SecondTimeDM < Int32.Parse(str))
+                {
+                    ThaadTimeDM = SecondTimeDM;
+                    SecondTimeDM = Int32.Parse(str);
+                }
+                else if (ThaadTimeDM < Int32.Parse(str))
+                {
+                    ThaadTimeDM = Int32.Parse(str);
+                }
+
+                /* 対戦型データマイニング */
+                if (db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + covData, Date, 4, ref str) != 1)
+                {
+                    break;
+                }
+
+                dataGridView1.Rows[i - 1].Cells[4].Value = Int32.Parse(str).ToString();
+
+                if (MaxBattleDM > Int32.Parse(str))
+                {
+                    SecondBattleDM = MaxBattleDM;
+                    ThaadBattleDM = SecondBattleDM;
+                    MaxBattleDM = Int32.Parse(str);
+                }
+                else if (SecondBattleDM > Int32.Parse(str))
+                {
+                    ThaadBattleDM = SecondBattleDM;
+                    SecondBattleDM = Int32.Parse(str);
+                }
+                else if (ThaadBattleDM > Int32.Parse(str))
+                {
+                    ThaadBattleDM = Int32.Parse(str);
+                }
+            }
+            
+            /* 表の色付け */
+            for (int j =1; j < Count; j++)
+            {
+                if (MaxTimeDM == (int)dataGridView1.Rows[j - 1].Cells[3].Value)
+                {
+                    dataGridView1[3, j - 1].Style.BackColor = Color.Pink;
+                    
+                }
+                else if(SecondTimeDM == (int)dataGridView1.Rows[j - 1].Cells[3].Value)
+                {
+                    dataGridView1[3, j - 1].Style.BackColor = Color.PowderBlue;
+                }
+                else if (ThaadTimeDM == (int)dataGridView1.Rows[j - 1].Cells[3].Value)
+                {
+                    dataGridView1[3, j - 1].Style.BackColor = Color.LightCyan;
+                }
+
+                if (MaxBattleDM == Int32.Parse(dataGridView1.Rows[j - 1].Cells[4].Value.ToString()))
+                {
+                    dataGridView1[4, j - 1].Style.BackColor = Color.Pink;
+
+                }
+                else if (SecondBattleDM == Int32.Parse(dataGridView1.Rows[j - 1].Cells[4].Value.ToString()))
+                {
+                    dataGridView1[4, j - 1].Style.BackColor = Color.PowderBlue;
+                }
+                else if (ThaadBattleDM == Int32.Parse(dataGridView1.Rows[j - 1].Cells[4].Value.ToString()))
+                {
+                    dataGridView1[4, j - 1].Style.BackColor = Color.LightCyan;
+                }
+            }
+        }
     }
 }
