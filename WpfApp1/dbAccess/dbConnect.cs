@@ -296,17 +296,24 @@ namespace WpfApp1.dbAccess
          **************************************************/ 
         public int DeleteCsv(String dtSpec)
         {
-            String file = @"" + dtSpec + "/";
+            return DeleteCsv(dtSpec, "");
+        }
+
+        public int DeleteCsv(String dtSpec, String filename)
+        {
+            String file = @"" + dtSpec + "/"  + filename;
+
             try
             {
                 Directory.Delete(file, true);
             }
-            catch(IOException ex)
+            catch (IOException ex)
             {
                 Console.WriteLine(ex);
                 return 0;
             }
             return 1;
+
         }
 
         /**************************************************
@@ -321,7 +328,7 @@ namespace WpfApp1.dbAccess
          *          tmp：データ保管場所の参照(ref)
          * @OutPrm  int：取得結果　０：失敗・プロセス実行中
          *                      　１：取得成功
-         **************************************************/  
+         **************************************************/
         public int Read_KeyData(String dtSpec, String key, String date, int Kind, ref String tmp)
         {
             String file;

@@ -89,10 +89,10 @@ namespace WpfApp1
             int op = 2;
             int rdCount = 0;
             int dlCount = 0;
-            String lastStamp = "";
-            //String FromTime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
-            //String WeekDay = DateText.SelectedDate.Value.DayOfWeek.ToString();
-            //String lastStamp = ChgToDate(FromTime, WeekDay) + "000000";
+            //String lastStamp = "";
+            String FromTime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
+            String WeekDay = DateText.SelectedDate.Value.DayOfWeek.ToString();
+            String lastStamp = ChgToDate(FromTime, WeekDay) + "000000";
             ret = JVForm.JvForm_JvOpen("RACE", "00000000000000", op, ref rdCount, ref dlCount, ref lastStamp);
 
             StatusWrite("JVサーバをオープンしています。[" + ret + "]\n");
@@ -104,7 +104,7 @@ namespace WpfApp1
 
                 if (ret != 1)
                 {
-                    StatusWrite("続行不可のエラーが発生しました。\n");
+                    StatusWrite("続行不可のエラーが発生しました。\n" + ret);
                     JVForm.JvForm_JvClose();
                     return 0; /* エラー */
                 }
@@ -115,7 +115,7 @@ namespace WpfApp1
                     /* 2回目の失敗はエラー */
                     if (ret != 0)
                     {
-                        StatusWrite("続行不可のエラーが発生しました。\n");
+                        StatusWrite("続行不可のエラーが発生しました。\n" + ret);
                         JVForm.JvForm_JvClose();
                         return 0; /* エラー */
                     }
@@ -753,6 +753,7 @@ namespace WpfApp1
             String FromTime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
             String WeekDay = DateText.SelectedDate.Value.DayOfWeek.ToString();
             String lastStamp = ChgToDate(FromTime, WeekDay);
+            //String lastStamp = "20181219000000";
             int op = 2;
             int rdCount = 0;
             int dlCount = 0;
@@ -766,7 +767,7 @@ namespace WpfApp1
 
                 if (ret != 1)
                 {
-                    StatusWrite("続行不可のエラーが発生しました。\n");
+                    StatusWrite("続行不可のエラーが発生しました。\n" + ret);
                     JVForm.JvForm_JvClose();
                     return 0; /* エラー */
                 }
@@ -777,7 +778,7 @@ namespace WpfApp1
                     /* 2回目の失敗はエラー */
                     if (ret != 0)
                     {
-                        StatusWrite("続行不可のエラーが発生しました。\n");
+                        StatusWrite("続行不可のエラーが発生しました。\n" + ret);
                         JVForm.JvForm_JvClose();
                         return 0; /* エラー */
                     }
@@ -983,10 +984,10 @@ namespace WpfApp1
 
 
             String FromTime = Date;
-            String f = "yyyyMMddHHmmss";
-            DateTime dateTime = DateTime.ParseExact(FromTime + "000000", f, null);
-            String WeekDay = dateTime.DayOfWeek.ToString();
-            String lastStamp = ChgToDate(FromTime, WeekDay);
+            //String f = "yyyyMMddHHmmss";
+            //DateTime dateTime = DateTime.ParseExact(FromTime + "000000", f, null);
+            //String WeekDay = dateTime.DayOfWeek.ToString();
+            //String lastStamp = ChgToDate(FromTime, WeekDay);
             String Dt = "0B17";
             int op = 1;
             int rdCount = 0;
@@ -1002,7 +1003,7 @@ namespace WpfApp1
 
                 if (ret != 1)
                 {
-                    StatusWrite("続行不可のエラーが発生しました。\n");
+                    StatusWrite("続行不可のエラーが発生しました。\n" + ret);
                     JVForm.JvForm_JvClose();
                     return 0; /* エラー */
                 }
@@ -1013,16 +1014,13 @@ namespace WpfApp1
                     /* 2回目の失敗はエラー */
                     if (ret != 0)
                     {
-                        StatusWrite("続行不可のエラーが発生しました。\n");
+                        StatusWrite("続行不可のエラーが発生しました。\n" + ret);
                         JVForm.JvForm_JvClose();
                         return 0; /* エラー */
                     }
 
                 }
             }
-
-            StatusWrite("DataKind\t" + op + rdCount + dlCount + "\n");
-            StatusWrite("LastStamp\t" + lastStamp + "\n");
 
             /* JvRead用変数の初期化 */
             ret = 1;
@@ -1119,10 +1117,10 @@ namespace WpfApp1
 
 
             String FromTime = Date;
-            String f = "yyyyMMddHHmmss";
-            DateTime dateTime = DateTime.ParseExact(FromTime + "000000", f, null);
-            String WeekDay = dateTime.DayOfWeek.ToString();
-            String lastStamp = ChgToDate(FromTime, WeekDay);
+            //String f = "yyyyMMdd";
+            //DateTime dateTime = DateTime.ParseExact(FromTime + "000000", f, null);
+            //String WeekDay = dateTime.DayOfWeek.ToString();
+            //String lastStamp = ChgToDate(FromTime, WeekDay);
             String Dt = "0B13";
             int op = 1;
             int rdCount = 0;
@@ -1138,7 +1136,7 @@ namespace WpfApp1
 
                 if (ret != 1)
                 {
-                    StatusWrite("続行不可のエラーが発生しました。\n");
+                    StatusWrite("続行不可のエラーが発生しました。\n" + ret);
                     JVForm.JvForm_JvClose();
                     return 0; /* エラー */
                 }
@@ -1149,16 +1147,13 @@ namespace WpfApp1
                     /* 2回目の失敗はエラー */
                     if (ret != 0)
                     {
-                        StatusWrite("続行不可のエラーが発生しました。\n");
+                        StatusWrite("続行不可のエラーが発生しました。\n" + ret);
                         JVForm.JvForm_JvClose();
                         return 0; /* エラー */
                     }
 
                 }
             }
-
-            StatusWrite("DataKind\t" + op + rdCount + dlCount + "\n");
-            StatusWrite("LastStamp\t" + lastStamp + "\n");
 
             /* JvRead用変数の初期化 */
             ret = 1;
@@ -1178,7 +1173,7 @@ namespace WpfApp1
             
             /* DB初期化 */
             db = new dbConnect();
-            db.DeleteCsv("DM");
+            db.DeleteCsv("DM", Date.Substring(0,8) + ".csv");
 
             while (ret >= 1)
             {

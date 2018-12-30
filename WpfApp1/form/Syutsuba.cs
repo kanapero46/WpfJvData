@@ -6,11 +6,14 @@ using System.Data;
 using System.Drawing;   
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WpfApp1.dbAccess;
 using WpfApp1.form;
+using WpfApp1.Properties;
+using Microsoft.VisualBasic;
 
 namespace WpfApp1.form
 {
@@ -33,6 +36,7 @@ namespace WpfApp1.form
         const int SE_UMA = 6;
         const int SE_KETTO = 7;
         const int SE_NAME = 8;
+        const int SE_CODE = 9;
         const int SE_FUTAN = 13;
         const int SE_JOCKEY = 16;
         const int SE_MINARA = 17;
@@ -71,7 +75,11 @@ namespace WpfApp1.form
             DataClass.setDistance(tmp);
 
             CourceColor = Color;
+
+            /* レース情報表示 */
             InitForm();
+
+            /* 競走馬データ */
             InitHorceData();
         }
 
@@ -159,6 +167,10 @@ namespace WpfApp1.form
                 pHorceClasses.Futan1 = Arraytmp[SE_FUTAN].Substring(0,2) + "." + Arraytmp[SE_FUTAN].Substring(2,1);
                 pHorceClasses.Jockey1 = Arraytmp[SE_JOCKEY];
 
+                CODE = LibJvConv.LibJvConvFuncClass.HOUCE_KIND;
+                LibJvConvFuncClass.jvSysConvFunction(&CODE, Arraytmp[SE_CODE], ref tmp);
+                pHorceClasses.UmaKigou1 = tmp;
+
                 CODE = LibJvConv.LibJvConvFuncClass.JOCKEY_MINARAI_CD;
                 LibJvConvFuncClass.jvSysConvFunction(&CODE, Arraytmp[SE_MINARA], ref tmp);
                 pHorceClasses.MinaraiCd1 = tmp;
@@ -209,7 +221,7 @@ namespace WpfApp1.form
                 horceClasses.Add(pHorceClasses);
 
                 /* 書き込み */
-                dataGridView1.Rows.Add(pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.Name1, "", "", pHorceClasses.MinaraiCd1,
+                dataGridView1.Rows.Add(pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.UmaKigou1 + pHorceClasses.Name1, "", "", pHorceClasses.MinaraiCd1,
                     pHorceClasses.Jockey1, pHorceClasses.Futan1 + "kg", "",pHorceClasses.F1, "", pHorceClasses.FM1, "", pHorceClasses.FFM1);
                 
                 switch(pHorceClasses.Waku1)
@@ -269,7 +281,6 @@ namespace WpfApp1.form
 
             this.Text = Int32.Parse(DataClass.getRaceKaiji()) + Cource + Int32.Parse(DataClass.getRaceNichiji()) + " " 
                 + DataClass.getRaceNum() + "R:" +DataClass.getRaceName();
-
             LabelCource.Text = Cource + DataClass.getRaceNum() + "Ｒ";
 
             if (Grade == "一般"||Grade == "特別"||Grade == "")
@@ -533,16 +544,16 @@ namespace WpfApp1.form
         {
             MainWindow main = new MainWindow();
             DataGridViewColumn column = new DataGridViewColumn();
-            String Date = DataClass.getRaceDate();
+            String Date = DataClass.getRaceDate() + DataClass.getRaceCource() + DataClass.getRaceNum();
             List<String> tmp = new List<string>();
             int ret = main.InitRealTimeDataMaining(Date);
             ret += main.InitRealBattleDataMaining(Date);
 
-            if (ret != 2)
-            {
-                MessageBox.Show("データの取得に失敗しました。");
-                return;
-            }
+            //if (ret != 2)
+            //{
+            //    MessageBox.Show("データの取得に失敗しました。");
+            //    return;
+            //}
 
             db = new dbConnect();
             //if(db.TextReader_Row(Date, "TM", 4, ref tmp) != 1)
@@ -561,7 +572,7 @@ namespace WpfApp1.form
 
             int Count = 0;
 
-
+            Date = DataClass.getRaceDate();
 
             dataGridView1.Columns["TM"].Visible = true;
             dataGridView1.Columns["DM"].Visible = true;
@@ -652,5 +663,9 @@ namespace WpfApp1.form
                 }
             }
         }
+
+
     }
+
+
 }

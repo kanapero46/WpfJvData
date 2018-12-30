@@ -40,7 +40,7 @@ namespace WpfApp1.form
 
         public int LogCntUp(int Value)
         {
-            if(progressBar1.Value > Value)
+            if(progressBar1.Maximum < Value ||progressBar1.Value > Value)
             {
                 return -1;
             }

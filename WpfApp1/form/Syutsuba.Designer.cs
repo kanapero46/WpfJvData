@@ -94,7 +94,7 @@
             this.flowLayoutPanel1.Controls.Add(this.LabelCource);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(321, 67);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(286, 67);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // LabelCource
@@ -104,9 +104,9 @@
             this.LabelCource.ForeColor = System.Drawing.SystemColors.HighlightText;
             this.LabelCource.Location = new System.Drawing.Point(3, 0);
             this.LabelCource.Name = "LabelCource";
-            this.LabelCource.Size = new System.Drawing.Size(169, 72);
+            this.LabelCource.Size = new System.Drawing.Size(270, 72);
             this.LabelCource.TabIndex = 0;
-            this.LabelCource.Text = "label1";
+            this.LabelCource.Text = "東京１１Ｒ";
             this.LabelCource.Click += new System.EventHandler(this.LabelCource_Click);
             // 
             // LabelRaceName
@@ -157,7 +157,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.flowLayoutPanel2.Controls.Add(this.LabelRaceName);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(325, 0);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(282, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(600, 32);
             this.flowLayoutPanel2.TabIndex = 5;
@@ -168,21 +168,20 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.flowLayoutPanel3.Controls.Add(this.LabelTrack);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(325, 32);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(282, 32);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(600, 35);
             this.flowLayoutPanel3.TabIndex = 6;
             // 
             // button2
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button2.ForeColor = System.Drawing.Color.Red;
+            this.button2.ForeColor = System.Drawing.Color.Black;
             this.button2.Location = new System.Drawing.Point(12, 569);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 32);
             this.button2.TabIndex = 7;
-            this.button2.Text = "✕";
+            this.button2.Text = "DM取得\r\n";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -208,7 +207,7 @@
             this.Bamei.HeaderText = "馬名";
             this.Bamei.Name = "Bamei";
             this.Bamei.ReadOnly = true;
-            this.Bamei.Width = 300;
+            this.Bamei.Width = 250;
             // 
             // DM
             // 
@@ -291,12 +290,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(1141, 613);
+            this.Controls.Add(this.flowLayoutPanel3);
+            this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.flowLayoutPanel3);
-            this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "Syutsuba";
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
