@@ -58,6 +58,7 @@ namespace WpfApp1.Class
         private String FMM_NUM; //母父父の番号
         private String FF_NUM;  //父父の番号
         private String FFF_NUM; //父父父の番号
+        private String UmaKigou;
         private JV_DATA_RACE_HIST RaceHist;
         
 
@@ -82,5 +83,6 @@ namespace WpfApp1.Class
         public string FF_NUM1 { get => FF_NUM; set => FF_NUM = value; }
         public string FFF_NUM1 { get => FFF_NUM; set => FFF_NUM = value; }
         public string FMM_NUM1 { get => FMM_NUM; set => FMM_NUM = value; }
+        public string UmaKigou1 { get => UmaKigou; set => UmaKigou = value; }
     }
 }

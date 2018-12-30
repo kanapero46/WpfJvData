@@ -25,6 +25,13 @@ namespace WpfApp1.form
             MaxValue = Max;
         }
 
+        /* 初期値に再設定します。 */
+        public void SettingMaxValue(int MaxValue)
+        {
+            progressBar1.Maximum = MaxValue;
+            progressBar1.Value = 0;
+        }
+
         public void InitLogData(int InitValue)
         {
             progressBar1.Maximum = MaxValue;
@@ -33,7 +40,7 @@ namespace WpfApp1.form
 
         public int LogCntUp(int Value)
         {
-            if(progressBar1.Value > Value)
+            if(progressBar1.Maximum < Value ||progressBar1.Value > Value)
             {
                 return -1;
             }
@@ -46,6 +53,11 @@ namespace WpfApp1.form
             }
 
             return 0;
+        }
+
+        public void AddLogMsg(String msg)
+        {
+            
         }
 
         private void Log_Load(object sender, EventArgs e)
