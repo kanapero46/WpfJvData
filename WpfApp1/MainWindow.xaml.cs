@@ -1324,6 +1324,13 @@ namespace WpfApp1
         {
 
         }
+
+        private void ButtonFunction2_Click(object sender, RoutedEventArgs e)
+        {
+            /* 血統ボタン押下イベント */
+            Kettou kettou = new Kettou();
+            kettou.Show();
+        }
     }
 
     
