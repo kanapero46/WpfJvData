@@ -1074,7 +1074,7 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "DM":  /* 対戦型 */
-                        case "TM":  /* タイム型 */
+                        //case "TM":  /* タイム型 */
                             JV_TMMD.SetDataB(ref buff);
                             for (int i = 0; i < 18; i++)
                             {
@@ -1191,7 +1191,7 @@ namespace WpfApp1
             
             /* DB初期化 */
             db = new dbConnect();
-            db.DeleteCsv("DM", Date.Substring(0,8) + ".csv");
+            //db.DeleteCsv("DM", Date.Substring(0,8) + ".csv");
 
             while (ret >= 1)
             {
@@ -1206,7 +1206,7 @@ namespace WpfApp1
 
                     switch (buff.Substring(0, 2))
                     {
-                        case "DM":  /* 対戦型 */
+                        //case "DM":  /* 対戦型 */
                         case "TM":  /* タイム型 */
                             JV_DTMD.SetDataB(ref buff);
                             for(int i = 0; i < 18; i++)

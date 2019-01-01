@@ -549,23 +549,36 @@ namespace WpfApp1.form
             DataGridViewColumn column = new DataGridViewColumn();
             String Date = DataClass.getRaceDate() + DataClass.getRaceCource() + DataClass.getRaceNum();
             List<String> tmp = new List<string>();
-            int ret = main.InitRealTimeDataMaining(Date);
-            ret += main.InitRealBattleDataMaining(Date);
-
-            //if (ret != 2)
-            //{
-            //    MessageBox.Show("データの取得に失敗しました。");
-            //    return;
-            //}
-
-            db = new dbConnect();
-            //if(db.TextReader_Row(Date, "TM", 4, ref tmp) != 1)
-            //{
-            //    return;
-            //}
-
             String str = "";
             String covData;
+            int ret = 0;
+            db = new dbConnect();
+
+            /* タイム型データマイニング */
+            if (db.TextReader_aCell("TM", DataClass.GET_RA_KEY() + "01", DataClass.getRaceDate(), 4, ref str) != 1)
+            {
+                /* データなし */
+                db.DeleteCsv("TM");
+                ret = main.InitRealTimeDataMaining(Date);
+
+                if (ret != 1)
+                {
+                    return;
+                }
+            }
+
+            if(db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + "01", DataClass.getRaceDate(), 4, ref str) != 1)            
+            {
+                /* データなし */
+                db.DeleteCsv("DM");
+                ret = main.InitRealBattleDataMaining(Date);
+
+                if (ret != 1)
+                {
+                    return;
+                }
+            }
+            
             int MaxTimeDM = 0;
             int MaxBattleDM = 99999;
             int SecondTimeDM = 0;
