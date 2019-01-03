@@ -271,7 +271,7 @@ namespace WpfApp1.form
 
             }
             main.LogMainCancelFlagChanger(false);        //スレッド開始処理
-            t.Join();
+           // t.Join();
             t.Abort();
         }
 

@@ -215,6 +215,8 @@ namespace WpfApp1
                             tmp += JV_RACE.TrackCD + ",";
                             tmp += JV_RACE.Kyori + ",";
                             tmp += JV_RACE.TorokuTosu + ",";
+                            tmp += JV_RACE.JyokenInfo.KigoCD + ",";
+                            tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
                             db = new dbConnect((JV_RACE.id.Year + JV_RACE.id.MonthDay), JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             break;
                         case "SE":
@@ -301,6 +303,115 @@ namespace WpfApp1
             }
         }
 
+        public int JvGetRTData(String FromTime)
+        {
+            int ret;
+            String Dt = "0B14";
+
+            JVForm.JvForm_JvInit();
+            ret = JVForm.JvForm_JvRTOpen(Dt, FromTime);
+
+            if(ret != 0)
+            {
+                ret = CheckJvOpenRetErr(ret);
+                if(ret != 1)
+                {
+                    System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー");
+                    return 0;
+                }
+                ret = JVForm.JvForm_JvRTOpen(Dt, FromTime);
+                if(ret != 0)
+                {
+                    System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー2");
+                    return 0;
+                }
+            }
+
+            /* JvRead用変数の初期化 */
+            ret = 1;
+
+            /* ライブラリ用変数 */
+            int DbReturn = 1;
+            String tmp = "";
+
+            String buff = "";
+            int size = 20000;
+            String fname = "";
+
+            /* データを追加するにはここに構造体を追加 */
+            JVData_Struct.JV_WE_WEATHER JV_WEATHER = new JVData_Struct.JV_WE_WEATHER(); //天候馬場状態
+            JVData_Struct.JV_AV_INFO JV_INFO = new JVData_Struct.JV_AV_INFO();          //騎手変更等
+           
+
+            /* DB初期化 */
+            db = new dbConnect();
+            //db.DeleteCsv("TM");
+            db.DeleteCsv("WE", FromTime.Substring(0, 8) + ".csv", false);
+            db.DeleteCsv("AV", FromTime.Substring(0, 8) + ".csv", false);
+
+            while (ret >= 1)
+            {
+                ret = JVForm.JvForm_JvRead(ref buff, out size, out fname);
+
+                if (ret > 0)
+                {
+                    if (buff == "")
+                    {
+                        continue;
+                    }
+
+                    switch (buff.Substring(0, 2))
+                    {
+                        case "WE":
+                            JV_WEATHER.SetDataB(ref buff);
+                            tmp = "";
+                            tmp += JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji + ",";
+                            tmp += JV_WEATHER.TenkoBaba.TenkoCD + ",";
+                            tmp += JV_WEATHER.TenkoBaba.SibaBabaCD + ",";
+                            tmp += JV_WEATHER.TenkoBaba.DirtBabaCD + ",";
+                            db = new dbConnect(JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay, JV_WEATHER.head.RecordSpec, ref tmp, ref DbReturn);
+                            break;
+                        case "AV":
+                            JV_INFO.SetDataB(ref buff);
+                            tmp = "";
+                            tmp += JV_INFO.id.Year + JV_INFO.id.MonthDay + JV_INFO.id.JyoCD + JV_INFO.id.Kaiji + JV_INFO.id.Nichiji + JV_INFO.id.RaceNum + ",";
+                            tmp += JV_INFO.Umaban + ",";
+                            tmp += JV_INFO.head.DataKubun + ",";
+                            tmp += JV_INFO.Bamei + ",";
+                            tmp += JV_INFO.JiyuKubun + ",";
+                            db = new dbConnect(JV_INFO.id.Year + JV_INFO.id.MonthDay, JV_INFO.head.RecordSpec, ref tmp, ref DbReturn);
+                            break;
+                        default:
+                            JVForm.JvForm_JvSkip();
+                            break;
+                    }
+
+                    if (DbReturn == 0)
+                    {
+                        break;
+                    }
+                }
+                else if (ret == 0)
+                {
+                    /* 全ファイルデータ読み込み終了 */
+                    break;
+
+                }
+                else if (ret == -1)
+                {
+                    /* ファイル切り替わり */
+                    ret = 1;
+                    continue;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            JVForm.JvForm_JvClose();
+            return 1;
+        }
 
         private void InitForm()
         {
@@ -1328,7 +1439,9 @@ namespace WpfApp1
         private void ButtonFunction2_Click(object sender, RoutedEventArgs e)
         {
             /* 血統ボタン押下イベント */
-            Kettou kettou = new Kettou();
+            String key = "";
+            mainDataClass.GET_AUTO_RA_KEY(ref key);
+            Kettou kettou = new Kettou(key);
             kettou.Show();
         }
     }

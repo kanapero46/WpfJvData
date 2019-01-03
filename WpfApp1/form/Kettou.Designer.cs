@@ -28,20 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.Date = new System.Windows.Forms.Label();
+            this.Kaisai = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.kaiji = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
+            this.racename = new System.Windows.Forms.Label();
+            this.OldYear = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label13 = new System.Windows.Forms.Label();
+            this.RaceNum = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label16 = new System.Windows.Forms.Label();
@@ -104,34 +104,34 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // Date
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(28, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(170, 19);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "2018年12月23日(日曜)";
+            this.Date.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.Date.AutoSize = true;
+            this.Date.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Date.Location = new System.Drawing.Point(98, 14);
+            this.Date.Name = "Date";
+            this.Date.Size = new System.Drawing.Size(170, 19);
+            this.Date.TabIndex = 0;
+            this.Date.Text = "2018年12月23日(日曜)";
             // 
-            // label2
+            // Kaisai
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(254, 14);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(117, 19);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "第5回中山8日目";
+            this.Kaisai.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.Kaisai.AutoSize = true;
+            this.Kaisai.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Kaisai.Location = new System.Drawing.Point(324, 14);
+            this.Kaisai.Name = "Kaisai";
+            this.Kaisai.Size = new System.Drawing.Size(117, 19);
+            this.Kaisai.TabIndex = 1;
+            this.Kaisai.Text = "第5回中山8日目";
             // 
             // label3
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label3.Location = new System.Drawing.Point(434, 13);
+            this.label3.Location = new System.Drawing.Point(504, 13);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 19);
             this.label3.TabIndex = 2;
@@ -142,7 +142,7 @@
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label4.Location = new System.Drawing.Point(511, 13);
+            this.label4.Location = new System.Drawing.Point(581, 13);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(85, 20);
             this.label4.TabIndex = 3;
@@ -155,10 +155,10 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 46F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 54F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 56F));
             this.tableLayoutPanel1.Controls.Add(this.label7, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(668, 12);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(738, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -182,20 +182,20 @@
             this.label7.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label7.Location = new System.Drawing.Point(51, 1);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(39, 19);
+            this.label7.Size = new System.Drawing.Size(30, 19);
             this.label7.TabIndex = 6;
-            this.label7.Text = "小雪";
+            this.label7.Text = "---";
             // 
-            // label9
+            // kaiji
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label9.Location = new System.Drawing.Point(3, 5);
-            this.label9.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(57, 19);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "第63回";
+            this.kaiji.AutoSize = true;
+            this.kaiji.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.kaiji.Location = new System.Drawing.Point(3, 5);
+            this.kaiji.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.kaiji.Name = "kaiji";
+            this.kaiji.Size = new System.Drawing.Size(57, 19);
+            this.kaiji.TabIndex = 5;
+            this.kaiji.Text = "第63回";
             // 
             // label10
             // 
@@ -210,62 +210,62 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.flowLayoutPanel1.Controls.Add(this.label9);
-            this.flowLayoutPanel1.Controls.Add(this.label11);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(95, 47);
+            this.flowLayoutPanel1.Controls.Add(this.kaiji);
+            this.flowLayoutPanel1.Controls.Add(this.racename);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(165, 47);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(789, 35);
             this.flowLayoutPanel1.TabIndex = 7;
             this.flowLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
             // 
-            // label11
+            // racename
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label11.Location = new System.Drawing.Point(66, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(644, 31);
-            this.label11.TabIndex = 8;
-            this.label11.Text = "２０１８ヤングジョッキーズシリーズファイナルラウンド中山２戦";
+            this.racename.AutoSize = true;
+            this.racename.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.racename.Location = new System.Drawing.Point(66, 0);
+            this.racename.Name = "racename";
+            this.racename.Size = new System.Drawing.Size(644, 31);
+            this.racename.TabIndex = 8;
+            this.racename.Text = "２０１８ヤングジョッキーズシリーズファイナルラウンド中山２戦";
             // 
-            // label12
+            // OldYear
             // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label12.Location = new System.Drawing.Point(3, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(100, 19);
-            this.label12.TabIndex = 8;
-            this.label12.Text = "サラ系3歳以上";
+            this.OldYear.AutoSize = true;
+            this.OldYear.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OldYear.Location = new System.Drawing.Point(3, 0);
+            this.OldYear.Name = "OldYear";
+            this.OldYear.Size = new System.Drawing.Size(100, 19);
+            this.OldYear.TabIndex = 8;
+            this.OldYear.Text = "サラ系3歳以上";
             // 
             // panel1
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panel1.BackColor = System.Drawing.Color.Green;
-            this.panel1.Controls.Add(this.label13);
+            this.panel1.Controls.Add(this.RaceNum);
             this.panel1.Controls.Add(this.label10);
-            this.panel1.Location = new System.Drawing.Point(36, 45);
+            this.panel1.Location = new System.Drawing.Point(106, 45);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(49, 37);
             this.panel1.TabIndex = 9;
             // 
-            // label13
+            // RaceNum
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label13.ForeColor = System.Drawing.Color.White;
-            this.label13.Location = new System.Drawing.Point(-1, 4);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(54, 31);
-            this.label13.TabIndex = 10;
-            this.label13.Text = "10R";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.RaceNum.AutoSize = true;
+            this.RaceNum.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.RaceNum.ForeColor = System.Drawing.Color.White;
+            this.RaceNum.Location = new System.Drawing.Point(-1, 4);
+            this.RaceNum.Name = "RaceNum";
+            this.RaceNum.Size = new System.Drawing.Size(54, 31);
+            this.RaceNum.TabIndex = 10;
+            this.RaceNum.Text = "10R";
+            this.RaceNum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label14.Location = new System.Drawing.Point(144, 0);
+            this.label14.Location = new System.Drawing.Point(143, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(54, 19);
             this.label14.TabIndex = 10;
@@ -278,12 +278,12 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.22481F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.77519F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 228F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this.tableLayoutPanel2.Controls.Add(this.label16, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.label15, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label12, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.OldYear, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.label14, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(41, 88);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(111, 88);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -296,7 +296,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label16.Location = new System.Drawing.Point(517, 0);
+            this.label16.Location = new System.Drawing.Point(515, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(57, 19);
             this.label16.TabIndex = 12;
@@ -306,7 +306,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label15.Location = new System.Drawing.Point(289, 0);
+            this.label15.Location = new System.Drawing.Point(287, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(159, 19);
             this.label15.TabIndex = 12;
@@ -329,7 +329,7 @@
             this.flowLayoutPanel2.Controls.Add(this.label17);
             this.flowLayoutPanel2.Controls.Add(this.label18);
             this.flowLayoutPanel2.Controls.Add(this.label19);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(631, 88);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(701, 88);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(251, 29);
             this.flowLayoutPanel2.TabIndex = 15;
@@ -358,6 +358,8 @@
             // 
             // label35
             // 
+            this.label35.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label35.AutoSize = true;
             this.label35.Font = new System.Drawing.Font("メイリオ", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label35.Location = new System.Drawing.Point(3, 2);
@@ -369,6 +371,7 @@
             // panel2
             // 
             this.panel2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel2.Controls.Add(this.flowLayoutPanel3);
             this.panel2.Controls.Add(this.FFMTypeName);
             this.panel2.Controls.Add(this.FTypeName);
             this.panel2.Controls.Add(this.MMFBooldName);
@@ -381,9 +384,9 @@
             this.panel2.Controls.Add(this.textBox6);
             this.panel2.Controls.Add(this.label35);
             this.panel2.Controls.Add(this.pictureBox1);
-            this.panel2.Location = new System.Drawing.Point(8, 171);
+            this.panel2.Location = new System.Drawing.Point(25, 173);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(824, 267);
+            this.panel2.Size = new System.Drawing.Size(1006, 433);
             this.panel2.TabIndex = 18;
             // 
             // flowLayoutPanel4
@@ -393,7 +396,7 @@
             this.flowLayoutPanel4.BackColor = System.Drawing.Color.SlateGray;
             this.flowLayoutPanel4.Location = new System.Drawing.Point(-4, 118);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(920, 2);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(1060, 2);
             this.flowLayoutPanel4.TabIndex = 35;
             // 
             // tableLayoutPanel3
@@ -403,10 +406,10 @@
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.tableLayoutPanel3.Controls.Add(this.label27, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.label26, 0, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(764, 12);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(834, 12);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -430,9 +433,9 @@
             this.label27.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label27.Location = new System.Drawing.Point(55, 1);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(39, 19);
+            this.label27.Size = new System.Drawing.Size(30, 19);
             this.label27.TabIndex = 6;
-            this.label27.Text = "不良";
+            this.label27.Text = "---";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel4
@@ -476,7 +479,7 @@
             this.tableLayoutPanel4.Controls.Add(this.button21, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.button20, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.button19, 0, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(8, 123);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(79, 123);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -707,9 +710,9 @@
             this.flowLayoutPanel3.Controls.Add(this.textBox3);
             this.flowLayoutPanel3.Controls.Add(this.textBox4);
             this.flowLayoutPanel3.Controls.Add(this.textBox5);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(838, 168);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(7, 293);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(66, 270);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(316, 56);
             this.flowLayoutPanel3.TabIndex = 39;
             // 
             // textBox1
@@ -732,7 +735,7 @@
             this.textBox2.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox2.ForeColor = System.Drawing.SystemColors.ScrollBar;
             this.textBox2.HideSelection = false;
-            this.textBox2.Location = new System.Drawing.Point(3, 52);
+            this.textBox2.Location = new System.Drawing.Point(66, 3);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(57, 43);
@@ -746,7 +749,7 @@
             this.textBox3.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox3.ForeColor = System.Drawing.SystemColors.ScrollBar;
             this.textBox3.HideSelection = false;
-            this.textBox3.Location = new System.Drawing.Point(3, 101);
+            this.textBox3.Location = new System.Drawing.Point(129, 3);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(57, 43);
@@ -760,7 +763,7 @@
             this.textBox4.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox4.ForeColor = System.Drawing.SystemColors.ScrollBar;
             this.textBox4.HideSelection = false;
-            this.textBox4.Location = new System.Drawing.Point(3, 150);
+            this.textBox4.Location = new System.Drawing.Point(192, 3);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
             this.textBox4.Size = new System.Drawing.Size(57, 43);
@@ -774,7 +777,7 @@
             this.textBox5.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox5.ForeColor = System.Drawing.SystemColors.ScrollBar;
             this.textBox5.HideSelection = false;
-            this.textBox5.Location = new System.Drawing.Point(3, 199);
+            this.textBox5.Location = new System.Drawing.Point(255, 3);
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
             this.textBox5.Size = new System.Drawing.Size(57, 43);
@@ -800,10 +803,10 @@
             // BloodHorceName
             // 
             this.BloodHorceName.BackColor = System.Drawing.Color.Transparent;
-            this.BloodHorceName.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.BloodHorceName.Location = new System.Drawing.Point(88, 98);
+            this.BloodHorceName.Font = new System.Drawing.Font("メイリオ", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.BloodHorceName.Location = new System.Drawing.Point(89, 135);
             this.BloodHorceName.Name = "BloodHorceName";
-            this.BloodHorceName.Size = new System.Drawing.Size(250, 32);
+            this.BloodHorceName.Size = new System.Drawing.Size(317, 45);
             this.BloodHorceName.TabIndex = 45;
             this.BloodHorceName.Text = "ブラストワンピース";
             this.BloodHorceName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -813,7 +816,7 @@
             // 
             this.label20.BackColor = System.Drawing.Color.Transparent;
             this.label20.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label20.Location = new System.Drawing.Point(126, 150);
+            this.label20.Location = new System.Drawing.Point(148, 201);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(184, 22);
             this.label20.TabIndex = 46;
@@ -825,7 +828,7 @@
             this.pictureBox1.Image = global::WpfApp1.Properties.Resources.all;
             this.pictureBox1.Location = new System.Drawing.Point(75, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(746, 264);
+            this.pictureBox1.Size = new System.Drawing.Size(927, 349);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 44;
             this.pictureBox1.TabStop = false;
@@ -833,10 +836,10 @@
             // FBooldName
             // 
             this.FBooldName.BackColor = System.Drawing.Color.Transparent;
-            this.FBooldName.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.FBooldName.Location = new System.Drawing.Point(337, 72);
+            this.FBooldName.Font = new System.Drawing.Font("メイリオ", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.FBooldName.Location = new System.Drawing.Point(398, 96);
             this.FBooldName.Name = "FBooldName";
-            this.FBooldName.Size = new System.Drawing.Size(253, 36);
+            this.FBooldName.Size = new System.Drawing.Size(321, 39);
             this.FBooldName.TabIndex = 47;
             this.FBooldName.Text = "ハービンジャー";
             this.FBooldName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -844,10 +847,10 @@
             // BMSHorceName
             // 
             this.BMSHorceName.BackColor = System.Drawing.Color.Transparent;
-            this.BMSHorceName.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.BMSHorceName.Location = new System.Drawing.Point(337, 159);
+            this.BMSHorceName.Font = new System.Drawing.Font("メイリオ", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.BMSHorceName.Location = new System.Drawing.Point(399, 215);
             this.BMSHorceName.Name = "BMSHorceName";
-            this.BMSHorceName.Size = new System.Drawing.Size(253, 36);
+            this.BMSHorceName.Size = new System.Drawing.Size(321, 39);
             this.BMSHorceName.TabIndex = 48;
             this.BMSHorceName.Text = "キングカメハメハ";
             this.BMSHorceName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -855,10 +858,10 @@
             // FFBloodName
             // 
             this.FFBloodName.BackColor = System.Drawing.Color.Transparent;
-            this.FFBloodName.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.FFBloodName.Location = new System.Drawing.Point(580, 17);
+            this.FFBloodName.Font = new System.Drawing.Font("メイリオ", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.FFBloodName.Location = new System.Drawing.Point(713, 26);
             this.FFBloodName.Name = "FFBloodName";
-            this.FFBloodName.Size = new System.Drawing.Size(241, 36);
+            this.FFBloodName.Size = new System.Drawing.Size(275, 36);
             this.FFBloodName.TabIndex = 49;
             this.FFBloodName.Text = "Dansilli";
             this.FFBloodName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -866,10 +869,10 @@
             // BMSType
             // 
             this.BMSType.BackColor = System.Drawing.Color.Transparent;
-            this.BMSType.Font = new System.Drawing.Font("メイリオ", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.BMSType.Location = new System.Drawing.Point(580, 116);
+            this.BMSType.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.BMSType.Location = new System.Drawing.Point(710, 156);
             this.BMSType.Name = "BMSType";
-            this.BMSType.Size = new System.Drawing.Size(241, 36);
+            this.BMSType.Size = new System.Drawing.Size(281, 36);
             this.BMSType.TabIndex = 50;
             this.BMSType.Text = "キングマンボ系";
             this.BMSType.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -877,10 +880,10 @@
             // MMFBooldName
             // 
             this.MMFBooldName.BackColor = System.Drawing.Color.Transparent;
-            this.MMFBooldName.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.MMFBooldName.Location = new System.Drawing.Point(580, 195);
+            this.MMFBooldName.Font = new System.Drawing.Font("メイリオ", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.MMFBooldName.Location = new System.Drawing.Point(707, 261);
             this.MMFBooldName.Name = "MMFBooldName";
-            this.MMFBooldName.Size = new System.Drawing.Size(241, 36);
+            this.MMFBooldName.Size = new System.Drawing.Size(281, 36);
             this.MMFBooldName.TabIndex = 51;
             this.MMFBooldName.Text = "フジキセキ";
             this.MMFBooldName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -889,7 +892,7 @@
             // 
             this.FTypeName.BackColor = System.Drawing.Color.Transparent;
             this.FTypeName.Font = new System.Drawing.Font("メイリオ", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.FTypeName.Location = new System.Drawing.Point(580, 62);
+            this.FTypeName.Location = new System.Drawing.Point(736, 84);
             this.FTypeName.Name = "FTypeName";
             this.FTypeName.Size = new System.Drawing.Size(241, 21);
             this.FTypeName.TabIndex = 52;
@@ -900,7 +903,7 @@
             // 
             this.FFMTypeName.BackColor = System.Drawing.Color.Transparent;
             this.FFMTypeName.Font = new System.Drawing.Font("メイリオ", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.FFMTypeName.Location = new System.Drawing.Point(580, 234);
+            this.FFMTypeName.Location = new System.Drawing.Point(729, 312);
             this.FFMTypeName.Name = "FFMTypeName";
             this.FFMTypeName.Size = new System.Drawing.Size(241, 21);
             this.FFMTypeName.TabIndex = 53;
@@ -912,8 +915,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(916, 450);
-            this.Controls.Add(this.flowLayoutPanel3);
+            this.ClientSize = new System.Drawing.Size(1056, 543);
             this.Controls.Add(this.tableLayoutPanel4);
             this.Controls.Add(this.tableLayoutPanel3);
             this.Controls.Add(this.flowLayoutPanel4);
@@ -924,8 +926,8 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.Kaisai);
+            this.Controls.Add(this.Date);
             this.Controls.Add(this.panel2);
             this.Name = "Kettou";
             this.Text = "Kettou";
@@ -955,20 +957,20 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label Date;
+        private System.Windows.Forms.Label Kaisai;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label kaiji;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label racename;
+        private System.Windows.Forms.Label OldYear;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label RaceNum;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label16;

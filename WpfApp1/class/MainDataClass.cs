@@ -58,6 +58,47 @@ namespace WpfApp1.Class
         private String Distance;
         public String getDistance() { return Distance; }
         public void setDistance(String inParam) { this.Distance = inParam; }
+        
+        //曜日
+        private String WeekDay;
+        public String getWeekDay() { return WeekDay; }
+        public void setWeekDay(String inParam) { this.WeekDay = inParam; }
+
+        //出走年齢
+        private String OldYear;
+        public String getOldYear() { return OldYear; }
+        public void setOldYear(String inParam) { this.OldYear = inParam; }
+
+        //クラス
+        private String RaceClass;
+        public String getRaceClass() { return RaceClass; }
+        public void setRaceClass(String inParam) { this.RaceClass = inParam; }
+
+        //第○回
+        private int RaceGradeKai;
+        public int getRaceGradeKai() { return RaceGradeKai; }
+        public void setRaceGradeKai(String inParam)
+        {
+            try
+            {
+                this.RaceGradeKai = Int32.Parse(inParam);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        //競走記号
+        private String RaceKindKigo;
+        public String getRaceKindKigo() { return RaceKindKigo; }
+        public void setRaceKindKigo(String inParam) { this.RaceKindKigo = inParam; }
+
+        //重量コード
+        private String RaceHandCap;
+        public String getRaceHandCap() { return RaceHandCap; }
+        public void setRaceHandCap(String inParam) { this.RaceHandCap = inParam; }
+
 
         //RAキーの自動生成
         public int GET_AUTO_RA_KEY(ref String inParam)
@@ -69,6 +110,27 @@ namespace WpfApp1.Class
 
             inParam = RaceDate + RaceCource + RaceKaiji + RaceNichiji + RaceNum;
             return 1;
+        }
+
+        //TextReader_Rowから読み込んだ配列からデータ・セット
+        public void setData(ref List<String> inParam)
+        {
+            RA_key = inParam[0];
+            RaceDate = inParam[1];
+            RaceCource = inParam[2];
+            RaceKaiji = inParam[3];
+            RaceNichiji = inParam[4];
+            RaceNum = inParam[5];
+            WeekDay = inParam[6];
+            RaceName = inParam[7];
+            OldYear = inParam[13];
+            RaceClass = inParam[14];
+            RaceGradeKai = Int32.Parse(inParam[15]);
+            RaceGrade = inParam[16];
+            CourceTrack = inParam[17];
+            Distance = inParam[18];
+            RaceKindKigo = inParam[20];
+            RaceHandCap = inParam[21];
         }
     }
 }
