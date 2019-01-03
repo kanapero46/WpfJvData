@@ -207,6 +207,17 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Horce.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Horce.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="B1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="all.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
