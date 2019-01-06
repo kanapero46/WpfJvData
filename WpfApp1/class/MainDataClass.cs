@@ -99,6 +99,12 @@ namespace WpfApp1.Class
         public String getRaceHandCap() { return RaceHandCap; }
         public void setRaceHandCap(String inParam) { this.RaceHandCap = inParam; }
 
+        //発走時間
+        private String RaceStartTime;
+        public String getRaceStartTime() { return RaceStartTime; }
+        public void setRaceStartTime(String inParam) { this.RaceStartTime = inParam; }
+
+
 
         //RAキーの自動生成
         public int GET_AUTO_RA_KEY(ref String inParam)
@@ -131,6 +137,7 @@ namespace WpfApp1.Class
             Distance = inParam[18];
             RaceKindKigo = inParam[20];
             RaceHandCap = inParam[21];
+            RaceStartTime = inParam[22];
         }
     }
 }

@@ -194,6 +194,13 @@ namespace WpfApp1
                             if (JV_RACE.RaceInfo.Hondai.Trim() == "")
                             {
                                 LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.JyokenInfo.SyubetuCD + JV_RACE.JyokenInfo.JyokenCD[4], ref LibTmp);
+                                if(JV_RACE.JyokenInfo.JyokenCD[4] == "701")
+                                {
+                                    CODE = LibJvConvFuncClass.COURCE_CODE;
+                                    LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.id.JyoCD, ref LibTmp);
+                                    LibTmp = "メイクデビュー" + LibTmp;
+                                }
+
                                 tmp += LibTmp;
                             }
                             else
@@ -217,6 +224,7 @@ namespace WpfApp1
                             tmp += JV_RACE.TorokuTosu + ",";
                             tmp += JV_RACE.JyokenInfo.KigoCD + ",";
                             tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
+                            tmp += JV_RACE.HassoTime + ",";
                             db = new dbConnect((JV_RACE.id.Year + JV_RACE.id.MonthDay), JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             break;
                         case "SE":
@@ -309,6 +317,8 @@ namespace WpfApp1
             String Dt = "0B14";
 
             JVForm.JvForm_JvInit();
+            JVForm.JvForm_JVWatchEvent();   //速報系イベントスレッド起動
+
             ret = JVForm.JvForm_JvRTOpen(Dt, FromTime);
 
             if(ret != 0)
@@ -346,7 +356,7 @@ namespace WpfApp1
             /* DB初期化 */
             db = new dbConnect();
             //db.DeleteCsv("TM");
-            db.DeleteCsv("WE", FromTime.Substring(0, 8) + ".csv", false);
+            db.DeleteCsv("WE", FromTime.Substring(0, 8) + ".csv", true);
             db.DeleteCsv("AV", FromTime.Substring(0, 8) + ".csv", false);
 
             while (ret >= 1)
@@ -369,6 +379,7 @@ namespace WpfApp1
                             tmp += JV_WEATHER.TenkoBaba.TenkoCD + ",";
                             tmp += JV_WEATHER.TenkoBaba.SibaBabaCD + ",";
                             tmp += JV_WEATHER.TenkoBaba.DirtBabaCD + ",";
+                            tmp += JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute + ",";
                             db = new dbConnect(JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay, JV_WEATHER.head.RecordSpec, ref tmp, ref DbReturn);
                             break;
                         case "AV":
@@ -381,6 +392,9 @@ namespace WpfApp1
                             tmp += JV_INFO.JiyuKubun + ",";
                             db = new dbConnect(JV_INFO.id.Year + JV_INFO.id.MonthDay, JV_INFO.head.RecordSpec, ref tmp, ref DbReturn);
                             break;
+                        case "TC":
+                            break;
+
                         default:
                             JVForm.JvForm_JvSkip();
                             break;
@@ -409,6 +423,7 @@ namespace WpfApp1
                 }
             }
 
+            JVForm.JvForm_JVWatchEventClose();     //速報系スレッドの終了
             JVForm.JvForm_JvClose();
             return 1;
         }

@@ -78,12 +78,91 @@ namespace WpfApp1.form
         }
 
         /* フォーム読み込み処理 */
-        private void Kettou_Load(object sender, EventArgs e)
+        unsafe private void Kettou_Load(object sender, EventArgs e)
         {
-            InitRaceInfo(); //レース情報
-            int ret = main.JvGetRTData(raceData.getRaceDate() + raceData.getRaceCource() + raceData.getRaceNum()); //速報データ取得
+            int ret;
+            String Key;
+            InitRaceInfo(); //レース情報(SetData)
+
+            Key = raceData.getRaceDate() + raceData.getRaceCource() + raceData.getRaceKaiji() + raceData.getRaceNichiji();
+            ret = main.JvGetRTData(raceData.getRaceDate()); //速報データ取得
+            InitTrackStatusInfo(Key);  //馬場状態書き込み
+            SetFormDataWriter();
+
+
+        }
+
+        unsafe private void InitTrackStatusInfo(String Key)
+        {
+            int LibCode;
+            int GetKind;
+            int ret;
+            String tmp = "";
+            List<String> str = new List<string>();
+            String Track = raceData.getCourceTrack();
+            LibCode = LibJvConvFuncClass.TRACK_CODE_SHORT;
+            LibJvConvFuncClass.jvSysConvFunction(&LibCode, Track, ref tmp);
+
+            if (tmp == "")
+            {
+                return;
+            }
+
+            GetKind = (tmp == "芝" ? 2 : 3);
+
             //競走馬情報
-            //データ書き込み
+
+            tmp = "";
+            ret = db.TextReader_Col(raceData.getRaceDate(), "WE", 1, ref str, Key);
+            if (ret != 1 || str.Count() == 0)
+            {
+                weLabel.Text = "---";
+                TrackDistance.Text = "---";
+                HappyoTime.Text = "発表前";
+            }
+            else
+            {
+                LibCode = 2011;
+                LibJvConvFuncClass.jvSysConvFunction(&LibCode, str[1], ref tmp);
+                weLabel.Text = tmp;
+
+                HappyoTime.Text = ConvertDateToLongDate(str[4]);
+
+                if (str[4] == "000000")
+                {
+                    HappyoTime.Text = "発売前時点";
+                }
+                else
+                {
+                    HappyoTime.Text = ConvertDateToLongDate(str[4]);
+                }
+
+
+                LibCode = 2010;
+                LibJvConvFuncClass.jvSysConvFunction(&LibCode, str[GetKind], ref tmp);
+                TrackDistance.Text = tmp;
+
+            }
+
+
+            TrackLabel.Text = (GetKind == 2 ? "芝" : "ダート");
+
+            LibCode = 2007;
+            LibJvConvFuncClass.jvSysConvFunction(&LibCode, raceData.getRaceClass(), ref tmp);
+            ClassLabel.Text = tmp;
+
+            LibCode = 2006;
+            LibJvConvFuncClass.jvSysConvFunction(&LibCode, raceData.getRaceKindKigo(), ref tmp);
+            KigoLabel.Text = tmp;
+
+            DistanceLabel.Text = raceData.getDistance();
+
+            LibCode = LibJvConvFuncClass.TRACK_CODE;
+            LibJvConvFuncClass.jvSysConvFunction(&LibCode, raceData.getCourceTrack(), ref tmp);
+            TrackNameLabel.Text = tmp;
+
+
+
         }
 
         private int InitRaceInfo()
@@ -104,9 +183,9 @@ namespace WpfApp1.form
             if (!(raceData.getRaceGrade() == "" || raceData.getRaceGrade() == "特別" || raceData.getRaceGrade() == "一般"))
             {
                 /* 重賞レースの場合、レース名に加える */
-                raceData.setRaceName(tmp[6] + "(" + tmp[15] + ")");
+                raceData.setRaceName(tmp[7] + "(" + tmp[16] + ")");
             }
-
+            racename.Text = raceData.getRaceName();
             return 1;
         }
 
@@ -121,14 +200,14 @@ namespace WpfApp1.form
 
             Code = LibJvConvFuncClass.COURCE_CODE;
             LibJvConvFuncClass.jvSysConvFunction(&Code, raceData.getRaceCource(), ref LibTmp);
-            this.Kaisai.Text = "第" + raceData.getRaceKaiji() + "回" + LibTmp + raceData.getRaceNichiji() + "日目";
+            this.Kaisai.Text = "第" + Int32.Parse(raceData.getRaceKaiji()) + "回" + LibTmp + Int32.Parse(raceData.getRaceNichiji()) + "日目";
 
             RaceNum.Text = (raceData.getRaceNum().Length ==　1 ? " " : "");
             RaceNum.Text += raceData.getRaceNum() + "R";
 
-            if(raceData.getRaceKaiji() != "")
+            if(raceData.getRaceGradeKai() != 0)
             {
-                this.kaiji.Text = "第" + raceData.getRaceKaiji() + "回";
+                this.kaiji.Text = "第" + raceData.getRaceGradeKai() + "回";
             }
             else
             {
@@ -137,9 +216,14 @@ namespace WpfApp1.form
 
             this.racename.Text = raceData.getRaceName();
 
-            Code = 2005;
+            LibTmp = "";
+            Code = LibJvConvFuncClass.RACE_SHUBETSU_LONG_CODE;
             LibJvConvFuncClass.jvSysConvFunction(&Code, raceData.getOldYear(), ref LibTmp);
             this.OldYear.Text = LibTmp;
+
+            //発走時間
+            this.label4.Text = raceData.getRaceStartTime().Substring(0, 2) + "時" + raceData.getRaceStartTime().Substring(2, 2) + "分";
+
 
         }
 
@@ -155,7 +239,12 @@ namespace WpfApp1.form
 
         private String ConvertDateToDate(String Date)
         {
-            return Date.Substring(0, 4) + "年" + Int32.Parse(Date.Substring(5, 2)) + "月" + Int32.Parse(Date.Substring(7, 2)) + "日";
+            return Date.Substring(0, 4) + "年" + Int32.Parse(Date.Substring(4, 2)) + "月" + Int32.Parse(Date.Substring(6, 2)) + "日";
+        }
+
+        private String ConvertDateToLongDate(String DateTime)
+        {
+            return Int32.Parse(DateTime.Substring(0,2)) + "月" + Int32.Parse(DateTime.Substring(2,2)) + "日 " + Int32.Parse(DateTime.Substring(4, 2)) + "時" + Int32.Parse(DateTime.Substring(6, 2)) + "分";
         }
     }
 }

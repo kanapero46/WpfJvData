@@ -47,6 +47,16 @@ namespace WpfApp1
             JvLinkClass.JVSkip();
         }
 
+        public int JvForm_JVWatchEvent()
+        {
+            return (JvLinkClass.JVWatchEvent());
+        }
+
+        public int JvForm_JVWatchEventClose()
+        {
+            return (JvLinkClass.JVWatchEventClose());
+        }
+
         private void JVForm_Load(object sender, EventArgs e)
         {
 
