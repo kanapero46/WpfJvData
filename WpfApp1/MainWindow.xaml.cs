@@ -347,6 +347,7 @@ namespace WpfApp1
             String buff = "";
             int size = 20000;
             String fname = "";
+            Boolean Flag = false;
 
             /* データを追加するにはここに構造体を追加 */
             JVData_Struct.JV_WE_WEATHER JV_WEATHER = new JVData_Struct.JV_WE_WEATHER(); //天候馬場状態
@@ -376,26 +377,35 @@ namespace WpfApp1
                     {
                         case "WE":
                             JV_WEATHER.SetDataB(ref buff);
+                            tmp = JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji;
                             //tmp = "";
                             //tmp += JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji + ",";
                             //tmp += JV_WEATHER.TenkoBaba.TenkoCD + ",";
                             //tmp += JV_WEATHER.TenkoBaba.SibaBabaCD + ",";
                             //tmp += JV_WEATHER.TenkoBaba.DirtBabaCD + ",";
                             //tmp += JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute + ",";
-                            for(int i=0; i < WCstatus.Count(); i++)
+                            Flag = false;
+                            for (int i=0; i < WCstatus.Count(); i++)
                             {
-                                if (WCstatus[i].Key == JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD)
+                                if (WCstatus[i].Key == tmp)
                                 {
-                                    WCstatus[i].SetAllStatus(JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji,
+                                    WCstatus[i].SetAllStatus(tmp,
                                         JV_WEATHER.TenkoBaba.TenkoCD, JV_WEATHER.TenkoBaba.SibaBabaCD, JV_WEATHER.TenkoBaba.DirtBabaCD,
                                         JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute);
-                                    continue;   //次のループへ
+                                    Flag = true;
+                                    break;   //次のループへ
                                 }
                             }
-                            //ここに来たらデータなしのため配列を作成
-                            WCstatus[WCstatus.Count()].SetAllStatus(JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji,
-                                        JV_WEATHER.TenkoBaba.TenkoCD, JV_WEATHER.TenkoBaba.SibaBabaCD, JV_WEATHER.TenkoBaba.DirtBabaCD,
-                                        JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute);
+
+                            if(Flag == false)
+                            {
+                                //ここに来たらデータなしのため配列を作成
+                                WeatherCourceStatus tmpClass = new WeatherCourceStatus();
+                                tmpClass.SetAllStatus(tmp,
+                                            JV_WEATHER.TenkoBaba.TenkoCD, JV_WEATHER.TenkoBaba.SibaBabaCD, JV_WEATHER.TenkoBaba.DirtBabaCD,
+                                            JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute);
+                                WCstatus.Add(tmpClass);
+                            }
                            
                             break;
                         case "AV":

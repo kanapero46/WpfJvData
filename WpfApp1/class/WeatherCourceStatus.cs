@@ -23,10 +23,8 @@ namespace WpfApp1.Class
 
         public void SetAllStatus(String Key, String Weather, String Turf, String Dirt, String Time)
         {
-            if(key != Key)
-            {
-                return;
-            }
+
+            key = Key;
 
             if(Weather != "0")
             {
@@ -73,3 +71,4 @@ namespace WpfApp1.Class
 
     }
 }
+#endregion
