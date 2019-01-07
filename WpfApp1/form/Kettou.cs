@@ -128,7 +128,7 @@ namespace WpfApp1.form
 
                 HappyoTime.Text = ConvertDateToLongDate(str[4]);
 
-                if (str[4] == "000000")
+                if (str[4] == "00000000")
                 {
                     HappyoTime.Text = "発売前時点";
                 }
