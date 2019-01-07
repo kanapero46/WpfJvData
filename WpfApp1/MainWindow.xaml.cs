@@ -351,8 +351,10 @@ namespace WpfApp1
             /* データを追加するにはここに構造体を追加 */
             JVData_Struct.JV_WE_WEATHER JV_WEATHER = new JVData_Struct.JV_WE_WEATHER(); //天候馬場状態
             JVData_Struct.JV_AV_INFO JV_INFO = new JVData_Struct.JV_AV_INFO();          //騎手変更等
-           
 
+            /* 天候馬場状態用配列宣言 */
+            List<WeatherCourceStatus> WCstatus = new List<WeatherCourceStatus>();
+                       
             /* DB初期化 */
             db = new dbConnect();
             //db.DeleteCsv("TM");
@@ -374,13 +376,27 @@ namespace WpfApp1
                     {
                         case "WE":
                             JV_WEATHER.SetDataB(ref buff);
-                            tmp = "";
-                            tmp += JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji + ",";
-                            tmp += JV_WEATHER.TenkoBaba.TenkoCD + ",";
-                            tmp += JV_WEATHER.TenkoBaba.SibaBabaCD + ",";
-                            tmp += JV_WEATHER.TenkoBaba.DirtBabaCD + ",";
-                            tmp += JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute + ",";
-                            db = new dbConnect(JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay, JV_WEATHER.head.RecordSpec, ref tmp, ref DbReturn);
+                            //tmp = "";
+                            //tmp += JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji + ",";
+                            //tmp += JV_WEATHER.TenkoBaba.TenkoCD + ",";
+                            //tmp += JV_WEATHER.TenkoBaba.SibaBabaCD + ",";
+                            //tmp += JV_WEATHER.TenkoBaba.DirtBabaCD + ",";
+                            //tmp += JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute + ",";
+                            for(int i=0; i < WCstatus.Count(); i++)
+                            {
+                                if (WCstatus[i].Key == JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD)
+                                {
+                                    WCstatus[i].SetAllStatus(JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji,
+                                        JV_WEATHER.TenkoBaba.TenkoCD, JV_WEATHER.TenkoBaba.SibaBabaCD, JV_WEATHER.TenkoBaba.DirtBabaCD,
+                                        JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute);
+                                    continue;   //次のループへ
+                                }
+                            }
+                            //ここに来たらデータなしのため配列を作成
+                            WCstatus[WCstatus.Count()].SetAllStatus(JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji,
+                                        JV_WEATHER.TenkoBaba.TenkoCD, JV_WEATHER.TenkoBaba.SibaBabaCD, JV_WEATHER.TenkoBaba.DirtBabaCD,
+                                        JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute);
+                           
                             break;
                         case "AV":
                             JV_INFO.SetDataB(ref buff);
@@ -396,7 +412,7 @@ namespace WpfApp1
                             break;
 
                         default:
-                            JVForm.JvForm_JvSkip();
+                            //JVForm.JvForm_JvSkip();
                             break;
                     }
 
@@ -422,6 +438,22 @@ namespace WpfApp1
                     break;
                 }
             }
+
+            /* DBに書き込み */
+            String Key;
+            //天候馬場状態書き込み
+            for(int j=0; j < WCstatus.Count(); j++)
+            {
+                Key = WCstatus[j].Key + "," + WCstatus[j].Weather + "," + WCstatus[j].Turf + "," + WCstatus[j].Dirt + "," +
+                     WCstatus[j].LatestTime + ",";
+                db = new dbConnect(WCstatus[j].Key.Substring(0, 8), "WE", ref Key, ref DbReturn);
+
+                if (DbReturn != 1)
+                {
+                    return 0;
+                }
+            }
+
 
             JVForm.JvForm_JVWatchEventClose();     //速報系スレッドの終了
             JVForm.JvForm_JvClose();

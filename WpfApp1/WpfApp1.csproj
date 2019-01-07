@@ -74,6 +74,7 @@
     <Compile Include="class\HorceProgramClass.cs" />
     <Compile Include="class\MainDataClass.cs" />
     <Compile Include="class\MainDataHorceClass.cs" />
+    <Compile Include="class\WeatherCourceStatus.cs" />
     <Compile Include="dbAccess\dbConnect.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

@@ -38,6 +38,7 @@ namespace WpfApp1.form
 
         public void InitLogData(int InitValue)
         {
+            if(InitValue > MaxValue) { return; }
             progressBar1.Maximum = MaxValue;
             progressBar1.Value = InitValue;
         }
