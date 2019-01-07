@@ -1501,6 +1501,11 @@ namespace WpfApp1
             Kettou kettou = new Kettou(key);
             kettou.Show();
         }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 
     
