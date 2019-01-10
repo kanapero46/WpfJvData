@@ -239,6 +239,7 @@ namespace WpfApp1.dbAccess
                         var line = sr.ReadLine();
                         // 読み込んだ一行をカンマ毎に分けて配列に格納する
                         var values = line.Split(',');
+<<<<<<< HEAD
 
                         //先頭が#から始まる場合は読み込み対象外：ファイル情報などを記載
                         if (values[0].Substring(0, 1) == "#")
@@ -246,6 +247,15 @@ namespace WpfApp1.dbAccess
                             continue;
                         }
 
+=======
+                        
+                        //先頭が#から始まる場合は読み込み対象外：ファイル情報などを記載
+                        if(values[0].Substring(0,1) == "#")
+                        {
+							continue;
+						}
+                        
+>>>>>>> 84141b7c147079c06f080e86dfb695ba84f0f7a8
                         // 出力する
                         foreach (String value in values)
                         {

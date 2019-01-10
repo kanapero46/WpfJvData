@@ -10,33 +10,33 @@ namespace WpfApp1.Class
     {
         public struct JV_DATA_RACE_HIST
         {
-            public String RA_KEY;
-            public String RaceName;
-            public String RaceName10;
-            public String Grade;
-            public String Track;
-            public String Distance;
-            public int Tousuu;
-            public String Weather;
-            public String BabaStat;
-            public String LapTime;
-            public String Last3f;
-            public String Courner;
-            public String SE_KEY;
-            public int Umaban;
-            public String KettouNum;
-            public String Futan;
-            public String Jockey;
-            public int Bataiju;
-            public String ZougenCD;
-            public String Diff;
-            public String Rank;
-            public String Time;
-            public String CounerRank;
-            public int TansyoRank;
-            public String MyLast3f;
-            public String Aiteuma;
-            public String TimeDiff;       
+            private String rA_KEY;
+            private String raceName;
+            private String raceName10;
+            private String grade;
+            private String track;
+            private String distance;
+            private int tousuu;
+            private String weather;
+            private String babaStat;
+            private String lapTime;
+            private String last3f;
+            private String courner;
+            private String sE_KEY;
+            private int umaban;
+            private String kettouNum;
+            private String futan;
+            private String jockey;
+            private int bataiju;
+            private String zougenCD;
+            private String diff;
+            private String rank;
+            private String time;
+            private String counerRank;
+            private int tansyoRank;
+            private String myLast3f;
+            private String aiteuma;
+            private String timeDiff;
         };
 
         
