@@ -79,6 +79,7 @@ namespace WpfApp1.form
             int ret;
             String Key;
             InitRaceInfo(); //レース情報(SetData)
+            DisableButtoninNum();
 
             Key = raceData.getRaceDate() + raceData.getRaceCource() + raceData.getRaceKaiji() + raceData.getRaceNichiji();
             ret = main.JvGetRTData(raceData.getRaceDate()); //速報データ取得
@@ -246,7 +247,7 @@ namespace WpfApp1.form
                     break;
                 }
                 All++;
-
+                EnableButtoninNum(All);
                 horceData.SetSEData(LibArray);
 
             }
@@ -261,26 +262,51 @@ namespace WpfApp1.form
         {
             switch(num)
             {
-                case 1: u1.Enabled = true; break;
-                case 2: button27.Enabled = true; break;
-                case 3: u3.Enabled = true; break;
-                case 4: u4.Enabled = true; break;
-                case 5: u5.Enabled = true; break;
-                case 6: u6.Enabled = true; break;
-                case 7: u7.Enabled = true; break;
-                case 8: u8.Enabled = true; break;
-                case 9: u9.Enabled = true; break;
-                case 10: u10.Enabled = true; break;
-                case 11: u11.Enabled = true; break;
-                case 12: u12.Enabled = true; break;
-                case 13: u13.Enabled = true; break;
-                case 14: u14.Enabled = true; break;
-                case 15: u15.Enabled = true; break;
-                case 16: u16.Enabled = true; break;
-                case 17: u17.Enabled = true; break;
-                case 18: u18.Enabled = true; break;
+                case 1: u1.Visible = true; break;
+                case 2: button24.Visible = true; break;
+                case 3: button27.Visible = true; break;
+                case 4: button26.Visible = true; break;
+                case 5: button23.Visible = true; break;
+                case 6: button20.Visible = true; break;
+                case 7: button19.Visible = true; break;
+                case 8: button22.Visible = true; break;
+                case 9: button21.Visible = true; break;
+                case 10: button35.Visible = true; break;
+                case 11: button34.Visible = true; break;
+                case 12: button1.Visible = true; break;
+                case 13: button36.Visible = true; break;
+                case 14: button33.Visible = true; break;
+                case 15: button29.Visible = true; break;
+                case 16: button28.Visible = true; break;
+                case 17: button32.Visible = true; break;
+                case 18: button31.Visible = true; break;
                 default: break;
             }
+        }
+        #endregion
+
+        #region 馬番ボタン無効
+        private void DisableButtoninNum()
+        {
+               u1.Visible = false;       
+               button24.Visible = false; 
+               button27.Visible = false; 
+               button26.Visible = false; 
+               button23.Visible = false; 
+               button20.Visible = false; 
+               button19.Visible = false; 
+               button22.Visible = false; 
+               button21.Visible = false; 
+                button35.Visible = false;
+                button34.Visible = false;
+                button1.Visible = false; 
+                button36.Visible = false;
+                button33.Visible = false;
+                button29.Visible = false;
+                button28.Visible = false;
+                button32.Visible = false;
+                button31.Visible = false;
+
         }
         #endregion 
 

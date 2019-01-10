@@ -160,7 +160,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 129F));
             this.tableLayoutPanel1.Controls.Add(this.weLabel, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1599, 24);
@@ -293,7 +293,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.22481F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.77519F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 494F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 169F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
             this.tableLayoutPanel2.Controls.Add(this.label16, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.KigoLabel, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.OldYear, 0, 0);
@@ -312,7 +312,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label16.Location = new System.Drawing.Point(1111, 0);
+            this.label16.Location = new System.Drawing.Point(1110, 0);
             this.label16.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(115, 38);
@@ -323,7 +323,7 @@
             // 
             this.KigoLabel.AutoSize = true;
             this.KigoLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.KigoLabel.Location = new System.Drawing.Point(617, 0);
+            this.KigoLabel.Location = new System.Drawing.Point(616, 0);
             this.KigoLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.KigoLabel.Name = "KigoLabel";
             this.KigoLabel.Size = new System.Drawing.Size(317, 38);
@@ -656,7 +656,7 @@
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 108F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 123F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 124F));
             this.tableLayoutPanel3.Controls.Add(this.TrackDistance, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.TrackLabel, 0, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(1807, 24);
@@ -750,7 +750,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(94, 72);
             this.button1.TabIndex = 19;
-            this.button1.Text = "17";
+            this.button1.Text = "12";
             this.button1.UseVisualStyleBackColor = false;
             // 
             // button36
@@ -763,7 +763,7 @@
             this.button36.Name = "button36";
             this.button36.Size = new System.Drawing.Size(94, 72);
             this.button36.TabIndex = 18;
-            this.button36.Text = "1";
+            this.button36.Text = "13";
             this.button36.UseVisualStyleBackColor = false;
             // 
             // button35
@@ -776,7 +776,7 @@
             this.button35.Name = "button35";
             this.button35.Size = new System.Drawing.Size(94, 72);
             this.button35.TabIndex = 17;
-            this.button35.Text = "1";
+            this.button35.Text = "10";
             this.button35.UseVisualStyleBackColor = false;
             // 
             // button34
@@ -789,7 +789,7 @@
             this.button34.Name = "button34";
             this.button34.Size = new System.Drawing.Size(94, 72);
             this.button34.TabIndex = 16;
-            this.button34.Text = "1";
+            this.button34.Text = "11";
             this.button34.UseVisualStyleBackColor = false;
             // 
             // button33
@@ -802,7 +802,7 @@
             this.button33.Name = "button33";
             this.button33.Size = new System.Drawing.Size(94, 72);
             this.button33.TabIndex = 15;
-            this.button33.Text = "1";
+            this.button33.Text = "14";
             this.button33.UseVisualStyleBackColor = false;
             // 
             // button32
@@ -815,7 +815,7 @@
             this.button32.Name = "button32";
             this.button32.Size = new System.Drawing.Size(94, 72);
             this.button32.TabIndex = 14;
-            this.button32.Text = "1";
+            this.button32.Text = "17";
             this.button32.UseVisualStyleBackColor = false;
             // 
             // button31
@@ -828,7 +828,7 @@
             this.button31.Name = "button31";
             this.button31.Size = new System.Drawing.Size(104, 72);
             this.button31.TabIndex = 13;
-            this.button31.Text = "17";
+            this.button31.Text = "18";
             this.button31.UseVisualStyleBackColor = false;
             // 
             // button29
@@ -841,7 +841,7 @@
             this.button29.Name = "button29";
             this.button29.Size = new System.Drawing.Size(94, 72);
             this.button29.TabIndex = 11;
-            this.button29.Text = "1";
+            this.button29.Text = "15";
             this.button29.UseVisualStyleBackColor = false;
             // 
             // button28
@@ -854,7 +854,7 @@
             this.button28.Name = "button28";
             this.button28.Size = new System.Drawing.Size(94, 72);
             this.button28.TabIndex = 10;
-            this.button28.Text = "1";
+            this.button28.Text = "16";
             this.button28.UseVisualStyleBackColor = false;
             // 
             // button27
@@ -867,7 +867,7 @@
             this.button27.Name = "button27";
             this.button27.Size = new System.Drawing.Size(94, 72);
             this.button27.TabIndex = 9;
-            this.button27.Text = "1";
+            this.button27.Text = "3";
             this.button27.UseVisualStyleBackColor = false;
             // 
             // button26
@@ -880,7 +880,7 @@
             this.button26.Name = "button26";
             this.button26.Size = new System.Drawing.Size(94, 72);
             this.button26.TabIndex = 8;
-            this.button26.Text = "1";
+            this.button26.Text = "4";
             this.button26.UseVisualStyleBackColor = false;
             // 
             // u1
@@ -907,7 +907,7 @@
             this.button24.Name = "button24";
             this.button24.Size = new System.Drawing.Size(94, 72);
             this.button24.TabIndex = 6;
-            this.button24.Text = "1";
+            this.button24.Text = "2";
             this.button24.UseVisualStyleBackColor = false;
             // 
             // button23
@@ -920,7 +920,7 @@
             this.button23.Name = "button23";
             this.button23.Size = new System.Drawing.Size(94, 72);
             this.button23.TabIndex = 5;
-            this.button23.Text = "1";
+            this.button23.Text = "5";
             this.button23.UseVisualStyleBackColor = false;
             // 
             // button22
@@ -933,7 +933,7 @@
             this.button22.Name = "button22";
             this.button22.Size = new System.Drawing.Size(94, 72);
             this.button22.TabIndex = 4;
-            this.button22.Text = "1";
+            this.button22.Text = "8";
             this.button22.UseVisualStyleBackColor = false;
             // 
             // button21
@@ -946,7 +946,7 @@
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(94, 72);
             this.button21.TabIndex = 3;
-            this.button21.Text = "1";
+            this.button21.Text = "9";
             this.button21.UseVisualStyleBackColor = false;
             // 
             // button20
@@ -959,7 +959,7 @@
             this.button20.Name = "button20";
             this.button20.Size = new System.Drawing.Size(94, 72);
             this.button20.TabIndex = 2;
-            this.button20.Text = "2";
+            this.button20.Text = "6";
             this.button20.UseVisualStyleBackColor = false;
             // 
             // button19
@@ -972,11 +972,12 @@
             this.button19.Name = "button19";
             this.button19.Size = new System.Drawing.Size(94, 72);
             this.button19.TabIndex = 1;
-            this.button19.Text = "1";
+            this.button19.Text = "7";
             this.button19.UseVisualStyleBackColor = false;
             // 
             // HappyoTime
             // 
+            this.HappyoTime.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.HappyoTime.AutoSize = true;
             this.HappyoTime.Font = new System.Drawing.Font("メイリオ", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.HappyoTime.Location = new System.Drawing.Point(1606, 66);
