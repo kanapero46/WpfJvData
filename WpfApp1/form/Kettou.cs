@@ -17,7 +17,7 @@ namespace WpfApp1.form
     {
         String Key;
         MainDataClass raceData; //レース情報
-        MainDataHorceClass horceData = new MainDataHorceClass(); //馬情報
+        List<MainDataClass> ArrayHorceData = new List<MainDataClass>(); //18頭分すべて
         dbConnect db = new dbConnect(); //DB読み書きクラス
         MainWindow main = new MainWindow(); //MainWindowsクラス
 
@@ -88,6 +88,9 @@ namespace WpfApp1.form
             ret = main.JvGetRTData(raceData.getRaceDate()); //速報データ取得
             InitTrackStatusInfo(Key);  //馬場状態書き込み
             SetFormDataWriter();
+
+            //競走馬データ書き込み
+
 
 
         }
@@ -225,6 +228,31 @@ namespace WpfApp1.form
             this.label4.Text = raceData.getRaceStartTime().Substring(0, 2) + "時" + raceData.getRaceStartTime().Substring(2, 2) + "分";
 
 
+        }
+
+        private int SetHorceData()
+        {
+            MainDataHorceClass horceData = new MainDataHorceClass(); //馬情報
+            String Key = raceData.GET_RA_KEY();
+            String covData;
+            String Libstr = "";
+            List<String> LibArray = new List<string>();
+            int All = 0;
+            for (int i = 1; i<=18; i++)
+            {
+                covData = String.Format("{0:00}", i);
+                //１頭分ずつ読み込み
+                db.TextReader_Col(Key.Substring(0, 8), "SE", 0, ref LibArray, Key + covData);
+                if (LibArray.Count() == 0)
+                {
+                    break;
+                }
+                All++;
+                horceData.SetSEData(LibArray);
+
+            }
+
+            return 1;
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)

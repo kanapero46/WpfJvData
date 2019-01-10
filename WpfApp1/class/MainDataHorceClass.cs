@@ -60,7 +60,8 @@ namespace WpfApp1.Class
         private String FFF_NUM; //父父父の番号
         private String UmaKigou;
         private JV_DATA_RACE_HIST RaceHist;
-        
+        private String EngName;
+
 
 
 
@@ -84,5 +85,20 @@ namespace WpfApp1.Class
         public string FFF_NUM1 { get => FFF_NUM; set => FFF_NUM = value; }
         public string FMM_NUM1 { get => FMM_NUM; set => FMM_NUM = value; }
         public string UmaKigou1 { get => UmaKigou; set => UmaKigou = value; }
+        public string EngName1 { get => EngName; set => EngName = value; }
+
+        public void SetSEData(List<String> inParam)
+        {
+            KEY = inParam[0];
+            Waku = inParam[4];
+            Umaban = inParam[5];
+            KettoNum = Int32.Parse(inParam[6]);
+            Name = inParam[7];
+            Jockey = inParam[12];
+            MinaraiCd = inParam[13];
+            UmaKigou = inParam[8];
+        }
+
+
     }
 }

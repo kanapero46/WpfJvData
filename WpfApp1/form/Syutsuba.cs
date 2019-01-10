@@ -273,6 +273,7 @@ namespace WpfApp1.form
             main.LogMainCancelFlagChanger(false);        //スレッド開始処理
            // t.Join();
             t.Abort();
+            t.Join();
         }
 
         /*  DataGridView1[0, 0].Style.BackColor =*/
