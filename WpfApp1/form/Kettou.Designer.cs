@@ -85,7 +85,7 @@
             this.button28 = new System.Windows.Forms.Button();
             this.button27 = new System.Windows.Forms.Button();
             this.button26 = new System.Windows.Forms.Button();
-            this.button25 = new System.Windows.Forms.Button();
+            this.u1 = new System.Windows.Forms.Button();
             this.button24 = new System.Windows.Forms.Button();
             this.button23 = new System.Windows.Forms.Button();
             this.button22 = new System.Windows.Forms.Button();
@@ -160,7 +160,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 127F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
             this.tableLayoutPanel1.Controls.Add(this.weLabel, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1599, 24);
@@ -279,7 +279,7 @@
             // 
             this.ClassLabel.AutoSize = true;
             this.ClassLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.ClassLabel.Location = new System.Drawing.Point(308, 0);
+            this.ClassLabel.Location = new System.Drawing.Point(307, 0);
             this.ClassLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.ClassLabel.Name = "ClassLabel";
             this.ClassLabel.Size = new System.Drawing.Size(109, 38);
@@ -293,7 +293,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.22481F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.77519F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 494F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 168F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 169F));
             this.tableLayoutPanel2.Controls.Add(this.label16, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.KigoLabel, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.OldYear, 0, 0);
@@ -312,7 +312,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label16.Location = new System.Drawing.Point(1112, 0);
+            this.label16.Location = new System.Drawing.Point(1111, 0);
             this.label16.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(115, 38);
@@ -323,7 +323,7 @@
             // 
             this.KigoLabel.AutoSize = true;
             this.KigoLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.KigoLabel.Location = new System.Drawing.Point(618, 0);
+            this.KigoLabel.Location = new System.Drawing.Point(617, 0);
             this.KigoLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.KigoLabel.Name = "KigoLabel";
             this.KigoLabel.Size = new System.Drawing.Size(317, 38);
@@ -656,7 +656,7 @@
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 108F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 122F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 123F));
             this.tableLayoutPanel3.Controls.Add(this.TrackDistance, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.TrackLabel, 0, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(1807, 24);
@@ -725,7 +725,7 @@
             this.tableLayoutPanel4.Controls.Add(this.button28, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.button27, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.button26, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.button25, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.u1, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.button24, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.button23, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.button22, 0, 0);
@@ -883,18 +883,19 @@
             this.button26.Text = "1";
             this.button26.UseVisualStyleBackColor = false;
             // 
-            // button25
+            // u1
             // 
-            this.button25.BackColor = System.Drawing.Color.White;
-            this.button25.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button25.Font = new System.Drawing.Font("メイリオ", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button25.Location = new System.Drawing.Point(7, 6);
-            this.button25.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.button25.Name = "button25";
-            this.button25.Size = new System.Drawing.Size(94, 72);
-            this.button25.TabIndex = 7;
-            this.button25.Text = "1";
-            this.button25.UseVisualStyleBackColor = false;
+            this.u1.BackColor = System.Drawing.Color.White;
+            this.u1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.u1.Font = new System.Drawing.Font("メイリオ", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.u1.Location = new System.Drawing.Point(7, 6);
+            this.u1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.u1.Name = "u1";
+            this.u1.Size = new System.Drawing.Size(94, 72);
+            this.u1.TabIndex = 7;
+            this.u1.Text = "1";
+            this.u1.UseVisualStyleBackColor = false;
+            this.u1.Click += new System.EventHandler(this.button25_Click);
             // 
             // button24
             // 
@@ -1073,7 +1074,7 @@
         private System.Windows.Forms.Button button28;
         private System.Windows.Forms.Button button27;
         private System.Windows.Forms.Button button26;
-        private System.Windows.Forms.Button button25;
+        private System.Windows.Forms.Button u1;
         private System.Windows.Forms.Button button24;
         private System.Windows.Forms.Button button23;
         private System.Windows.Forms.Button button22;
