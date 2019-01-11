@@ -370,7 +370,7 @@ namespace WpfApp1.form
         }
 
         /* 新種牡馬カラー取得関数 */
-        private Color FuncBloodColor(String Key, String Key2, String Key3)
+        private Color f(String Key, String Key2, String Key3)
         {
             String tmp = "";
             String tmpColor = "";
