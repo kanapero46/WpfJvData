@@ -92,13 +92,14 @@ namespace WpfApp1.Class
         public void SetSEData(List<String> inParam)
         {
             KEY = inParam[0];
-            Waku = inParam[4];
-            Umaban = inParam[5];
-            KettoNum = Int32.Parse(inParam[6]);
-            Name = inParam[7];
-            Jockey = inParam[12];
-            MinaraiCd = inParam[13];
-            UmaKigou = inParam[8];
+            Waku = inParam[5];
+            Umaban = inParam[6];
+            KettoNum = Int32.Parse(inParam[7]);
+            Name = inParam[8];
+            Jockey = inParam[16];
+            Futan = inParam[15];
+            MinaraiCd = inParam[17];
+            UmaKigou = inParam[9];
         }
 
         public void SetUMData(List<String> inParam)
@@ -114,6 +115,7 @@ namespace WpfApp1.Class
             FF_NUM = inParam[18];
             FFF_NUM = inParam[19];
             FMM_NUM = inParam[20];
+            EngName = inParam[2];
         }
 
 

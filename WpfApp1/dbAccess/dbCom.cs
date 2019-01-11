@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Documents;
 using WpfApp1.dbAccess;
 
-namespace WpfApp1.dbCom
+namespace WpfApp1.dbCom1
 {
     public class dbCom
     {
@@ -18,7 +18,7 @@ namespace WpfApp1.dbCom
         dbConnect db = new dbConnect();
 
         #region 血統タイプをDBから読み込み(1)
-        public Boolean DbComSearchBloodType(String name1)
+        public String DbComSearchBloodType(String name1)
         {
             String tmp = "";
             if(name1 == "")
@@ -26,7 +26,14 @@ namespace WpfApp1.dbCom
                 return "";
             }
 
-            return DbComBloodType(name1, ref tmp);
+            if(DbComBloodType(name1, ref tmp))
+            {
+                return tmp;
+            }
+            else
+            {
+                return "";
+            }
         }
         #endregion
 
@@ -81,7 +88,7 @@ namespace WpfApp1.dbCom
         #endregion
 
         #region 血統タイプをDBから読み込み(共通)
-        private boolean DbComBloodType(String name, ref String outParam)
+        private Boolean DbComBloodType(String name, ref String outParam)
         {
             String fBloodName;
             String tmp = "";
