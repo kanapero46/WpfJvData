@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using WpfApp1.Class;
 using WpfApp1.dbAccess;
+using WpfApp1.dbCom;
 
 namespace WpfApp1.form
 {

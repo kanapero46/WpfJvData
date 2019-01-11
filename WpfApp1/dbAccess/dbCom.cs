@@ -8,13 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
+using WpfApp1.dbAccess;
 
 namespace WpfApp1.dbCom
 {
     public class dbCom
     {
 
-        DBConnect db = new DBConnect();
+        dbConnect db = new dbConnect();
 
         #region ŒŒ“ƒ^ƒCƒv‚ğDB‚©‚ç“Ç‚İ‚İ(1)
         public Boolean DbComSearchBloodType(String name1)
