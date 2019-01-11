@@ -13,7 +13,7 @@ namespace WpfApp1.form
     {
         String Key;
         MainDataClass raceData; //レース情報
-        List<MainDataClass> ArrayHorceData = new List<MainDataClass>(); //18頭分すべて
+        List<MainDataHorceClass> ArrayHorceData = new List<MainDataHorceClass>(); //18頭分すべて
         dbConnect db = new dbConnect(); //DB読み書きクラス
         MainWindow main = new MainWindow(); //MainWindowsクラス
 
@@ -88,6 +88,8 @@ namespace WpfApp1.form
 
             //競走馬データ書き込み
             ret = SetHorceData();
+
+            //データ書き込み
 
 
         }
@@ -236,6 +238,10 @@ namespace WpfApp1.form
             String Libstr = "";
             List<String> LibArray = new List<string>();
             int All = 0;
+
+            //ローカルデータ初期化
+            ArrayHorceData.Clear();
+
             for (int i = 1; i<=18; i++)
             {
                 LibArray.Clear();
@@ -249,10 +255,10 @@ namespace WpfApp1.form
                 All++;
                 EnableButtoninNum(All);
                 horceData.SetSEData(LibArray);
-
+                ArrayHorceData.Add(horceData);  //全頭分データに追加
             }
 
-            return 1;
+            return All;
         }
         #endregion
 
@@ -309,6 +315,18 @@ namespace WpfApp1.form
 
         }
         #endregion 
+
+        private void WriteHorceData(int num)
+        {
+            if(num == 0 || num >= 19)
+            {
+                return;
+            } 
+
+            this.BloodHorceName.Text = ArrayHorceData[num].Name1;
+            this.textBox6.Text = num.ToString();
+            this.FBooldName.Text = ArrayHorceData[num].F1;
+        }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {

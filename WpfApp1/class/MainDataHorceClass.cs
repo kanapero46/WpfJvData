@@ -48,6 +48,7 @@ namespace WpfApp1.Class
         private String Futan;
         private String MinaraiCd;
         private String F;
+        private String FF;
         private String F_NUM;
         private String M;
         private String FM;
@@ -73,6 +74,7 @@ namespace WpfApp1.Class
         public string Futan1 { get => Futan; set => Futan = value; }
         public string MinaraiCd1 { get => MinaraiCd; set => MinaraiCd = value; }
         public string F1 { get => F; set => F = value; }
+        public string FF1 { get => FF; set => FF = value; }
         public string M1 { get => M; set => M = value; }
         public string FM1 { get => FM; set => FM = value; }
         public string FFM1 { get => FFM; set => FFM = value; }
@@ -97,6 +99,21 @@ namespace WpfApp1.Class
             Jockey = inParam[12];
             MinaraiCd = inParam[13];
             UmaKigou = inParam[8];
+        }
+
+        public void SetUMData(List<String> inParam)
+        {
+            F = inParam[6];
+            M = inParam[7];
+            FF = inParam[8];
+            FM = inParam[9];
+            FFM = inParam[10];
+            F_NUM = inParam[15];
+            FM_NUM = inParam[16];
+            FFM_NUM = inParam[17];
+            FF_NUM = inParam[18];
+            FFF_NUM = inParam[19];
+            FMM_NUM = inParam[20];
         }
 
 
