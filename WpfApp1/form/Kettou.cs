@@ -15,6 +15,7 @@ namespace WpfApp1.form
         MainDataClass raceData; //レース情報
         List<MainDataHorceClass> ArrayHorceData = new List<MainDataHorceClass>(); //18頭分すべて
         dbConnect db = new dbConnect(); //DB読み書きクラス
+        dbCom dbCom = new dbCom();      //DBを使った共通処理クラス
         MainWindow main = new MainWindow(); //MainWindowsクラス
 
         public Kettou()
@@ -89,7 +90,10 @@ namespace WpfApp1.form
             //競走馬データ書き込み
             ret = SetHorceData();
 
-            //データ書き込み
+            //データ書き込み：高速化のためdefault１番のみ書き込み
+            WriteHorceData(1);
+
+
 
 
         }
@@ -252,10 +256,20 @@ namespace WpfApp1.form
                 {
                     break;
                 }
+
+                horceData.SetSEData(LibArray); //SEデータをセット
+                LibArray.Clear();              //tmpをクリア
+
+                db.TextReader_Col("0", "UM", 0, ref LibArray, horceData.KettoNum1);
+                if (LibArray.Count() == 0)
+                {
+                    break;
+                }
+                horceData.SetUMData(LibArray); //UMデータをセット
                 All++;
-                EnableButtoninNum(All);
-                horceData.SetSEData(LibArray);
-                ArrayHorceData.Add(horceData);  //全頭分データに追加
+                EnableButtoninNum(All);         //ボタンを有効化
+                
+                ArrayHorceData.Add(horceData);  //SE・UMデータをグローバルに追加
             }
 
             return All;
@@ -323,9 +337,21 @@ namespace WpfApp1.form
                 return;
             } 
 
+            //テキスト書き込み
             this.BloodHorceName.Text = ArrayHorceData[num].Name1;
             this.textBox6.Text = num.ToString();
             this.FBooldName.Text = ArrayHorceData[num].F1;
+            this.BMSHorceName.Text = ArrayHorceData[num].FM1;
+            this.MMFBooldName.Text = ArrayHorceData[num].FFM1;
+            this.FFBloodName.Text = ArrayHorceData[num].FF1;
+
+            //血統タイプをDBから読み込み
+            this.FTypeName.Text = dbCom.DbComSearchBloodType(ArrayHorceData[num].F1, ArrayHorceData[num].FF1, ArrayHorceData[num].FFF1);
+            this.BMSType.Text = dbCom.DbComSearchBloodType(ArrayHorceData[num].FM_NUM1, ArrayHorceData[num].FMM_NUM1);
+            this.FFMTypeName.Text = dbCom.DbComSearchBloodType(ArrayHorceData[num].FFM_NUM1);
+
+            
+
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
