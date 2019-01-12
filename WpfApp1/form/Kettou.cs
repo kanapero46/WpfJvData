@@ -332,7 +332,7 @@ namespace WpfApp1.form
 
         private int WriteHorceData(int num)
         {
-            if(num == 0 || num >= 19)
+            if(num == 0 || num >= 19 || ArrayHorceData.Count == 0)
             {
                 return 0;
             }
@@ -359,8 +359,41 @@ namespace WpfApp1.form
             this.FTypeName.Text += (this.FTypeName.Text.Length >= 1 ? "系" : "");
             this.BMSType.Text += (this.BMSType.Text.Length >= 1 ? "系" : "");
             this.FFMTypeName.Text += (this.FFMTypeName.Text.Length >= 1 ? "系" : "");
+
+            //出走条件
+            if(JudgeNotDomestic(ArrayHorceData[ArrayNum].UmaKigou1))
+            {
+                this.textBox1.BackColor = Color.Yellow;
+                this.textBox1.ForeColor = Color.Black;
+            }
+            else
+            {
+                this.textBox1.BackColor = Color.White;
+                this.textBox1.ForeColor = Color.White;
+            }
+
             return num;
         }
+
+        #region 外国産チェック（true：[外]or(外)）
+        public Boolean JudgeNotDomestic(String UmaKigo)
+        {
+            switch(UmaKigo)
+            {
+                case "06":
+                case "11":
+                case "16":
+                case "20":
+                case "23":
+                case "26":
+                case "27":
+                case "40":
+                case "41":
+                    return true;
+            }
+            return false;
+        }
+        #endregion
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {

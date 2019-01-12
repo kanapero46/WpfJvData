@@ -117,7 +117,7 @@ namespace WpfApp1.Class
             FMM_NUM = inParam[20];
             EngName = inParam[2];
         }
-
+        
 
     }
 }
