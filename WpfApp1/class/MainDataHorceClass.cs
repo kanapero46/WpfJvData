@@ -97,7 +97,7 @@ namespace WpfApp1.Class
             KettoNum = Int32.Parse(inParam[7]);
             Name = inParam[8];
             Jockey = inParam[16];
-            Futan = inParam[15];
+            Futan = inParam[13];
             MinaraiCd = inParam[17];
             UmaKigou = inParam[9];
         }

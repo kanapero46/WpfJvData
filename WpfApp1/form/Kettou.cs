@@ -52,21 +52,21 @@ namespace WpfApp1.form
             FTypeName.BackColor = Color.Transparent;
             FFMTypeName.BackColor = Color.Transparent;
             this.BloodHorceName.Top = (this.pictureBox1.Height - this.BloodHorceName.Height) / 2 - 10;
-            this.BloodHorceName.Left = (this.pictureBox1.Width - this.BloodHorceName.Width) / 15 - 25;
+            this.BloodHorceName.Left = (this.pictureBox1.Width - this.BloodHorceName.Width) / 25 - 30;
             this.FBooldName.Top = (this.pictureBox1.Height - this.FBooldName.Height) / 3 - 5;
-            this.FBooldName.Left = (this.pictureBox1.Width - this.FBooldName.Width) / 2 + 20;
-            this.BMSHorceName.Top = (this.pictureBox1.Height - this.BMSHorceName.Height) - ((this.pictureBox1.Height - this.BMSHorceName.Height) / 3 - 10);
-            this.BMSHorceName.Left = (this.pictureBox1.Width - this.BMSHorceName.Width) / 2 + 20;
+            this.FBooldName.Left = (this.pictureBox1.Width - this.FBooldName.Width) / 2 + 50;
+            this.BMSHorceName.Top = (this.pictureBox1.Height - this.BMSHorceName.Height) - ((this.pictureBox1.Height - this.BMSHorceName.Height) / 3 - 20);
+            this.BMSHorceName.Left = (this.pictureBox1.Width - this.BMSHorceName.Width) / 2 + 50;
             this.FFBloodName.Top = (this.pictureBox1.Height - this.FFBloodName.Height) / 10;
-            this.FFBloodName.Left = (this.pictureBox1.Width - this.FFBloodName.Width);
+            this.FFBloodName.Left = (this.pictureBox1.Width - this.FFBloodName.Width) - 25;
             this.BMSType.Top = (this.pictureBox1.Height - this.FFBloodName.Height) / 2;
-            this.BMSType.Left = (this.pictureBox1.Width - this.FFBloodName.Width);
-            this.MMFBooldName.Top = (this.pictureBox1.Height - this.MMFBooldName.Height) - ((this.pictureBox1.Height - this.MMFBooldName.Height) / 4 - 25);
-            this.MMFBooldName.Left = (this.pictureBox1.Width - this.MMFBooldName.Width);
+            this.BMSType.Left = (this.pictureBox1.Width - this.FFBloodName.Width) - 30;
+            this.MMFBooldName.Top = (this.pictureBox1.Height - this.MMFBooldName.Height) - ((this.pictureBox1.Height - this.MMFBooldName.Height) / 4 - 60);
+            this.MMFBooldName.Left = (this.pictureBox1.Width - this.MMFBooldName.Width) - 20;
             this.FTypeName.Top = this.FFBloodName.Top + 43;
-            this.FTypeName.Left = (this.pictureBox1.Width - this.FTypeName.Width);
-            this.FFMTypeName.Top = this.MMFBooldName.Top + 41;
-            this.FFMTypeName.Left = (this.pictureBox1.Width - this.FFMTypeName.Width);
+            this.FTypeName.Left = (this.pictureBox1.Width - this.FTypeName.Width) - 10;
+            this.FFMTypeName.Top = this.MMFBooldName.Top + 100;
+            this.FFMTypeName.Left = (this.pictureBox1.Width - this.MMFBooldName.Width) +20;
         }
 
 
@@ -341,7 +341,7 @@ namespace WpfApp1.form
             //テキスト書き込み
             this.label35.Text = num.ToString() + "：" + ArrayHorceData[num].Name1;
             this.label35.Text += (ArrayHorceData[num].M1 == "" ? "" : "（母：" + ArrayHorceData[num].M1 + "）");
-            this.label20.Text = ArrayHorceData[num].Jockey1;
+            this.label20.Text = ArrayHorceData[num].Jockey1 + "(" + ArrayHorceData[num].Futan1.Substring(0,2) + "." + ArrayHorceData[num].Futan1.Substring(2, 1) + "kg)";
             this.BloodHorceName.Text = ArrayHorceData[num].Name1;
             this.textBox6.Text = num.ToString();
             this.FBooldName.Text = ArrayHorceData[num].F1;
