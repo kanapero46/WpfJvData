@@ -19,6 +19,9 @@ namespace WpfApp1.form
         dbCom dbCom = new dbCom();
         MainWindow main = new MainWindow(); //MainWindowsクラス
 
+        /* 現在表示している馬番のグローバル変数 */
+        int NowPictureNum = 1;
+
         public Kettou()
         {
             InitializeComponent();
@@ -54,26 +57,21 @@ namespace WpfApp1.form
             this.BloodHorceName.Top = (this.pictureBox1.Height - this.BloodHorceName.Height) / 2 - 10;
             this.BloodHorceName.Left = (this.pictureBox1.Width - this.BloodHorceName.Width) / 25 - 30;
             this.FBooldName.Top = (this.pictureBox1.Height - this.FBooldName.Height) / 3 - 5;
-            this.FBooldName.Left = (this.pictureBox1.Width - this.FBooldName.Width) / 2 + 50;
+            this.FBooldName.Left = (this.pictureBox1.Width - this.FBooldName.Width) / 2 + 40;
             this.BMSHorceName.Top = (this.pictureBox1.Height - this.BMSHorceName.Height) - ((this.pictureBox1.Height - this.BMSHorceName.Height) / 3 - 20);
-            this.BMSHorceName.Left = (this.pictureBox1.Width - this.BMSHorceName.Width) / 2 + 50;
+            this.BMSHorceName.Left = (this.pictureBox1.Width - this.BMSHorceName.Width) / 2 + 40;
             this.FFBloodName.Top = (this.pictureBox1.Height - this.FFBloodName.Height) / 10;
             this.FFBloodName.Left = (this.pictureBox1.Width - this.FFBloodName.Width) - 25;
             this.BMSType.Top = (this.pictureBox1.Height - this.FFBloodName.Height) / 2;
             this.BMSType.Left = (this.pictureBox1.Width - this.FFBloodName.Width) - 30;
             this.MMFBooldName.Top = (this.pictureBox1.Height - this.MMFBooldName.Height) - ((this.pictureBox1.Height - this.MMFBooldName.Height) / 4 - 60);
             this.MMFBooldName.Left = (this.pictureBox1.Width - this.MMFBooldName.Width) - 20;
-            this.FTypeName.Top = this.FFBloodName.Top + 43;
-            this.FTypeName.Left = (this.pictureBox1.Width - this.FTypeName.Width) - 10;
+            this.FTypeName.Top = this.FFBloodName.Top + 110;
+            this.FTypeName.Left = (this.pictureBox1.Width - this.FFBloodName.Width) + 15;
             this.FFMTypeName.Top = this.MMFBooldName.Top + 100;
             this.FFMTypeName.Left = (this.pictureBox1.Width - this.MMFBooldName.Width) +20;
         }
 
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
 
         /* フォーム読み込み処理 */
         unsafe private void Kettou_Load(object sender, EventArgs e)
@@ -94,7 +92,7 @@ namespace WpfApp1.form
             //データ書き込み：高速化のためdefault１番のみ書き込み
             WriteHorceData(1);
 
-
+            NowPictureNum = 1;
 
 
         }
@@ -237,7 +235,7 @@ namespace WpfApp1.form
         #region 競走馬データ読み込み処理
         private int SetHorceData()
         {
-            MainDataHorceClass horceData = new MainDataHorceClass(); //馬情報
+            MainDataHorceClass horceData; //馬情報
             String Key = raceData.GET_RA_KEY();
             String covData;
             String Libstr = "";
@@ -249,6 +247,7 @@ namespace WpfApp1.form
 
             for (int i = 1; i<=18; i++)
             {
+                horceData = new MainDataHorceClass();
                 LibArray.Clear();
                 covData = String.Format("{0:00}", i);
                 //１頭分ずつ読み込み
@@ -331,31 +330,36 @@ namespace WpfApp1.form
         }
         #endregion 
 
-        private void WriteHorceData(int num)
+        private int WriteHorceData(int num)
         {
             if(num == 0 || num >= 19)
             {
-                return;
+                return 0;
             }
 
+            //配列添字用に馬番を-1に設定する
+            int ArrayNum = num - 1;
+
             //テキスト書き込み
-            this.label35.Text = num.ToString() + "：" + ArrayHorceData[num].Name1;
-            this.label35.Text += (ArrayHorceData[num].M1 == "" ? "" : "（母：" + ArrayHorceData[num].M1 + "）");
-            this.label20.Text = ArrayHorceData[num].Jockey1 + "(" + ArrayHorceData[num].Futan1.Substring(0,2) + "." + ArrayHorceData[num].Futan1.Substring(2, 1) + "kg)";
-            this.BloodHorceName.Text = ArrayHorceData[num].Name1;
+            this.label35.Text = num.ToString() + "：" + ArrayHorceData[ArrayNum].Name1;
+            this.label35.Text += (ArrayHorceData[ArrayNum].M1 == "" ? "" : "（母：" + ArrayHorceData[ArrayNum].M1 + "）");
+            this.label20.Text = ArrayHorceData[ArrayNum].Jockey1 + "(" + ArrayHorceData[ArrayNum].Futan1.Substring(0,2) + "." + ArrayHorceData[ArrayNum].Futan1.Substring(2, 1) + "kg)";
+            this.BloodHorceName.Text = ArrayHorceData[ArrayNum].Name1;
             this.textBox6.Text = num.ToString();
-            this.FBooldName.Text = ArrayHorceData[num].F1;
-            this.BMSHorceName.Text = ArrayHorceData[num].FM1;
-            this.MMFBooldName.Text = ArrayHorceData[num].FFM1;
-            this.FFBloodName.Text = ArrayHorceData[num].FF1;
+            this.FBooldName.Text = ArrayHorceData[ArrayNum].F1;
+            this.BMSHorceName.Text = ArrayHorceData[ArrayNum].FM1;
+            this.MMFBooldName.Text = ArrayHorceData[ArrayNum].FFM1;
+            this.FFBloodName.Text = ArrayHorceData[ArrayNum].FF1;
 
             //血統タイプをDBから読み込み
-            this.FTypeName.Text = dbCom.DbComSearchBloodType(ArrayHorceData[num].F_NUM1, ArrayHorceData[num].FF_NUM1, ArrayHorceData[num].FFF_NUM1);
-            this.BMSType.Text = dbCom.DbComSearchBloodType(ArrayHorceData[num].FM_NUM1, ArrayHorceData[num].FMM_NUM1);
-            this.FFMTypeName.Text = dbCom.DbComSearchBloodType(ArrayHorceData[num].FFM_NUM1);
+            this.FTypeName.Text = dbCom.DbComSearchBloodType(ArrayHorceData[ArrayNum].F_NUM1, ArrayHorceData[ArrayNum].FF_NUM1, ArrayHorceData[ArrayNum].FFF_NUM1);
+            this.BMSType.Text = dbCom.DbComSearchBloodType(ArrayHorceData[ArrayNum].FM_NUM1, ArrayHorceData[ArrayNum].FMM_NUM1);
+            this.FFMTypeName.Text = dbCom.DbComSearchBloodType(ArrayHorceData[ArrayNum].FFM_NUM1);
 
-            
-
+            this.FTypeName.Text += (this.FTypeName.Text.Length >= 1 ? "系" : "");
+            this.BMSType.Text += (this.BMSType.Text.Length >= 1 ? "系" : "");
+            this.FFMTypeName.Text += (this.FFMTypeName.Text.Length >= 1 ? "系" : "");
+            return num;
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -379,6 +383,21 @@ namespace WpfApp1.form
         }
 
         private void button25_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #region 馬番ボタン押下イベント
+        private void ChangeNumDisplay_Click(object sender, EventArgs e)
+        {
+            /* 処理削減のため、同じ馬番は更新しない */
+            if(NowPictureNum == Int32.Parse(((Button)sender).Text)){ return; }
+            NowPictureNum= WriteHorceData(Int32.Parse(((Button)sender).Text));
+             
+        }
+        #endregion
+
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
 
         }

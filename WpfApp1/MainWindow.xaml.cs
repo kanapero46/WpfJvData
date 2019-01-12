@@ -359,7 +359,7 @@ namespace WpfApp1
             /* DB初期化 */
             db = new dbConnect();
             //db.DeleteCsv("TM");
-            db.DeleteCsv("WE", FromTime.Substring(0, 8) + ".csv", true);
+            
             db.DeleteCsv("AV", FromTime.Substring(0, 8) + ".csv", false);
 
             while (ret >= 1)
@@ -377,6 +377,7 @@ namespace WpfApp1
                     {
                         case "WE":
                             JV_WEATHER.SetDataB(ref buff);
+                            db.DeleteCsv("WE");
                             tmp = JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji;
                             //tmp = "";
                             //tmp += JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji + ",";
