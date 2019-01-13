@@ -3,40 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.dbAccess;
 
 namespace WpfApp1.Class
 {
     class MainDataHorceClass
     {
+        private const int RA_START = 19;
+
         public struct JV_DATA_RACE_HIST
         {
-            private String rA_KEY;
-            private String raceName;
-            private String raceName10;
-            private String grade;
-            private String track;
-            private String distance;
-            private int tousuu;
-            private String weather;
-            private String babaStat;
-            private String lapTime;
-            private String last3f;
-            private String courner;
-            private String sE_KEY;
-            private int umaban;
-            private String kettouNum;
-            private String futan;
-            private String jockey;
-            private int bataiju;
-            private String zougenCD;
-            private String diff;
-            private String rank;
-            private String time;
-            private String counerRank;
-            private int tansyoRank;
-            private String myLast3f;
-            private String aiteuma;
-            private String timeDiff;
+            public int Num;
+            public String RaceDate;
+            public String rA_KEY;
+            public String raceName;
+            public String raceName10;
+            public String grade;
+            public String track;
+            public String distance;
+            public int tousuu;
+            public String weather;
+            public String babaStat;
+            public String lapTime;
+            public String last3f;
+            public String courner;
+            public String sE_KEY;
+            public int wakuban;
+            public int umaban;
+            public String kettouNum;
+            public String futan;
+            public String jockey;
+            public int bataiju;
+            public String zougenCD;
+            public String diff;
+            public String rank;
+            public String time;
+            public String counerRank;
+            public int tansyoRank;
+            public String myLast3f;
+            public String aiteuma;
+            public String timeDiff;
+            public Boolean Blincker;
+            public String MinaraiCd;
+            public int Kaiji;
+            public int Nichiji;
+            public String Cource;
+
         };
 
         
@@ -118,6 +130,34 @@ namespace WpfApp1.Class
             EngName = inParam[2];
         }
         
+        public void SetSEMSTData(List<String> inParam)
+        {
+            //新馬戦は前走成績がないため、returnする。
+            if (inParam.Count == 0) { return; }
+
+            JV_DATA_RACE_HIST tmpHist = new JV_DATA_RACE_HIST();
+            tmpHist.Num = Int32.Parse(inParam[0].Substring(18, 2));
+            tmpHist.rA_KEY = inParam[0].Substring(0, 18);
+            tmpHist.sE_KEY = inParam[0];
+            tmpHist.wakuban = Int32.Parse(inParam[5]);
+            tmpHist.umaban = Int32.Parse(inParam[6]);
+            tmpHist.jockey = inParam[16];
+            tmpHist.futan = inParam[13];
+            tmpHist.Blincker = (inParam[14] == "1" ? true : false);
+            tmpHist.MinaraiCd = inParam[17];
+            //ここまでindex [18]→空セル
+            //ここからRAデータ
+            tmpHist.rA_KEY = inParam[RA_START];
+            tmpHist.RaceDate = inParam[RA_START+1];
+            tmpHist.Cource = inParam[RA_START + 2];
+            tmpHist.Kaiji = Int32.Parse(inParam[RA_START + 3]);
+            tmpHist.raceName = inParam[RA_START + 7];
+            tmpHist.raceName10 = inParam[RA_START + 8];
+            
+            tmpHist.distance = inParam[RA_START + 18];
+            RaceHist = tmpHist;
+
+        }
 
     }
 }

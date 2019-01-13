@@ -936,6 +936,9 @@ namespace WpfApp1
         {
             int ret;
 
+            String horse = "";
+            int OldRaceCounter = 0;
+
             String FromTime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
             String WeekDay = DateText.SelectedDate.Value.DayOfWeek.ToString();
             String lastStamp = ChgToDate(FromTime, WeekDay);
@@ -1066,6 +1069,15 @@ namespace WpfApp1
                             CODE = LibJvConvFuncClass.GRACE_CODE;
                             LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref LibTmp);
                             tmp += LibTmp + ",";
+                            tmp += JV_RACE.TrackCD + ",";
+                            tmp += JV_RACE.Kyori + ",";
+                            tmp += JV_RACE.TorokuTosu + ",";
+                            tmp += JV_RACE.JyokenInfo.KigoCD + ",";
+                            tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
+                            tmp += JV_RACE.HassoTime + ",";
+                            tmp += JV_RACE.TenkoBaba.TenkoCD + ",";
+                            tmp += JV_RACE.TenkoBaba.SibaBabaCD + JV_RACE.TenkoBaba.DirtBabaCD + ",";
+
                             db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             ProgressStatusValue++;
                             break;
@@ -1073,15 +1085,27 @@ namespace WpfApp1
                             JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             tmp = "";
                             JV_SE_UMA.SetDataB(ref buff);
+
+                            //SE_MSTはKey+○走目をキーとするため、前回と馬名が一致するかを検索
+                            if (horse == JV_SE_UMA.Bamei.Trim())
+                            {
+                                OldRaceCounter++;
+                            }
+                            else
+                            {
+                                OldRaceCounter = 1;
+                                horse = JV_SE_UMA.Bamei.Trim();
+                            }
+
                             tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + JV_SE_UMA.id.JyoCD + JV_SE_UMA.id.Kaiji +
-                                JV_SE_UMA.id.Nichiji + JV_SE_UMA.id.RaceNum + JV_SE_UMA.Umaban + ",";
+                                JV_SE_UMA.id.Nichiji + JV_SE_UMA.id.RaceNum + JV_SE_UMA.Umaban + String.Format("{0:00}", OldRaceCounter) + ",";
                             tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + ",";
                             tmp += JV_SE_UMA.id.JyoCD + ",";
                             tmp += JV_SE_UMA.id.Kaiji + ",";
                             tmp += JV_SE_UMA.id.Nichiji + ",";
                             tmp += JV_SE_UMA.Wakuban + ",";
                             tmp += JV_SE_UMA.Umaban + ",";
-                            tmp += JV_SE_UMA.KettoNum + ",";
+                            tmp += JV_SE_UMA.KettoNum + String.Format("{0:00}", OldRaceCounter)+",";
                             tmp += JV_SE_UMA.Bamei.Trim() + ",";
                             tmp += JV_SE_UMA.UmaKigoCD + ",";
                             tmp += JV_SE_UMA.SexCD + ",";

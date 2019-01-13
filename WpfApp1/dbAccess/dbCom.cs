@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using WpfApp1.dbAccess;
+using WpfApp1.Class;
 
 namespace WpfApp1.dbCom1
 {
@@ -132,5 +133,53 @@ namespace WpfApp1.dbCom1
             return false;      
         }
         #endregion
+
+
+        #region 過去走データをDBから取得(マッピング)
+        public int DbComGetOldRunDataMapping(String KettoNum, ref List<String> outParam, int RaceCount)
+        {
+            int ret = 0;
+            int count = 1;
+            List<String> tmp;
+            do
+            {
+                tmp = new List<string>();
+                //血統登録番号＋O走で検索をかける
+                ret = DbComGetOldRunData(KettoNum, count, ref tmp);
+                outParam = tmp;
+            } while (RaceCount != count && ret != 0);
+            return 1;
+        }
+        #endregion
+
+        #region 過去走データをDBから取得(共通)
+        private int DbComGetOldRunData(String KettoNum, int RunNum, ref List<String> outParam)
+        {
+            List<String> tmp = new List<string>();
+            List<String> LibTmp = new List<String>();   
+            db.TextReader_Col("0", "SE", 7, ref LibTmp, KettoNum + String.Format("{0:00}",RunNum));
+            if(LibTmp.Count == 0)
+            {
+                return 0;
+            }
+
+            outParam = LibTmp;
+
+            db.TextReader_Col("0", "RA", 0, ref tmp, LibTmp[0].Substring(0, 16));
+
+            if (tmp.Count == 0)
+            {
+                //失敗していてもSEデータが成功しているため、returnは1で返す
+                return 1;
+            }
+            for (int i = 0; i < tmp.Count; i++)
+            {
+                outParam.Add(tmp[i]);
+            }
+
+            return 1;
+        }
+        #endregion
+
     }
 }

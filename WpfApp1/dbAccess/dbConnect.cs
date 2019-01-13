@@ -168,7 +168,14 @@ namespace WpfApp1.dbAccess
         public int TextReader_Col(String Date, String dtSpec, int Kind, ref List<String> srt, String Key)
         {
             /* よこ列ぜんぶ */
-            return ReadCsv(Date, dtSpec, Kind, ref srt, 1, Key);
+            if (Kind == 0)
+            {
+                return ReadCsv(Date, dtSpec, Kind, ref srt, 1, Key);
+            }
+            else
+            {
+                return ReadCsv(Date, dtSpec, Kind, ref srt, 3, Key);
+            }
         }
 
         /**************************************************
@@ -276,6 +283,18 @@ namespace WpfApp1.dbAccess
                                 if (values[0] == Key)
                                 {
                                     str.Add(values[Kind]);
+                                    return 1;
+                                }
+                            }
+                            else if (AllData == 3)
+                            {
+                                // よこ一列(TextReader_Col)→キー指定
+                                if (values[Kind] == Key)
+                                {
+                                    for (int i = 0; i < values.Length; i++)
+                                    {
+                                        str.Add(values[i]);
+                                    }
                                     return 1;
                                 }
                             }

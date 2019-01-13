@@ -70,6 +70,7 @@ namespace WpfApp1.form
             this.FTypeName.Left = (this.pictureBox1.Width - this.FFBloodName.Width) + 15;
             this.FFMTypeName.Top = this.MMFBooldName.Top + 100;
             this.FFMTypeName.Left = (this.pictureBox1.Width - this.MMFBooldName.Width) +20;
+            textBox6.Focus();
         }
 
 
@@ -268,7 +269,15 @@ namespace WpfApp1.form
                 horceData.SetUMData(LibArray); //UMデータをセット
                 All++;
                 EnableButtoninNum(All);         //ボタンを有効化
-                
+
+                LibArray.Clear();           //tmpをクリア
+
+                dbCom.DbComGetOldRunDataMapping(horceData.KettoNum1.ToString(), ref LibArray, 1);  //前走データを取得 
+                horceData.SetSEMSTData(LibArray);
+
+               // dbCom.DbComGetOldRunDataMapping
+
+
                 ArrayHorceData.Add(horceData);  //SE・UMデータをグローバルに追加
             }
 
@@ -328,11 +337,12 @@ namespace WpfApp1.form
                 button31.Visible = false;
 
         }
-        #endregion 
+        #endregion
 
+        #region フォームへの書き込み・判定処理
         private int WriteHorceData(int num)
         {
-            if(num == 0 || num >= 19 || ArrayHorceData.Count == 0)
+            if (num == 0 || num >= 19 || ArrayHorceData.Count == 0)
             {
                 return 0;
             }
@@ -343,7 +353,7 @@ namespace WpfApp1.form
             //テキスト書き込み
             this.label35.Text = num.ToString() + "：" + ArrayHorceData[ArrayNum].Name1;
             this.label35.Text += (ArrayHorceData[ArrayNum].M1 == "" ? "" : "（母：" + ArrayHorceData[ArrayNum].M1 + "）");
-            this.label20.Text = ArrayHorceData[ArrayNum].Jockey1 + "(" + ArrayHorceData[ArrayNum].Futan1.Substring(0,2) + "." + ArrayHorceData[ArrayNum].Futan1.Substring(2, 1) + "kg)";
+            this.label20.Text = ArrayHorceData[ArrayNum].Jockey1 + "(" + ArrayHorceData[ArrayNum].Futan1.Substring(0, 2) + "." + ArrayHorceData[ArrayNum].Futan1.Substring(2, 1) + "kg)";
             this.BloodHorceName.Text = ArrayHorceData[ArrayNum].Name1;
             this.textBox6.Text = num.ToString();
             this.FBooldName.Text = ArrayHorceData[ArrayNum].F1;
@@ -361,7 +371,7 @@ namespace WpfApp1.form
             this.FFMTypeName.Text += (this.FFMTypeName.Text.Length >= 1 ? "系" : "");
 
             //出走条件
-            if(JudgeNotDomestic(ArrayHorceData[ArrayNum].UmaKigou1))
+            if (JudgeNotDomestic(ArrayHorceData[ArrayNum].UmaKigou1))
             {
                 this.textBox1.BackColor = Color.Yellow;
                 this.textBox1.ForeColor = Color.Black;
@@ -372,8 +382,79 @@ namespace WpfApp1.form
                 this.textBox1.ForeColor = Color.White;
             }
 
+            if (ArrayHorceData[ArrayNum].RaceHist1.distance == null|| Int32.Parse(ArrayHorceData[ArrayNum].RaceHist1.distance) == Int32.Parse(raceData.getDistance()) ||
+                ArrayHorceData[ArrayNum].RaceHist1.distance == "" )
+            {
+                //前走と距離が同じ・または前走距離が不明な場合・新馬戦などの前走成績がないとき
+                this.textBox2.Text = "";
+                this.textBox2.BackColor = Color.White;
+                this.textBox2.ForeColor = Color.White;
+            }
+            else if(Int32.Parse(ArrayHorceData[ArrayNum].RaceHist1.distance) > Int32.Parse(raceData.getDistance()))
+            {
+                //前走から距離短縮
+                this.textBox2.Text = "短";
+                this.textBox2.BackColor = Color.MediumVioletRed;
+                this.textBox2.ForeColor = Color.White;
+            }
+            else if(Int32.Parse(ArrayHorceData[ArrayNum].RaceHist1.distance) < Int32.Parse(raceData.getDistance()))
+            {
+                //前走から距離延長
+                this.textBox2.Text = "長";
+                this.textBox2.BackColor = Color.DarkBlue;
+                this.textBox2.ForeColor = Color.White;
+            }
+
+            if(ArrayHorceData[ArrayNum].RaceHist1.jockey == null　|| ArrayHorceData[ArrayNum].RaceHist1.jockey == "")
+            {
+                //前走と距離が同じ・または前走距離が不明な場合・新馬戦などの前走成績がないとき
+                this.textBox3.Text = "";
+                this.textBox3.BackColor = Color.White;
+                this.textBox3.ForeColor = Color.White;
+            }
+            else if(ArrayHorceData[ArrayNum].RaceHist1.jockey == ArrayHorceData[ArrayNum].Jockey1)
+            {
+                this.textBox3.Text = "";
+                this.textBox3.BackColor = Color.White;
+                this.textBox3.ForeColor = Color.White;
+            }
+            else
+            {
+                this.textBox3.Text = "乗替";
+                this.textBox3.BackColor = Color.Yellow;
+                this.textBox3.ForeColor = Color.Red;
+            }
+
+            #region 前走との間隔
+            this.textBox4.Text = ConvertDateToDiff(raceData.getRaceDate(), ArrayHorceData[ArrayNum].RaceHist1.RaceDate);
+
+            if(this.textBox4.Text == "")
+            {
+                this.textBox4.BackColor = Color.White;
+            }
+            else if(Int32.Parse(this.textBox4.Text) <= 14)
+            {
+                //15週～30週(３ヶ月～６ヶ月)ぶり
+                this.textBox4.BackColor = Color.White;
+                this.textBox4.ForeColor = Color.Black;
+            }
+            else if(Int32.Parse(this.textBox4.Text) >= 15 && 30 >= Int32.Parse(this.textBox4.Text))
+            {
+                //15週～30週(３ヶ月～６ヶ月)ぶり
+                this.textBox4.BackColor = Color.Yellow;
+                this.textBox4.ForeColor = Color.Black;
+            }
+            else
+            {
+                //30週以上（６が月以上）ぶり
+                this.textBox4.BackColor = Color.DarkRed;
+                this.textBox4.ForeColor = Color.White;
+            }
+            #endregion
+
             return num;
         }
+        #endregion
 
         #region 外国産チェック（true：[外]or(外)）
         public Boolean JudgeNotDomestic(String UmaKigo)
@@ -414,6 +495,38 @@ namespace WpfApp1.form
         {
             return Int32.Parse(DateTime.Substring(0,2)) + "月" + Int32.Parse(DateTime.Substring(2,2)) + "日 " + Int32.Parse(DateTime.Substring(4, 2)) + "時" + Int32.Parse(DateTime.Substring(6, 2)) + "分";
         }
+
+        #region レース引き算
+        private String ConvertDateToDiff(String Date1, String Date2)
+        {
+            //エラーチェック
+            if(Date1 == "" || Date1 == null) { return ""; }
+            if(Date2 =="" || Date2 == null) { return ""; }
+
+            int Num1 = Int32.Parse(Date1);
+            int Num2 = Int32.Parse(Date2);
+
+            DateTime d1 = new DateTime(Int32.Parse(Date1.Substring(0, 4)),
+                                       Int32.Parse(Date1.Substring(4, 2)),
+                                       Int32.Parse(Date1.Substring(6, 2))
+                                       );
+            DateTime d2 = new DateTime(Int32.Parse(Date2.Substring(0, 4)),
+                                       Int32.Parse(Date2.Substring(4, 2)),
+                                       Int32.Parse(Date2.Substring(6, 2))
+                                       );
+
+            if (Int32.Parse(Date1) > Int32.Parse(Date2))
+            {
+                TimeSpan ts = d1 - d2;
+                return (Int32.Parse(ts.Days.ToString()) / 7).ToString();
+            }
+            else
+            {
+                TimeSpan ts = d2- d1;
+                return(Int32.Parse(ts.Days.ToString()) / 7).ToString();
+            }
+        }
+        #endregion
 
         private void button25_Click(object sender, EventArgs e)
         {

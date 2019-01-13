@@ -93,6 +93,7 @@
             this.button20 = new System.Windows.Forms.Button();
             this.button19 = new System.Windows.Forms.Button();
             this.HappyoTime = new System.Windows.Forms.Label();
+            this.textBox7 = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -445,7 +446,7 @@
             // textBox2
             // 
             this.textBox2.BackColor = System.Drawing.Color.White;
-            this.textBox2.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.textBox2.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox2.ForeColor = System.Drawing.SystemColors.ScrollBar;
             this.textBox2.HideSelection = false;
             this.textBox2.Location = new System.Drawing.Point(140, 6);
@@ -460,7 +461,7 @@
             // textBox3
             // 
             this.textBox3.BackColor = System.Drawing.Color.White;
-            this.textBox3.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.textBox3.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox3.ForeColor = System.Drawing.SystemColors.ScrollBar;
             this.textBox3.HideSelection = false;
             this.textBox3.Location = new System.Drawing.Point(273, 6);
@@ -469,13 +470,13 @@
             this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(119, 79);
             this.textBox3.TabIndex = 2;
-            this.textBox3.Text = "替";
+            this.textBox3.Text = "乗替";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox4
             // 
             this.textBox4.BackColor = System.Drawing.Color.White;
-            this.textBox4.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.textBox4.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox4.ForeColor = System.Drawing.SystemColors.ScrollBar;
             this.textBox4.HideSelection = false;
             this.textBox4.Location = new System.Drawing.Point(406, 6);
@@ -1005,12 +1006,27 @@
             this.HappyoTime.TabIndex = 38;
             this.HappyoTime.Text = "発表時間";
             // 
+            // textBox7
+            // 
+            this.textBox7.BackColor = System.Drawing.Color.White;
+            this.textBox7.Font = new System.Drawing.Font("メイリオ", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.textBox7.ForeColor = System.Drawing.SystemColors.ScrollBar;
+            this.textBox7.HideSelection = false;
+            this.textBox7.Location = new System.Drawing.Point(5, 15);
+            this.textBox7.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.ReadOnly = true;
+            this.textBox7.Size = new System.Drawing.Size(10, 39);
+            this.textBox7.TabIndex = 39;
+            this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // Kettou
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(2288, 1086);
+            this.Controls.Add(this.textBox7);
             this.Controls.Add(this.HappyoTime);
             this.Controls.Add(this.tableLayoutPanel4);
             this.Controls.Add(this.tableLayoutPanel3);
@@ -1119,5 +1135,6 @@
         private System.Windows.Forms.Label FTypeName;
         private System.Windows.Forms.Label FFMTypeName;
         private System.Windows.Forms.Label HappyoTime;
+        private System.Windows.Forms.TextBox textBox7;
     }
 }
