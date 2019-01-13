@@ -38,8 +38,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibJvConv">
-      <HintPath>bin\Debug\LibJvConv.dll</HintPath>
+    <Reference Include="LibJvConv, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\JvApp\LibJvConv\bin\Debug\LibJvConv.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

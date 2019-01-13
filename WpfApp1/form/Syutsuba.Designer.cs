@@ -29,6 +29,14 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.LabelCource = new System.Windows.Forms.Label();
+            this.LabelRaceName = new System.Windows.Forms.Label();
+            this.LabelTrack = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.button2 = new System.Windows.Forms.Button();
             this.枠 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Uma = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Bamei = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,14 +51,8 @@
             this.FM = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MMFColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FFM = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.LabelCource = new System.Windows.Forms.Label();
-            this.LabelRaceName = new System.Windows.Forms.Label();
-            this.LabelTrack = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.button2 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.DMStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -88,109 +90,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(2438, 980);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // 枠
-            // 
-            this.枠.Frozen = true;
-            this.枠.HeaderText = "枠";
-            this.枠.MaxInputLength = 3;
-            this.枠.Name = "枠";
-            this.枠.ReadOnly = true;
-            this.枠.Width = 50;
-            // 
-            // Uma
-            // 
-            this.Uma.HeaderText = "馬";
-            this.Uma.MaxInputLength = 3;
-            this.Uma.Name = "Uma";
-            this.Uma.ReadOnly = true;
-            this.Uma.Width = 50;
-            // 
-            // Bamei
-            // 
-            this.Bamei.HeaderText = "馬名";
-            this.Bamei.Name = "Bamei";
-            this.Bamei.ReadOnly = true;
-            this.Bamei.Width = 350;
-            // 
-            // DM
-            // 
-            this.DM.HeaderText = "対戦型DM";
-            this.DM.Name = "DM";
-            this.DM.ReadOnly = true;
-            this.DM.Visible = false;
-            this.DM.Width = 200;
-            // 
-            // TM
-            // 
-            this.TM.HeaderText = "タイム型";
-            this.TM.Name = "TM";
-            this.TM.ReadOnly = true;
-            this.TM.Visible = false;
-            this.TM.Width = 200;
-            // 
-            // Minarai
-            // 
-            this.Minarai.HeaderText = "";
-            this.Minarai.Name = "Minarai";
-            this.Minarai.ReadOnly = true;
-            this.Minarai.Width = 30;
-            // 
-            // Jockey
-            // 
-            this.Jockey.HeaderText = "騎手";
-            this.Jockey.Name = "Jockey";
-            this.Jockey.ReadOnly = true;
-            this.Jockey.Width = 200;
-            // 
-            // Futan
-            // 
-            this.Futan.HeaderText = "負担重量";
-            this.Futan.Name = "Futan";
-            this.Futan.ReadOnly = true;
-            this.Futan.Width = 200;
-            // 
-            // FColor
-            // 
-            this.FColor.HeaderText = "";
-            this.FColor.Name = "FColor";
-            this.FColor.ReadOnly = true;
-            this.FColor.Width = 10;
-            // 
-            // M
-            // 
-            this.M.HeaderText = "父";
-            this.M.Name = "M";
-            this.M.ReadOnly = true;
-            this.M.Width = 250;
-            // 
-            // MFColor
-            // 
-            this.MFColor.HeaderText = "";
-            this.MFColor.Name = "MFColor";
-            this.MFColor.ReadOnly = true;
-            this.MFColor.Width = 10;
-            // 
-            // FM
-            // 
-            this.FM.HeaderText = "母父";
-            this.FM.Name = "FM";
-            this.FM.ReadOnly = true;
-            this.FM.Width = 250;
-            // 
-            // MMFColor
-            // 
-            this.MMFColor.HeaderText = "";
-            this.MMFColor.Name = "MMFColor";
-            this.MMFColor.ReadOnly = true;
-            this.MMFColor.Width = 10;
-            // 
-            // FFM
-            // 
-            this.FFM.HeaderText = "母母父";
-            this.FFM.Name = "FFM";
-            this.FFM.ReadOnly = true;
-            this.FFM.Width = 250;
             // 
             // flowLayoutPanel1
             // 
@@ -297,12 +196,140 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // 枠
+            // 
+            this.枠.Frozen = true;
+            this.枠.HeaderText = "枠";
+            this.枠.MaxInputLength = 3;
+            this.枠.Name = "枠";
+            this.枠.ReadOnly = true;
+            this.枠.Width = 50;
+            // 
+            // Uma
+            // 
+            this.Uma.HeaderText = "馬";
+            this.Uma.MaxInputLength = 3;
+            this.Uma.Name = "Uma";
+            this.Uma.ReadOnly = true;
+            // 
+            // Bamei
+            // 
+            this.Bamei.HeaderText = "馬名";
+            this.Bamei.Name = "Bamei";
+            this.Bamei.ReadOnly = true;
+            this.Bamei.Width = 350;
+            // 
+            // DM
+            // 
+            this.DM.HeaderText = "対戦型DM";
+            this.DM.Name = "DM";
+            this.DM.ReadOnly = true;
+            this.DM.Visible = false;
+            this.DM.Width = 200;
+            // 
+            // TM
+            // 
+            this.TM.HeaderText = "タイム型";
+            this.TM.Name = "TM";
+            this.TM.ReadOnly = true;
+            this.TM.Visible = false;
+            this.TM.Width = 200;
+            // 
+            // Minarai
+            // 
+            this.Minarai.HeaderText = "";
+            this.Minarai.Name = "Minarai";
+            this.Minarai.ReadOnly = true;
+            this.Minarai.Width = 30;
+            // 
+            // Jockey
+            // 
+            this.Jockey.HeaderText = "騎手";
+            this.Jockey.Name = "Jockey";
+            this.Jockey.ReadOnly = true;
+            this.Jockey.Width = 200;
+            // 
+            // Futan
+            // 
+            this.Futan.HeaderText = "負担重量";
+            this.Futan.Name = "Futan";
+            this.Futan.ReadOnly = true;
+            this.Futan.Width = 200;
+            // 
+            // FColor
+            // 
+            this.FColor.HeaderText = "";
+            this.FColor.Name = "FColor";
+            this.FColor.ReadOnly = true;
+            this.FColor.Width = 10;
+            // 
+            // M
+            // 
+            this.M.HeaderText = "父";
+            this.M.Name = "M";
+            this.M.ReadOnly = true;
+            this.M.Width = 250;
+            // 
+            // MFColor
+            // 
+            this.MFColor.HeaderText = "";
+            this.MFColor.Name = "MFColor";
+            this.MFColor.ReadOnly = true;
+            this.MFColor.Width = 10;
+            // 
+            // FM
+            // 
+            this.FM.HeaderText = "母父";
+            this.FM.Name = "FM";
+            this.FM.ReadOnly = true;
+            this.FM.Width = 250;
+            // 
+            // MMFColor
+            // 
+            this.MMFColor.HeaderText = "";
+            this.MMFColor.Name = "MMFColor";
+            this.MMFColor.ReadOnly = true;
+            this.MMFColor.Width = 10;
+            // 
+            // FFM
+            // 
+            this.FFM.HeaderText = "母母父";
+            this.FFM.Name = "FFM";
+            this.FFM.ReadOnly = true;
+            this.FFM.Width = 250;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label1.AutoSize = true;
+            this.label1.Enabled = false;
+            this.label1.Location = new System.Drawing.Point(1921, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(104, 24);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "DM情報：";
+            this.label1.Visible = false;
+            // 
+            // DMStatus
+            // 
+            this.DMStatus.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.DMStatus.AutoSize = true;
+            this.DMStatus.Enabled = false;
+            this.DMStatus.Location = new System.Drawing.Point(2021, 13);
+            this.DMStatus.Name = "DMStatus";
+            this.DMStatus.Size = new System.Drawing.Size(226, 24);
+            this.DMStatus.TabIndex = 9;
+            this.DMStatus.Text = "天候馬場状態発表後";
+            this.DMStatus.Visible = false;
+            // 
             // Syutsuba
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(2472, 1226);
+            this.Controls.Add(this.DMStatus);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.flowLayoutPanel3);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.button2);
@@ -321,6 +348,7 @@
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -349,5 +377,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FM;
         private System.Windows.Forms.DataGridViewTextBoxColumn MMFColor;
         private System.Windows.Forms.DataGridViewTextBoxColumn FFM;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label DMStatus;
     }
 }
