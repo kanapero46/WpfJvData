@@ -564,24 +564,8 @@ namespace WpfApp1.form
             //}
 
             ret = main.InitRealTimeDataMaining(Date);
+            ret += main.InitRealBattleDataMaining(Date, DataClass.GET_RA_KEY());
 
-            if (ret != 1)
-            {
-                return;
-            }
-            ret = main.InitRealBattleDataMaining(Date, DataClass.GET_RA_KEY());
-
-            if (ret != 1)
-            {
-                return;
-            }
-            /** if (db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + "01", DataClass.getRaceDate(), 4, ref str) == 0)            
-            {
-                db.DeleteCsv("DM");
-                
-            }
-            */
-            
             int MaxTimeDM = 0;
             int MaxBattleDM = 99999;
             int SecondTimeDM = 0;
@@ -601,7 +585,7 @@ namespace WpfApp1.form
                 covData = String.Format("{0:00}", i);
 
                 /* タイム型データマイニング */
-                if (db.TextReader_aCell("TM", DataClass.GET_RA_KEY() + covData, Date, 4, ref str) == 0)
+                if (db.TextReader_aCell("TM", DataClass.GET_RA_KEY() + covData, DataClass.GET_RA_KEY(), 4, ref str) == 0)
                 {
                     Count = i;
                     break;
@@ -626,7 +610,7 @@ namespace WpfApp1.form
                 }
 
                 /* 対戦型データマイニング */
-                if (db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + covData, Date, 4, ref str) == 0)
+                if (db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + covData, DataClass.GET_RA_KEY(), 4, ref str) == 0)
                 {
                     break;
                 }

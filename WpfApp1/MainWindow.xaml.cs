@@ -1243,7 +1243,7 @@ namespace WpfApp1
             int DbReturn = 1;
             String LibTmp = "";
             String tmp = "";
-
+            String Keytmp;
             String buff = "";
             int size = 20000;
             String fname = "";
@@ -1272,15 +1272,20 @@ namespace WpfApp1
                         //case "DM":  /* 対戦型 */
                         case "TM":  /* タイム型 */
                             JV_TMMD.SetDataB(ref buff);
-
-                            if (db.TextReader_aCell("TM", JV_TMMD.id.Year + JV_TMMD.id.MonthDay + JV_TMMD.id.JyoCD + JV_TMMD.id.Kaiji +
-                                 JV_TMMD.id.Nichiji + JV_TMMD.id.RaceNum + "01", Date.Substring(0,8), 2, ref str) != 0)
+                            Keytmp = JV_TMMD.id.Year + JV_TMMD.id.MonthDay + JV_TMMD.id.JyoCD + JV_TMMD.id.Kaiji + JV_TMMD.id.Nichiji + JV_TMMD.id.RaceNum;
+                            if (db.TextReader_aCell("TM", Keytmp + "01", Keytmp, 2, ref str) != 0)
                             {
                                 if (str == JV_TMMD.head.DataKubun)
                                 {
                                     /* 既存データあり　かつ　発表区分も同じならデータ取得スキップ */
                                     ret = 0;
                                     break;
+                                }
+                                else
+                                {
+                                    /* 既存データあり　かつ　発表区分が異なる場合、データを更新するたえ
+                                     * 既存データを削除 */
+                                    db.DeleteCsv("TM", Keytmp.Substring(0, 8) + "/" + JV_TMMD.head.RecordSpec + Keytmp + ".csv");
                                 }
                             }
 
@@ -1294,7 +1299,8 @@ namespace WpfApp1
                                 tmp += JV_TMMD.head.DataKubun + ",";
                                 tmp += JV_TMMD.TMInfo[i].Umaban + ",";
                                 tmp += JV_TMMD.TMInfo[i].TMScore + ",";
-                                db = new dbConnect((JV_TMMD.id.Year + JV_TMMD.id.MonthDay), JV_TMMD.head.RecordSpec, ref tmp, ref DbReturn);
+                                db = new dbConnect((JV_TMMD.id.Year + JV_TMMD.id.MonthDay + JV_TMMD.id.JyoCD + JV_TMMD.id.Kaiji +
+                                    JV_TMMD.id.Nichiji + JV_TMMD.id.RaceNum), JV_TMMD.head.RecordSpec, ref tmp, ref DbReturn); //仕様変更#12
                             }
                             break;
                         case "DM":
@@ -1392,7 +1398,7 @@ namespace WpfApp1
             int DbReturn = 1;
             String LibTmp = "";
             String tmp = "";
-
+            String tmpKey = "";
             String buff = "";
             int size = 20000;
             String fname = "";
@@ -1420,16 +1426,21 @@ namespace WpfApp1
                         case "DM":  /* 対戦型 */
                         //case "TM":  /* タイム型 */
                             JV_DTMD.SetDataB(ref buff);
-                            Console.WriteLine("DM" + JV_DTMD.id.Year + JV_DTMD.id.MonthDay + JV_DTMD.id.JyoCD + JV_DTMD.id.Kaiji +
-                               JV_DTMD.id.Nichiji + JV_DTMD.id.RaceNum + "01");
-                            if (db.TextReader_aCell("DM", (JV_DTMD.id.Year + JV_DTMD.id.MonthDay + JV_DTMD.id.JyoCD + JV_DTMD.id.Kaiji +
-                               JV_DTMD.id.Nichiji + JV_DTMD.id.RaceNum + "01"), Date.Substring(0,8), 2, ref LibTmp) != 0)
+                            tmpKey = JV_DTMD.id.Year + JV_DTMD.id.MonthDay + JV_DTMD.id.JyoCD + JV_DTMD.id.Kaiji + JV_DTMD.id.Nichiji + JV_DTMD.id.RaceNum;
+                            Console.WriteLine("DM" + tmpKey + "01");
+                            if (db.TextReader_aCell("DM", (tmpKey + "01"), tmpKey, 2, ref LibTmp) != 0)
                             {
                                 if (LibTmp == JV_DTMD.head.DataKubun)
                                 {
                                     /* 既存データあり　かつ　発表区分も同じならデータ取得スキップ */
                                     ret = 0;
                                     break;
+                                }
+                                else
+                                {
+                                    /* 既存データあり　かつ　発表区分が異なる場合、データを更新するたえ
+                                    * 既存データを削除 */
+                                    db.DeleteCsv("DM", tmpKey.Substring(0, 8) + "/" + JV_DTMD.head.RecordSpec + tmpKey + ".csv");
                                 }
                             }
                             else
@@ -1448,7 +1459,8 @@ namespace WpfApp1
                                 tmp += JV_DTMD.DMInfo[i].DMTime + ",";
                                 tmp += JV_DTMD.DMInfo[i].DMGosaP + ",";
                                 tmp += JV_DTMD.DMInfo[i].DMGosaM + ",";
-                                db = new dbConnect((JV_DTMD.id.Year + JV_DTMD.id.MonthDay), JV_DTMD.head.RecordSpec, ref tmp, ref DbReturn);
+                                //仕様変更#12
+                                db = new dbConnect((JV_DTMD.id.Year + JV_DTMD.id.MonthDay + JV_DTMD.id.JyoCD + JV_DTMD.id.Kaiji + JV_DTMD.id.Nichiji + JV_DTMD.id.RaceNum), JV_DTMD.head.RecordSpec, ref tmp, ref DbReturn);
                             }
                             break;
                         case "TM":
