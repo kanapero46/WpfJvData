@@ -119,8 +119,8 @@ namespace WpfApp1.form
             //競走馬情報
 
             tmp = "";
-            ret = db.TextReader_Col(raceData.getRaceDate(), "WE", 1, ref str, Key);
-            if (ret != 1 || str.Count() == 0)
+            ret = db.TextReader_Col(raceData.getRaceDate(), "WE", 0, ref str, Key);
+            if (ret == 0 || str.Count() == 0)
             {
                 weLabel.Text = "---";
                 TrackDistance.Text = "---";
@@ -152,6 +152,7 @@ namespace WpfApp1.form
 
 
             TrackLabel.Text = (GetKind == 2 ? "芝" : "ダート");
+            TrackLabel.BackColor = (GetKind == 2 ? Color.LightGreen : Color.Tan);
 
             LibCode = 2007;
             LibJvConvFuncClass.jvSysConvFunction(&LibCode, raceData.getRaceClass(), ref tmp);
@@ -179,7 +180,7 @@ namespace WpfApp1.form
 
             /* DBからレース情報読み込み */
             int ret = db.TextReader_Col(Key.Substring(0, 8), "RA", 0, ref tmp, Key);
-            if (ret != 1)
+            if (ret == 0)
             {
                 return 0;
             }
@@ -291,24 +292,24 @@ namespace WpfApp1.form
         {
             switch(num)
             {
-                case 1: u1.Visible = true; break;
-                case 2: button24.Visible = true; break;
-                case 3: button27.Visible = true; break;
-                case 4: button26.Visible = true; break;
-                case 5: button23.Visible = true; break;
-                case 6: button20.Visible = true; break;
-                case 7: button19.Visible = true; break;
-                case 8: button22.Visible = true; break;
-                case 9: button21.Visible = true; break;
-                case 10: button35.Visible = true; break;
-                case 11: button34.Visible = true; break;
-                case 12: button1.Visible = true; break;
-                case 13: button36.Visible = true; break;
-                case 14: button33.Visible = true; break;
-                case 15: button29.Visible = true; break;
-                case 16: button28.Visible = true; break;
-                case 17: button32.Visible = true; break;
-                case 18: button31.Visible = true; break;
+                case 1: u1.Text = num.ToString(); u1.Visible = true; break;
+                case 2: button24.Text = num.ToString(); button24.Visible = true; break;
+                case 3: button27.Text = num.ToString(); button27.Visible = true; break;
+                case 4: button26.Text = num.ToString(); button26.Visible = true; break;
+                case 5: button23.Text = num.ToString(); button23.Visible = true; break;
+                case 6: button20.Text = num.ToString(); button20.Visible = true; break;
+                case 7: button19.Text = num.ToString(); button19.Visible = true; break;
+                case 8: button22.Text = num.ToString(); button22.Visible = true; break;
+                case 9: button21.Text = num.ToString(); button21.Visible = true; break;
+                case 10: button35.Text = num.ToString(); button35.Visible = true; break;
+                case 11: button34.Text = num.ToString(); button34.Visible = true; break;
+                case 12: button1.Text = num.ToString(); button1.Visible = true; break;
+                case 13: button36.Text = num.ToString(); button36.Visible = true; break;
+                case 14: button33.Text = num.ToString(); button33.Visible = true; break;
+                case 15: button29.Text = num.ToString(); button29.Visible = true; break;
+                case 16: button28.Text = num.ToString(); button28.Visible = true; break;
+                case 17: button32.Text = num.ToString(); button32.Visible = true; break;
+                case 18: button31.Text = num.ToString(); button31.Visible = true; break;
                 default: break;
             }
         }

@@ -116,7 +116,7 @@
             this.Date.Name = "Date";
             this.Date.Size = new System.Drawing.Size(345, 38);
             this.Date.TabIndex = 0;
-            this.Date.Text = "2018年12月23日(日曜)";
+            this.Date.Text = "2099年99月99日(日曜)";
             // 
             // Kaisai
             // 
@@ -128,7 +128,7 @@
             this.Kaisai.Name = "Kaisai";
             this.Kaisai.Size = new System.Drawing.Size(235, 38);
             this.Kaisai.TabIndex = 1;
-            this.Kaisai.Text = "第5回中山8日目";
+            this.Kaisai.Text = "第0回場名0日目";
             // 
             // label3
             // 
@@ -202,9 +202,9 @@
             this.kaiji.Location = new System.Drawing.Point(7, 10);
             this.kaiji.Margin = new System.Windows.Forms.Padding(7, 10, 7, 0);
             this.kaiji.Name = "kaiji";
-            this.kaiji.Size = new System.Drawing.Size(115, 38);
+            this.kaiji.Size = new System.Drawing.Size(107, 38);
             this.kaiji.TabIndex = 5;
-            this.kaiji.Text = "第63回";
+            this.kaiji.Text = "第０回";
             // 
             // label10
             // 
@@ -233,12 +233,11 @@
             // 
             this.racename.AutoSize = true;
             this.racename.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.racename.Location = new System.Drawing.Point(136, 0);
+            this.racename.Location = new System.Drawing.Point(128, 0);
             this.racename.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.racename.Name = "racename";
-            this.racename.Size = new System.Drawing.Size(1470, 72);
+            this.racename.Size = new System.Drawing.Size(0, 72);
             this.racename.TabIndex = 8;
-            this.racename.Text = "２０１８ヤングジョッキーズシリーズファイナルラウンド中山２戦";
             // 
             // OldYear
             // 
@@ -247,9 +246,9 @@
             this.OldYear.Location = new System.Drawing.Point(7, 0);
             this.OldYear.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.OldYear.Name = "OldYear";
-            this.OldYear.Size = new System.Drawing.Size(201, 38);
+            this.OldYear.Size = new System.Drawing.Size(92, 38);
             this.OldYear.TabIndex = 8;
-            this.OldYear.Text = "サラ系3歳以上";
+            this.OldYear.Text = "サラ系";
             // 
             // panel1
             // 
@@ -268,7 +267,7 @@
             this.RaceNum.AutoSize = true;
             this.RaceNum.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.RaceNum.ForeColor = System.Drawing.Color.White;
-            this.RaceNum.Location = new System.Drawing.Point(-2, 8);
+            this.RaceNum.Location = new System.Drawing.Point(3, 8);
             this.RaceNum.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.RaceNum.Name = "RaceNum";
             this.RaceNum.Size = new System.Drawing.Size(108, 63);
@@ -336,7 +335,7 @@
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label18.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label18.Location = new System.Drawing.Point(128, 0);
+            this.label18.Location = new System.Drawing.Point(118, 0);
             this.label18.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(46, 38);
@@ -363,16 +362,16 @@
             this.DistanceLabel.Location = new System.Drawing.Point(7, 0);
             this.DistanceLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.DistanceLabel.Name = "DistanceLabel";
-            this.DistanceLabel.Size = new System.Drawing.Size(107, 38);
+            this.DistanceLabel.Size = new System.Drawing.Size(97, 38);
             this.DistanceLabel.TabIndex = 16;
-            this.DistanceLabel.Text = "2,500";
+            this.DistanceLabel.Text = "9999";
             // 
             // TrackNameLabel
             // 
             this.TrackNameLabel.AutoSize = true;
             this.TrackNameLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.TrackNameLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.TrackNameLabel.Location = new System.Drawing.Point(188, 0);
+            this.TrackNameLabel.Location = new System.Drawing.Point(178, 0);
             this.TrackNameLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.TrackNameLabel.Name = "TrackNameLabel";
             this.TrackNameLabel.Size = new System.Drawing.Size(152, 38);
@@ -384,13 +383,13 @@
             this.label35.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label35.AutoSize = true;
-            this.label35.Font = new System.Drawing.Font("メイリオ", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label35.Font = new System.Drawing.Font("メイリオ", 16.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label35.Location = new System.Drawing.Point(7, 4);
             this.label35.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(740, 45);
+            this.label35.Size = new System.Drawing.Size(114, 65);
             this.label35.TabIndex = 31;
-            this.label35.Text = "７：ブラストワンピース（母：ツルマルワンピース）";
+            this.label35.Text = "１：";
             // 
             // panel2
             // 
@@ -1025,7 +1024,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(2288, 1086);
+            this.ClientSize = new System.Drawing.Size(2288, 1175);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.HappyoTime);
             this.Controls.Add(this.tableLayoutPanel4);
