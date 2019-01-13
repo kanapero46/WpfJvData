@@ -203,7 +203,7 @@ namespace WpfApp1.form
             String LibTmp = "";
 
             LibJvConvFuncClass.jvSysConvFunction(&Code, raceData.getWeekDay(), ref LibTmp);
-            this.Date.Text = ConvertDateToDate(raceData.getRaceDate()) + "(" + LibTmp + "曜)";
+            this.Date.Text = ConvertDateToDate(raceData.getRaceDate()) + "(" + (LibTmp == "祝" ?  LibTmp : LibTmp + "曜") +")";
 
             Code = LibJvConvFuncClass.COURCE_CODE;
             LibJvConvFuncClass.jvSysConvFunction(&Code, raceData.getRaceCource(), ref LibTmp);

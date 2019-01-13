@@ -109,28 +109,39 @@ namespace WpfApp1.dbAccess
             String file;
             try
             {
-                if (data == "0")
+                file = ReadCsvComFileName(dtSpec, data);
+                if (file == "")
                 {
-                    file = @"" + dtSpec + "_MST" + "/" + dtSpec + ".csv";
-                    
+                    return;
+                }
+                else if (data == "0")
+                {
                     /* ディレクトリ存在有無の確認 */
                     if (!Directory.Exists(dtSpec + "_MST/"))
                     {
                         Directory.CreateDirectory(dtSpec + "_MST/");
                     }
                 }
-                else
+                else if(data.Length == 8)
                 {
-                    file = @"" + dtSpec + "/" + data + "/" + dtSpec + data + ".csv";
-
                     /* ディレクトリ存在有無の確認 */
                     if (!Directory.Exists(dtSpec + "/" + data + "/"))
                     {
                         Directory.CreateDirectory(dtSpec + "/" + data + "/");
                     }
                 }
+                else
+                {
+                    /* ファイル名とフォルダ名が異なる場合 */ /* 仕様変更#12 */
+                    /* フォルダ名は日付 */
+                    /* ファイル名はレース毎にする場合 */
+                    /* ディレクトリ存在有無の確認 */
+                    if (!Directory.Exists(dtSpec + "/" + data.Substring(0,8) + "/"))
+                    {
+                        Directory.CreateDirectory(dtSpec + "/" + data.Substring(0, 8) + "/");
+                    }
+                }
                
-
                 /* ファイルの存在有無の確認 */
                 if (!Directory.Exists(file))
                 {
@@ -235,15 +246,13 @@ namespace WpfApp1.dbAccess
             int loop = 0;           //列カウンタ
             int ColLoopCount = 0;   //行カウンタ 
 
-            if(Date == "0")
-            {
-                file = @"" + dtSpec + "_MST/" + dtSpec + ".csv";
-            }
-            else
-            {
-                file = @"" + dtSpec + "/" + Date + "/" + dtSpec + Date + ".csv";
-            }
 
+            file = ReadCsvComFileName(dtSpec, Date);
+            if (file == "")
+            {
+                return 0;
+            }
+            
             try
             {
                 FileStream fs = File.OpenRead(file);
@@ -332,13 +341,34 @@ namespace WpfApp1.dbAccess
             }
         }
 
+        #region ファイル名を検索する共通メソッド
+        static String ReadCsvComFileName(String dtSpec, String Date)
+        {
+            if(Date == null || dtSpec == null || Date == "" || dtSpec == "") { return ""; }
+
+            switch(Date.Length)
+            {
+                case 1:
+                    /* マスターデータ */
+                    return @"" + dtSpec + "_MST/" + dtSpec + ".csv";
+                case 8:
+                    /* レース開催日 */
+                    return @"" + dtSpec + "/" + Date + "/" + dtSpec + Date + ".csv";
+                case 16:
+                    /* レース毎 */
+                    return @"" + dtSpec + "/" + Date.Substring(0,8) + "/" + dtSpec + Date + ".csv";
+            }
+            return "";
+        }
+        #endregion
+
         /**************************************************
          * @func  ファイル(DB)の削除
          * @event 関数コール
          * @inPrm   dtSpec：削除するデータ種
          * @OutPrm  int：結果　　　０：失敗・プロセス実行中
          *                      　１：取得成功
-         **************************************************/ 
+         **************************************************/
         public int DeleteCsv(String dtSpec)
         {
             return DeleteCsv(dtSpec, "", true);
@@ -351,7 +381,7 @@ namespace WpfApp1.dbAccess
 
         public int DeleteCsv(String dtSpec, String filename, Boolean DirectoryFlag)
         {
-            String file = @"" + dtSpec + "/" + filename; ;
+            String file = @"" + dtSpec + "/" + filename;
             int ret = 0;
 
             try
@@ -359,7 +389,7 @@ namespace WpfApp1.dbAccess
                 if (DirectoryFlag)
                 {
                     /* ファイル削除 */
-                    Directory.Delete(file, true);
+                    File.Delete(file);
                     ret = 1;
                 }
                 else
@@ -376,8 +406,9 @@ namespace WpfApp1.dbAccess
                     ret = 1;
                 }
             } 
-            catch (IOException)
+            catch (IOException e)
             {
+                Console.WriteLine(e);   
                 ret = 0;
             }
             catch(UnauthorizedAccessException)
