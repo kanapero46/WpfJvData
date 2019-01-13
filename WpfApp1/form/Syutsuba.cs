@@ -556,29 +556,31 @@ namespace WpfApp1.form
             db = new dbConnect();
 
             /* タイム型データマイニング */
-            if (db.TextReader_aCell("TM", DataClass.GET_RA_KEY() + "01", DataClass.getRaceDate(), 4, ref str) != 1)
-            {
-                /* データなし */
-                db.DeleteCsv("TM");
-                ret = main.InitRealTimeDataMaining(Date);
+            //if (db.TextReader_aCell("TM", DataClass.GET_RA_KEY() + "01", DataClass.getRaceDate(), 4, ref str) == 0)
+            //{
+            //    /* データなし */
+            //    db.DeleteCsv("TM");
+               
+            //}
 
-                if (ret != 1)
-                {
-                    return;
-                }
+            ret = main.InitRealTimeDataMaining(Date);
+
+            if (ret != 1)
+            {
+                return;
             }
+            ret = main.InitRealBattleDataMaining(Date, DataClass.GET_RA_KEY());
 
-            if(db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + "01", DataClass.getRaceDate(), 4, ref str) != 1)            
+            if (ret != 1)
             {
-                /* データなし */
+                return;
+            }
+            /** if (db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + "01", DataClass.getRaceDate(), 4, ref str) == 0)            
+            {
                 db.DeleteCsv("DM");
-                ret = main.InitRealBattleDataMaining(Date);
-
-                if (ret != 1)
-                {
-                    return;
-                }
+                
             }
+            */
             
             int MaxTimeDM = 0;
             int MaxBattleDM = 99999;
