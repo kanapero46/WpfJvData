@@ -132,7 +132,7 @@ namespace WpfApp1.form
             List<String> Arraytmp;
 
             //RA初回読み込み時にエラーチェック ０もエラー
-            if (db.TextReader_aCell("RA", SE_KEY, SE_KEY.Substring(0, 8), 19, ref tmp) != 1)
+            if (db.TextReader_aCell("RA", SE_KEY, SE_KEY.Substring(0, 8), 19, ref tmp) == 0)
             {
                 main.LogMainCancelFlagChanger(false);        //スレッド開始処理
                 return;
@@ -148,7 +148,7 @@ namespace WpfApp1.form
 
 
                 //SE初回読み込み時にエラーチェック ０もエラー
-                if (db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), 0, ref tmp) != 1)
+                if (db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), 0, ref tmp) == 0)
                 {
                     break;
                 }
@@ -157,7 +157,7 @@ namespace WpfApp1.form
                 else if (tmp.Substring(0,16) != SE_KEY) { break; }
                 pHorceClasses.KEY1 = tmp;
 
-                if(db.TextReader_Col(SE_KEY.Substring(0, 8), "SE", 0, ref Arraytmp, SE_KEY + covData)!= 1)
+                if(db.TextReader_Col(SE_KEY.Substring(0, 8), "SE", 0, ref Arraytmp, SE_KEY + covData)== 0)
                 {
                     break;
                 }
@@ -189,7 +189,7 @@ namespace WpfApp1.form
                 Arraytmp = new List<string>();
 
                 /* 血統登録番号からマスタを取得 */
-                if(db.TextReader_Col("0", "UM", 0, ref Arraytmp, pHorceClasses.KettoNum1.ToString())!= 1)
+                if(db.TextReader_Col("0", "UM", 0, ref Arraytmp, pHorceClasses.KettoNum1.ToString())== 0)
                 {
                     
                     break;
@@ -271,8 +271,9 @@ namespace WpfApp1.form
 
             }
             main.LogMainCancelFlagChanger(false);        //スレッド開始処理
-            t.Join();
+           // t.Join();
             t.Abort();
+            t.Join();
         }
 
         /*  DataGridView1[0, 0].Style.BackColor =*/
@@ -598,7 +599,7 @@ namespace WpfApp1.form
                 covData = String.Format("{0:00}", i);
 
                 /* タイム型データマイニング */
-                if (db.TextReader_aCell("TM", DataClass.GET_RA_KEY() + covData, Date, 4, ref str) != 1)
+                if (db.TextReader_aCell("TM", DataClass.GET_RA_KEY() + covData, Date, 4, ref str) == 0)
                 {
                     Count = i;
                     break;
@@ -623,7 +624,7 @@ namespace WpfApp1.form
                 }
 
                 /* 対戦型データマイニング */
-                if (db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + covData, Date, 4, ref str) != 1)
+                if (db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + covData, Date, 4, ref str) == 0)
                 {
                     break;
                 }

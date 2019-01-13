@@ -15,6 +15,12 @@ namespace WpfApp1.dbAccess
     {
         Boolean boolInit;
 
+        struct DB_DATA_STRUCT
+        {
+            public long offset;
+            public long pickUp;
+        };
+
         /* csvエンコード */
         Encoding enc = Encoding.GetEncoding("utf-8");
 
@@ -162,13 +168,20 @@ namespace WpfApp1.dbAccess
         public int TextReader_Row(String Date, String dtSpec, int Kind, ref List<String> srt)
         {
             /* たて列ぜんぶ */
-            return ReadCsv(Date, dtSpec, Kind, ref srt, 0, "");
+            return ReadCsv(Date, dtSpec, Kind, ref srt, 0, "", 0);
         }
 
         public int TextReader_Col(String Date, String dtSpec, int Kind, ref List<String> srt, String Key)
         {
             /* よこ列ぜんぶ */
-            return ReadCsv(Date, dtSpec, Kind, ref srt, 1, Key);
+            if (Kind == 0)
+            {
+                return ReadCsv(Date, dtSpec, Kind, ref srt, 1, Key, 0);
+            }
+            else
+            {
+                return ReadCsv(Date, dtSpec, Kind, ref srt, 3, Key, 0);
+            }
         }
 
         /**************************************************
@@ -187,7 +200,7 @@ namespace WpfApp1.dbAccess
         {
             int ret = 0;
             List<String> ArrayStr = new List<string>();
-            ret = ReadCsv(Date, dtSpec, Kind, ref ArrayStr, 2, Key);
+            ret = ReadCsv(Date, dtSpec, Kind, ref ArrayStr, 2, Key, 0);
 
             /* 取得データなし */
             if(ArrayStr.Count == 0)
@@ -210,13 +223,17 @@ namespace WpfApp1.dbAccess
          *          ※Masterデータは「０」を指定
          *          Kind：取得したいデータの列数(配列(0~))もしくは行数
          *          tmp：データ保管場所の参照(ref)
+         *          Key：取得するキー
+         *          offset：指定行から読み込む
          * @OutPrm  int：取得結果　０：失敗・プロセス実行中
-         *                      　１：取得成功
-         **************************************************/  
-        static int ReadCsv(String Date, String dtSpec,int Kind, ref List<String> str, int AllData, String Key)
+         *          TextReader_Row：１：成功
+         *          それ以外：１～：成功（検索合致行が戻る）
+         **************************************************/
+        static int ReadCsv(String Date, String dtSpec,int Kind, ref List<String> str, int AllData, String Key, long offset)
         {
             String file;
-            int loop = 0;
+            int loop = 0;           //列カウンタ
+            int ColLoopCount = 0;   //行カウンタ 
 
             if(Date == "0")
             {
@@ -229,16 +246,32 @@ namespace WpfApp1.dbAccess
 
             try
             {
+                FileStream fs = File.OpenRead(file);
+
+                if(offset != 0)
+                {
+                    fs.Seek(offset, SeekOrigin.Begin);
+                }
+                
                 // csvファイルを開く
-                using (var sr = new System.IO.StreamReader(file))
+                using (var sr = new System.IO.StreamReader(fs))
                 {
                     // ストリームの末尾まで繰り返す
                     while (!sr.EndOfStream)
                     {
-                        // ファイルから一行読み込む
+                        // ファイルを指定行から１行読み込む
                         var line = sr.ReadLine();
                         // 読み込んだ一行をカンマ毎に分けて配列に格納する
                         var values = line.Split(',');
+
+                        ColLoopCount++;
+
+                        //先頭が#から始まる場合は読み込み対象外：ファイル情報などを記載
+                        if(values[0].Substring(0,1) == "#")
+                        {
+							continue;
+						}
+                        
                         // 出力する
                         foreach (String value in values)
                         {
@@ -260,7 +293,7 @@ namespace WpfApp1.dbAccess
                                     {
                                         str.Add(values[i]);
                                     }
-                                    return 1;
+                                    return ColLoopCount;
                                 }
                             }
                             else if(AllData == 2)
@@ -269,7 +302,19 @@ namespace WpfApp1.dbAccess
                                 if (values[0] == Key)
                                 {
                                     str.Add(values[Kind]);
-                                    return 1;
+                                    return ColLoopCount;
+                                }
+                            }
+                            else if (AllData == 3)
+                            {
+                                // よこ一列(TextReader_Col)→キー指定
+                                if (values[Kind] == Key)
+                                {
+                                    for (int i = 0; i < values.Length; i++)
+                                    {
+                                        str.Add(values[i]);
+                                    }
+                                    return ColLoopCount;
                                 }
                             }
                             loop++;
@@ -334,6 +379,10 @@ namespace WpfApp1.dbAccess
             catch (IOException)
             {
                 ret = 0;
+            }
+            catch(UnauthorizedAccessException)
+            {
+                MessageBox.Show("ファイルへのアクセスが距離されました。","アクセスエラー");
             }
 
             return ret;

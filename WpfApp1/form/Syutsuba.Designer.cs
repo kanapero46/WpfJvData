@@ -85,7 +85,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 21;
-            this.dataGridView1.Size = new System.Drawing.Size(3806, 980);
+            this.dataGridView1.Size = new System.Drawing.Size(2438, 980);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -148,7 +148,7 @@
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button1.ForeColor = System.Drawing.Color.Red;
-            this.button1.Location = new System.Drawing.Point(3652, 24);
+            this.button1.Location = new System.Drawing.Point(2284, 24);
             this.button1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(163, 64);
@@ -166,7 +166,7 @@
             this.flowLayoutPanel2.Location = new System.Drawing.Point(611, 0);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(2668, 64);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(1300, 64);
             this.flowLayoutPanel2.TabIndex = 5;
             // 
             // flowLayoutPanel3
@@ -178,7 +178,7 @@
             this.flowLayoutPanel3.Location = new System.Drawing.Point(611, 64);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(2668, 70);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(1300, 70);
             this.flowLayoutPanel3.TabIndex = 6;
             // 
             // button2
@@ -201,7 +201,7 @@
             this.枠.MaxInputLength = 3;
             this.枠.Name = "枠";
             this.枠.ReadOnly = true;
-            this.枠.Width = 30;
+            this.枠.Width = 50;
             // 
             // Uma
             // 
@@ -216,7 +216,7 @@
             this.Bamei.HeaderText = "馬名";
             this.Bamei.Name = "Bamei";
             this.Bamei.ReadOnly = true;
-            this.Bamei.Width = 500;
+            this.Bamei.Width = 350;
             // 
             // DM
             // 
@@ -224,6 +224,7 @@
             this.DM.Name = "DM";
             this.DM.ReadOnly = true;
             this.DM.Visible = false;
+            this.DM.Width = 200;
             // 
             // TM
             // 
@@ -231,6 +232,7 @@
             this.TM.Name = "TM";
             this.TM.ReadOnly = true;
             this.TM.Visible = false;
+            this.TM.Width = 200;
             // 
             // Minarai
             // 
@@ -265,7 +267,7 @@
             this.M.HeaderText = "父";
             this.M.Name = "M";
             this.M.ReadOnly = true;
-            this.M.Width = 300;
+            this.M.Width = 250;
             // 
             // MFColor
             // 
@@ -279,7 +281,7 @@
             this.FM.HeaderText = "母父";
             this.FM.Name = "FM";
             this.FM.ReadOnly = true;
-            this.FM.Width = 300;
+            this.FM.Width = 250;
             // 
             // MMFColor
             // 
@@ -293,14 +295,14 @@
             this.FFM.HeaderText = "母母父";
             this.FFM.Name = "FFM";
             this.FFM.ReadOnly = true;
-            this.FFM.Width = 300;
+            this.FFM.Width = 250;
             // 
             // Syutsuba
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(2740, 1253);
+            this.ClientSize = new System.Drawing.Size(2472, 1226);
             this.Controls.Add(this.flowLayoutPanel3);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.button2);

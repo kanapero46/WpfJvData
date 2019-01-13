@@ -54,9 +54,11 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -74,7 +76,9 @@
     <Compile Include="class\HorceProgramClass.cs" />
     <Compile Include="class\MainDataClass.cs" />
     <Compile Include="class\MainDataHorceClass.cs" />
+    <Compile Include="class\WeatherCourceStatus.cs" />
     <Compile Include="dbAccess\dbConnect.cs" />
+    <Compile Include="dbAccess\dbCom.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +90,12 @@
     </Compile>
     <Compile Include="form\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\Kettou.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\Kettou.Designer.cs">
+      <DependentUpon>Kettou.cs</DependentUpon>
     </Compile>
     <Compile Include="form\Log.cs">
       <SubType>Form</SubType>
@@ -124,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\Kettou.resx">
+      <DependentUpon>Kettou.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\Log.resx">
       <DependentUpon>Log.cs</DependentUpon>
@@ -199,7 +212,16 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
+    <None Include="Horce.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Horce.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="B1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="all.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

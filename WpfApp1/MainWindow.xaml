@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="855.726">
     <Grid x:Name="Main" Cursor="">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="373*"/>
@@ -15,7 +15,7 @@
         <Button Content="実行" HorizontalAlignment="Left" Height="24" Margin="359,10,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click_2"/>
         <ComboBox x:Name="RaceListBox" HorizontalAlignment="Right" Margin="0,12,10,0" VerticalAlignment="Top" Width="279" Grid.ColumnSpan="2" SelectionChanged="ComboBox_SelectionChanged"/>
         <Button x:Name="SyutubaButton" Content="出馬表" HorizontalAlignment="Left" Height="24" Margin="25,50,0,0" VerticalAlignment="Top" Width="101" Click="SyutubaButton_Click"/>
-        <Button x:Name="ButtonFunction2" Content="血統表" HorizontalAlignment="Left" Height="24" Margin="142,50,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click"/>
+        <Button x:Name="ButtonFunction2" Content="血統表" HorizontalAlignment="Left" Height="24" Margin="142,50,0,0" VerticalAlignment="Top" Width="101" Click="ButtonFunction2_Click"/>
         <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="259,50,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click"/>
         <Rectangle x:Name="MainBack" Height="33" Margin="10,79,10,0" Stroke="Black" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <Label x:Name="LabelCource" Content="" HorizontalAlignment="Left" Margin="28,75,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>
@@ -29,5 +29,6 @@
         <CheckBox x:Name="MasterFlag" Content="" HorizontalAlignment="Left" Margin="411,50,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="ToWeekFlag" Content="" HorizontalAlignment="Left" Margin="386,50,0,0" VerticalAlignment="Top"/>
         <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="503,48,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click_1"/>
+        <Button Content="Exit" Margin="766,50,10.5,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Click="Button_Click_4"/>
     </Grid>
 </Window>

@@ -194,6 +194,13 @@ namespace WpfApp1
                             if (JV_RACE.RaceInfo.Hondai.Trim() == "")
                             {
                                 LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.JyokenInfo.SyubetuCD + JV_RACE.JyokenInfo.JyokenCD[4], ref LibTmp);
+                                if(JV_RACE.JyokenInfo.JyokenCD[4] == "701")
+                                {
+                                    CODE = LibJvConvFuncClass.COURCE_CODE;
+                                    LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.id.JyoCD, ref LibTmp);
+                                    LibTmp = "メイクデビュー" + LibTmp;
+                                }
+
                                 tmp += LibTmp;
                             }
                             else
@@ -215,6 +222,9 @@ namespace WpfApp1
                             tmp += JV_RACE.TrackCD + ",";
                             tmp += JV_RACE.Kyori + ",";
                             tmp += JV_RACE.TorokuTosu + ",";
+                            tmp += JV_RACE.JyokenInfo.KigoCD + ",";
+                            tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
+                            tmp += JV_RACE.HassoTime + ",";
                             db = new dbConnect((JV_RACE.id.Year + JV_RACE.id.MonthDay), JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             break;
                         case "SE":
@@ -301,6 +311,165 @@ namespace WpfApp1
             }
         }
 
+        public int JvGetRTData(String FromTime)
+        {
+            int ret;
+            String Dt = "0B14";
+
+            JVForm.JvForm_JvInit();
+            JVForm.JvForm_JVWatchEvent();   //速報系イベントスレッド起動
+
+            ret = JVForm.JvForm_JvRTOpen(Dt, FromTime);
+
+            if(ret != 0)
+            {
+                ret = CheckJvOpenRetErr(ret);
+                if(ret != 1)
+                {
+                    System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー");
+                    return 0;
+                }
+                ret = JVForm.JvForm_JvRTOpen(Dt, FromTime);
+                if(ret != 0)
+                {
+                    System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー2");
+                    return 0;
+                }
+            }
+
+            /* JvRead用変数の初期化 */
+            ret = 1;
+
+            /* ライブラリ用変数 */
+            int DbReturn = 1;
+            String tmp = "";
+
+            String buff = "";
+            int size = 20000;
+            String fname = "";
+            Boolean Flag = false;
+
+            /* データを追加するにはここに構造体を追加 */
+            JVData_Struct.JV_WE_WEATHER JV_WEATHER = new JVData_Struct.JV_WE_WEATHER(); //天候馬場状態
+            JVData_Struct.JV_AV_INFO JV_INFO = new JVData_Struct.JV_AV_INFO();          //騎手変更等
+
+            /* 天候馬場状態用配列宣言 */
+            List<WeatherCourceStatus> WCstatus = new List<WeatherCourceStatus>();
+                       
+            /* DB初期化 */
+            db = new dbConnect();
+            //db.DeleteCsv("TM");
+            
+            db.DeleteCsv("AV", FromTime.Substring(0, 8) + ".csv", false);
+
+            while (ret >= 1)
+            {
+                ret = JVForm.JvForm_JvRead(ref buff, out size, out fname);
+
+                if (ret > 0)
+                {
+                    if (buff == "")
+                    {
+                        continue;
+                    }
+
+                    switch (buff.Substring(0, 2))
+                    {
+                        case "WE":
+                            JV_WEATHER.SetDataB(ref buff);
+                            db.DeleteCsv("WE");
+                            tmp = JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji;
+                            //tmp = "";
+                            //tmp += JV_WEATHER.id.Year + JV_WEATHER.id.MonthDay + JV_WEATHER.id.JyoCD + JV_WEATHER.id.Kaiji + JV_WEATHER.id.Nichiji + ",";
+                            //tmp += JV_WEATHER.TenkoBaba.TenkoCD + ",";
+                            //tmp += JV_WEATHER.TenkoBaba.SibaBabaCD + ",";
+                            //tmp += JV_WEATHER.TenkoBaba.DirtBabaCD + ",";
+                            //tmp += JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute + ",";
+                            Flag = false;
+                            for (int i=0; i < WCstatus.Count(); i++)
+                            {
+                                if (WCstatus[i].Key == tmp)
+                                {
+                                    WCstatus[i].SetAllStatus(tmp,
+                                        JV_WEATHER.TenkoBaba.TenkoCD, JV_WEATHER.TenkoBaba.SibaBabaCD, JV_WEATHER.TenkoBaba.DirtBabaCD,
+                                        JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute);
+                                    Flag = true;
+                                    break;   //次のループへ
+                                }
+                            }
+
+                            if(Flag == false)
+                            {
+                                //ここに来たらデータなしのため配列を作成
+                                WeatherCourceStatus tmpClass = new WeatherCourceStatus();
+                                tmpClass.SetAllStatus(tmp,
+                                            JV_WEATHER.TenkoBaba.TenkoCD, JV_WEATHER.TenkoBaba.SibaBabaCD, JV_WEATHER.TenkoBaba.DirtBabaCD,
+                                            JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute);
+                                WCstatus.Add(tmpClass);
+                            }
+                           
+                            break;
+                        case "AV":
+                            JV_INFO.SetDataB(ref buff);
+                            tmp = "";
+                            tmp += JV_INFO.id.Year + JV_INFO.id.MonthDay + JV_INFO.id.JyoCD + JV_INFO.id.Kaiji + JV_INFO.id.Nichiji + JV_INFO.id.RaceNum + ",";
+                            tmp += JV_INFO.Umaban + ",";
+                            tmp += JV_INFO.head.DataKubun + ",";
+                            tmp += JV_INFO.Bamei + ",";
+                            tmp += JV_INFO.JiyuKubun + ",";
+                            db = new dbConnect(JV_INFO.id.Year + JV_INFO.id.MonthDay, JV_INFO.head.RecordSpec, ref tmp, ref DbReturn);
+                            break;
+                        case "TC":
+                            break;
+
+                        default:
+                            //JVForm.JvForm_JvSkip();
+                            break;
+                    }
+
+                    if (DbReturn == 0)
+                    {
+                        break;
+                    }
+                }
+                else if (ret == 0)
+                {
+                    /* 全ファイルデータ読み込み終了 */
+                    break;
+
+                }
+                else if (ret == -1)
+                {
+                    /* ファイル切り替わり */
+                    ret = 1;
+                    continue;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            /* DBに書き込み */
+            String Key;
+            //天候馬場状態書き込み
+            for(int j=0; j < WCstatus.Count(); j++)
+            {
+                Key = WCstatus[j].Key + "," + WCstatus[j].Weather + "," + WCstatus[j].Turf + "," + WCstatus[j].Dirt + "," +
+                     WCstatus[j].LatestTime + ",";
+                db = new dbConnect(WCstatus[j].Key.Substring(0, 8), "WE", ref Key, ref DbReturn);
+
+                if (DbReturn != 1)
+                {
+                    return 0;
+                }
+            }
+
+
+            JVForm.JvForm_JVWatchEventClose();     //速報系スレッドの終了
+            JVForm.JvForm_JvClose();
+            return 1;
+        }
 
         private void InitForm()
         {
@@ -767,6 +936,9 @@ namespace WpfApp1
         {
             int ret;
 
+            String horse = "";
+            int OldRaceCounter = 0;
+
             String FromTime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
             String WeekDay = DateText.SelectedDate.Value.DayOfWeek.ToString();
             String lastStamp = ChgToDate(FromTime, WeekDay);
@@ -897,6 +1069,15 @@ namespace WpfApp1
                             CODE = LibJvConvFuncClass.GRACE_CODE;
                             LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref LibTmp);
                             tmp += LibTmp + ",";
+                            tmp += JV_RACE.TrackCD + ",";
+                            tmp += JV_RACE.Kyori + ",";
+                            tmp += JV_RACE.TorokuTosu + ",";
+                            tmp += JV_RACE.JyokenInfo.KigoCD + ",";
+                            tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
+                            tmp += JV_RACE.HassoTime + ",";
+                            tmp += JV_RACE.TenkoBaba.TenkoCD + ",";
+                            tmp += JV_RACE.TenkoBaba.SibaBabaCD + JV_RACE.TenkoBaba.DirtBabaCD + ",";
+
                             db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             ProgressStatusValue++;
                             break;
@@ -904,15 +1085,27 @@ namespace WpfApp1
                             JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             tmp = "";
                             JV_SE_UMA.SetDataB(ref buff);
+
+                            //SE_MSTはKey+○走目をキーとするため、前回と馬名が一致するかを検索
+                            if (horse == JV_SE_UMA.Bamei.Trim())
+                            {
+                                OldRaceCounter++;
+                            }
+                            else
+                            {
+                                OldRaceCounter = 1;
+                                horse = JV_SE_UMA.Bamei.Trim();
+                            }
+
                             tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + JV_SE_UMA.id.JyoCD + JV_SE_UMA.id.Kaiji +
-                                JV_SE_UMA.id.Nichiji + JV_SE_UMA.id.RaceNum + JV_SE_UMA.Umaban + ",";
+                                JV_SE_UMA.id.Nichiji + JV_SE_UMA.id.RaceNum + JV_SE_UMA.Umaban + String.Format("{0:00}", OldRaceCounter) + ",";
                             tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + ",";
                             tmp += JV_SE_UMA.id.JyoCD + ",";
                             tmp += JV_SE_UMA.id.Kaiji + ",";
                             tmp += JV_SE_UMA.id.Nichiji + ",";
                             tmp += JV_SE_UMA.Wakuban + ",";
                             tmp += JV_SE_UMA.Umaban + ",";
-                            tmp += JV_SE_UMA.KettoNum + ",";
+                            tmp += JV_SE_UMA.KettoNum + String.Format("{0:00}", OldRaceCounter)+",";
                             tmp += JV_SE_UMA.Bamei.Trim() + ",";
                             tmp += JV_SE_UMA.UmaKigoCD + ",";
                             tmp += JV_SE_UMA.SexCD + ",";
@@ -1323,6 +1516,20 @@ namespace WpfApp1
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ButtonFunction2_Click(object sender, RoutedEventArgs e)
+        {
+            /* 血統ボタン押下イベント */
+            String key = "";
+            mainDataClass.GET_AUTO_RA_KEY(ref key);
+            Kettou kettou = new Kettou(key);
+            kettou.Show();
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 
