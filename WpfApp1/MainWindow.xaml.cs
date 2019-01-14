@@ -1555,6 +1555,7 @@ namespace WpfApp1
                     break;
                 }
             }
+            return;
         }
 
         public void LogMainCancelFlagChanger(Boolean flag)
@@ -1578,6 +1579,7 @@ namespace WpfApp1
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
+            System.Windows.Forms.Application.Exit();
             this.Close();
         }
     }
