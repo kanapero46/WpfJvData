@@ -109,7 +109,7 @@ namespace WpfApp1
                 if (ret != 1)
                 {
                     StatusWrite("続行不可のエラーが発生しました。\n" + ret);
-                    JVForm.JvForm_JvClose();
+                    JVForm.JvForm_JvClose();                   
                     ThreadFlag = false;     //スレッドの終了を通知
                     return 0; /* エラー */
                 }
@@ -291,6 +291,8 @@ namespace WpfApp1
             }
 
             ThreadFlag = false;     //スレッドの終了を通知
+            Thread.Sleep(50);
+            thread.Abort();
             thread.Join();
             return 1;
         }
@@ -1544,17 +1546,25 @@ namespace WpfApp1
             LogForm.SettingMaxValue(MaxValue);     //ここでValueが0になる。
             LogForm.InitLogData(ProgressStatusValue);
 
-            while (ThreadFlag)
+            try
             {
-                LogForm.SettingMaxValue(MaxValue);     //ここでValueが0になる。
-                ret = LogForm.LogCntUp(ProgressStatusValue);
-                Thread.Sleep(500); //0.5秒待機
-
-                if(ret != 0) //0は続行。それ以外は終了かエラー
+                while (ThreadFlag)
                 {
-                    break;
+                    LogForm.SettingMaxValue(MaxValue);     //ここでValueが0になる。
+                    ret = LogForm.LogCntUp(ProgressStatusValue);
+                    Thread.Sleep(500); //0.5秒待機
+
+                    if (ret != 0) //0は続行。それ以外は終了かエラー
+                    {
+                        break;
+                    }
                 }
             }
+            catch (ThreadAbortException)
+            {
+                Console.WriteLine("ThradAbortException!!\n");
+            }
+            return;
         }
 
         public void LogMainCancelFlagChanger(Boolean flag)
@@ -1578,6 +1588,9 @@ namespace WpfApp1
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
+            JVForm.JVForm_Exit();
+            Environment.Exit(0);
+            System.Windows.Forms.Application.Exit();
             this.Close();
         }
     }

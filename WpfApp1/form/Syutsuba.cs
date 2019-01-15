@@ -544,7 +544,7 @@ namespace WpfApp1.form
         {
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        unsafe private void button2_Click(object sender, EventArgs e)
         {
             MainWindow main = new MainWindow();
             DataGridViewColumn column = new DataGridViewColumn();
@@ -665,7 +665,26 @@ namespace WpfApp1.form
                     dataGridView1[4, j - 1].Style.BackColor = Color.LightCyan;
                 }
             }
+
+            label1.Visible = true;
+            DMStatus.Visible = true;
+            DMStatus.Text = GetDMStatus();
+
+
+
         }
+
+        #region データマイニング区分読み込み
+        unsafe private String GetDMStatus()
+        {
+            /* データ区分書き込み */
+            String Libtmp = "", str = "";
+            int CODE = LibJvConvFuncClass.DATA_MINING_STATUS;
+            db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + "01", DataClass.GET_RA_KEY(), 2, ref str);
+            LibJvConvFuncClass.jvSysConvFunction(&CODE, str, ref Libtmp);
+            return Libtmp;
+        }
+        #endregion
 
 
     }

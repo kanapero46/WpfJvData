@@ -61,5 +61,10 @@ namespace WpfApp1
         {
 
         }
+
+        public void JVForm_Exit()
+        {
+            this.Close();
+        }
     }
 }

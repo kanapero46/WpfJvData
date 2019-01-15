@@ -51,6 +51,8 @@
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.button2 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.DMStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -104,7 +106,6 @@
             this.Uma.MaxInputLength = 3;
             this.Uma.Name = "Uma";
             this.Uma.ReadOnly = true;
-            this.Uma.Width = 50;
             // 
             // Bamei
             // 
@@ -297,12 +298,38 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Enabled = false;
+            this.label1.Location = new System.Drawing.Point(1921, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(104, 24);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "DM情報：";
+            this.label1.Visible = false;
+            // 
+            // DMStatus
+            // 
+            this.DMStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DMStatus.AutoSize = true;
+            this.DMStatus.Enabled = false;
+            this.DMStatus.Location = new System.Drawing.Point(2021, 13);
+            this.DMStatus.Name = "DMStatus";
+            this.DMStatus.Size = new System.Drawing.Size(226, 24);
+            this.DMStatus.TabIndex = 9;
+            this.DMStatus.Text = "天候馬場状態発表後";
+            this.DMStatus.Visible = false;
+            // 
             // Syutsuba
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(2472, 1226);
+            this.Controls.Add(this.DMStatus);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.flowLayoutPanel3);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.button2);
@@ -321,6 +348,7 @@
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -349,5 +377,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FM;
         private System.Windows.Forms.DataGridViewTextBoxColumn MMFColor;
         private System.Windows.Forms.DataGridViewTextBoxColumn FFM;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label DMStatus;
     }
 }
