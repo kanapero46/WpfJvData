@@ -1084,6 +1084,7 @@ namespace WpfApp1
                             ProgressStatusValue++;
                             break;
                         case "SE":
+                            // !!!ここに追加した場合はMainDataHorceClass.csの定義を追加すること！！！ 
                             JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             tmp = "";
                             JV_SE_UMA.SetDataB(ref buff);
@@ -1118,6 +1119,7 @@ namespace WpfApp1
                             tmp += JV_SE_UMA.KisyuCode + ",";
                             tmp += JV_SE_UMA.KisyuRyakusyo + ",";
                             tmp += JV_SE_UMA.MinaraiCD + ",";
+                            tmp += JV_SE_UMA.KakuteiJyuni + ",";
                             db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
                             ProgressStatusValue++;
                             break;

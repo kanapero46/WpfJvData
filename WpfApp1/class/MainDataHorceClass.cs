@@ -9,7 +9,7 @@ namespace WpfApp1.Class
 {
     class MainDataHorceClass
     {
-        private const int RA_START = 19;
+        private const int RA_START = 20; //仕様変更#15
 
         public struct JV_DATA_RACE_HIST
         {
@@ -145,7 +145,8 @@ namespace WpfApp1.Class
             tmpHist.futan = inParam[13];
             tmpHist.Blincker = (inParam[14] == "1" ? true : false);
             tmpHist.MinaraiCd = inParam[17];
-            //ここまでindex [18]→空セル
+            tmpHist.rank = inParam[18];
+            //ここまでindex [19]→空セル
             //ここからRAデータ
             tmpHist.rA_KEY = inParam[RA_START];
             tmpHist.RaceDate = inParam[RA_START+1];
@@ -153,7 +154,7 @@ namespace WpfApp1.Class
             tmpHist.Kaiji = Int32.Parse(inParam[RA_START + 3]);
             tmpHist.raceName = inParam[RA_START + 7];
             tmpHist.raceName10 = inParam[RA_START + 8];
-            
+            tmpHist.grade = inParam[RA_START + 16];
             tmpHist.distance = inParam[RA_START + 18];
             RaceHist = tmpHist;
 

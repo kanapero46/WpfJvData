@@ -148,7 +148,7 @@ namespace WpfApp1.dbCom1
                 ret = DbComGetOldRunData(KettoNum, count, ref tmp);
                 outParam = tmp;
             } while (RaceCount != count && ret != 0);
-            return 1;
+            return ret; /* édólïœçX#15 */
         }
         #endregion
 
@@ -165,7 +165,7 @@ namespace WpfApp1.dbCom1
 
             outParam = LibTmp;
 
-            db.TextReader_Col("0", "RA", 0, ref tmp, LibTmp[0].Substring(0, 16));
+            int res = db.TextReader_Col("0", "RA", 0, ref tmp, LibTmp[0].Substring(0, 16));
 
             if (tmp.Count == 0)
             {
@@ -177,7 +177,7 @@ namespace WpfApp1.dbCom1
                 outParam.Add(tmp[i]);
             }
 
-            return 1;
+            return res;
         }
         #endregion
 
