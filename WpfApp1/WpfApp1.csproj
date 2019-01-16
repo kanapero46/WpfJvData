@@ -110,6 +110,7 @@
     <Compile Include="form\Syutsuba.Designer.cs">
       <DependentUpon>Syutsuba.cs</DependentUpon>
     </Compile>
+    <Compile Include="JvComDbData\JvDbSEData.cs" />
     <Compile Include="JVDataClass.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

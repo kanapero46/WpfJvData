@@ -232,6 +232,7 @@ namespace WpfApp1
                             JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             tmp = "";
                             JV_SE_UMA.SetDataB(ref buff);
+
                             tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + JV_SE_UMA.id.JyoCD + JV_SE_UMA.id.Kaiji +
                                 JV_SE_UMA.id.Nichiji + JV_SE_UMA.id.RaceNum + JV_SE_UMA.Umaban + ",";
                             tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + ",";
@@ -1086,40 +1087,7 @@ namespace WpfApp1
                         case "SE":
                             // !!!ここに追加した場合はMainDataHorceClass.csの定義を追加すること！！！ 
                             JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
-                            tmp = "";
-                            JV_SE_UMA.SetDataB(ref buff);
 
-                            //SE_MSTはKey+○走目をキーとするため、前回と馬名が一致するかを検索
-                            if (horse == JV_SE_UMA.Bamei.Trim())
-                            {
-                                OldRaceCounter++;
-                            }
-                            else
-                            {
-                                OldRaceCounter = 1;
-                                horse = JV_SE_UMA.Bamei.Trim();
-                            }
-
-                            tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + JV_SE_UMA.id.JyoCD + JV_SE_UMA.id.Kaiji +
-                                JV_SE_UMA.id.Nichiji + JV_SE_UMA.id.RaceNum + JV_SE_UMA.Umaban + String.Format("{0:00}", OldRaceCounter) + ",";
-                            tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + ",";
-                            tmp += JV_SE_UMA.id.JyoCD + ",";
-                            tmp += JV_SE_UMA.id.Kaiji + ",";
-                            tmp += JV_SE_UMA.id.Nichiji + ",";
-                            tmp += JV_SE_UMA.Wakuban + ",";
-                            tmp += JV_SE_UMA.Umaban + ",";
-                            tmp += JV_SE_UMA.KettoNum + String.Format("{0:00}", OldRaceCounter)+",";
-                            tmp += JV_SE_UMA.Bamei.Trim() + ",";
-                            tmp += JV_SE_UMA.UmaKigoCD + ",";
-                            tmp += JV_SE_UMA.SexCD + ",";
-                            tmp += JV_SE_UMA.Barei + ",";
-                            tmp += JV_SE_UMA.KeiroCD + ",";
-                            tmp += JV_SE_UMA.Futan + ",";
-                            tmp += JV_SE_UMA.Blinker + ",";
-                            tmp += JV_SE_UMA.KisyuCode + ",";
-                            tmp += JV_SE_UMA.KisyuRyakusyo + ",";
-                            tmp += JV_SE_UMA.MinaraiCD + ",";
-                            tmp += JV_SE_UMA.KakuteiJyuni + ",";
                             db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
                             ProgressStatusValue++;
                             break;
