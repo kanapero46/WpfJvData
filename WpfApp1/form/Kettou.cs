@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using WpfApp1.Class;
 using WpfApp1.dbAccess;
 using WpfApp1.dbCom1;
+using WpfApp1.JvComDbData;
 
 namespace WpfApp1.form
 {
@@ -14,7 +15,7 @@ namespace WpfApp1.form
     {
         String Key;
         MainDataClass raceData; //レース情報
-        List<MainDataHorceClass> ArrayHorceData = new List<MainDataHorceClass>(); //18頭分すべて
+        List<JvDbSEData> ArrayHorceData = new List<JvDbSEData>(); //18頭分すべて
         dbConnect db = new dbConnect(); //DB読み書きクラス
         dbCom dbCom = new dbCom();
         MainWindow main = new MainWindow(); //MainWindowsクラス
@@ -254,7 +255,7 @@ namespace WpfApp1.form
         #region 競走馬データ読み込み処理
         private int SetHorceData()
         {
-            MainDataHorceClass horceData; //馬情報
+            JvDbSEData horceData; //馬情報
             String Key = raceData.GET_RA_KEY();
             String covData;
             String Libstr = "";
@@ -266,7 +267,7 @@ namespace WpfApp1.form
 
             for (int i = 1; i<=18; i++)
             {
-                horceData = new MainDataHorceClass();
+                horceData = new JvDbSEData();
                 LibArray.Clear();
                 covData = String.Format("{0:00}", i);
                 //１頭分ずつ読み込み
@@ -588,7 +589,7 @@ namespace WpfApp1.form
             ArrayHorceData[Arraynum].SetSEMSTData(Libtmp);
 
             /* DB書き込み */
-            oldDataView.DefaultCellStyle.Font = new Font("Meiryo UI", 12);
+            oldDataView.DefaultCellStyle.Font = new Font("Meiryo UI", 11);
             oldDataView.RowTemplate.Height = 100;
             String Grade = ArrayHorceData[Arraynum].RaceHist1.grade;
             String RaceName = ArrayHorceData[Arraynum].RaceHist1.raceName10;
@@ -616,19 +617,10 @@ namespace WpfApp1.form
             LibJvConvFuncClass.jvSysConvFunction(&CODE, ArrayHorceData[Arraynum].RaceHist1.track, ref tmp);
             String Track = tmp;
 
-            oldDataView.Rows[0].Cells[0].Value = "1";
-            oldDataView.Rows[0].Cells[1].Value = ArrayHorceData[Arraynum].RaceHist1.RaceDate;
-            oldDataView.Rows[0].Cells[2].Value = Cource;
-            oldDataView.Rows[0].Cells[3].Value = RaceName;
-            oldDataView.Rows[0].Cells[4].Value = Track;
-            oldDataView.Rows[0].Cells[5].Value = ArrayHorceData[Arraynum].RaceHist1.distance;
-            oldDataView.Rows[0].Cells[6].Value = ArrayHorceData[Arraynum].RaceHist1.rank;
-            oldDataView.Rows[0].Cells[7].Value = ArrayHorceData[Arraynum].RaceHist1.jockey;
-            oldDataView.Rows[0].Cells[8].Value = ArrayHorceData[Arraynum].RaceHist1.jockey;
 
-
-
-            oldDataView.Rows.Add("1",
+            if(oldDataView.Rows.Count == 0)
+            {
+                oldDataView.Rows.Add("1",
                                  ArrayHorceData[Arraynum].RaceHist1.RaceDate,
                                  Cource,
                                  RaceName,
@@ -638,6 +630,22 @@ namespace WpfApp1.form
                                  ArrayHorceData[Arraynum].RaceHist1.jockey,
                                  ArrayHorceData[Arraynum].RaceHist1.futan.Substring(0, 2) + ArrayHorceData[Arraynum].RaceHist1.futan.Substring(2, 1) + (ArrayHorceData[Arraynum].RaceHist1.futan.Length >= 2 ? "kg" : "")
                               );
+            }
+            else
+            {
+                oldDataView.Rows[0].Cells[0].Value = "1";
+                oldDataView.Rows[0].Cells[1].Value = ArrayHorceData[Arraynum].RaceHist1.RaceDate;
+                oldDataView.Rows[0].Cells[2].Value = Cource;
+                oldDataView.Rows[0].Cells[3].Value = RaceName;
+                oldDataView.Rows[0].Cells[4].Value = Track;
+                oldDataView.Rows[0].Cells[5].Value = ArrayHorceData[Arraynum].RaceHist1.distance;
+                oldDataView.Rows[0].Cells[6].Value = ArrayHorceData[Arraynum].RaceHist1.rank;
+                oldDataView.Rows[0].Cells[7].Value = ArrayHorceData[Arraynum].RaceHist1.jockey;
+                oldDataView.Rows[0].Cells[8].Value = ArrayHorceData[Arraynum].RaceHist1.futan;
+            }
+
+
+
 
         }
         #endregion

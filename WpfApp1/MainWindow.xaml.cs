@@ -21,6 +21,7 @@ using LibJvConv;
 using WpfApp1.Class;
 using WpfApp1.dbAccess;
 using WpfApp1.form;
+using WpfApp1.JvComDbData;
 
 namespace WpfApp1
 {
@@ -228,33 +229,34 @@ namespace WpfApp1
                             db = new dbConnect((JV_RACE.id.Year + JV_RACE.id.MonthDay), JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             break;
                         case "SE":
-                            LogingText("@");
-                            JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
-                            tmp = "";
-                            JV_SE_UMA.SetDataB(ref buff);
+                            JvDbSEData sEData = new JvDbSEData(ref buff);
+                            //LogingText("@");
+                            //JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
+                            //tmp = "";
+                            //JV_SE_UMA.SetDataB(ref buff);
 
-                            tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + JV_SE_UMA.id.JyoCD + JV_SE_UMA.id.Kaiji +
-                                JV_SE_UMA.id.Nichiji + JV_SE_UMA.id.RaceNum + JV_SE_UMA.Umaban + ",";
-                            tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + ",";
-                            tmp += JV_SE_UMA.id.JyoCD + ",";
-                            tmp += JV_SE_UMA.id.Kaiji + ",";
-                            tmp += JV_SE_UMA.id.Nichiji + ",";
-                            tmp += JV_SE_UMA.Wakuban + ",";
-                            tmp += JV_SE_UMA.Umaban + ",";
-                            tmp += JV_SE_UMA.KettoNum + ",";
-                            tmp += JV_SE_UMA.Bamei.Trim() + ",";
-                            tmp += JV_SE_UMA.UmaKigoCD + ",";
-                            tmp += JV_SE_UMA.SexCD + ",";
-                            tmp += JV_SE_UMA.Barei + ",";
-                            tmp += JV_SE_UMA.KeiroCD + ",";
-                            tmp += JV_SE_UMA.Futan + ",";
-                            tmp += JV_SE_UMA.Blinker + ",";
-                            tmp += JV_SE_UMA.KisyuCode + ",";
-                            tmp += JV_SE_UMA.KisyuRyakusyo + ",";
-                            tmp += JV_SE_UMA.MinaraiCD + ",";
-                            tmp += JV_SE_UMA.DMTime + ",";
-                            tmp += JV_SE_UMA.DMJyuni + ",";
-                            db = new dbConnect((JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay), JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                            //tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + JV_SE_UMA.id.JyoCD + JV_SE_UMA.id.Kaiji +
+                            //    JV_SE_UMA.id.Nichiji + JV_SE_UMA.id.RaceNum + JV_SE_UMA.Umaban + ",";
+                            //tmp += JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay + ",";
+                            //tmp += JV_SE_UMA.id.JyoCD + ",";
+                            //tmp += JV_SE_UMA.id.Kaiji + ",";
+                            //tmp += JV_SE_UMA.id.Nichiji + ",";
+                            //tmp += JV_SE_UMA.Wakuban + ",";
+                            //tmp += JV_SE_UMA.Umaban + ",";
+                            //tmp += JV_SE_UMA.KettoNum + ",";
+                            //tmp += JV_SE_UMA.Bamei.Trim() + ",";
+                            //tmp += JV_SE_UMA.UmaKigoCD + ",";
+                            //tmp += JV_SE_UMA.SexCD + ",";
+                            //tmp += JV_SE_UMA.Barei + ",";
+                            //tmp += JV_SE_UMA.KeiroCD + ",";
+                            //tmp += JV_SE_UMA.Futan + ",";
+                            //tmp += JV_SE_UMA.Blinker + ",";
+                            //tmp += JV_SE_UMA.KisyuCode + ",";
+                            //tmp += JV_SE_UMA.KisyuRyakusyo + ",";
+                            //tmp += JV_SE_UMA.MinaraiCD + ",";
+                            //tmp += JV_SE_UMA.DMTime + ",";
+                            //tmp += JV_SE_UMA.DMJyuni + ",";
+                            //db = new dbConnect((JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay), JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
 
                             break;
                         default:
@@ -1039,56 +1041,25 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "RA":
-                            JV_RACE = new JVData_Struct.JV_RA_RACE();
-                            tmp = "";
-                            JV_RACE.SetDataB(ref buff);
-                            tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + JV_RACE.id.JyoCD + JV_RACE.id.Kaiji + JV_RACE.id.Nichiji +
-                                JV_RACE.id.RaceNum + ",";
-                            tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + ",";
-                            tmp += JV_RACE.id.JyoCD + ",";
-                            tmp += JV_RACE.id.Kaiji + "," + JV_RACE.id.Nichiji + "," + JV_RACE.id.RaceNum + ",";
-                            tmp += JV_RACE.RaceInfo.YoubiCD + ",";
-
-                            CODE = LibJvConvFuncClass.RACE_NAME;
-                            //レース名
-                            if (JV_RACE.RaceInfo.Hondai.Trim() == "")
-                            {
-                                LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.JyokenInfo.SyubetuCD + JV_RACE.JyokenInfo.JyokenCD[4], ref LibTmp);
-                                tmp += LibTmp;
-                            }
-                            else
-                            {
-                                tmp += JV_RACE.RaceInfo.Hondai.Trim();
-                            }
-                            tmp += ",";
-                            tmp += JV_RACE.RaceInfo.Ryakusyo10.Trim() + ",";
-                            tmp += JV_RACE.RaceInfo.Fukudai.Trim() + ",";
-                            tmp += JV_RACE.RaceInfo.Kakko.Trim() + ",";
-                            tmp += JV_RACE.RaceInfo.HondaiEng.Trim() + ",";
-                            tmp += JV_RACE.RaceInfo.FukudaiEng.Trim() + ",";
-                            tmp += JV_RACE.JyokenInfo.SyubetuCD + ",";
-                            tmp += JV_RACE.JyokenInfo.JyokenCD[4] + ",";
-                            tmp += JV_RACE.RaceInfo.Nkai + ",";
-                            CODE = LibJvConvFuncClass.GRACE_CODE;
-                            LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref LibTmp);
-                            tmp += LibTmp + ",";
-                            tmp += JV_RACE.TrackCD + ",";
-                            tmp += JV_RACE.Kyori + ",";
-                            tmp += JV_RACE.TorokuTosu + ",";
-                            tmp += JV_RACE.JyokenInfo.KigoCD + ",";
-                            tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
-                            tmp += JV_RACE.HassoTime + ",";
-                            tmp += JV_RACE.TenkoBaba.TenkoCD + ",";
-                            tmp += JV_RACE.TenkoBaba.SibaBabaCD + JV_RACE.TenkoBaba.DirtBabaCD + ",";
-
-                            db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
+                            JvDbRaData RaData = new JvDbRaData(ref buff);
+                            //db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             ProgressStatusValue++;
                             break;
                         case "SE":
                             // !!!ここに追加した場合はMainDataHorceClass.csの定義を追加すること！！！ 
                             JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
+                            JV_SE_UMA.SetDataB(ref buff);
 
-                            db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                            if(horse == JV_SE_UMA.Bamei.Trim())
+                            {
+                                JvDbSEData SeData = new JvDbSEData(0, ref buff, 0);
+                            }
+                            else
+                            {
+                                JvDbSEData SeData = new JvDbSEData(0, ref buff, 1);
+                            }
+                            
+                            //db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
                             ProgressStatusValue++;
                             break;
 
