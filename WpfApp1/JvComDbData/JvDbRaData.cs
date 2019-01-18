@@ -24,11 +24,13 @@ namespace WpfApp1.JvComDbData
         }
 
         #region RAデータDB書き込み共通処理
-        unsafe public JvDbRaData(ref String buff)
+        unsafe public JvDbRaData(int kind, ref String buff)
         {
             JVData_Struct.JV_RA_RACE JV_RACE = new JVData_Struct.JV_RA_RACE();
             String tmp = "";
             String Libtmp = "";
+
+            int DbReturn = 0;
 
             JV_RACE.SetDataB(ref buff);
 
@@ -77,7 +79,16 @@ namespace WpfApp1.JvComDbData
             tmp += JV_RACE.HassoTime + ",";
             tmp += JV_RACE.TenkoBaba.TenkoCD + ",";
             tmp += JV_RACE.TenkoBaba.SibaBabaCD + JV_RACE.TenkoBaba.DirtBabaCD + ",";
-
+            
+            if(kind == 0)
+            {
+                //マスターデータ
+                db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
+            }
+            else
+            {
+                db = new dbConnect(JV_RACE.id.Year + JV_RACE.id.MonthDay, JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
+            }
         }
         #endregion
 
@@ -116,7 +127,7 @@ namespace WpfApp1.JvComDbData
             setRaceKindKigo(inParam[20]);
             setRaceHandCap(inParam[21]);
             setRaceStartTime(inParam[22]);
-            setTrackStatus(inParam[24]);
+            setTrackStatus(inParam[23]);
         }
         #endregion
     }

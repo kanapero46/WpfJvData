@@ -109,6 +109,5 @@ namespace WpfApp1.Class
         public String getTrackStatus() { return TrackStatus; }
         public void setTrackStatus(String inParam) { this.TrackStatus = inParam; }
 
-
     }
 }

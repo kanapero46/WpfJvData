@@ -48,6 +48,7 @@ namespace WpfApp1.Class
             public int Kaiji;
             public int Nichiji;
             public String Cource;
+            public String TorikeshiCd;
 
         };
 

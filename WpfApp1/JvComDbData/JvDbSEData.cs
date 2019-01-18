@@ -11,10 +11,14 @@ namespace WpfApp1.JvComDbData
 
     public class JvDbSEData : MainDataHorceClass
     {
-        const int RA_MAX = 19;
+        const int RA_MAX = 26;
         dbConnect db = new dbConnect();
         private const String MAGIC_STR = "A";
         String statHorce = "";
+
+        /* MainDataHorceClassのつづき */
+
+
 
         public JvDbSEData()
         {
@@ -82,9 +86,13 @@ namespace WpfApp1.JvComDbData
             tmp += JV_SE_UMA.KisyuCode + ",";
             tmp += JV_SE_UMA.KisyuRyakusyo + ",";
             tmp += JV_SE_UMA.MinaraiCD + ",";
-            tmp += JV_SE_UMA.KakuteiJyuni + ",";
+            tmp += JV_SE_UMA.KakuteiJyuni + ","; //18
             tmp += JV_SE_UMA.DMTime + ",";
-            tmp += JV_SE_UMA.DMJyuni + ",";
+            tmp += JV_SE_UMA.DMJyuni + ",";      //20
+            tmp += JV_SE_UMA.IJyoCD + ",";
+            tmp += JV_SE_UMA.ChakuUmaInfo[0].Bamei + ",";
+            tmp += JV_SE_UMA.Time + ",";
+            tmp += JV_SE_UMA.TimeDiff + ",";
 
             if (Master == -1)
             {
@@ -116,6 +124,10 @@ namespace WpfApp1.JvComDbData
             tmpHist.Blincker = (inParam[14] == "1" ? true : false);
             tmpHist.MinaraiCd = inParam[17];
             tmpHist.rank = inParam[18];
+            tmpHist.TorikeshiCd = inParam[21];
+            tmpHist.aiteuma = inParam[22];
+            tmpHist.time = inParam[23];
+            tmpHist.timeDiff = inParam[24];
             //ここまでindex [19]→空セル
             //ここからRAデータ
             tmpHist.rA_KEY = inParam[RA_MAX];
@@ -125,6 +137,7 @@ namespace WpfApp1.JvComDbData
             tmpHist.raceName = inParam[RA_MAX + 7];
             tmpHist.raceName10 = inParam[RA_MAX + 8];
             tmpHist.grade = inParam[RA_MAX + 16];
+            tmpHist.track = inParam[RA_MAX + 17];
             tmpHist.distance = inParam[RA_MAX + 18];
             RaceHist1 = tmpHist;
 

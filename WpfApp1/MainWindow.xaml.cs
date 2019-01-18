@@ -180,7 +180,7 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "RA":
-                            JvDbRaData raData = new JvDbRaData(ref buff);   //#15 DB処理の共通化
+                            JvDbRaData raData = new JvDbRaData(1, ref buff);   //#15 DB処理の共通化
                             //StatusInfo += "*";
                             //JV_RACE = new JVData_Struct.JV_RA_RACE();
                             //tmp = "";
@@ -728,6 +728,7 @@ namespace WpfApp1
                 db.TextReader_Row(fromtime, "RA", RA_NICHIJI, ref TextArray);
                 mainDataClass.setRaceNichiji(TextArray[Select]);
 
+
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -776,6 +777,9 @@ namespace WpfApp1
                 StatusInfo += "DataLabからのデータの取得をスキップしました。\n";
                 StatusInfo += "処理が終了しました。\n";
                 StatusWriter();   //スレッド開始せずに呼び出し
+                this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
+                InitCompLabelText();    /* 障害Issue#3 */
+                LabelRaceNum.Content = "OK";
             }
             else
             {
@@ -833,7 +837,7 @@ namespace WpfApp1
                 case "#FF006400":
                     JomeiColor = 2;
                     break;
-                case "FF800080":
+                case "#FF800080":
                     JomeiColor = 3;
                     break;
             }
@@ -1042,7 +1046,7 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "RA":
-                            JvDbRaData RaData = new JvDbRaData(ref buff);
+                            JvDbRaData RaData = new JvDbRaData(0, ref buff);
                             //db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             ProgressStatusValue++;
                             break;

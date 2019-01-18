@@ -14,7 +14,7 @@ namespace WpfApp1.form
     public partial class Kettou : Form
     {
         String Key;
-        MainDataClass raceData; //レース情報
+        JvDbRaData raceData; //レース情報
         List<JvDbSEData> ArrayHorceData = new List<JvDbSEData>(); //18頭分すべて
         dbConnect db = new dbConnect(); //DB読み書きクラス
         dbCom dbCom = new dbCom();
@@ -185,7 +185,7 @@ namespace WpfApp1.form
         private int InitRaceInfo()
         {
             List<String> tmp = new List<string>();
-            raceData = new MainDataClass();
+            raceData = new JvDbRaData();
             raceData.SET_RA_KEY(this.Key);
 
             /* レース未選択時はエラーで返す */
@@ -227,8 +227,11 @@ namespace WpfApp1.form
             LibJvConvFuncClass.jvSysConvFunction(&Code, raceData.getRaceCource(), ref LibTmp);
             this.Kaisai.Text = "第" + Int32.Parse(raceData.getRaceKaiji()) + "回" + LibTmp + Int32.Parse(raceData.getRaceNichiji()) + "日目";
 
-            RaceNum.Text = (raceData.getRaceNum().Length ==　1 ? " " : "");
-            RaceNum.Text += raceData.getRaceNum() + "R";
+            if(raceData.getRaceNum() != "")
+            {
+                RaceNum.Text = Int32.Parse(raceData.getRaceNum()) + "R";
+            }
+            
 
             if(raceData.getRaceGradeKai() != 0)
             {
@@ -585,6 +588,8 @@ namespace WpfApp1.form
 
             if (res == 0) { return; } //DBから取得失敗・もしくはデータなし
 
+            oldDataView.Visible = true;
+
             /* 前走データをクラスに書き込み */
             ArrayHorceData[Arraynum].SetSEMSTData(Libtmp);
 
@@ -618,7 +623,7 @@ namespace WpfApp1.form
             String Track = tmp;
 
 
-            if(oldDataView.Rows.Count == 0)
+            if (oldDataView.Rows.Count == 0)
             {
                 oldDataView.Rows.Add("1",
                                  ArrayHorceData[Arraynum].RaceHist1.RaceDate,
@@ -626,10 +631,12 @@ namespace WpfApp1.form
                                  RaceName,
                                  Track,
                                  ArrayHorceData[Arraynum].RaceHist1.distance,
-                                 ArrayHorceData[Arraynum].RaceHist1.rank,
+                                 Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.rank) + "着",
                                  ArrayHorceData[Arraynum].RaceHist1.jockey,
                                  ArrayHorceData[Arraynum].RaceHist1.futan.Substring(0, 2) + ArrayHorceData[Arraynum].RaceHist1.futan.Substring(2, 1) + (ArrayHorceData[Arraynum].RaceHist1.futan.Length >= 2 ? "kg" : "")
-                              );
+                                 , ArrayHorceData[Arraynum].RaceHist1.aiteuma.Trim(),
+                                 ArrayHorceData[Arraynum].RaceHist1.timeDiff
+                                 );
             }
             else
             {
@@ -639,11 +646,46 @@ namespace WpfApp1.form
                 oldDataView.Rows[0].Cells[3].Value = RaceName;
                 oldDataView.Rows[0].Cells[4].Value = Track;
                 oldDataView.Rows[0].Cells[5].Value = ArrayHorceData[Arraynum].RaceHist1.distance;
-                oldDataView.Rows[0].Cells[6].Value = ArrayHorceData[Arraynum].RaceHist1.rank;
+                oldDataView.Rows[0].Cells[6].Value = Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.rank) + "着";
                 oldDataView.Rows[0].Cells[7].Value = ArrayHorceData[Arraynum].RaceHist1.jockey;
                 oldDataView.Rows[0].Cells[8].Value = ArrayHorceData[Arraynum].RaceHist1.futan;
+                oldDataView.Rows[0].Cells[9].Value = ArrayHorceData[Arraynum].RaceHist1.aiteuma.Trim();
+                oldDataView.Rows[0].Cells[10].Value = ArrayHorceData[Arraynum].RaceHist1.timeDiff;
             }
 
+            if (oldDataView.Rows.Count != 0)
+            {
+                //色付け・トラック
+                switch (Track)
+                {
+                    case "芝":
+                        oldDataView.Rows[0].Cells[4].Style.BackColor = Color.Honeydew;
+                        break;
+                    case "ダート":
+                        oldDataView.Rows[0].Cells[4].Style.BackColor = Color.Wheat;
+                        break;
+                    default:
+                        oldDataView.Rows[0].Cells[4].Style.BackColor = Color.White;
+                        break;
+                }
+
+                //色付け・着順
+                switch (ArrayHorceData[Arraynum].RaceHist1.rank)
+                {
+                    case "01":
+                        oldDataView.Rows[0].Cells[6].Style.BackColor = Color.Violet;
+                        break;
+                    case "02":
+                        oldDataView.Rows[0].Cells[6].Style.BackColor = Color.Khaki;
+                        break;
+                    case "03":
+                        oldDataView.Rows[0].Cells[6].Style.BackColor = Color.LightBlue;
+                        break;
+                    default:
+                        oldDataView.Rows[0].Cells[6].Style.BackColor = Color.White;
+                        break;
+                }
+            }
 
 
 

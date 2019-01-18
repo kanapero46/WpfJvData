@@ -60,7 +60,7 @@ namespace WpfApp1.form
             db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 5, ref tmp);
             DataClass.SET_RA_KEY(RA);
             DataClass.setRaceDate(RA.Substring(0, 8));
-            DataClass.setRaceCoutce(RA.Substring(8, 2));
+            DataClass.setRaceCource(RA.Substring(8, 2));
             DataClass.setRaceKaiji(RA.Substring(10, 2));
             DataClass.setRaceNichiji(RA.Substring(12, 2));
             DataClass.setRaceNum(RA.Substring(14,2));
