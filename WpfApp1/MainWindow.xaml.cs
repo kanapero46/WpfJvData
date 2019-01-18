@@ -38,7 +38,7 @@ namespace WpfApp1
         dbConnect db;
 
         /* メインデータ書き込みクラス */
-        MainDataClass mainDataClass = new MainDataClass();
+        JvDbRaData mainDataClass = new JvDbRaData();
 
         /* 別スレッドとのメッセージやり取り */
        
@@ -180,53 +180,54 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "RA":
-                            StatusInfo += "*";
-                            JV_RACE = new JVData_Struct.JV_RA_RACE();
-                            tmp = "";
-                            JV_RACE.SetDataB(ref buff);
-                            tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + JV_RACE.id.JyoCD + JV_RACE.id.Kaiji + JV_RACE.id.Nichiji +
-                                JV_RACE.id.RaceNum + ",";
-                            tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + ",";
-                            tmp += JV_RACE.id.JyoCD + ",";
-                            tmp += JV_RACE.id.Kaiji + "," + JV_RACE.id.Nichiji + "," + JV_RACE.id.RaceNum + ",";
-                            tmp += JV_RACE.RaceInfo.YoubiCD + ",";
-                            CODE = LibJvConvFuncClass.RACE_NAME;
-                            //レース名
-                            if (JV_RACE.RaceInfo.Hondai.Trim() == "")
-                            {
-                                LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.JyokenInfo.SyubetuCD + JV_RACE.JyokenInfo.JyokenCD[4], ref LibTmp);
-                                if(JV_RACE.JyokenInfo.JyokenCD[4] == "701")
-                                {
-                                    CODE = LibJvConvFuncClass.COURCE_CODE;
-                                    LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.id.JyoCD, ref LibTmp);
-                                    LibTmp = "メイクデビュー" + LibTmp;
-                                }
+                            JvDbRaData raData = new JvDbRaData(ref buff);   //#15 DB処理の共通化
+                            //StatusInfo += "*";
+                            //JV_RACE = new JVData_Struct.JV_RA_RACE();
+                            //tmp = "";
+                            //JV_RACE.SetDataB(ref buff);
+                            //tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + JV_RACE.id.JyoCD + JV_RACE.id.Kaiji + JV_RACE.id.Nichiji +
+                            //    JV_RACE.id.RaceNum + ",";
+                            //tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + ",";
+                            //tmp += JV_RACE.id.JyoCD + ",";
+                            //tmp += JV_RACE.id.Kaiji + "," + JV_RACE.id.Nichiji + "," + JV_RACE.id.RaceNum + ",";
+                            //tmp += JV_RACE.RaceInfo.YoubiCD + ",";
+                            //CODE = LibJvConvFuncClass.RACE_NAME;
+                            ////レース名
+                            //if (JV_RACE.RaceInfo.Hondai.Trim() == "")
+                            //{
+                            //    LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.JyokenInfo.SyubetuCD + JV_RACE.JyokenInfo.JyokenCD[4], ref LibTmp);
+                            //    if(JV_RACE.JyokenInfo.JyokenCD[4] == "701")
+                            //    {
+                            //        CODE = LibJvConvFuncClass.COURCE_CODE;
+                            //        LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.id.JyoCD, ref LibTmp);
+                            //        LibTmp = "メイクデビュー" + LibTmp;
+                            //    }
 
-                                tmp += LibTmp;
-                            }
-                            else
-                            {
-                                tmp += JV_RACE.RaceInfo.Hondai.Trim();
-                            }
-                            tmp += ",";
-                            tmp += JV_RACE.RaceInfo.Ryakusyo10.Trim() + ",";
-                            tmp += JV_RACE.RaceInfo.Fukudai.Trim() + ",";
-                            tmp += JV_RACE.RaceInfo.Kakko.Trim() + ",";
-                            tmp += JV_RACE.RaceInfo.HondaiEng.Trim() + ",";
-                            tmp += JV_RACE.RaceInfo.FukudaiEng.Trim() + ",";
-                            tmp += JV_RACE.JyokenInfo.SyubetuCD + ",";
-                            tmp += JV_RACE.JyokenInfo.JyokenCD[4] + ",";
-                            tmp += JV_RACE.RaceInfo.Nkai + ",";
-                            CODE = LibJvConvFuncClass.GRACE_CODE;
-                            LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref LibTmp);
-                            tmp += LibTmp + ",";
-                            tmp += JV_RACE.TrackCD + ",";
-                            tmp += JV_RACE.Kyori + ",";
-                            tmp += JV_RACE.TorokuTosu + ",";
-                            tmp += JV_RACE.JyokenInfo.KigoCD + ",";
-                            tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
-                            tmp += JV_RACE.HassoTime + ",";
-                            db = new dbConnect((JV_RACE.id.Year + JV_RACE.id.MonthDay), JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
+                            //    tmp += LibTmp;
+                            //}
+                            //else
+                            //{
+                            //    tmp += JV_RACE.RaceInfo.Hondai.Trim();
+                            //}
+                            //tmp += ",";
+                            //tmp += JV_RACE.RaceInfo.Ryakusyo10.Trim() + ",";
+                            //tmp += JV_RACE.RaceInfo.Fukudai.Trim() + ",";
+                            //tmp += JV_RACE.RaceInfo.Kakko.Trim() + ",";
+                            //tmp += JV_RACE.RaceInfo.HondaiEng.Trim() + ",";
+                            //tmp += JV_RACE.RaceInfo.FukudaiEng.Trim() + ",";
+                            //tmp += JV_RACE.JyokenInfo.SyubetuCD + ",";
+                            //tmp += JV_RACE.JyokenInfo.JyokenCD[4] + ",";
+                            //tmp += JV_RACE.RaceInfo.Nkai + ",";
+                            //CODE = LibJvConvFuncClass.GRACE_CODE;
+                            //LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref LibTmp);
+                            //tmp += LibTmp + ",";
+                            //tmp += JV_RACE.TrackCD + ",";
+                            //tmp += JV_RACE.Kyori + ",";
+                            //tmp += JV_RACE.TorokuTosu + ",";
+                            //tmp += JV_RACE.JyokenInfo.KigoCD + ",";
+                            //tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
+                            //tmp += JV_RACE.HassoTime + ",";
+                            //db = new dbConnect((JV_RACE.id.Year + JV_RACE.id.MonthDay), JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             break;
                         case "SE":
                             JvDbSEData sEData = new JvDbSEData(ref buff);
@@ -641,7 +642,7 @@ namespace WpfApp1
             }
 
             /* クラスにセット */
-            mainDataClass.setRaceCoutce(TextArray[Select]);
+            mainDataClass.setRaceCource(TextArray[Select]);
             
             /* 夏競馬開催判定 */
             for (int i = 0; i < TextArray.Count; i++)

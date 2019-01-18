@@ -99,6 +99,7 @@ namespace WpfApp1.JvComDbData
         }
         #endregion
 
+        #region SEデータとRAデータを組み合わせ
         public void SetSEMSTData(List<String> inParam)
         {
             //新馬戦は前走成績がないため、returnする。
@@ -128,7 +129,7 @@ namespace WpfApp1.JvComDbData
             RaceHist1 = tmpHist;
 
         }
-
+        #endregion
 
 
     }

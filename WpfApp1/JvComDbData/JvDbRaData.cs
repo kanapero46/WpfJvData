@@ -4,20 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.Class;
 using WpfApp1.dbAccess;
 
 namespace WpfApp1.JvComDbData
 {
-    public class JvDbRaData
+    public class JvDbRaData : MainDataClass
     {
         dbConnect db = new dbConnect();
+
+        const int RA_MAX = 25;
+
+        /* DBへの書き込み処理を変更した場合はマジックStrを書き換え、初期化を行う */
         const String MAGIC = "A";
 
         public JvDbRaData()
         {
-            //引数なしのインスタンスはなにもしない
+            //引数なしのインスタンス生成はなにもしない
         }
 
+        #region RAデータDB書き込み共通処理
         unsafe public JvDbRaData(ref String buff)
         {
             JVData_Struct.JV_RA_RACE JV_RACE = new JVData_Struct.JV_RA_RACE();
@@ -73,6 +79,45 @@ namespace WpfApp1.JvComDbData
             tmp += JV_RACE.TenkoBaba.SibaBabaCD + JV_RACE.TenkoBaba.DirtBabaCD + ",";
 
         }
+        #endregion
 
+
+
+        #region RAキーの自動生成
+        public int GET_AUTO_RA_KEY(ref String inParam)
+        {
+            if (getRaceDate() == "" || getRaceCource() == "" || getRaceKaiji() == "" || getRaceNichiji() == "" || getRaceNum() == "")
+            {
+                return 0;
+            }
+
+            inParam = getRaceDate() + getRaceCource() + getRaceKaiji() + getRaceNichiji() + getRaceNum();
+            return 1;
+        }
+        #endregion
+
+        #region TextReader_Rowから読み込んだ配列からデータ・セット
+        public void setData(ref List<String> inParam)
+        {
+            SET_RA_KEY(inParam[0]);
+            setRaceDate(inParam[1]);
+            setRaceCource(inParam[2]);
+            setRaceKaiji(inParam[3]);
+            setRaceNichiji(inParam[4]);
+            setRaceNum(inParam[5]);
+            setWeekDay(inParam[6]);
+            setRaceName(inParam[7]);
+            setOldYear(inParam[13]);
+            setRaceClass(inParam[14]);
+            setRaceGradeKai(inParam[15]);
+            setRaceGrade(inParam[16]);
+            setCourceTrack(inParam[17]);
+            setDistance(inParam[18]);
+            setRaceKindKigo(inParam[20]);
+            setRaceHandCap(inParam[21]);
+            setRaceStartTime(inParam[22]);
+            setTrackStatus(inParam[24]);
+        }
+        #endregion
     }
 }
