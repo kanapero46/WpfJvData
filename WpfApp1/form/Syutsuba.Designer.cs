@@ -43,7 +43,9 @@
             this.Uma = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Bamei = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DM = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.VMRank = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TM = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TMRank = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Minarai = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Jockey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Futan = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,7 +74,9 @@
             this.Uma,
             this.Bamei,
             this.DM,
+            this.VMRank,
             this.TM,
+            this.TMRank,
             this.Minarai,
             this.Jockey,
             this.Futan,
@@ -251,6 +255,14 @@
             this.DM.Visible = false;
             this.DM.Width = 200;
             // 
+            // VMRank
+            // 
+            this.VMRank.HeaderText = "";
+            this.VMRank.Name = "VMRank";
+            this.VMRank.ReadOnly = true;
+            this.VMRank.Visible = false;
+            this.VMRank.Width = 50;
+            // 
             // TM
             // 
             this.TM.HeaderText = "タイム型";
@@ -258,6 +270,14 @@
             this.TM.ReadOnly = true;
             this.TM.Visible = false;
             this.TM.Width = 200;
+            // 
+            // TMRank
+            // 
+            this.TMRank.HeaderText = "";
+            this.TMRank.Name = "TMRank";
+            this.TMRank.ReadOnly = true;
+            this.TMRank.Visible = false;
+            this.TMRank.Width = 50;
             // 
             // Minarai
             // 
@@ -369,7 +389,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Uma;
         private System.Windows.Forms.DataGridViewTextBoxColumn Bamei;
         private System.Windows.Forms.DataGridViewTextBoxColumn DM;
+        private System.Windows.Forms.DataGridViewTextBoxColumn VMRank;
         private System.Windows.Forms.DataGridViewTextBoxColumn TM;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TMRank;
         private System.Windows.Forms.DataGridViewTextBoxColumn Minarai;
         private System.Windows.Forms.DataGridViewTextBoxColumn Jockey;
         private System.Windows.Forms.DataGridViewTextBoxColumn Futan;
