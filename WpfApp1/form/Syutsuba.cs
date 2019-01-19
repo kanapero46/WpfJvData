@@ -225,7 +225,7 @@ namespace WpfApp1.form
                 horceClasses.Add(pHorceClasses);
 
                 /* 書き込み */
-                dataGridView1.Rows.Add(pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.UmaKigou1 + pHorceClasses.Name1, "", "", pHorceClasses.MinaraiCd1,
+                dataGridView1.Rows.Add(pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.UmaKigou1 + pHorceClasses.Name1, "", "", "", "", pHorceClasses.MinaraiCd1,
                     pHorceClasses.Jockey1, pHorceClasses.Futan1 + "kg", "",pHorceClasses.F1, "", pHorceClasses.FM1, "", pHorceClasses.FFM1);
                 
                 switch(pHorceClasses.Waku1)
@@ -264,9 +264,9 @@ namespace WpfApp1.form
                         break;
 
                 }
-                dataGridView1[8, i - 1].Style.BackColor =  dbCom.DbComSearchBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
-                dataGridView1[10, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1);
-                dataGridView1[12, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FFM_NUM1);
+                dataGridView1[10, i - 1].Style.BackColor =  dbCom.DbComSearchBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
+                dataGridView1[12, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1);
+                dataGridView1[14, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FFM_NUM1);
 
                 /* プログレスバー更新 */
                 ProgressStatus++;
@@ -387,6 +387,8 @@ namespace WpfApp1.form
             DataGridViewColumn column = new DataGridViewColumn();
             String Date = DataClass.getRaceDate() + DataClass.getRaceCource() + DataClass.getRaceNum();
             List<String> tmp = new List<string>();
+            List<int> TimeDMArray = new List<int>();//タイム型降順にソートするためのList型配列
+            List<int> BattleDMArray = new List<int>();
             String str = "";
             String covData;
             int ret = 0;
@@ -408,6 +410,8 @@ namespace WpfApp1.form
 
             dataGridView1.Columns["TM"].Visible = true;
             dataGridView1.Columns["DM"].Visible = true;
+            dataGridView1.Columns["VMRank"].Visible = true;
+            dataGridView1.Columns["TMRank"].Visible = true;
 
             for (int i = 1; i <= MAX_TOSU; i++)
             {
@@ -421,11 +425,12 @@ namespace WpfApp1.form
                 }
 
                 dataGridView1.Rows[i-1].Cells[3].Value = Int32.Parse(str);
+                TimeDMArray.Add(Int32.Parse(str));
 
-                if(MaxTimeDM < Int32.Parse(str))
+                if (MaxTimeDM < Int32.Parse(str))
                 {
-                    SecondTimeDM = MaxTimeDM;
                     ThaadTimeDM = SecondTimeDM;
+                    SecondTimeDM = MaxTimeDM;
                     MaxTimeDM = Int32.Parse(str);
                 }
                 else if (SecondTimeDM < Int32.Parse(str))
@@ -444,12 +449,13 @@ namespace WpfApp1.form
                     break;
                 }
 
-                dataGridView1.Rows[i - 1].Cells[4].Value = Int32.Parse(str).ToString();
+                dataGridView1.Rows[i - 1].Cells[5].Value = Int32.Parse(str).ToString();
+                BattleDMArray.Add(Int32.Parse(str));
 
                 if (MaxBattleDM > Int32.Parse(str))
                 {
-                    SecondBattleDM = MaxBattleDM;
                     ThaadBattleDM = SecondBattleDM;
+                    SecondBattleDM = MaxBattleDM;
                     MaxBattleDM = Int32.Parse(str);
                 }
                 else if (SecondBattleDM > Int32.Parse(str))
@@ -462,38 +468,95 @@ namespace WpfApp1.form
                     ThaadBattleDM = Int32.Parse(str);
                 }
             }
-            
+
+           // int[] ArrayRankTM = new int[Count];
+            TimeDMArray.Sort((a, b) => b-a);
+            BattleDMArray.Sort((a, b) => a - b);
+
+
+
+
+            //TimeDMArray.AddRange(ArrayRankTM);
+            //tmpArray1.Sort((a, b) => b - a);
+
             /* 表の色付け */
             for (int j =1; j < Count; j++)
             {
                 if (MaxTimeDM == (int)dataGridView1.Rows[j - 1].Cells[3].Value)
                 {
                     dataGridView1[3, j - 1].Style.BackColor = Color.Pink;
-                    
+                    dataGridView1[4, j - 1].Style.BackColor = Color.Pink;
+
                 }
                 else if(SecondTimeDM == (int)dataGridView1.Rows[j - 1].Cells[3].Value)
                 {
                     dataGridView1[3, j - 1].Style.BackColor = Color.PowderBlue;
+                    dataGridView1[4, j - 1].Style.BackColor = Color.PowderBlue;
                 }
                 else if (ThaadTimeDM == (int)dataGridView1.Rows[j - 1].Cells[3].Value)
                 {
                     dataGridView1[3, j - 1].Style.BackColor = Color.LightCyan;
-                }
-
-                if (MaxBattleDM == Int32.Parse(dataGridView1.Rows[j - 1].Cells[4].Value.ToString()))
-                {
-                    dataGridView1[4, j - 1].Style.BackColor = Color.Pink;
-
-                }
-                else if (SecondBattleDM == Int32.Parse(dataGridView1.Rows[j - 1].Cells[4].Value.ToString()))
-                {
-                    dataGridView1[4, j - 1].Style.BackColor = Color.PowderBlue;
-                }
-                else if (ThaadBattleDM == Int32.Parse(dataGridView1.Rows[j - 1].Cells[4].Value.ToString()))
-                {
                     dataGridView1[4, j - 1].Style.BackColor = Color.LightCyan;
                 }
+
+                if (MaxBattleDM == Int32.Parse(dataGridView1.Rows[j - 1].Cells[5].Value.ToString()))
+                {
+                    dataGridView1[5, j - 1].Style.BackColor = Color.Pink;
+                    dataGridView1[6, j - 1].Style.BackColor = Color.Pink;
+
+                }
+                else if (SecondBattleDM == Int32.Parse(dataGridView1.Rows[j - 1].Cells[5].Value.ToString()))
+                {
+                    dataGridView1[5, j - 1].Style.BackColor = Color.PowderBlue;
+                    dataGridView1[6, j - 1].Style.BackColor = Color.PowderBlue;
+                }
+                else if (ThaadBattleDM == Int32.Parse(dataGridView1.Rows[j - 1].Cells[5].Value.ToString()))
+                {
+                    dataGridView1[5, j - 1].Style.BackColor = Color.LightCyan;
+                    dataGridView1[6, j - 1].Style.BackColor = Color.LightCyan;
+                }
             }
+
+            int Rank = 0;
+
+            /* 順位付け */
+            foreach(var i in TimeDMArray)
+            {
+                if(i.ToString() == "")
+                {
+                    continue;
+                }
+
+                Rank++;
+                for(int k = 1; k < Count; k++)
+                {
+                    if(dataGridView1.Rows[k - 1].Cells[3].Value.ToString() == i.ToString())
+                    {
+                        dataGridView1.Rows[k - 1].Cells[4].Value = Rank;
+                    }
+                }
+            }
+
+            Rank = 0;
+            
+            foreach(var i in BattleDMArray)
+            {
+                if (i.ToString() == "")
+                {
+                    continue;
+                }
+
+                Rank++;
+                for (int k = 1; k < Count; k++)
+                {
+                    if (dataGridView1.Rows[k - 1].Cells[5].Value.ToString() == i.ToString())
+                    {
+                        dataGridView1.Rows[k - 1].Cells[6].Value = Rank;
+                    }
+                }
+            }
+
+
 
             label1.Visible = true;
             DMStatus.Visible = true;
