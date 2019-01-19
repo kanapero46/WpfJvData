@@ -392,14 +392,6 @@ namespace WpfApp1.form
             int ret = 0;
             db = new dbConnect();
 
-            /* タイム型データマイニング */
-            //if (db.TextReader_aCell("TM", DataClass.GET_RA_KEY() + "01", DataClass.getRaceDate(), 4, ref str) == 0)
-            //{
-            //    /* データなし */
-            //    db.DeleteCsv("TM");
-               
-            //}
-
             ret = main.InitRealTimeDataMaining(Date);
             ret += main.InitRealBattleDataMaining(Date, DataClass.GET_RA_KEY());
 
