@@ -11,27 +11,27 @@
             <ColumnDefinition Width="373*"/>
             <ColumnDefinition Width="23*"/>
         </Grid.ColumnDefinitions>
-        <DatePicker x:Name="DateText" HorizontalAlignment="Left" Margin="25,15,0,0" VerticalAlignment="Top" Width="306" SelectedDateFormat="Long" Text=""/>
-        <Button Content="実行" HorizontalAlignment="Left" Height="24" Margin="359,10,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click_2"/>
-        <ComboBox x:Name="RaceListBox" HorizontalAlignment="Right" Margin="0,12,10,0" VerticalAlignment="Top" Width="279" Grid.ColumnSpan="2" SelectionChanged="ComboBox_SelectionChanged"/>
-        <Button x:Name="SyutubaButton" Content="出馬表" HorizontalAlignment="Left" Height="24" Margin="25,85,0,0" VerticalAlignment="Top" Width="101" Click="SyutubaButton_Click"/>
-        <Button x:Name="ButtonFunction2" Content="血統表" HorizontalAlignment="Left" Height="24" Margin="142,85,0,0" VerticalAlignment="Top" Width="101" Click="ButtonFunction2_Click"/>
-        <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="259,85,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click"/>
-        <Rectangle x:Name="MainBack" Height="33" Margin="10,114,10.5,0" Stroke="Black" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-        <Label x:Name="LabelCource" Content="" HorizontalAlignment="Left" Margin="28,110,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>
-        <Label x:Name="LabelRaceNum" Content="" HorizontalAlignment="Left" Margin="83,110,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>
-        <Label x:Name="LabelRaceName" Content="" HorizontalAlignment="Left" Margin="157,109,0,0" VerticalAlignment="Top" FontSize="22" Height="42" Foreground="White" FontFamily="Meiryo"/>
-        <Button Content="初期データ取得" HorizontalAlignment="Left" Height="24" Margin="645,85,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click_InitData"/>
+        <DatePicker x:Name="DateText" HorizontalAlignment="Left" Margin="25,39,0,0" VerticalAlignment="Top" Width="306" SelectedDateFormat="Long" Text=""/>
+        <Button Content="実行" HorizontalAlignment="Left" Height="53" Margin="358,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_2"/>
+        <ComboBox x:Name="RaceListBox" HorizontalAlignment="Right" Margin="0,12,10.5,0" VerticalAlignment="Top" Width="332" Grid.ColumnSpan="2" SelectionChanged="ComboBox_SelectionChanged" Height="40" VerticalContentAlignment="Center"/>
+        <Button x:Name="SyutubaButton" Content="出馬表" HorizontalAlignment="Left" Height="24" Margin="14,121,0,0" VerticalAlignment="Top" Width="102" Click="SyutubaButton_Click"/>
+        <Button x:Name="ButtonFunction2" Content="血統表" HorizontalAlignment="Left" Height="24" Margin="132,121,0,0" VerticalAlignment="Top" Width="100" Click="ButtonFunction2_Click"/>
+        <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="248,121,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click"/>
+        <Rectangle x:Name="MainBack" Height="33" Margin="10,79,10.5,0" Stroke="Black" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Label x:Name="LabelCource" Content="" HorizontalAlignment="Left" Margin="28,73,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>
+        <Label x:Name="LabelRaceNum" Content="" HorizontalAlignment="Left" Margin="83,73,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>
+        <Label x:Name="LabelRaceName" Content="" HorizontalAlignment="Left" Margin="157,73,0,0" VerticalAlignment="Top" FontSize="22" Height="42" Foreground="White" FontFamily="Meiryo"/>
+        <Button Content="初期データ取得" HorizontalAlignment="Left" Height="24" Margin="634,121,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_InitData"/>
         <ProgressBar x:Name="ProgressStatus" HorizontalAlignment="Left" Height="33" Margin="10,79,0,0" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" Visibility="Hidden"/>
         <TextBox x:Name="LogText" HorizontalAlignment="Left" Height="60" Margin="10,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" UndoLimit="102" Visibility="Hidden"/>
-        <CheckBox x:Name="OffLineFlag" Content="" HorizontalAlignment="Left" Margin="478,15,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <CheckBox x:Name="OffLineFlag" Content="" HorizontalAlignment="Left" Margin="478,15,0,0" VerticalAlignment="Top" IsChecked="True" Height="29" Width="30"/>
         <TextBox x:Name="Status" Height="149" Margin="10,152,10.5,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" AcceptsReturn="True" RenderTransformOrigin="0.5,0.5" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
-        <CheckBox x:Name="MasterFlag" Content="" HorizontalAlignment="Left" Margin="411,85,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="ToWeekFlag" Content="" HorizontalAlignment="Left" Margin="386,85,0,0" VerticalAlignment="Top"/>
-        <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="503,83,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click_1"/>
-        <Button Content="Exit" Margin="766,85,10.5,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Click="Button_Click_4"/>
-        <Button Content="本日" HorizontalAlignment="Left" Height="24" Margin="103,44,0,0" VerticalAlignment="Top" Width="153" Click="Button_Click_5"/>
-        <Button Content="▶" HorizontalAlignment="Left" Margin="271,44,0,0" VerticalAlignment="Top" Width="60" Height="24" Click="Button_Click_6"/>
-        <Button Content="◀" HorizontalAlignment="Left" Margin="25,44,0,0" VerticalAlignment="Top" Width="60" Height="24" Click="Button_Click_7"/>
+        <CheckBox x:Name="MasterFlag" Content="" HorizontalAlignment="Left" Margin="400,121,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ToWeekFlag" Content="" HorizontalAlignment="Left" Margin="376,121,0,0" VerticalAlignment="Top"/>
+        <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="492,119,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_1"/>
+        <Button Content="Exit" Margin="756,121,20.5,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Click="Button_Click_4"/>
+        <Button Content="本日" HorizontalAlignment="Left" Height="24" Margin="103,10,0,0" VerticalAlignment="Top" Width="153" Click="Button_Click_5"/>
+        <Button Content="▶" HorizontalAlignment="Left" Margin="271,10,0,0" VerticalAlignment="Top" Width="60" Height="24" Click="Button_Click_6"/>
+        <Button Content="◀" HorizontalAlignment="Left" Margin="25,10,0,0" VerticalAlignment="Top" Width="60" Height="24" Click="Button_Click_7"/>
     </Grid>
 </Window>
