@@ -14,6 +14,7 @@ using WpfApp1.dbAccess;
 using WpfApp1.form;
 using WpfApp1.Properties;
 using Microsoft.VisualBasic;
+using WpfApp1.dbCom1;
 
 namespace WpfApp1.form
 {
@@ -21,6 +22,7 @@ namespace WpfApp1.form
     {
         /* DB書き込みクラス */
         dbConnect db;
+        dbCom dbCom = new dbCom();
         Class.MainDataClass DataClass = new Class.MainDataClass();
         static String Cource;
         int CourceColor;
@@ -262,9 +264,9 @@ namespace WpfApp1.form
                         break;
 
                 }
-                dataGridView1[8, i - 1].Style.BackColor = FuncBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
-                dataGridView1[10, i - 1].Style.BackColor = FuncBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1, null);
-                dataGridView1[12, i - 1].Style.BackColor = FuncBloodColor(pHorceClasses.FFM_NUM1, null, null);
+                dataGridView1[8, i - 1].Style.BackColor =  dbCom.DbComSearchBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
+                dataGridView1[10, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1);
+                dataGridView1[12, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FFM_NUM1);
 
                 /* プログレスバー更新 */
                 ProgressStatus++;
@@ -368,172 +370,7 @@ namespace WpfApp1.form
         {
             this.Close();
         }
-
-        /* 新種牡馬カラー取得関数 */
-        private Color FuncBloodColor(String Key, String Key2, String Key3)
-        {
-            String tmp = "";
-            String tmpColor = "";
-            String Serach = "";
-            int cnt = 0;
-            Color ret;
-            db = new dbConnect();
-            if(Key == null) { return Color.White; }
-
-            /* 1：設定データ(ST)からデータ取得する。 */
-            db.TextReader_aCell("ST", Key, "0", 3, ref tmp);
-            if(tmp != "" )
-            {
-                cnt++;
-                 ret = g_FuncHorceKindColor(tmp);
-                if(ret != Color.White)
-                {
-                    return ret;
-                }
-            }
-
-            /* 1：設定データ(ST)からデータ取得する(3代)。 */
-            db.TextReader_aCell("ST", Key2, "0", 3, ref tmp);
-            if (Key2 != null && tmp != "")
-            {
-                cnt++;
-                ret = g_FuncHorceKindColor(tmp);
-                if (ret != Color.White)
-                {
-                    return ret;
-                }
-            }
-
-            /* 1：設定データ(ST)からデータ取得する(2代)。 */
-            db.TextReader_aCell("ST", Key3, "0", 3, ref tmp);
-            if (Key3 != null && tmp != "")
-            {
-                cnt++;
-                ret = g_FuncHorceKindColor(tmp);
-                if (ret != Color.White)
-                {
-                    return ret;
-                }
-            }
-
-            Serach = Key;
-
-            /* ２：父の父を探す。５代まで */
-            while (cnt < 5)
-            {
-                db.TextReader_aCell("HN", Serach, "0", 4, ref tmp);
-                if (tmp != "")
-                {
-                    db.TextReader_aCell("ST", tmp, "0", 3, ref tmpColor);
-                    if(tmpColor == "")
-                    {
-                        /* 検索に引っかからない場合はもう一度 */
-                        Serach = tmp;
-                        cnt++;
-                        continue;
-                    }
-
-                    ret = g_FuncHorceKindColor(tmpColor);
-
-                    if (ret != Color.White)
-                    {
-                        return ret;
-                    }
-                }
-                else
-                {
-
-                }
-                cnt++;
-            }
-            return Color.White;
-        }
-
-        private Color FuncHorceKindColor(String F, String FF, String FFF)
-        {
-            int All = 3;
-            int ret = 0;
-            String tmp = "";
-            db = new dbConnect();
-            Color clr;
-
-            if (F == "")
-            {
-                return Color.White;
-            }
-
-            if(FF == "")
-            {
-                All = 1;
-            }
-            else if(FFF == "")
-            {
-                All = 2;
-            }
-
-            db.TextReader_aCell("ST", F, "0", 3, ref tmp);
-            if(tmp == "") {  }
-            else
-            {
-                return g_FuncHorceKindColor(tmp);
-            }
-
-            if (All == 1) { return Color.White; }
-
-            db.TextReader_aCell("ST", FF, "0", 3, ref tmp);
-            if (tmp == "") { }
-            else
-            {
-                return g_FuncHorceKindColor(tmp);
-            }
-
-            if (All == 2) { return Color.White; }
-
-            db.TextReader_aCell("ST", FFF, "0", 3, ref tmp);
-            if (tmp == "") { }
-            else
-            {
-                return g_FuncHorceKindColor(tmp);
-            }
-
-            return Color.White;
-        }
-
-        private Color g_FuncHorceKindColor(String Kind)
-        {
-            /** 種牡馬色定義　0：その他、１：ノーザンテースト系、２：ナスルーラ、３：ヘイロー系、４：サンデー系、５：ネイティブダンサー系
-             * ６：セントサイモン、７：ハンプトン系、８：テディ系、９：マンノウォー 、１０：マッチェム*/
-            db = new dbConnect();
-
-            switch(Kind)
-            {
-                case "0":
-                    return Color.Brown;
-                case "1":
-                    return Color.SkyBlue;
-                case "2":
-                    return Color.DeepPink;
-                case "3":
-                    return Color.LightGreen;
-                case "4":
-                    return Color.Yellow;
-                case "5":
-                    return Color.Orange;
-                case "6":
-                    return Color.MediumPurple;
-                case "7":
-                    return Color.DarkGreen;
-                case "8":
-                    return Color.LightGray;
-                case "9":
-                    return Color.DarkGoldenrod;
-                case "10":
-                    return Color.DarkGray;
-                default:
-                    return Color.White;
-            }
-
-        }
+        
 
         private void LabelRaceName_Click(object sender, EventArgs e)
         {

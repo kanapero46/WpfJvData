@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Documents;
 using WpfApp1.dbAccess;
 using WpfApp1.Class;
+using System.Drawing;
 
 namespace WpfApp1.dbCom1
 {
@@ -88,7 +89,7 @@ namespace WpfApp1.dbCom1
         }
         #endregion
 
-        #region 血統タイプをDBから読み込み(共通)
+        #region 血統タイプをDBから読み込み(共通・馬名)
         private Boolean DbComBloodType(String name, ref String outParam)
         {
             String fBloodName;
@@ -103,7 +104,7 @@ namespace WpfApp1.dbCom1
             }
 
             fBloodName = name;
-            while(cnt < 5)
+            while(cnt < 7) /* 仕様変更#17 */
             {
                 tmp = "";
                 db.TextReader_aCell("HN", fBloodName, "0", 4, ref tmp);
@@ -131,6 +132,148 @@ namespace WpfApp1.dbCom1
                 }
             }
             return false;      
+        }
+        #endregion
+
+        #region 血統タイプをDBから読み込み(1・色)
+        public Color DbComSearchBloodColor(String name1)
+        {
+            Boolean ret = false;
+
+            if (name1 == "")
+            {
+                return Color.White;
+            }
+
+            Color Clr = DbComBloodColor(name1, ref ret);
+            return Clr;
+        }
+        #endregion
+
+        #region 血統タイプをDBから読み込み(2)
+        public Color DbComSearchBloodColor(String name1, String name2)
+        {
+            Boolean ret = false;
+            if (name1 == "" || name2 == "")
+            {
+                return Color.White;
+            }
+            Color Clr = DbComBloodColor(name1, ref ret);
+            if(ret)
+            {
+                return Clr;
+            }
+            
+            Clr = DbComBloodColor(name2, ref ret);
+            return Clr;
+        }
+        #endregion
+
+        #region 血統タイプをDBから読み込み(3)
+        public Color DbComSearchBloodColor(String name1, String name2, String name3)
+        {
+            Boolean ret = false;
+            if (name1 == "" || name2 == "" || name3 == "")
+            {
+                return Color.White;
+            }
+            Color Clr = DbComBloodColor(name1, ref ret);
+            if (ret)
+            {
+                return Clr;
+            }
+
+            Clr = DbComBloodColor(name2, ref ret);
+            if (ret)
+            {
+                return Clr;
+            }
+
+            Clr = DbComBloodColor(name3, ref ret);
+            return Clr;
+        }
+        #endregion
+
+        #region 血統タイプをDBから読み込み(共通・色)
+        private Color DbComBloodColor(String name, ref Boolean ret)
+        {
+            String fBloodName;
+            String tmp = "";
+            int cnt = 0;
+            ret = false;
+
+            /* １．設定データ(ST)からデータを取得する */
+            if (db.TextReader_aCell("ST", name, "0", 3, ref tmp) == 1)
+            {
+                ret = true;
+                return g_FuncHorceKindColor(tmp);
+            }
+
+            fBloodName = name;
+            while (cnt < 7) /* 仕様変更#17 */
+            {
+                tmp = "";
+                db.TextReader_aCell("HN", fBloodName, "0", 4, ref tmp);
+                if (tmp == "")
+                {
+                    /* 父馬がヒットしなかったら検索続行しない */
+                    break;
+                }
+                else
+                {
+                    /* ヒットしたら父馬の血統登録番号で検索続行 */
+                    fBloodName = tmp;
+                    if (db.TextReader_aCell("ST", fBloodName, "0", 3, ref tmp) == 1)
+                    {
+                        /* 検索にヒットしたら処理中断 */
+                        ret = true;
+                        return g_FuncHorceKindColor(tmp);
+                    }
+                    else
+                    {
+                        /* 検索にヒットしない場合、カウンタアップして処理続行 */
+                        cnt++;
+                    }
+                }
+            }
+            ret = false;
+            return Color.White;
+        }
+        #endregion
+
+        #region 種牡馬カラー判定
+        private Color g_FuncHorceKindColor(String Kind)
+        {
+            /** 種牡馬色定義　0：その他、１：ノーザンテースト系、２：ナスルーラ、３：ヘイロー系、４：サンデー系、５：ネイティブダンサー系
+             * ６：セントサイモン、７：ハンプトン系、８：テディ系、９：マンノウォー 、１０：マッチェム*/
+
+            switch (Kind)
+            {
+                case "0":
+                    return Color.Brown;
+                case "1":
+                    return Color.SkyBlue;
+                case "2":
+                    return Color.DeepPink;
+                case "3":
+                    return Color.LightGreen;
+                case "4":
+                    return Color.Yellow;
+                case "5":
+                    return Color.Orange;
+                case "6":
+                    return Color.MediumPurple;
+                case "7":
+                    return Color.DarkGreen;
+                case "8":
+                    return Color.LightGray;
+                case "9":
+                    return Color.DarkGoldenrod;
+                case "10":
+                    return Color.DarkGray;
+                default:
+                    return Color.White;
+            }
         }
         #endregion
 
