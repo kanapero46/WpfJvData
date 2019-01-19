@@ -1539,6 +1539,26 @@ namespace WpfApp1
             System.Windows.Forms.Application.Exit();
             this.Close();
         }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            DateText.Text = dt.ToLongDateString();
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            dt = dt.AddDays(1);
+            DateText.Text = dt.ToLongDateString();
+        }
+
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            dt = dt.AddDays(-1);
+            DateText.Text = dt.ToLongDateString();
+        }
     }
 
     
