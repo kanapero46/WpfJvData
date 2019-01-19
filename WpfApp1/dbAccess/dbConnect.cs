@@ -411,9 +411,9 @@ namespace WpfApp1.dbAccess
                 Console.WriteLine(e);   
                 ret = 0;
             }
-            catch(UnauthorizedAccessException)
+            catch(UnauthorizedAccessException e)
             {
-                MessageBox.Show("ファイルへのアクセスが距離されました。","アクセスエラー");
+                Console.WriteLine(e);
             }
 
             return ret;

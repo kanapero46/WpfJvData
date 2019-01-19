@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.Class
 {
-    class MainDataClass
+    public class MainDataClass
     {
 
         //レース情報キー
@@ -22,7 +22,7 @@ namespace WpfApp1.Class
         //競馬場コード！！
         private String RaceCource = "";
         public String getRaceCource() { return RaceCource; }
-        public void setRaceCoutce(String rc) { this.RaceCource = rc; }
+        public void setRaceCource(String rc) { this.RaceCource = rc; }
 
         //レース番号
         private String RaceNum = "";
@@ -104,40 +104,10 @@ namespace WpfApp1.Class
         public String getRaceStartTime() { return RaceStartTime; }
         public void setRaceStartTime(String inParam) { this.RaceStartTime = inParam; }
 
+        //馬場状態
+        private String TrackStatus;
+        public String getTrackStatus() { return TrackStatus; }
+        public void setTrackStatus(String inParam) { this.TrackStatus = inParam; }
 
-
-        //RAキーの自動生成
-        public int GET_AUTO_RA_KEY(ref String inParam)
-        {
-            if(RaceDate == "" || RaceCource == "" || RaceKaiji == "" || RaceNichiji == ""|| RaceNum == "")
-            {
-                return 0;
-            }
-
-            inParam = RaceDate + RaceCource + RaceKaiji + RaceNichiji + RaceNum;
-            return 1;
-        }
-
-        //TextReader_Rowから読み込んだ配列からデータ・セット
-        public void setData(ref List<String> inParam)
-        {
-            RA_key = inParam[0];
-            RaceDate = inParam[1];
-            RaceCource = inParam[2];
-            RaceKaiji = inParam[3];
-            RaceNichiji = inParam[4];
-            RaceNum = inParam[5];
-            WeekDay = inParam[6];
-            RaceName = inParam[7];
-            OldYear = inParam[13];
-            RaceClass = inParam[14];
-            RaceGradeKai = Int32.Parse(inParam[15]);
-            RaceGrade = inParam[16];
-            CourceTrack = inParam[17];
-            Distance = inParam[18];
-            RaceKindKigo = inParam[20];
-            RaceHandCap = inParam[21];
-            RaceStartTime = inParam[22];
-        }
     }
 }

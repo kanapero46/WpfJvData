@@ -7,9 +7,9 @@ using WpfApp1.dbAccess;
 
 namespace WpfApp1.Class
 {
-    class MainDataHorceClass
+    public class MainDataHorceClass
     {
-        private const int RA_START = 19;
+        private const int RA_START = 20; //仕様変更#15
 
         public struct JV_DATA_RACE_HIST
         {
@@ -48,6 +48,7 @@ namespace WpfApp1.Class
             public int Kaiji;
             public int Nichiji;
             public String Cource;
+            public String TorikeshiCd;
 
         };
 
@@ -130,34 +131,6 @@ namespace WpfApp1.Class
             EngName = inParam[2];
         }
         
-        public void SetSEMSTData(List<String> inParam)
-        {
-            //新馬戦は前走成績がないため、returnする。
-            if (inParam.Count == 0) { return; }
-
-            JV_DATA_RACE_HIST tmpHist = new JV_DATA_RACE_HIST();
-            tmpHist.Num = Int32.Parse(inParam[0].Substring(18, 2));
-            tmpHist.rA_KEY = inParam[0].Substring(0, 18);
-            tmpHist.sE_KEY = inParam[0];
-            tmpHist.wakuban = Int32.Parse(inParam[5]);
-            tmpHist.umaban = Int32.Parse(inParam[6]);
-            tmpHist.jockey = inParam[16];
-            tmpHist.futan = inParam[13];
-            tmpHist.Blincker = (inParam[14] == "1" ? true : false);
-            tmpHist.MinaraiCd = inParam[17];
-            //ここまでindex [18]→空セル
-            //ここからRAデータ
-            tmpHist.rA_KEY = inParam[RA_START];
-            tmpHist.RaceDate = inParam[RA_START+1];
-            tmpHist.Cource = inParam[RA_START + 2];
-            tmpHist.Kaiji = Int32.Parse(inParam[RA_START + 3]);
-            tmpHist.raceName = inParam[RA_START + 7];
-            tmpHist.raceName10 = inParam[RA_START + 8];
-            
-            tmpHist.distance = inParam[RA_START + 18];
-            RaceHist = tmpHist;
-
-        }
-
+       
     }
 }
