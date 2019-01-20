@@ -108,6 +108,9 @@
             this.data_Futan = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Aiteuma = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TimeDiff = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
+            this.InfomationBar = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -119,6 +122,7 @@
             this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.oldDataView)).BeginInit();
             this.flowLayoutPanel3.SuspendLayout();
+            this.flowLayoutPanel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // Date
@@ -408,6 +412,7 @@
             // panel2
             // 
             this.panel2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel2.Controls.Add(this.flowLayoutPanel6);
             this.panel2.Controls.Add(this.FFMTypeName);
             this.panel2.Controls.Add(this.FTypeName);
             this.panel2.Controls.Add(this.MMFBooldName);
@@ -518,7 +523,6 @@
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(399, 44);
             this.label20.TabIndex = 46;
-            this.label20.Text = "池添 謙一(55.0kg)";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // BloodHorceName
@@ -961,7 +965,7 @@
             this.data_Futan,
             this.Aiteuma,
             this.TimeDiff});
-            this.oldDataView.Location = new System.Drawing.Point(52, 1230);
+            this.oldDataView.Location = new System.Drawing.Point(3, 3);
             this.oldDataView.Name = "oldDataView";
             this.oldDataView.ReadOnly = true;
             this.oldDataView.RowTemplate.Height = 33;
@@ -1159,15 +1163,47 @@
             this.TimeDiff.Name = "TimeDiff";
             this.TimeDiff.ReadOnly = true;
             // 
+            // flowLayoutPanel6
+            // 
+            this.flowLayoutPanel6.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.flowLayoutPanel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.flowLayoutPanel6.ForeColor = System.Drawing.Color.Transparent;
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(316, 391);
+            this.flowLayoutPanel6.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.flowLayoutPanel6.Name = "flowLayoutPanel6";
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(15, 73);
+            this.flowLayoutPanel6.TabIndex = 37;
+            this.flowLayoutPanel6.Visible = false;
+            // 
+            // InfomationBar
+            // 
+            this.InfomationBar.Font = new System.Drawing.Font("メイリオ", 10.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.InfomationBar.Location = new System.Drawing.Point(3, 89);
+            this.InfomationBar.Multiline = true;
+            this.InfomationBar.Name = "InfomationBar";
+            this.InfomationBar.ReadOnly = true;
+            this.InfomationBar.Size = new System.Drawing.Size(2198, 59);
+            this.InfomationBar.TabIndex = 54;
+            this.InfomationBar.Text = "中山10R：騎手変更・出走取消情報";
+            // 
+            // flowLayoutPanel7
+            // 
+            this.flowLayoutPanel7.Controls.Add(this.oldDataView);
+            this.flowLayoutPanel7.Controls.Add(this.InfomationBar);
+            this.flowLayoutPanel7.Location = new System.Drawing.Point(19, 1230);
+            this.flowLayoutPanel7.Name = "flowLayoutPanel7";
+            this.flowLayoutPanel7.Size = new System.Drawing.Size(2240, 157);
+            this.flowLayoutPanel7.TabIndex = 55;
+            // 
             // Kettou
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(2288, 1336);
+            this.ClientSize = new System.Drawing.Size(2288, 1399);
+            this.Controls.Add(this.flowLayoutPanel7);
             this.Controls.Add(this.flowLayoutPanel5);
             this.Controls.Add(this.flowLayoutPanel3);
-            this.Controls.Add(this.oldDataView);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.HappyoTime);
             this.Controls.Add(this.tableLayoutPanel4);
@@ -1207,6 +1243,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.oldDataView)).EndInit();
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.PerformLayout();
+            this.flowLayoutPanel7.ResumeLayout(false);
+            this.flowLayoutPanel7.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1294,5 +1332,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn data_Futan;
         private System.Windows.Forms.DataGridViewTextBoxColumn Aiteuma;
         private System.Windows.Forms.DataGridViewTextBoxColumn TimeDiff;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel6;
+        private System.Windows.Forms.TextBox InfomationBar;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel7;
     }
 }
