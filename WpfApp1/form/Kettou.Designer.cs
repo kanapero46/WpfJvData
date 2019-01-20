@@ -102,6 +102,7 @@
             this.data_RaceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.data_Track = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.data_Distance = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Ninki = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.data_Rank = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.data_Jockey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.data_Futan = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -175,7 +176,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 136F));
             this.tableLayoutPanel1.Controls.Add(this.weLabel, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1599, 24);
@@ -293,7 +294,7 @@
             // 
             this.ClassLabel.AutoSize = true;
             this.ClassLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.ClassLabel.Location = new System.Drawing.Point(304, 0);
+            this.ClassLabel.Location = new System.Drawing.Point(303, 0);
             this.ClassLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.ClassLabel.Name = "ClassLabel";
             this.ClassLabel.Size = new System.Drawing.Size(109, 38);
@@ -307,7 +308,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.22481F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.77519F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 494F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 176F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 177F));
             this.tableLayoutPanel2.Controls.Add(this.label16, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.KigoLabel, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.OldYear, 0, 0);
@@ -326,7 +327,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label16.Location = new System.Drawing.Point(1104, 0);
+            this.label16.Location = new System.Drawing.Point(1103, 0);
             this.label16.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(115, 38);
@@ -337,7 +338,7 @@
             // 
             this.KigoLabel.AutoSize = true;
             this.KigoLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.KigoLabel.Location = new System.Drawing.Point(610, 0);
+            this.KigoLabel.Location = new System.Drawing.Point(609, 0);
             this.KigoLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.KigoLabel.Name = "KigoLabel";
             this.KigoLabel.Size = new System.Drawing.Size(317, 38);
@@ -578,7 +579,7 @@
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 108F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 131F));
             this.tableLayoutPanel3.Controls.Add(this.TrackDistance, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.TrackLabel, 0, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(1807, 24);
@@ -954,6 +955,7 @@
             this.data_RaceName,
             this.data_Track,
             this.data_Distance,
+            this.Ninki,
             this.data_Rank,
             this.data_Jockey,
             this.data_Futan,
@@ -1111,7 +1113,13 @@
             this.data_Distance.HeaderText = "距離";
             this.data_Distance.Name = "data_Distance";
             this.data_Distance.ReadOnly = true;
-            this.data_Distance.Width = 200;
+            // 
+            // Ninki
+            // 
+            this.Ninki.Frozen = true;
+            this.Ninki.HeaderText = "人気";
+            this.Ninki.Name = "Ninki";
+            this.Ninki.ReadOnly = true;
             // 
             // data_Rank
             // 
@@ -1280,6 +1288,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn data_RaceName;
         private System.Windows.Forms.DataGridViewTextBoxColumn data_Track;
         private System.Windows.Forms.DataGridViewTextBoxColumn data_Distance;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ninki;
         private System.Windows.Forms.DataGridViewTextBoxColumn data_Rank;
         private System.Windows.Forms.DataGridViewTextBoxColumn data_Jockey;
         private System.Windows.Forms.DataGridViewTextBoxColumn data_Futan;

@@ -49,7 +49,7 @@ namespace WpfApp1.Class
             public int Nichiji;
             public String Cource;
             public String TorikeshiCd;
-
+            public String Ninki;
         };
 
         

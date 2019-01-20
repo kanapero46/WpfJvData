@@ -631,6 +631,7 @@ namespace WpfApp1.form
                                  RaceName,
                                  Track,
                                  ArrayHorceData[Arraynum].RaceHist1.distance,
+                                 ArrayHorceData[Arraynum].RaceHist1.Ninki == "" ? "" : Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.Ninki) + "人",
                                  Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.rank) + "着",
                                  ArrayHorceData[Arraynum].RaceHist1.jockey,
                                  ArrayHorceData[Arraynum].RaceHist1.futan.Substring(0, 2) + ArrayHorceData[Arraynum].RaceHist1.futan.Substring(2, 1) + (ArrayHorceData[Arraynum].RaceHist1.futan.Length >= 2 ? "kg" : "")
@@ -646,11 +647,12 @@ namespace WpfApp1.form
                 oldDataView.Rows[0].Cells[3].Value = RaceName;
                 oldDataView.Rows[0].Cells[4].Value = Track;
                 oldDataView.Rows[0].Cells[5].Value = ArrayHorceData[Arraynum].RaceHist1.distance;
-                oldDataView.Rows[0].Cells[6].Value = Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.rank) + "着";
-                oldDataView.Rows[0].Cells[7].Value = ArrayHorceData[Arraynum].RaceHist1.jockey;
-                oldDataView.Rows[0].Cells[8].Value = ArrayHorceData[Arraynum].RaceHist1.futan;
-                oldDataView.Rows[0].Cells[9].Value = ArrayHorceData[Arraynum].RaceHist1.aiteuma.Trim();
-                oldDataView.Rows[0].Cells[10].Value = ArrayHorceData[Arraynum].RaceHist1.timeDiff;
+                oldDataView.Rows[0].Cells[6].Value = ArrayHorceData[Arraynum].RaceHist1.Ninki == "" ? "" : Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.Ninki) + "人";
+                oldDataView.Rows[0].Cells[7].Value = Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.rank) + "着";
+                oldDataView.Rows[0].Cells[8].Value = ArrayHorceData[Arraynum].RaceHist1.jockey;
+                oldDataView.Rows[0].Cells[9].Value = ArrayHorceData[Arraynum].RaceHist1.futan;
+                oldDataView.Rows[0].Cells[10].Value = ArrayHorceData[Arraynum].RaceHist1.aiteuma.Trim();
+                oldDataView.Rows[0].Cells[11].Value = ArrayHorceData[Arraynum].RaceHist1.timeDiff;
             }
 
             if (oldDataView.Rows.Count != 0)
@@ -673,16 +675,16 @@ namespace WpfApp1.form
                 switch (ArrayHorceData[Arraynum].RaceHist1.rank)
                 {
                     case "01":
-                        oldDataView.Rows[0].Cells[6].Style.BackColor = Color.Violet;
+                        oldDataView.Rows[0].Cells[7].Style.BackColor = Color.Violet;
                         break;
                     case "02":
-                        oldDataView.Rows[0].Cells[6].Style.BackColor = Color.Khaki;
+                        oldDataView.Rows[0].Cells[7].Style.BackColor = Color.Khaki;
                         break;
                     case "03":
-                        oldDataView.Rows[0].Cells[6].Style.BackColor = Color.LightBlue;
+                        oldDataView.Rows[0].Cells[7].Style.BackColor = Color.LightBlue;
                         break;
                     default:
-                        oldDataView.Rows[0].Cells[6].Style.BackColor = Color.White;
+                        oldDataView.Rows[0].Cells[7].Style.BackColor = Color.White;
                         break;
                 }
             }

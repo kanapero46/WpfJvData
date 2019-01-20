@@ -388,9 +388,20 @@ namespace WpfApp1.dbAccess
             {
                 if (DirectoryFlag)
                 {
-                    /* ファイル削除 */
-                    File.Delete(file);
-                    ret = 1;
+                    if(filename == "")
+                    {
+                        /* ディレクトリ削除 */
+                        DirectoryInfo delDir = new System.IO.DirectoryInfo(file);
+                        delDir.Delete(true);
+                        ret = 1;
+                    }
+                    else
+                    {
+                        /* ファイル削除 */
+                        File.Delete(file);
+                        ret = 1;
+                    }
+
                 }
                 else
                 {
@@ -408,8 +419,13 @@ namespace WpfApp1.dbAccess
             } 
             catch (IOException e)
             {
-                Console.WriteLine(e);   
+                Console.WriteLine("IOException ERROR file:" + file);
+                Console.WriteLine(e.Message);
                 ret = 0;
+            }
+            catch(UnauthorizedAccessException e)
+            {
+                Console.WriteLine("UnauthorizedAccessException ERROR file:" + file);
             }
             return ret;
         }

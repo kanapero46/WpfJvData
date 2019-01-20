@@ -366,7 +366,7 @@ namespace WpfApp1
             db = new dbConnect();
             //db.DeleteCsv("TM");
             
-            db.DeleteCsv("AV", FromTime.Substring(0, 8) + ".csv", false);
+            db.DeleteCsv("AV", FromTime.Substring(0, 8) + ".csv", true);
 
             while (ret >= 1)
             {
