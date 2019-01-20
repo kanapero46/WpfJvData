@@ -411,11 +411,6 @@ namespace WpfApp1.dbAccess
                 Console.WriteLine(e);   
                 ret = 0;
             }
-            catch(UnauthorizedAccessException e)
-            {
-                Console.WriteLine(e);
-            }
-
             return ret;
         }
 

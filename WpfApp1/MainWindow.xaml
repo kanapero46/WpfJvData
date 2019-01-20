@@ -19,9 +19,9 @@
         <Button x:Name="ButtonFunction2" Content="血統表" HorizontalAlignment="Left" Height="24" Margin="132,121,0,0" VerticalAlignment="Top" Width="100" Click="ButtonFunction2_Click"/>
         <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="248,121,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click"/>
         <Rectangle x:Name="MainBack" Height="33" Margin="10,79,10.5,0" Stroke="Black" VerticalAlignment="Top" Grid.ColumnSpan="3"/>
-        <Label x:Name="LabelCource" Content="" HorizontalAlignment="Left" Margin="28,73,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>
-        <Label x:Name="LabelRaceNum" Content="" HorizontalAlignment="Left" Margin="83,73,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>
-        <Label x:Name="LabelRaceName" Content="" HorizontalAlignment="Left" Margin="157,73,0,0" VerticalAlignment="Top" FontSize="22" Height="42" Foreground="White" FontFamily="Meiryo"/>
+        <Label x:Name="LabelCource" Content="" HorizontalAlignment="Left" Margin="28,75,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>
+        <Label x:Name="LabelRaceNum" Content="" HorizontalAlignment="Left" Margin="83,75,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>
+        <Label x:Name="LabelRaceName" Content="" HorizontalAlignment="Left" Margin="157,75,0,0" VerticalAlignment="Top" FontSize="22" Height="42" Foreground="White" FontFamily="Meiryo"/>
         <Button Content="初期データ取得" HorizontalAlignment="Left" Height="24" Margin="634,121,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_InitData"/>
         <ProgressBar x:Name="ProgressStatus" HorizontalAlignment="Left" Height="33" Margin="10,79,0,0" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" Visibility="Hidden"/>
         <TextBox x:Name="LogText" HorizontalAlignment="Left" Height="60" Margin="10,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" UndoLimit="102" Visibility="Hidden"/>
