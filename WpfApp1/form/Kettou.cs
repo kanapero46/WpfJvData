@@ -142,6 +142,7 @@ namespace WpfApp1.form
                     else
                     {
                         JvDbJcData.Add(cacheJcData);
+                        Console.WriteLine("[INFO]InitChangeInfo TRUE!");
                         gChgInfoFlag = true;
                         ret = true;
                     }
@@ -168,30 +169,97 @@ namespace WpfApp1.form
             int Code = LibJvConvFuncClass.COURCE_CODE;
             LibJvConvFuncClass.jvSysConvFunction(&Code, raceData.getRaceCource(), ref libtmp);
             tmp1 = libtmp + Int32.Parse(raceData.getRaceNum()) + "R：";
-
+            List<String> BeforeJockey = new List<string>();
             List<JvDbJcData> tmpJcArray = new List<JvDbJcData>();
+
+            List<int> ListInteger = new List<int>();
 
             //騎手変更
             for (int i = 0; i < JvDbJcData.Count; i++)
             {
                 if(JvDbJcData[i].Key1.Substring(0,16) == raceData.GET_RA_KEY())
                 {
-                    tmpJcArray.Add(JvDbJcData[i]);
-                    
+                    tmpJcArray.Add(JvDbJcData[i]);                    
                 }
             }
 
-            for(int i=0; i<tmpJcArray.Count; i++)
+            String AfterJockeyStr;
+            Code = LibJvConvFuncClass.JOCKEY_MINARAI_CD;
+                       
+            int JockeyCounter = 0;
+
+            for (int i = 0; i < tmpJcArray.Count; i++)
             {
-                if(tmpJcArray[i].BeforeInfo1.Name == )
+                AfterJockeyStr = "";
+
+                if (tmpJcArray.Count == 1)
                 {
-                    tmp1 += "【騎手変更】";
-                    tmp1 += JvDbJcData[i].Umaban1 + "番 " + JvDbJcData[i].BeforeInfo1.Name + "(" + JvDbJcData[i].BeforeInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[i].BeforeInfo1.Futan.Substring(2, 1) + ") → ";
-                    tmp1 += JvDbJcData[i].AfterInfo1.Name + "(" + JvDbJcData[i].AfterInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[i].AfterInfo1.Futan.Substring(2, 1) + ") ";
+                    //騎手変更が1件ならそのまま表示
+                    AfterJockeyStr = JvDbJcData[i].Umaban1 + "番 " + libtmp + JvDbJcData[i].BeforeInfo1.Name + "(" + JvDbJcData[i].BeforeInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[i].BeforeInfo1.Futan.Substring(2, 1) + ") → ";
                 }
+                else
+                {
+
+
+                    //2件以上の場合、同じ騎手で「未定」「騎手決定」の場合がある。
+                    for (int j = i; j < tmpJcArray.Count; j++)
+                    {
+                        if (tmpJcArray[i].BeforeInfo1.JcokeyCode == tmpJcArray[j].BeforeInfo1.JcokeyCode)
+                        {
+                            JockeyCounter = j;
+                        }
+
+                    }
+                    ListInteger.Add(JockeyCounter);
+                }
+                
+
+                //    //すでに登録済みの騎手の場合スキップ
+                //    if(BeforeJockey.Count == 0)
+                //    {
+                //        for (int j = 0; j < tmpJcArray.Count; j++)
+                //        {
+                //            if (BeforeJockey.Count != 0)
+                //            {
+                //                if (tmpJcArray[i].BeforeInfo1.Name == tmpJcArray[j].BeforeInfo1.Name)
+                //                {
+                //                    LibJvConvFuncClass.jvSysConvFunction(&Code, JvDbJcData[j].AfterInfo1.MinaraiCd, ref libtmp);
+                //                    AfterJockeyStr = libtmp + tmpJcArray[j].AfterInfo1.Name + "(" + JvDbJcData[j].AfterInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[j].AfterInfo1.Futan.Substring(2, 1) + ") ";
+                //                }
+                //            }
+                //            else
+                //            {
+                //                if (tmpJcArray[i].BeforeInfo1.Name == tmpJcArray[j].BeforeInfo1.Name)
+                //                {
+                //                    LibJvConvFuncClass.jvSysConvFunction(&Code, JvDbJcData[j].AfterInfo1.MinaraiCd, ref libtmp);
+                //                    AfterJockeyStr = libtmp + tmpJcArray[j].AfterInfo1.Name + "(" + JvDbJcData[j].AfterInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[j].AfterInfo1.Futan.Substring(2, 1) + ") ";
+                //                }
+                //            }
+                //        }
+                //    }
+                //    else if (JvDbJcData[i].BeforeInfo1.JcokeyCode == BeforeJockey[i])
+                //    {
+                //        continue;
+                //    }
+                //    BeforeJockey.Add(JvDbJcData[i].BeforeInfo1.JcokeyCode);
+                //    LibJvConvFuncClass.jvSysConvFunction(&Code, JvDbJcData[i].BeforeInfo1.MinaraiCd, ref libtmp);   //変更前見習いコード
+                //    tmp1 += JvDbJcData[i].Umaban1 + "番 " + libtmp + JvDbJcData[i].BeforeInfo1.Name + "(" + JvDbJcData[i].BeforeInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[i].BeforeInfo1.Futan.Substring(2, 1) + ") → ";
+                //    tmp1 += AfterJockeyStr + "　";
+                //}
             }
 
+            tmp1 += "【騎手変更】";
 
+            //書き込み
+            for (int k = 0; k<ListInteger.Count; k++)
+            {
+                LibJvConvFuncClass.jvSysConvFunction(&Code, JvDbJcData[ListInteger[k]].BeforeInfo1.MinaraiCd, ref libtmp);   //変更前見習いコード
+                tmp1 += JvDbJcData[ListInteger[k]].Umaban1 + "番 " + libtmp + JvDbJcData[ListInteger[k]].BeforeInfo1.Name +
+                    "(" + JvDbJcData[ListInteger[k]].BeforeInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[ListInteger[k]].BeforeInfo1.Futan.Substring(2, 1) + ") → ";
+                LibJvConvFuncClass.jvSysConvFunction(&Code, JvDbJcData[ListInteger[k]].AfterInfo1.MinaraiCd, ref libtmp);   //変更前見習いコード
+                tmp1 += libtmp + JvDbJcData[ListInteger[k]].AfterInfo1.Name + "(" + JvDbJcData[ListInteger[k]].AfterInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[ListInteger[k]].AfterInfo1.Futan.Substring(2, 1) + ") ";
+            }
+            
             //書き込み
             InfomationBar.Text = tmp1;
         }
