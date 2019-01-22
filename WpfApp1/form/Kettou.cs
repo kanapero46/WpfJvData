@@ -170,6 +170,7 @@ namespace WpfApp1.form
             LibJvConvFuncClass.jvSysConvFunction(&Code, raceData.getRaceCource(), ref libtmp);
             tmp1 = libtmp + Int32.Parse(raceData.getRaceNum()) + "R：";
             List<String> BeforeJockey = new List<string>();
+            List<String> AfterJockey = new List<string>();
             List<JvDbJcData> tmpJcArray = new List<JvDbJcData>();
 
             List<int> ListInteger = new List<int>();
@@ -183,14 +184,23 @@ namespace WpfApp1.form
                 }
             }
 
+			String BeforeJockeyStr;
             String AfterJockeyStr;
             Code = LibJvConvFuncClass.JOCKEY_MINARAI_CD;
                        
             int JockeyCounter = 0;
 
-            for (int i = 0; i < tmpJcArray.Count; i++)
+
+
+
+
+
+
+            int j = 0;
+            
+            
+            for (int i = tmpJcArray.Count; i > 0 ; i--)
             {
-                AfterJockeyStr = "";
 
                 if (tmpJcArray.Count == 1)
                 {
@@ -199,18 +209,37 @@ namespace WpfApp1.form
                 }
                 else
                 {
+					if(BeforeJockey.Count == 0)
+					{
+                        ListInteger.Add(i);
 
-
-                    //2件以上の場合、同じ騎手で「未定」「騎手決定」の場合がある。
-                    for (int j = i; j < tmpJcArray.Count; j++)
-                    {
-                        if (tmpJcArray[i].BeforeInfo1.JcokeyCode == tmpJcArray[j].BeforeInfo1.JcokeyCode)
-                        {
-                            JockeyCounter = j;
-                        }
+                        BeforeJockey.Add(tmpJcArray[i].BeforeInfo1.Name);
+                        AfterJockey.Add(tmpJcArray[i].AfterInfo1.Name);
 
                     }
-                    ListInteger.Add(JockeyCounter);
+                    else if(tmpJcArray[ListInteger[j]].BeforeInfo1.Name == tmpJcArray[i].BeforeInfo1.Name)
+                    {
+                        
+                    }
+				}
+				
+				
+                
+		
+				BeforeJockeyStr = tmpJcArray[i].BeforeInfo1.JcokeyCode;
+                AfterJockeyStr = "";
+
+                else
+                {
+					for(int j= 0; j < tmpJcArray.Count; j++)
+					{
+						if(BeforeJockey[j] == null)
+						{
+							
+						}
+					}
+					
+
                 }
                 
 
