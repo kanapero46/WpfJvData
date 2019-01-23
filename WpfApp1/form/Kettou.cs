@@ -119,6 +119,10 @@ namespace WpfApp1.form
 
             NowPictureNum = 1;
 
+            if(InfomationBar.Visible)
+            {
+                flowLayoutPanel8.Visible = true;
+            }
 
         }
         
@@ -254,7 +258,7 @@ namespace WpfApp1.form
                 tmp1 += tmpJcArray[k].Umaban1 + "番 " + libtmp + tmpJcArray[k].BeforeInfo1.Name +
                     "(" + tmpJcArray[k].BeforeInfo1.Futan.Substring(0, 2) + "." + tmpJcArray[k].BeforeInfo1.Futan.Substring(2, 1) + ") → ";
                 LibJvConvFuncClass.jvSysConvFunction(&Code, tmpJcArray[k].AfterInfo1.MinaraiCd, ref libtmp);   //変更前見習いコード
-                tmp1 += libtmp + tmpJcArray[k].AfterInfo1.Name + "(" + JvDbJcData[ListInteger[k]].AfterInfo1.Futan.Substring(0, 2) + "." + tmpJcArray[k].AfterInfo1.Futan.Substring(2, 1) + ") ";
+                tmp1 += libtmp + tmpJcArray[k].AfterInfo1.Name + "(" + tmpJcArray[k].AfterInfo1.Futan.Substring(0, 2) + "." + tmpJcArray[k].AfterInfo1.Futan.Substring(2, 1) + ") ";
             }
             
             //書き込み
