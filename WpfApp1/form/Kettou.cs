@@ -174,73 +174,42 @@ namespace WpfApp1.form
             List<JvDbJcData> tmpJcArray = new List<JvDbJcData>();
 
             List<int> ListInteger = new List<int>();
+            Boolean SetFlag = false;
 
             //騎手変更
             for (int i = 0; i < JvDbJcData.Count; i++)
             {
+                SetFlag = false;
                 if(JvDbJcData[i].Key1.Substring(0,16) == raceData.GET_RA_KEY())
                 {
-                    tmpJcArray.Add(JvDbJcData[i]);                    
-                }
-            }
-
-			String BeforeJockeyStr;
-            String AfterJockeyStr;
-            Code = LibJvConvFuncClass.JOCKEY_MINARAI_CD;
-                       
-            int JockeyCounter = 0;
-
-
-
-
-
-
-
-            int j = 0;
-            
-            
-            for (int i = tmpJcArray.Count; i > 0 ; i--)
-            {
-
-                if (tmpJcArray.Count == 1)
-                {
-                    //騎手変更が1件ならそのまま表示
-                    AfterJockeyStr = JvDbJcData[i].Umaban1 + "番 " + libtmp + JvDbJcData[i].BeforeInfo1.Name + "(" + JvDbJcData[i].BeforeInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[i].BeforeInfo1.Futan.Substring(2, 1) + ") → ";
-                }
-                else
-                {
-					if(BeforeJockey.Count == 0)
-					{
-                        ListInteger.Add(i);
-
-                        BeforeJockey.Add(tmpJcArray[i].BeforeInfo1.Name);
-                        AfterJockey.Add(tmpJcArray[i].AfterInfo1.Name);
-
-                    }
-                    else if(tmpJcArray[ListInteger[j]].BeforeInfo1.Name == tmpJcArray[i].BeforeInfo1.Name)
+                    if(tmpJcArray.Count == 0)
                     {
+                        tmpJcArray.Add(JvDbJcData[i]);
+                    }
+                    else
+                    {
+                        for(int j=0; j<tmpJcArray.Count; j++)
+                        {
+                            if(tmpJcArray[j].BeforeInfo1.JcokeyCode == JvDbJcData[i].BeforeInfo1.JcokeyCode)
+                            {
+                                //すでに登録済みの騎手の場合は上書き
+                                tmpJcArray[j] = JvDbJcData[i];
+                                SetFlag = true;
+                            }
+                        }
+                        if(!SetFlag)
+                        {
+                            //for文の中で検索に引っかからない場合は追加
+                            tmpJcArray.Add(JvDbJcData[i]);          
+                        }
                         
                     }
-				}
-				
-				
-                
-		
-				BeforeJockeyStr = tmpJcArray[i].BeforeInfo1.JcokeyCode;
-                AfterJockeyStr = "";
-
-                else
-                {
-					for(int j= 0; j < tmpJcArray.Count; j++)
-					{
-						if(BeforeJockey[j] == null)
-						{
-							
-						}
-					}
-					
-
+                                        
                 }
+                
+            }
+
+		
                 
 
                 //    //すでに登録済みの騎手の場合スキップ
@@ -275,18 +244,17 @@ namespace WpfApp1.form
                 //    tmp1 += JvDbJcData[i].Umaban1 + "番 " + libtmp + JvDbJcData[i].BeforeInfo1.Name + "(" + JvDbJcData[i].BeforeInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[i].BeforeInfo1.Futan.Substring(2, 1) + ") → ";
                 //    tmp1 += AfterJockeyStr + "　";
                 //}
-            }
-
+        
             tmp1 += "【騎手変更】";
 
             //書き込み
-            for (int k = 0; k<ListInteger.Count; k++)
+            for (int k = 0; k< tmpJcArray.Count; k++)
             {
-                LibJvConvFuncClass.jvSysConvFunction(&Code, JvDbJcData[ListInteger[k]].BeforeInfo1.MinaraiCd, ref libtmp);   //変更前見習いコード
-                tmp1 += JvDbJcData[ListInteger[k]].Umaban1 + "番 " + libtmp + JvDbJcData[ListInteger[k]].BeforeInfo1.Name +
-                    "(" + JvDbJcData[ListInteger[k]].BeforeInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[ListInteger[k]].BeforeInfo1.Futan.Substring(2, 1) + ") → ";
-                LibJvConvFuncClass.jvSysConvFunction(&Code, JvDbJcData[ListInteger[k]].AfterInfo1.MinaraiCd, ref libtmp);   //変更前見習いコード
-                tmp1 += libtmp + JvDbJcData[ListInteger[k]].AfterInfo1.Name + "(" + JvDbJcData[ListInteger[k]].AfterInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[ListInteger[k]].AfterInfo1.Futan.Substring(2, 1) + ") ";
+                LibJvConvFuncClass.jvSysConvFunction(&Code, tmpJcArray[k].BeforeInfo1.MinaraiCd, ref libtmp);   //変更前見習いコード
+                tmp1 += tmpJcArray[k].Umaban1 + "番 " + libtmp + tmpJcArray[k].BeforeInfo1.Name +
+                    "(" + tmpJcArray[k].BeforeInfo1.Futan.Substring(0, 2) + "." + tmpJcArray[k].BeforeInfo1.Futan.Substring(2, 1) + ") → ";
+                LibJvConvFuncClass.jvSysConvFunction(&Code, tmpJcArray[k].AfterInfo1.MinaraiCd, ref libtmp);   //変更前見習いコード
+                tmp1 += libtmp + tmpJcArray[k].AfterInfo1.Name + "(" + JvDbJcData[ListInteger[k]].AfterInfo1.Futan.Substring(0, 2) + "." + tmpJcArray[k].AfterInfo1.Futan.Substring(2, 1) + ") ";
             }
             
             //書き込み
@@ -449,7 +417,6 @@ namespace WpfApp1.form
             JvDbSEData horceData; //馬情報
             String Key = raceData.GET_RA_KEY();
             String covData;
-            String Libstr = "";
             List<String> LibArray = new List<string>();
             int All = 0;
 
