@@ -15,10 +15,16 @@ namespace WpfApp1.form
     {
         String Key;
         JvDbRaData raceData; //レース情報
+        List<JvDbJcData> JvDbJcData = new List<JvDbJcData>(); //騎手変更情報 仕様変更#23
         List<JvDbSEData> ArrayHorceData = new List<JvDbSEData>(); //18頭分すべて
         dbConnect db = new dbConnect(); //DB読み書きクラス
         dbCom dbCom = new dbCom();
         MainWindow main = new MainWindow(); //MainWindowsクラス
+
+        String Infomation;  //変更情報表示テキスト #23
+
+        //変更情報の有無
+        Boolean gChgInfoFlag = false;   //true：変更情報あり
 
         /* 現在表示している馬番のグローバル変数 */
         int NowPictureNum = 1;
@@ -94,8 +100,16 @@ namespace WpfApp1.form
 
             Key = raceData.getRaceDate() + raceData.getRaceCource() + raceData.getRaceKaiji() + raceData.getRaceNichiji();
             ret = main.JvGetRTData(raceData.getRaceDate()); //速報データ取得
+           // ret = main.JvGetRt_JockeyData(raceData.getRaceDate(), raceData.getRaceCource(), raceData.getRaceNum());
             InitTrackStatusInfo(Key);  //馬場状態書き込み
             SetFormDataWriter();
+
+            //変更情報の取得 #23
+            if(InitChangeInfo())
+            {
+                //変更情報を各馬共通エリアに書き込み　#23
+                WriteInfomation();
+            }
 
             //競走馬データ書き込み
             ret = SetHorceData();
@@ -105,10 +119,156 @@ namespace WpfApp1.form
 
             NowPictureNum = 1;
 
+            if(InfomationBar.Visible)
+            {
+                flowLayoutPanel8.Visible = true;
+            }
 
         }
+        
+        # region 変更情報取得
+        private Boolean InitChangeInfo()
+        {
+            Boolean ret = false;
+            List<String> tmp = new List<string>();
+            JvDbJcData cacheJcData;
 
-        unsafe private void InitTrackStatusInfo(String Key)
+            for(int i=1; ;i++) //エラーになるまで継続
+            {
+                tmp.Clear();
+                cacheJcData = new JvDbJcData();
+                if (db.TextReader_Col(raceData.getRaceDate(), "JC", 0, ref tmp, i.ToString()) != 0)
+                {
+                    if(cacheJcData.ReadData_AV(ref tmp) == 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        JvDbJcData.Add(cacheJcData);
+                        Console.WriteLine("[INFO]InitChangeInfo TRUE!");
+                        gChgInfoFlag = true;
+                        ret = true;
+                    }
+                }
+                else
+                {
+                    //取得終了・または取得なし
+                    break;
+                }
+            }
+            return ret;
+        }
+        #endregion
+
+        #region 変更情報を各共通エリアに書き込み
+        unsafe private void WriteInfomation()
+        {
+            String tmp1 = "";
+            String libtmp = "";
+
+            //レース番号
+            flowLayoutPanel7.Visible = true;
+            InfomationBar.Visible = true;
+            int Code = LibJvConvFuncClass.COURCE_CODE;
+            LibJvConvFuncClass.jvSysConvFunction(&Code, raceData.getRaceCource(), ref libtmp);
+            tmp1 = libtmp + Int32.Parse(raceData.getRaceNum()) + "R：";
+            List<String> BeforeJockey = new List<string>();
+            List<String> AfterJockey = new List<string>();
+            List<JvDbJcData> tmpJcArray = new List<JvDbJcData>();
+
+            List<int> ListInteger = new List<int>();
+            Boolean SetFlag = false;
+
+            //騎手変更
+            for (int i = 0; i < JvDbJcData.Count; i++)
+            {
+                SetFlag = false;
+                if(JvDbJcData[i].Key1.Substring(0,16) == raceData.GET_RA_KEY())
+                {
+                    if(tmpJcArray.Count == 0)
+                    {
+                        tmpJcArray.Add(JvDbJcData[i]);
+                    }
+                    else
+                    {
+                        for(int j=0; j<tmpJcArray.Count; j++)
+                        {
+                            if(tmpJcArray[j].BeforeInfo1.JcokeyCode == JvDbJcData[i].BeforeInfo1.JcokeyCode)
+                            {
+                                //すでに登録済みの騎手の場合は上書き
+                                tmpJcArray[j] = JvDbJcData[i];
+                                SetFlag = true;
+                            }
+                        }
+                        if(!SetFlag)
+                        {
+                            //for文の中で検索に引っかからない場合は追加
+                            tmpJcArray.Add(JvDbJcData[i]);          
+                        }
+                        
+                    }
+                                        
+                }
+                
+            }
+
+		
+                
+
+                //    //すでに登録済みの騎手の場合スキップ
+                //    if(BeforeJockey.Count == 0)
+                //    {
+                //        for (int j = 0; j < tmpJcArray.Count; j++)
+                //        {
+                //            if (BeforeJockey.Count != 0)
+                //            {
+                //                if (tmpJcArray[i].BeforeInfo1.Name == tmpJcArray[j].BeforeInfo1.Name)
+                //                {
+                //                    LibJvConvFuncClass.jvSysConvFunction(&Code, JvDbJcData[j].AfterInfo1.MinaraiCd, ref libtmp);
+                //                    AfterJockeyStr = libtmp + tmpJcArray[j].AfterInfo1.Name + "(" + JvDbJcData[j].AfterInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[j].AfterInfo1.Futan.Substring(2, 1) + ") ";
+                //                }
+                //            }
+                //            else
+                //            {
+                //                if (tmpJcArray[i].BeforeInfo1.Name == tmpJcArray[j].BeforeInfo1.Name)
+                //                {
+                //                    LibJvConvFuncClass.jvSysConvFunction(&Code, JvDbJcData[j].AfterInfo1.MinaraiCd, ref libtmp);
+                //                    AfterJockeyStr = libtmp + tmpJcArray[j].AfterInfo1.Name + "(" + JvDbJcData[j].AfterInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[j].AfterInfo1.Futan.Substring(2, 1) + ") ";
+                //                }
+                //            }
+                //        }
+                //    }
+                //    else if (JvDbJcData[i].BeforeInfo1.JcokeyCode == BeforeJockey[i])
+                //    {
+                //        continue;
+                //    }
+                //    BeforeJockey.Add(JvDbJcData[i].BeforeInfo1.JcokeyCode);
+                //    LibJvConvFuncClass.jvSysConvFunction(&Code, JvDbJcData[i].BeforeInfo1.MinaraiCd, ref libtmp);   //変更前見習いコード
+                //    tmp1 += JvDbJcData[i].Umaban1 + "番 " + libtmp + JvDbJcData[i].BeforeInfo1.Name + "(" + JvDbJcData[i].BeforeInfo1.Futan.Substring(0, 2) + "." + JvDbJcData[i].BeforeInfo1.Futan.Substring(2, 1) + ") → ";
+                //    tmp1 += AfterJockeyStr + "　";
+                //}
+        
+            tmp1 += "【騎手変更】";
+
+            //書き込み
+            for (int k = 0; k< tmpJcArray.Count; k++)
+            {
+                LibJvConvFuncClass.jvSysConvFunction(&Code, tmpJcArray[k].BeforeInfo1.MinaraiCd, ref libtmp);   //変更前見習いコード
+                tmp1 += tmpJcArray[k].Umaban1 + "番 " + libtmp + tmpJcArray[k].BeforeInfo1.Name +
+                    "(" + tmpJcArray[k].BeforeInfo1.Futan.Substring(0, 2) + "." + tmpJcArray[k].BeforeInfo1.Futan.Substring(2, 1) + ") → ";
+                LibJvConvFuncClass.jvSysConvFunction(&Code, tmpJcArray[k].AfterInfo1.MinaraiCd, ref libtmp);   //変更前見習いコード
+                tmp1 += libtmp + tmpJcArray[k].AfterInfo1.Name + "(" + tmpJcArray[k].AfterInfo1.Futan.Substring(0, 2) + "." + tmpJcArray[k].AfterInfo1.Futan.Substring(2, 1) + ") ";
+            }
+            
+            //書き込み
+            InfomationBar.Text = tmp1;
+        }
+        #endregion
+
+
+
+            unsafe private void InitTrackStatusInfo(String Key)
         {
             int LibCode;
             int GetKind;
@@ -261,7 +421,6 @@ namespace WpfApp1.form
             JvDbSEData horceData; //馬情報
             String Key = raceData.GET_RA_KEY();
             String covData;
-            String Libstr = "";
             List<String> LibArray = new List<string>();
             int All = 0;
 
@@ -474,9 +633,29 @@ namespace WpfApp1.form
             }
             #endregion
 
+            //騎手変更情報リセット
+            flowLayoutPanel6.Visible = false;
+
+            #region 変更情報反映
+            if (JvDbJcData.Count != 0)
+            {
+                for(int i = 0; i<JvDbJcData.Count; i++)
+                {
+                    if(JvDbJcData[i].Key1 == raceData.GET_RA_KEY() + ArrayHorceData[ArrayNum].Umaban1
+                        &&
+                        JvDbJcData[i].BeforeInfo1.Name == ArrayHorceData[ArrayNum].Jockey1
+                        )
+                    {
+                        //騎手変更あり
+                        flowLayoutPanel6.Visible = true;
+                        flowLayoutPanel7.Visible = true;
+                        this.label20.Text = JvDbJcData[i].AfterInfo1.Name + "(" + JvDbJcData[i].AfterInfo1.Futan.Substring(0,2) + "." + JvDbJcData[i].AfterInfo1.Futan.Substring(2, 1) + ")";
+                    }
+                }
+            }
+            #endregion
 
             #region 前走成績更新
-
             SetOldRace(num);
             #endregion
             return num;

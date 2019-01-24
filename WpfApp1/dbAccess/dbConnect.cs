@@ -398,7 +398,8 @@ namespace WpfApp1.dbAccess
                     else
                     {
                         /* ファイル削除 */
-                        File.Delete(file);
+                        FileInfo delFile = new FileInfo(file);
+                        delFile.Delete();
                         ret = 1;
                     }
 

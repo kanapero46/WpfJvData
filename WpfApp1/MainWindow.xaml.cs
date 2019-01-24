@@ -333,12 +333,14 @@ namespace WpfApp1
                 if(ret != 1)
                 {
                     System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー");
+                    JVForm.JvForm_JVWatchEventClose();     //速報系スレッドの終了
                     return 0;
                 }
                 ret = JVForm.JvForm_JvRTOpen(Dt, FromTime);
                 if(ret != 0)
                 {
                     System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー2");
+                    JVForm.JvForm_JVWatchEventClose();     //速報系スレッドの終了
                     return 0;
                 }
             }
@@ -365,8 +367,19 @@ namespace WpfApp1
             /* DB初期化 */
             db = new dbConnect();
             //db.DeleteCsv("TM");
-            
-            db.DeleteCsv("AV", FromTime.Substring(0, 8) + ".csv", true);
+
+            /* DB初期化フラグ */
+            Boolean AVInit = true;
+            Boolean JCInit = true;
+
+            /* データを追加するにはここに構造体を追加 */
+            JVData_Struct.JV_JC_INFO JC_INFO = new JVData_Struct.JV_JC_INFO();          //騎手変更等
+
+            /* インスタンス用の宣言 */
+            JvDbJcData JcData;
+            JvDbAVData AvData;
+
+            int JcIdx = 0;
 
             while (ret >= 1)
             {
@@ -416,14 +429,31 @@ namespace WpfApp1
                            
                             break;
                         case "AV":
-                            JV_INFO.SetDataB(ref buff);
-                            tmp = "";
-                            tmp += JV_INFO.id.Year + JV_INFO.id.MonthDay + JV_INFO.id.JyoCD + JV_INFO.id.Kaiji + JV_INFO.id.Nichiji + JV_INFO.id.RaceNum + ",";
-                            tmp += JV_INFO.Umaban + ",";
-                            tmp += JV_INFO.head.DataKubun + ",";
-                            tmp += JV_INFO.Bamei + ",";
-                            tmp += JV_INFO.JiyuKubun + ",";
-                            db = new dbConnect(JV_INFO.id.Year + JV_INFO.id.MonthDay, JV_INFO.head.RecordSpec, ref tmp, ref DbReturn);
+                            /* 仕様変更#23 */
+                            if(AVInit)
+                            {
+                                //初回はDBを初期化する
+                                AvData = new JvDbAVData(ref buff, AVInit);
+                                AVInit = false;
+                            }
+                            else
+                            {
+                                AvData = new JvDbAVData();
+                                AvData.SetDataAV(ref buff);
+                            }
+                           
+                            break;
+                        case "JC":
+                            JcIdx++;
+                            if (JCInit)
+                            {
+                                JcData = new JvDbJcData(ref buff, JCInit, JcIdx);
+                                JCInit = false;
+                            }
+                            else
+                            {
+                                JcData = new JvDbJcData(ref buff, JCInit, JcIdx);
+                            }
                             break;
                         case "TC":
                             break;
@@ -476,6 +506,8 @@ namespace WpfApp1
             JVForm.JvForm_JvClose();
             return 1;
         }
+
+ 
 
         private void InitForm()
         {
