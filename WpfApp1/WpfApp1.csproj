@@ -110,6 +110,8 @@
     <Compile Include="form\Syutsuba.Designer.cs">
       <DependentUpon>Syutsuba.cs</DependentUpon>
     </Compile>
+    <Compile Include="JvComDbData\JvDbJCData.cs" />
+    <Compile Include="JvComDbData\JvDbAVData.cs" />
     <Compile Include="JvComDbData\JvDbRaData.cs" />
     <Compile Include="JvComDbData\JvDbSEData.cs" />
     <Compile Include="JvComDbData\Sample.cs" />
