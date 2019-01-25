@@ -302,7 +302,7 @@ namespace WpfApp1.form
                 LibJvConvFuncClass.jvSysConvFunction(&LibCode, str[1], ref tmp);
                 weLabel.Text = tmp;
 
-                HappyoTime.Text = ConvertDateToLongDate(str[4]);
+                HappyoTime.Text = raceData.ConvertDateToDate(str[4]);
 
                 if (str[4] == "00000000")
                 {
@@ -310,7 +310,7 @@ namespace WpfApp1.form
                 }
                 else
                 {
-                    HappyoTime.Text = ConvertDateToLongDate(str[4]);
+                    HappyoTime.Text = raceData.ConvertDateToDate(str[4]);
                 }
 
 
@@ -381,7 +381,7 @@ namespace WpfApp1.form
             String LibTmp = "";
 
             LibJvConvFuncClass.jvSysConvFunction(&Code, raceData.getWeekDay(), ref LibTmp);
-            this.Date.Text = ConvertDateToDate(raceData.getRaceDate()) + "(" + (LibTmp == "祝" ?  LibTmp : LibTmp + "曜") +")";
+            this.Date.Text = raceData.ConvertDateToDate(raceData.getRaceDate()) + "(" + (LibTmp == "祝" ?  LibTmp : LibTmp + "曜") +")";
 
             Code = LibJvConvFuncClass.COURCE_CODE;
             LibJvConvFuncClass.jvSysConvFunction(&Code, raceData.getRaceCource(), ref LibTmp);
@@ -391,9 +391,9 @@ namespace WpfApp1.form
             {
                 RaceNum.Text = Int32.Parse(raceData.getRaceNum()) + "R";
             }
-            
 
-            if(raceData.getRaceGradeKai() != 0)
+
+            if (raceData.getRaceGradeKai() != 0)
             {
                 this.kaiji.Text = "第" + raceData.getRaceGradeKai() + "回";
             }
@@ -690,11 +690,6 @@ namespace WpfApp1.form
         private void BloodHorceName_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private String ConvertDateToDate(String Date)
-        {
-            return Date.Substring(0, 4) + "年" + Int32.Parse(Date.Substring(4, 2)) + "月" + Int32.Parse(Date.Substring(6, 2)) + "日";
         }
 
         private String ConvertDateToLongDate(String DateTime)

@@ -24,6 +24,7 @@ namespace WpfApp1.form
         dbConnect db;
         dbCom dbCom = new dbCom();
         Class.MainDataClass DataClass = new Class.MainDataClass();
+        JvComDbData.JvDbRaData RaClassData = new JvComDbData.JvDbRaData();
         static String Cource;
         int CourceColor;
         MainWindow main = new MainWindow();
@@ -57,6 +58,8 @@ namespace WpfApp1.form
         {
             InitializeComponent();
             String tmp = "";
+            List<String> Radata = new List<string>();
+
             db = new dbConnect();
             //DBからレース名を検索
             db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 5, ref tmp);
@@ -76,8 +79,14 @@ namespace WpfApp1.form
             DataClass.setCourceTrack(tmp);
             db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 18, ref tmp);
             DataClass.setDistance(tmp);
+            
+            db.TextReader_Col(RA.Substring(0, 8), "RA", 0, ref Radata, RA);
+            RaClassData.setData(ref Radata);
 
             CourceColor = Color;
+
+            int ret = main.JvGetRTData(RaClassData.getRaceDate()); //速報データ取得
+            SetCourceStatusWrite();
 
             /* レース情報表示 */
             InitForm();
@@ -108,6 +117,81 @@ namespace WpfApp1.form
         }
         
         /************** private **************/
+        unsafe private void SetCourceStatusWrite()
+        {
+            int LibCode;
+            int GetKind;
+            int ret;
+            String tmp = "";
+            List<String> str = new List<string>();
+            String Track = RaClassData.getCourceTrack();
+            LibCode = LibJvConvFuncClass.TRACK_CODE_SHORT;
+            LibJvConvFuncClass.jvSysConvFunction(&LibCode, Track, ref tmp);
+            String Key = RaClassData.getRaceDate() + RaClassData.getRaceCource() + RaClassData.getRaceKaiji() + RaClassData.getRaceNichiji();
+
+            if (tmp == "")
+            {
+                return;
+            }
+
+            GetKind = (tmp == "芝" ? 2 : 3);
+
+            //競走馬情報
+
+            tmp = "";
+            ret = db.TextReader_Col(RaClassData.getRaceDate(), "WE", 0, ref str, Key);
+            if (ret == 0 || str.Count() == 0)
+            {
+                weLabel.Text = "---";
+                TrackDistance.Text = "---";
+                HappyoTime.Text = "発表前";
+            }
+            else
+            {
+                LibCode = 2011;
+                LibJvConvFuncClass.jvSysConvFunction(&LibCode, str[1], ref tmp);
+                weLabel.Text = tmp;
+
+                HappyoTime.Text = RaClassData.ConvertDateToDate(str[4]);
+
+                if (str[4] == "00000000")
+                {
+                    HappyoTime.Text = "発売前時点";
+                }
+                else
+                {
+                    HappyoTime.Text = RaClassData.ConvertDateToDate(str[4]);
+                }
+
+
+                LibCode = 2010;
+                LibJvConvFuncClass.jvSysConvFunction(&LibCode, str[GetKind], ref tmp);
+                TrackDistance.Text = tmp;
+
+            }
+
+
+            TrackLabel.Text = (GetKind == 2 ? "芝" : "ダート");
+            TrackLabel.BackColor = (GetKind == 2 ? Color.LightGreen : Color.Tan);
+
+            LibCode = 2007;
+            LibJvConvFuncClass.jvSysConvFunction(&LibCode, RaClassData.getRaceClass(), ref tmp);
+            ClassLabel.Text = tmp;
+
+            LibCode = 2006;
+            LibJvConvFuncClass.jvSysConvFunction(&LibCode, RaClassData.getRaceKindKigo(), ref tmp);
+            KigoLabel.Text = tmp;
+
+            DistanceLabel.Text = RaClassData.getDistance();
+
+            LibCode = LibJvConvFuncClass.TRACK_CODE;
+            LibJvConvFuncClass.jvSysConvFunction(&LibCode, RaClassData.getCourceTrack(), ref tmp);
+            TrackNameLabel.Text = tmp;
+
+
+
+        }
+
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -282,45 +366,20 @@ namespace WpfApp1.form
 
         unsafe private void Form2_Load(object sender, EventArgs e)
         {
-            /* レース名書き込み */
-        String Grade = DataClass.getRaceGrade();
-
-            this.Text = Int32.Parse(DataClass.getRaceKaiji()) + Cource + Int32.Parse(DataClass.getRaceNichiji()) + " " 
-                + DataClass.getRaceNum() + "R:" +DataClass.getRaceName();
-            LabelCource.Text = Cource + DataClass.getRaceNum() + "Ｒ";
-
-            if (Grade == "一般"||Grade == "特別"||Grade == "")
-            {
-                LabelRaceName.Text = DataClass.getRaceName();
-            }
-            else
-            {
-                LabelRaceName.Text = DataClass.getRaceName() + "(" + DataClass.getRaceGrade() + ")";
-            }
 
             switch(CourceColor)
             {
                 case 1:
-                    flowLayoutPanel1.BackColor = Color.Blue;
+                    panel1.BackColor = Color.Blue;
                     break;
                 case 2:
-                    flowLayoutPanel1.BackColor = Color.Green;
+                    panel1.BackColor = Color.Green;
                     break;
                 case 3:
-                    flowLayoutPanel1.BackColor = Color.Purple;
+                    panel1.BackColor = Color.Purple;
                     break;
             }
-
-            /* トラック */
-
-            int CODE = 2009;
-            String tmp = DataClass.getCourceTrack();
-            String LibTmp = "";
-            LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref LibTmp);
-            DataClass.setCourceTrack(LibTmp);
-
-            LabelTrack.Text = DataClass.getCourceTrack() + "：" + DataClass.getDistance() + "m";
-
+            
             /* フォントの変更 */
             dataGridView1.DefaultCellStyle.Font = new Font("Meiryo UI", 12);
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Meiryo UI", 9);
@@ -332,15 +391,58 @@ namespace WpfApp1.form
             String LibTmp = "";
             int CODE = LibJvConvFuncClass.COURCE_CODE;
 
-            String tmp = DataClass.getRaceCource();
+            String tmp = RaClassData.getRaceCource();
             LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref LibTmp);
             Cource = LibTmp;
 
             /* DataGridViewの高さの変更を出来ないようにする */
             dataGridView1.AllowUserToResizeRows = false;
 
-            /* レース名 */
-            LabelCource.Text = Cource;
+
+            CODE = 2002;
+            LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getWeekDay() , ref LibTmp);
+
+            //仕様変更#27：レースヘッダ共通化対応
+            this.Date.Text = RaClassData.ConvertDateToDate(RaClassData.getRaceDate()) + "(" + (LibTmp == "祝" ? LibTmp : LibTmp + "曜") + ")";       //日付
+            this.Kaisai.Text = "第" + Int32.Parse(RaClassData.getRaceKaiji()) + "回" + Cource + Int32.Parse(RaClassData.getRaceNichiji()) + "日目"; //開催
+            this.label4.Text = RaClassData.ConvertTimeToString(RaClassData.getRaceStartTime());
+
+            this.RaceNum.Text = Int32.Parse(RaClassData.getRaceNum()) + "Ｒ";
+            this.kaiji.Text = (RaClassData.getRaceGradeKai() == 0 ? "" : "第" + RaClassData.getRaceGradeKai() + "回");
+            this.racename.Text = RaClassData.getRaceName();
+
+            if(RaClassData.getRaceGradeKai() != 0)
+            {
+                racename.Text += "(" + RaClassData.getRaceGrade() + ")";
+            }
+            
+            CODE = LibJvConvFuncClass.RACE_SHUBETSU_LONG_CODE;
+            LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getOldYear(), ref LibTmp);
+            this.OldYear.Text = LibTmp;
+
+            CODE = LibJvConvFuncClass.TRACK_CODE_SHORT;
+            LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getCourceTrack(), ref LibTmp);
+            int GetKind = (LibTmp == "芝" ? 2 : 3);
+            TrackLabel.Text = (GetKind == 2 ? "芝" : "ダート");
+            TrackLabel.BackColor = (GetKind == 2 ? Color.LightGreen : Color.Tan);
+
+            CODE = 2007;
+            LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getRaceClass() , ref LibTmp);
+            ClassLabel.Text = LibTmp;
+
+            CODE = 2006;
+            LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getRaceKindKigo(), ref LibTmp);
+            KigoLabel.Text = LibTmp;
+
+            DistanceLabel.Text = RaClassData.getDistance();
+
+            CODE = LibJvConvFuncClass.TRACK_CODE;
+            LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getCourceTrack(), ref LibTmp);
+            TrackNameLabel.Text = LibTmp;
+
+
+
+
         }
 
         unsafe private String MappingGetRaceCource()

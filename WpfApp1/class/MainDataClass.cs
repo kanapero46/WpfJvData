@@ -109,5 +109,22 @@ namespace WpfApp1.Class
         public String getTrackStatus() { return TrackStatus; }
         public void setTrackStatus(String inParam) { this.TrackStatus = inParam; }
 
+
+        public String ConvertDateToDate(String Date)
+        {
+            return Date.Substring(0, 4) + "年" + Int32.Parse(Date.Substring(4, 2)) + "月" + Int32.Parse(Date.Substring(6, 2)) + "日";
+        }
+
+        public String ConvertTimeToString(String inparam)
+        {
+            try
+            {
+                return inparam.Substring(0, 2) + "時" + inparam.Substring(2, 2) + "分";
+            }
+            catch(Exception)
+            {
+                return "";
+            }
+        }
     }
 }
