@@ -355,6 +355,7 @@ namespace WpfApp1.dbAccess
                     /* レース開催日 */
                     return @"" + dtSpec + "/" + Date + "/" + dtSpec + Date + ".csv";
                 case 16:
+                case 18:
                     /* レース毎 */
                     return @"" + dtSpec + "/" + Date.Substring(0,8) + "/" + dtSpec + Date + ".csv";
             }

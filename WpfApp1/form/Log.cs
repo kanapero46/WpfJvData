@@ -45,18 +45,28 @@ namespace WpfApp1.form
 
         public int LogCntUp(int Value)
         {
-            if(progressBar1.Maximum < Value ||progressBar1.Value > Value)
+            try
+            { 
+
+                if(progressBar1.Maximum < Value ||progressBar1.Value > Value)
+                {
+                    return -1;
+                }
+
+                progressBar1.Value = Value;
+
+                if(progressBar1.Value == progressBar1.Maximum)
+                {
+                    return 1;
+                }
+            }catch(Exception)
             {
-                return -1;
+                
             }
-
-            progressBar1.Value = Value;
-
-            if(progressBar1.Value == progressBar1.Maximum)
+            finally
             {
-                return 1;
+                
             }
-
             return 0;
         }
 
