@@ -118,6 +118,9 @@ namespace WpfApp1.JvComDbData
             setRaceNum(inParam[5]);
             setWeekDay(inParam[6]);
             setRaceName(inParam[7]);
+            setRaceNameEnd(inParam[10]);
+            setRaceNameFuku(inParam[9]);
+            setRaceNameEng(inParam[11] + (inParam[12] == ""?"":"(" + inParam[12] + ")"));
             setOldYear(inParam[13]);
             setRaceClass(inParam[14]);
             setRaceGradeKai(inParam[15]);

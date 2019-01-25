@@ -809,9 +809,20 @@ namespace WpfApp1
                 StatusInfo += "DataLabからのデータの取得をスキップしました。\n";
                 StatusInfo += "処理が終了しました。\n";
                 StatusWriter();   //スレッド開始せずに呼び出し
-                this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
+                
                 InitCompLabelText();    /* 障害Issue#3 */
-                LabelRaceNum.Content = "OK";
+
+                if(RaceListBox.Items.Count == 0)
+                {
+                    this.MainBack.Fill = System.Windows.Media.Brushes.DeepPink;
+                    LabelRaceNum.Content = "NG!!";
+                }
+                else
+                {
+                    this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
+                    LabelRaceNum.Content = "OK";
+                }
+                                              
             }
             else
             {
@@ -1581,14 +1592,34 @@ namespace WpfApp1
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
             DateTime dt = DateTime.Now;
-            dt = dt.AddDays(1);
+            
+            if(DateText.Text == "")
+            {
+                dt = dt.AddDays(1);
+            }
+            else
+            {
+                dt = DateTime.Parse(DateText.Text);
+                dt = dt.AddDays(1);
+            }
+            
             DateText.Text = dt.ToLongDateString();
         }
 
         private void Button_Click_7(object sender, RoutedEventArgs e)
         {
             DateTime dt = DateTime.Now;
-            dt = dt.AddDays(-1);
+
+            if (DateText.Text == "")
+            {
+                dt = dt.AddDays(-1);
+            }
+            else
+            {
+                dt = DateTime.Parse(DateText.Text);
+                dt = dt.AddDays(-1);
+            }
+
             DateText.Text = dt.ToLongDateString();
         }
     }

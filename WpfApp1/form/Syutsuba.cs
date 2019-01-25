@@ -371,12 +371,15 @@ namespace WpfApp1.form
             {
                 case 1:
                     panel1.BackColor = Color.Blue;
+                    flowLayoutPanel4.BackColor = Color.Blue;
                     break;
                 case 2:
                     panel1.BackColor = Color.Green;
+                    flowLayoutPanel4.BackColor = Color.Green;
                     break;
                 case 3:
                     panel1.BackColor = Color.Purple;
+                    flowLayoutPanel4.BackColor = Color.Purple;
                     break;
             }
             
@@ -409,11 +412,12 @@ namespace WpfApp1.form
 
             this.RaceNum.Text = Int32.Parse(RaClassData.getRaceNum()) + "Ｒ";
             this.kaiji.Text = (RaClassData.getRaceGradeKai() == 0 ? "" : "第" + RaClassData.getRaceGradeKai() + "回");
-            this.racename.Text = RaClassData.getRaceName();
+            this.racename.Text = RaClassData.getRaceNameFukus() + RaClassData.getRaceName() + (RaClassData.getRaceNameEnd() == ""? "": "(" + RaClassData.getRaceNameEnd() + ")");
+            this.raceNameEng.Text = " "+ RaClassData.getRaceNameEng();
 
             if(RaClassData.getRaceGradeKai() != 0)
             {
-                racename.Text += "(" + RaClassData.getRaceGrade() + ")";
+                racename.Text += " （" + RaClassData.getRaceGrade() + "）";
             }
             
             CODE = LibJvConvFuncClass.RACE_SHUBETSU_LONG_CODE;
@@ -438,11 +442,7 @@ namespace WpfApp1.form
 
             CODE = LibJvConvFuncClass.TRACK_CODE;
             LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getCourceTrack(), ref LibTmp);
-            TrackNameLabel.Text = LibTmp;
-
-
-
-
+            TrackNameLabel.Text = "（" + LibTmp + "）";
         }
 
         unsafe private String MappingGetRaceCource()
@@ -508,6 +508,8 @@ namespace WpfApp1.form
 
             int Count = 0;
 
+            int DataMainigNum = 0;
+
             Date = DataClass.getRaceDate();
 
             dataGridView1.Columns["TM"].Visible = true;
@@ -518,62 +520,87 @@ namespace WpfApp1.form
             for (int i = 1; i <= MAX_TOSU; i++)
             {
                 covData = String.Format("{0:00}", i);
+                DataMainigNum = 0;
+                tmp.Clear();
 
-                /* タイム型データマイニング */
+                /* 対戦型データマイニング */
                 if (db.TextReader_aCell("TM", DataClass.GET_RA_KEY() + covData, DataClass.GET_RA_KEY(), 4, ref str) == 0)
                 {
                     Count = i;
                     break;
                 }
 
-                dataGridView1.Rows[i-1].Cells[3].Value = Int32.Parse(str);
-                TimeDMArray.Add(Int32.Parse(str));
+                dataGridView1.Rows[i - 1].Cells[3].Value = Int32.Parse(str);
+                BattleDMArray.Add(Int32.Parse(str));
+                DataMainigNum = Int32.Parse(str);
 
-                if (MaxTimeDM < Int32.Parse(str))
+                if (MaxTimeDM < DataMainigNum)
                 {
                     ThaadTimeDM = SecondTimeDM;
                     SecondTimeDM = MaxTimeDM;
-                    MaxTimeDM = Int32.Parse(str);
+                    MaxTimeDM = DataMainigNum;
                 }
-                else if (SecondTimeDM < Int32.Parse(str))
+                else if (SecondTimeDM < DataMainigNum)
                 {
                     ThaadTimeDM = SecondTimeDM;
-                    SecondTimeDM = Int32.Parse(str);
+                    SecondTimeDM = DataMainigNum;
                 }
-                else if (ThaadTimeDM < Int32.Parse(str))
+                else if (ThaadTimeDM < DataMainigNum)
                 {
-                    ThaadTimeDM = Int32.Parse(str);
+                    ThaadTimeDM = DataMainigNum;
                 }
 
-                /* 対戦型データマイニング */
+                DataMainigNum = 0;
+                tmp.Clear();
+
+                /* タイム型データマイニング */
                 if (db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + covData, DataClass.GET_RA_KEY(), 4, ref str) == 0)
                 {
                     break;
                 }
 
-                dataGridView1.Rows[i - 1].Cells[5].Value = Int32.Parse(str).ToString();
-                BattleDMArray.Add(Int32.Parse(str));
 
-                if (MaxBattleDM > Int32.Parse(str))
+                if (db.TextReader_Col(DataClass.GET_RA_KEY(), "DM", 0, ref tmp, DataClass.GET_RA_KEY() + covData) == 0)
+                {
+
+                }
+
+                try
+                {
+                    DataMainigNum = Int32.Parse(tmp[4]) - Int32.Parse(tmp[5]) + Int32.Parse(tmp[6]);
+                    dataGridView1.Rows[i - 1].Cells[5].Value = DataMainigNum;
+                    TimeDMArray.Add(DataMainigNum);
+
+                }
+                catch (Exception)
+                {
+
+                }
+
+
+                //dataGridView1.Rows[i - 1].Cells[5].Value = DataMainigNum.ToString();
+                //TimeDMArray.Add(DataMainigNum);
+
+                if (MaxBattleDM > DataMainigNum)
                 {
                     ThaadBattleDM = SecondBattleDM;
                     SecondBattleDM = MaxBattleDM;
-                    MaxBattleDM = Int32.Parse(str);
+                    MaxBattleDM = DataMainigNum;
                 }
-                else if (SecondBattleDM > Int32.Parse(str))
+                else if (SecondBattleDM > DataMainigNum)
                 {
                     ThaadBattleDM = SecondBattleDM;
-                    SecondBattleDM = Int32.Parse(str);
+                    SecondBattleDM = DataMainigNum;
                 }
-                else if (ThaadBattleDM > Int32.Parse(str))
+                else if (ThaadBattleDM > DataMainigNum)
                 {
-                    ThaadBattleDM = Int32.Parse(str);
+                    ThaadBattleDM = DataMainigNum;
                 }
             }
 
            // int[] ArrayRankTM = new int[Count];
-            TimeDMArray.Sort((a, b) => b-a);
-            BattleDMArray.Sort((a, b) => a - b);
+            BattleDMArray.Sort((a, b) => b-a);
+            TimeDMArray.Sort((a, b) => a - b);
 
 
 
@@ -622,7 +649,7 @@ namespace WpfApp1.form
             int Rank = 0;
 
             /* 順位付け */
-            foreach(var i in TimeDMArray)
+            foreach(var i in BattleDMArray)
             {
                 if(i.ToString() == "")
                 {
@@ -641,7 +668,7 @@ namespace WpfApp1.form
 
             Rank = 0;
             
-            foreach(var i in BattleDMArray)
+            foreach(var i in TimeDMArray)
             {
                 if (i.ToString() == "")
                 {
