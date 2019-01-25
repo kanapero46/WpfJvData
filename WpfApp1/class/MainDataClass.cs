@@ -43,6 +43,10 @@ namespace WpfApp1.Class
         private String RaceName;
         public String getRaceName() { return RaceName; }
         public void setRaceName(String inParam) { this.RaceName = inParam; }
+        //レース名(英語)
+        private String RaceNameEng;
+        public String getRaceNameEng() { return RaceNameEng; }
+        public void setRaceNameEng(String inParam) { this.RaceNameEng = inParam; }
 
         //レースグレード(任意)
         private String RaceGrade;
@@ -109,6 +113,15 @@ namespace WpfApp1.Class
         public String getTrackStatus() { return TrackStatus; }
         public void setTrackStatus(String inParam) { this.TrackStatus = inParam; }
 
+        //レース名副題
+        private String RaceNameFuku;
+        public String getRaceNameFukus() { return RaceNameFuku; }
+        public void setRaceNameFuku(String inParam) { this.RaceNameFuku = inParam; }
+
+        //レース名副題
+        private String RaceNameEnd;
+        public String getRaceNameEnd() { return RaceNameEnd; }
+        public void setRaceNameEnd(String inParam) { this.RaceNameEnd = inParam; }
 
         public String ConvertDateToDate(String Date)
         {

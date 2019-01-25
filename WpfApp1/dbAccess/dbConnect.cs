@@ -355,6 +355,7 @@ namespace WpfApp1.dbAccess
                     /* レース開催日 */
                     return @"" + dtSpec + "/" + Date + "/" + dtSpec + Date + ".csv";
                 case 16:
+                case 18:
                     /* レース毎 */
                     return @"" + dtSpec + "/" + Date.Substring(0,8) + "/" + dtSpec + Date + ".csv";
             }
@@ -398,7 +399,8 @@ namespace WpfApp1.dbAccess
                     else
                     {
                         /* ファイル削除 */
-                        File.Delete(file);
+                        FileInfo delFile = new FileInfo(file);
+                        delFile.Delete();
                         ret = 1;
                     }
 
