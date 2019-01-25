@@ -115,7 +115,7 @@ namespace WpfApp1.JvComDbData
             if (inParam.Count == 0) { return; }
 
             JV_DATA_RACE_HIST tmpHist = new JV_DATA_RACE_HIST();
-            tmpHist.Num = Int32.Parse(inParam[0].Substring(18, 2));
+            tmpHist.Num = Int32.Parse(inParam[0].Substring(18, 2));　
             tmpHist.rA_KEY = inParam[0].Substring(0, 18);
             tmpHist.sE_KEY = inParam[0];
             tmpHist.wakuban = Int32.Parse(inParam[5]);
