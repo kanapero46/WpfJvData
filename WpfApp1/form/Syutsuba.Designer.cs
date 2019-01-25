@@ -706,10 +706,10 @@
             // 
             // DMStatus
             // 
-            this.DMStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DMStatus.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.DMStatus.AutoSize = true;
             this.DMStatus.Enabled = false;
-            this.DMStatus.Location = new System.Drawing.Point(330, 1161);
+            this.DMStatus.Location = new System.Drawing.Point(299, 1138);
             this.DMStatus.Name = "DMStatus";
             this.DMStatus.Size = new System.Drawing.Size(226, 24);
             this.DMStatus.TabIndex = 9;
