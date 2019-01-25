@@ -77,7 +77,6 @@
             this.FM = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MMFColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FFM = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.raceNameEng = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
