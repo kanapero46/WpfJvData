@@ -76,6 +76,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.Kaisai = new System.Windows.Forms.Label();
             this.Date = new System.Windows.Forms.Label();
+            this.raceNameEng = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
@@ -110,12 +111,12 @@
             this.FM,
             this.MMFColor,
             this.FFM});
-            this.dataGridView1.Location = new System.Drawing.Point(13, 251);
+            this.dataGridView1.Location = new System.Drawing.Point(13, 281);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 21;
-            this.dataGridView1.Size = new System.Drawing.Size(2438, 875);
+            this.dataGridView1.Size = new System.Drawing.Size(2438, 845);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -624,6 +625,16 @@
             this.Date.TabIndex = 39;
             this.Date.Text = "2099年99月99日(日曜)";
             // 
+            // raceNameEng
+            // 
+            this.raceNameEng.AutoSize = true;
+            this.raceNameEng.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.raceNameEng.Location = new System.Drawing.Point(586, 159);
+            this.raceNameEng.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.raceNameEng.Name = "raceNameEng";
+            this.raceNameEng.Size = new System.Drawing.Size(0, 30);
+            this.raceNameEng.TabIndex = 51;
+            // 
             // Syutsuba
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
@@ -719,5 +730,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label Kaisai;
         private System.Windows.Forms.Label Date;
+        private System.Windows.Forms.Label raceNameEng;
     }
 }
