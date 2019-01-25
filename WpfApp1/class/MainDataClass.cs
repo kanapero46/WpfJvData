@@ -123,8 +123,6 @@ namespace WpfApp1.Class
         public String getRaceNameEnd() { return RaceNameEnd; }
         public void setRaceNameEnd(String inParam) { this.RaceNameEnd = inParam; }
 
-
-
         public String ConvertDateToDate(String Date)
         {
             return Date.Substring(0, 4) + "年" + Int32.Parse(Date.Substring(4, 2)) + "月" + Int32.Parse(Date.Substring(6, 2)) + "日";

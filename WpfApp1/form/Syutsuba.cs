@@ -443,10 +443,6 @@ namespace WpfApp1.form
             CODE = LibJvConvFuncClass.TRACK_CODE;
             LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getCourceTrack(), ref LibTmp);
             TrackNameLabel.Text = "（" + LibTmp + "）";
-
-
-
-
         }
 
         unsafe private String MappingGetRaceCource()
