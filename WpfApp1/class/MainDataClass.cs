@@ -128,6 +128,11 @@ namespace WpfApp1.Class
             return Date.Substring(0, 4) + "年" + Int32.Parse(Date.Substring(4, 2)) + "月" + Int32.Parse(Date.Substring(6, 2)) + "日";
         }
 
+       public String ConvertToHappyoTime(String date)
+        {
+            return date.Substring(0, 2) + "月" + date.Substring(2, 2) + "日 " + date.Substring(4, 2) + "時" + date.Substring(6, 2) + "分";
+        }
+
         public String ConvertTimeToString(String inparam)
         {
             try

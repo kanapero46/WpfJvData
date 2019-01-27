@@ -1052,7 +1052,7 @@ namespace WpfApp1
             int CODE;
             int DbReturn = 1;
             String LibTmp = "";
-            
+
             /* データを追加するにはここに構造体を追加 */
             JVData_Struct.JV_RA_RACE JV_RACE = new JVData_Struct.JV_RA_RACE();
             JVData_Struct.JV_SE_RACE_UMA JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
@@ -1100,11 +1100,14 @@ namespace WpfApp1
 
                             if(horse == JV_SE_UMA.Bamei.Trim())
                             {
-                                JvDbSEData SeData = new JvDbSEData(0, ref buff, 0);
+                                OldRaceCounter++;
+                                JvDbSEData SeData = new JvDbSEData(OldRaceCounter, ref buff, 0);
                             }
                             else
                             {
-                                JvDbSEData SeData = new JvDbSEData(0, ref buff, 1);
+                                OldRaceCounter = 1;
+                                JvDbSEData SeData = new JvDbSEData(OldRaceCounter, ref buff, 1);
+                                horse = JV_SE_UMA.Bamei.Trim();
                             }
                             
                             //db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);

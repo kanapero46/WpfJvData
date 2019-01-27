@@ -152,7 +152,7 @@ namespace WpfApp1.form
                 LibJvConvFuncClass.jvSysConvFunction(&LibCode, str[1], ref tmp);
                 weLabel.Text = tmp;
 
-                HappyoTime.Text = RaClassData.ConvertDateToDate(str[4]);
+                HappyoTime.Text = RaClassData.ConvertToHappyoTime(str[4]);
 
                 if (str[4] == "00000000")
                 {
@@ -160,7 +160,7 @@ namespace WpfApp1.form
                 }
                 else
                 {
-                    HappyoTime.Text = RaClassData.ConvertDateToDate(str[4]);
+                    HappyoTime.Text = RaClassData.ConvertToHappyoTime(str[4]);
                 }
 
 

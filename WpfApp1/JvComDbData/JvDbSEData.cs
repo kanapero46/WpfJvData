@@ -50,10 +50,10 @@ namespace WpfApp1.JvComDbData
             JV_SE_UMA.SetDataB(ref buff);
 
             //SE_MSTはKey+○走目をキーとするため、前回と馬名が一致するかを検索
-            if (Master == 0)
+            if (Master >= 0)
             {
                 //前回保存したデータと不整合ない
-                OldRaceCounter++;
+                OldRaceCounter = Master;
             }
             else if(Master == -1)
             {
@@ -125,6 +125,8 @@ namespace WpfApp1.JvComDbData
             tmpHist.Blincker = (inParam[14] == "1" ? true : false);
             tmpHist.MinaraiCd = inParam[17];
             tmpHist.rank = inParam[18];
+            tmpHist.DMTime = inParam[19];
+            tmpHist.DMRank = Int32.Parse(inParam[20]);
             tmpHist.TorikeshiCd = inParam[21];
             tmpHist.aiteuma = inParam[22];
             tmpHist.time = inParam[23];

@@ -50,6 +50,8 @@ namespace WpfApp1.Class
             public String Cource;
             public String TorikeshiCd;
             public String Ninki;
+            public String DMTime;
+            public int DMRank;
         };
 
         

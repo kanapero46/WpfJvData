@@ -284,13 +284,12 @@ namespace WpfApp1.dbCom1
             int ret = 0;
             int count = 1;
             List<String> tmp;
-            do
-            {
+           
                 tmp = new List<string>();
                 //ŒŒ““o˜^”Ô†{O‘–‚ÅŒŸõ‚ğ‚©‚¯‚é
-                ret = DbComGetOldRunData(KettoNum, count, ref tmp);
+                ret = DbComGetOldRunData(KettoNum, RaceCount, ref tmp);
                 outParam = tmp;
-            } while (RaceCount != count && ret != 0);
+          
             return ret; /* d—l•ÏX#15 */
         }
         #endregion

@@ -26,6 +26,9 @@ namespace WpfApp1.form
         //変更情報の有無
         Boolean gChgInfoFlag = false;   //true：変更情報あり
 
+        //前走データ登録情報
+        Boolean gSetOldData = false;     //true：すでに前走データあり
+
         /* 現在表示している馬番のグローバル変数 */
         int NowPictureNum = 1;
 
@@ -109,6 +112,11 @@ namespace WpfApp1.form
             {
                 //変更情報を各馬共通エリアに書き込み　#23
                 WriteInfomation();
+            }
+            else
+            {
+                flowLayoutPanel8.Visible = false;
+                InfomationBar.Visible = false;
             }
 
             //競走馬データ書き込み
@@ -302,7 +310,7 @@ namespace WpfApp1.form
                 LibJvConvFuncClass.jvSysConvFunction(&LibCode, str[1], ref tmp);
                 weLabel.Text = tmp;
 
-                HappyoTime.Text = raceData.ConvertDateToDate(str[4]);
+                HappyoTime.Text = raceData.ConvertToHappyoTime(str[4]);
 
                 if (str[4] == "00000000")
                 {
@@ -310,7 +318,7 @@ namespace WpfApp1.form
                 }
                 else
                 {
-                    HappyoTime.Text = raceData.ConvertDateToDate(str[4]);
+                    HappyoTime.Text = raceData.ConvertToHappyoTime(str[4]);
                 }
 
 
@@ -551,6 +559,11 @@ namespace WpfApp1.form
             this.BMSType.Text += (this.BMSType.Text.Length >= 1 ? "系" : "");
             this.FFMTypeName.Text += (this.FFMTypeName.Text.Length >= 1 ? "系" : "");
 
+
+            #region 前走成績更新
+            SetOldRace(num);
+            #endregion
+
             //出走条件
             if (JudgeNotDomestic(ArrayHorceData[ArrayNum].UmaKigou1))
             {
@@ -563,7 +576,19 @@ namespace WpfApp1.form
                 this.textBox1.ForeColor = Color.White;
             }
 
-            if (ArrayHorceData[ArrayNum].RaceHist1.distance == null|| Int32.Parse(ArrayHorceData[ArrayNum].RaceHist1.distance) == Int32.Parse(raceData.getDistance()) ||
+            int HistDistnce = 0;
+            try
+            {
+                HistDistnce = Int32.Parse(oldDataView.Rows[0].Cells[5].Value.ToString());
+            }catch(Exception)
+            {
+
+                HistDistnce = 0;
+            }
+            
+
+
+            if (HistDistnce == 0|| HistDistnce == Int32.Parse(raceData.getDistance()) ||
                 ArrayHorceData[ArrayNum].RaceHist1.distance == "" )
             {
                 //前走と距離が同じ・または前走距離が不明な場合・新馬戦などの前走成績がないとき
@@ -571,14 +596,14 @@ namespace WpfApp1.form
                 this.textBox2.BackColor = Color.White;
                 this.textBox2.ForeColor = Color.White;
             }
-            else if(Int32.Parse(ArrayHorceData[ArrayNum].RaceHist1.distance) > Int32.Parse(raceData.getDistance()))
+            else if(HistDistnce > Int32.Parse(raceData.getDistance()))
             {
                 //前走から距離短縮
                 this.textBox2.Text = "短";
                 this.textBox2.BackColor = Color.MediumVioletRed;
                 this.textBox2.ForeColor = Color.White;
             }
-            else if(Int32.Parse(ArrayHorceData[ArrayNum].RaceHist1.distance) < Int32.Parse(raceData.getDistance()))
+            else if(HistDistnce < Int32.Parse(raceData.getDistance()))
             {
                 //前走から距離延長
                 this.textBox2.Text = "長";
@@ -655,9 +680,6 @@ namespace WpfApp1.form
             }
             #endregion
 
-            #region 前走成績更新
-            SetOldRace(num);
-            #endregion
             return num;
         }
         #endregion
@@ -757,114 +779,128 @@ namespace WpfApp1.form
             int Arraynum = num - 1;
             String tmp = "";
 
-            int res =
-            dbCom.DbComGetOldRunDataMapping(ArrayHorceData[Arraynum].KettoNum1.ToString(), ref Libtmp, 1); //DBから前走データを取得
 
-            if (res == 0) { return; } //DBから取得失敗・もしくはデータなし
-
-            oldDataView.Visible = true;
-
-            /* 前走データをクラスに書き込み */
-            ArrayHorceData[Arraynum].SetSEMSTData(Libtmp);
-
-            /* DB書き込み */
-            oldDataView.DefaultCellStyle.Font = new Font("Meiryo UI", 11);
-            oldDataView.RowTemplate.Height = 100;
-            String Grade = ArrayHorceData[Arraynum].RaceHist1.grade;
-            String RaceName = ArrayHorceData[Arraynum].RaceHist1.raceName10;
-
-            if (Grade == "" || Grade == "一般")
+            oldDataView.Rows.Clear();
+            for(int i=1; i<4; i++)
             {
-                /* 一般競走では10文字競走名が空白なため、本題を入れる */
-                RaceName = ArrayHorceData[Arraynum].RaceHist1.raceName;
-            }
-            else if(Grade == "特別")
-            {
-                /* なにもしない */
-            }
-            else
-            {
-                /* 重賞レース */
-                RaceName = RaceName + "(" + Grade + ")";
-            }
+                Libtmp.Clear();
 
-            CODE = LibJvConvFuncClass.COURCE_CODE;
-            LibJvConvFuncClass.jvSysConvFunction(&CODE, ArrayHorceData[Arraynum].RaceHist1.Cource, ref tmp);
-            String Cource = tmp;
+                int res =
+dbCom.DbComGetOldRunDataMapping(ArrayHorceData[Arraynum].KettoNum1.ToString(), ref Libtmp, i); //DBから前走データを取得
 
-            CODE = LibJvConvFuncClass.TRACK_CODE_SHORT;
-            LibJvConvFuncClass.jvSysConvFunction(&CODE, ArrayHorceData[Arraynum].RaceHist1.track, ref tmp);
-            String Track = tmp;
+                if (res == 0) { return; } //DBから取得失敗・もしくはデータなし
 
+                oldDataView.Visible = true;
 
-            if (oldDataView.Rows.Count == 0)
-            {
-                oldDataView.Rows.Add("1",
-                                 ArrayHorceData[Arraynum].RaceHist1.RaceDate,
-                                 Cource,
-                                 RaceName,
-                                 Track,
-                                 ArrayHorceData[Arraynum].RaceHist1.distance,
-                                 ArrayHorceData[Arraynum].RaceHist1.Ninki == "" ? "" : Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.Ninki) + "人",
-                                 Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.rank) + "着",
-                                 ArrayHorceData[Arraynum].RaceHist1.jockey,
-                                 ArrayHorceData[Arraynum].RaceHist1.futan.Substring(0, 2) + ArrayHorceData[Arraynum].RaceHist1.futan.Substring(2, 1) + (ArrayHorceData[Arraynum].RaceHist1.futan.Length >= 2 ? "kg" : "")
-                                 , ArrayHorceData[Arraynum].RaceHist1.aiteuma.Trim(),
-                                 ArrayHorceData[Arraynum].RaceHist1.timeDiff
-                                 );
-            }
-            else
-            {
-                oldDataView.Rows[0].Cells[0].Value = "1";
-                oldDataView.Rows[0].Cells[1].Value = ArrayHorceData[Arraynum].RaceHist1.RaceDate;
-                oldDataView.Rows[0].Cells[2].Value = Cource;
-                oldDataView.Rows[0].Cells[3].Value = RaceName;
-                oldDataView.Rows[0].Cells[4].Value = Track;
-                oldDataView.Rows[0].Cells[5].Value = ArrayHorceData[Arraynum].RaceHist1.distance;
-                oldDataView.Rows[0].Cells[6].Value = ArrayHorceData[Arraynum].RaceHist1.Ninki == "" ? "" : Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.Ninki) + "人";
-                oldDataView.Rows[0].Cells[7].Value = Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.rank) + "着";
-                oldDataView.Rows[0].Cells[8].Value = ArrayHorceData[Arraynum].RaceHist1.jockey;
-                oldDataView.Rows[0].Cells[9].Value = ArrayHorceData[Arraynum].RaceHist1.futan;
-                oldDataView.Rows[0].Cells[10].Value = ArrayHorceData[Arraynum].RaceHist1.aiteuma.Trim();
-                oldDataView.Rows[0].Cells[11].Value = ArrayHorceData[Arraynum].RaceHist1.timeDiff;
-            }
+                /* 前走データをクラスに書き込み */
+                ArrayHorceData[Arraynum].SetSEMSTData(Libtmp);
 
-            if (oldDataView.Rows.Count != 0)
-            {
-                //色付け・トラック
-                switch (Track)
+                /* DB書き込み */
+                oldDataView.DefaultCellStyle.Font = new Font("Meiryo UI", 11);
+                oldDataView.RowTemplate.Height = 100;
+                String Grade = ArrayHorceData[Arraynum].RaceHist1.grade;
+                String RaceName = ArrayHorceData[Arraynum].RaceHist1.raceName10;
+
+                if (Grade == "" || Grade == "一般")
                 {
-                    case "芝":
-                        oldDataView.Rows[0].Cells[4].Style.BackColor = Color.Honeydew;
-                        break;
-                    case "ダート":
-                        oldDataView.Rows[0].Cells[4].Style.BackColor = Color.Wheat;
-                        break;
-                    default:
-                        oldDataView.Rows[0].Cells[4].Style.BackColor = Color.White;
-                        break;
+                    /* 一般競走では10文字競走名が空白なため、本題を入れる */
+                    RaceName = ArrayHorceData[Arraynum].RaceHist1.raceName;
+                }
+                else if (Grade == "特別")
+                {
+                    /* なにもしない */
+                }
+                else
+                {
+                    /* 重賞レース */
+                    RaceName = RaceName + "(" + Grade + ")";
                 }
 
-                //色付け・着順
-                switch (ArrayHorceData[Arraynum].RaceHist1.rank)
+                CODE = LibJvConvFuncClass.COURCE_CODE;
+                LibJvConvFuncClass.jvSysConvFunction(&CODE, ArrayHorceData[Arraynum].RaceHist1.Cource, ref tmp);
+                String Cource = tmp;
+
+                CODE = LibJvConvFuncClass.TRACK_CODE_SHORT;
+                LibJvConvFuncClass.jvSysConvFunction(&CODE, ArrayHorceData[Arraynum].RaceHist1.track, ref tmp);
+                String Track = tmp;
+
+
+
+
+                //if (!gSetOldData)
+                //{
+                    oldDataView.Rows.Add(i.ToString(),
+                                     ArrayHorceData[Arraynum].RaceHist1.RaceDate,
+                                     Cource,
+                                     RaceName,
+                                     Track,
+                                     ArrayHorceData[Arraynum].RaceHist1.distance,
+                                     ArrayHorceData[Arraynum].RaceHist1.Ninki == "" ? "" : Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.Ninki) + "人",
+                                     Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.rank) + "着",
+                                     ArrayHorceData[Arraynum].RaceHist1.jockey,
+                                     ArrayHorceData[Arraynum].RaceHist1.futan.Substring(0, 2) + ArrayHorceData[Arraynum].RaceHist1.futan.Substring(2, 1) + (ArrayHorceData[Arraynum].RaceHist1.futan.Length >= 2 ? "kg" : "")
+                                     , ArrayHorceData[Arraynum].RaceHist1.aiteuma.Trim(),
+                                     ArrayHorceData[Arraynum].RaceHist1.timeDiff,
+                                     ArrayHorceData[Arraynum].RaceHist1.DMTime,
+                                     ArrayHorceData[Arraynum].RaceHist1.DMRank
+                                     );
+                //}
+                //else
+                //{
+                //    oldDataView.Rows[i - 1].Cells[0].Value = i.ToString() ;
+                //    oldDataView.Rows[i - 1].Cells[1].Value = ArrayHorceData[Arraynum].RaceHist1.RaceDate;
+                //    oldDataView.Rows[i - 1].Cells[2].Value = Cource;
+                //    oldDataView.Rows[i - 1].Cells[3].Value = RaceName;
+                //    oldDataView.Rows[i - 1].Cells[4].Value = Track;
+                //    oldDataView.Rows[i -1].Cells[5].Value = ArrayHorceData[Arraynum].RaceHist1.distance;
+                //    oldDataView.Rows[i -1].Cells[6].Value = ArrayHorceData[Arraynum].RaceHist1.Ninki == "" ? "" : Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.Ninki) + "人";
+                //    oldDataView.Rows[i -1].Cells[7].Value = Int32.Parse(ArrayHorceData[Arraynum].RaceHist1.rank) + "着";
+                //    oldDataView.Rows[i -1].Cells[8].Value = ArrayHorceData[Arraynum].RaceHist1.jockey;
+                //    oldDataView.Rows[i -1].Cells[9].Value = ArrayHorceData[Arraynum].RaceHist1.futan;
+                //    oldDataView.Rows[i -1].Cells[10].Value = ArrayHorceData[Arraynum].RaceHist1.aiteuma.Trim();
+                //    oldDataView.Rows[i -1].Cells[11].Value = ArrayHorceData[Arraynum].RaceHist1.timeDiff;
+                //    oldDataView.Rows[i -1].Cells[12].Value = ArrayHorceData[Arraynum].RaceHist1.DMTime;
+                //    oldDataView.Rows[i - 1].Cells[13].Value = ArrayHorceData[Arraynum].RaceHist1.DMRank;
+                //}
+
+                if (oldDataView.Rows.Count != 0)
                 {
-                    case "01":
-                        oldDataView.Rows[0].Cells[7].Style.BackColor = Color.Violet;
-                        break;
-                    case "02":
-                        oldDataView.Rows[0].Cells[7].Style.BackColor = Color.Khaki;
-                        break;
-                    case "03":
-                        oldDataView.Rows[0].Cells[7].Style.BackColor = Color.LightBlue;
-                        break;
-                    default:
-                        oldDataView.Rows[0].Cells[7].Style.BackColor = Color.White;
-                        break;
+                    //色付け・トラック
+                    switch (Track)
+                    {
+                        case "芝":
+                            oldDataView.Rows[i-1].Cells[4].Style.BackColor = Color.Honeydew;
+                            break;
+                        case "ダート":
+                            oldDataView.Rows[i - 1].Cells[4].Style.BackColor = Color.Wheat;
+                            break;
+                        default:
+                            oldDataView.Rows[i - 1].Cells[4].Style.BackColor = Color.White;
+                            break;
+                    }
+
+                    //色付け・着順
+                    switch (ArrayHorceData[Arraynum].RaceHist1.rank)
+                    {
+                        case "01":
+                            oldDataView.Rows[i - 1].Cells[7].Style.BackColor = Color.Violet;
+                            break;
+                        case "02":
+                            oldDataView.Rows[i - 1].Cells[7].Style.BackColor = Color.Khaki;
+                            break;
+                        case "03":
+                            oldDataView.Rows[i - 1].Cells[7].Style.BackColor = Color.LightBlue;
+                            break;
+                        default:
+                            oldDataView.Rows[i - 1].Cells[7].Style.BackColor = Color.White;
+                            break;
+                    }
                 }
+
+                
+
             }
-
-
-
+            gSetOldData = true;
         }
         #endregion
 
@@ -875,6 +911,11 @@ namespace WpfApp1.form
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void InfomationBar_TextChanged(object sender, EventArgs e)
         {
 
         }
