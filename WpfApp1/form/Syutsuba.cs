@@ -309,7 +309,7 @@ namespace WpfApp1.form
                 horceClasses.Add(pHorceClasses);
 
                 /* 書き込み */
-                dataGridView1.Rows.Add(pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.UmaKigou1 + pHorceClasses.Name1, "", "", "", "", pHorceClasses.MinaraiCd1,
+                dataGridView1.Rows.Add(pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.UmaKigou1 + pHorceClasses.Name1, "", "", "", "", "", "", pHorceClasses.MinaraiCd1,
                     pHorceClasses.Jockey1, pHorceClasses.Futan1 + "kg", "",pHorceClasses.F1, "", pHorceClasses.FM1, "", pHorceClasses.FFM1);
                 
                 switch(pHorceClasses.Waku1)
@@ -348,9 +348,9 @@ namespace WpfApp1.form
                         break;
 
                 }
-                dataGridView1[10, i - 1].Style.BackColor =  dbCom.DbComSearchBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
-                dataGridView1[12, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1);
-                dataGridView1[14, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FFM_NUM1);
+                dataGridView1[12, i - 1].Style.BackColor =  dbCom.DbComSearchBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
+                dataGridView1[14, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1);
+                dataGridView1[16, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FFM_NUM1);
 
                 /* プログレスバー更新 */
                 ProgressStatus++;
@@ -705,9 +705,13 @@ namespace WpfApp1.form
             LibJvConvFuncClass.jvSysConvFunction(&CODE, str, ref Libtmp);
             return Libtmp;
         }
+
         #endregion
 
-
+        private void button3_Click(object sender, EventArgs e)
+        {
+            int ret = main.InitRealBattleDataMaining();
+        }
     }
 
 

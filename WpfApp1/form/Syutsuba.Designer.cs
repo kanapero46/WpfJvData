@@ -68,6 +68,8 @@
             this.VMRank = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TM = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TMRank = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Odds = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OddsRank = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Minarai = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Jockey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Futan = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,6 +79,9 @@
             this.FM = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MMFColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FFM = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
@@ -102,6 +107,8 @@
             this.VMRank,
             this.TM,
             this.TMRank,
+            this.Odds,
+            this.OddsRank,
             this.Minarai,
             this.Jockey,
             this.Futan,
@@ -188,7 +195,7 @@
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 108F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 133F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             this.tableLayoutPanel3.Controls.Add(this.TrackDistance, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.TrackLabel, 0, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(1903, 23);
@@ -289,7 +296,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.22481F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.77519F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 494F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 179F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.tableLayoutPanel2.Controls.Add(this.label16, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.KigoLabel, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.OldYear, 0, 0);
@@ -308,7 +315,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label16.Location = new System.Drawing.Point(1101, 0);
+            this.label16.Location = new System.Drawing.Point(1100, 0);
             this.label16.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(115, 38);
@@ -319,7 +326,7 @@
             // 
             this.KigoLabel.AutoSize = true;
             this.KigoLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.KigoLabel.Location = new System.Drawing.Point(607, 0);
+            this.KigoLabel.Location = new System.Drawing.Point(606, 0);
             this.KigoLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.KigoLabel.Name = "KigoLabel";
             this.KigoLabel.Size = new System.Drawing.Size(317, 38);
@@ -423,7 +430,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 138F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 139F));
             this.tableLayoutPanel1.Controls.Add(this.weLabel, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1695, 23);
@@ -571,6 +578,21 @@
             this.TMRank.Visible = false;
             this.TMRank.Width = 75;
             // 
+            // Odds
+            // 
+            this.Odds.HeaderText = "単勝";
+            this.Odds.Name = "Odds";
+            this.Odds.ReadOnly = true;
+            this.Odds.Visible = false;
+            // 
+            // OddsRank
+            // 
+            this.OddsRank.HeaderText = "人";
+            this.OddsRank.Name = "OddsRank";
+            this.OddsRank.ReadOnly = true;
+            this.OddsRank.Visible = false;
+            this.OddsRank.Width = 75;
+            // 
             // Minarai
             // 
             this.Minarai.HeaderText = "";
@@ -634,16 +656,40 @@
             this.FFM.ReadOnly = true;
             this.FFM.Width = 350;
             // 
+            // label2
             // 
-            // raceNameEng
+            this.label2.AutoSize = true;
+            this.label2.Enabled = false;
+            this.label2.Location = new System.Drawing.Point(860, 1149);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(226, 24);
+            this.label2.TabIndex = 54;
+            this.label2.Text = "天候馬場状態発表後";
+            this.label2.Visible = false;
             // 
-            this.raceNameEng.AutoSize = true;
-            this.raceNameEng.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.raceNameEng.Location = new System.Drawing.Point(586, 159);
-            this.raceNameEng.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.raceNameEng.Name = "raceNameEng";
-            this.raceNameEng.Size = new System.Drawing.Size(0, 30);
-            this.raceNameEng.TabIndex = 51;
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Enabled = false;
+            this.label6.Location = new System.Drawing.Point(742, 1149);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(118, 24);
+            this.label6.TabIndex = 53;
+            this.label6.Text = "発表時間：";
+            this.label6.Visible = false;
+            // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button3.ForeColor = System.Drawing.Color.Black;
+            this.button3.Location = new System.Drawing.Point(576, 1138);
+            this.button3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(163, 64);
+            this.button3.TabIndex = 52;
+            this.button3.Text = "オッズ取得";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Syutsuba
             // 
@@ -652,6 +698,9 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(2472, 1226);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.HappyoTime);
             this.Controls.Add(this.tableLayoutPanel3);
             this.Controls.Add(this.raceNameEng);
@@ -735,6 +784,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn VMRank;
         private System.Windows.Forms.DataGridViewTextBoxColumn TM;
         private System.Windows.Forms.DataGridViewTextBoxColumn TMRank;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Odds;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OddsRank;
         private System.Windows.Forms.DataGridViewTextBoxColumn Minarai;
         private System.Windows.Forms.DataGridViewTextBoxColumn Jockey;
         private System.Windows.Forms.DataGridViewTextBoxColumn Futan;
@@ -744,5 +795,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FM;
         private System.Windows.Forms.DataGridViewTextBoxColumn MMFColor;
         private System.Windows.Forms.DataGridViewTextBoxColumn FFM;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button3;
     }
 }
