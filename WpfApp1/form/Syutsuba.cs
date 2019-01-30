@@ -710,7 +710,9 @@ namespace WpfApp1.form
 
         private void button3_Click(object sender, EventArgs e)
         {
-            int ret = main.InitRealBattleDataMaining();
+            Class.GetOddsComClass getOdds = new Class.GetOddsComClass();
+            int ret = getOdds.GetOddsCom("0B30", RaClassData.getRaceDate() + RaClassData.getRaceCource()+ RaClassData.getRaceNum());
+            Console.WriteLine(ret);
         }
     }
 

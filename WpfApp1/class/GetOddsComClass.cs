@@ -13,6 +13,7 @@ namespace WpfApp1.Class
             int ret;
             WpfApp1.JVForm Jv = new JVForm();
             MainWindow main = new MainWindow();
+            dbAccess.dbConnect db = new dbAccess.dbConnect();
 
             if(Jv.JvForm_JvInit() != 0)
             {
@@ -35,8 +36,10 @@ namespace WpfApp1.Class
             int size = 20000;
             String fname = "";
 
+            Boolean InitO1Flag = true;
+
             /* オッズ */
-            JVData_Struct.JV_O1_ODDS_TANFUKUWAKU O1 = new JVData_Struct.JV_O1_ODDS_TANFUKUWAKU();
+            JvComDbData.JvDbO1Data O1 = new JvComDbData.JvDbO1Data(Key.Substring(0,8));
 
             while (ret >= 1)
             {
@@ -52,16 +55,42 @@ namespace WpfApp1.Class
                     switch (buff.Substring(0, 2))
                     {
                         case "O1":
+                            if(InitO1Flag)
+                            {
+                                db.DeleteCsv("O1", Key.Substring(0, 8) + ".csv", false);
+                                db.DeleteCsv("O15", Key.Substring(0, 8) + ".csv", false);
+                            }
+                            else
+                            {
+                                O1.SetJvDbO1Data(ref buff);
+                            }
                             
                             break;
                     }
+
+            
+                }
+                else if(ret == 0)
+                {
+
+                }
+                else if(ret == -1)
+                {
+                    //ファイル切り替わり
+                    ret = 1;
+                    continue;
+                }
+                else
+                {
+                    break;
                 }
 
             }
 
 
 
-
+            Jv.JvForm_JVWatchEventClose();
+            Jv.JvForm_JvClose();
 
                 return 1;
         }

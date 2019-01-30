@@ -10,6 +10,11 @@ namespace WpfApp1.JvComDbData
     {
         dbAccess.dbConnect db;
 
+        public JvDbO1Data()
+        {
+
+        }
+
         unsafe public JvDbO1Data(String Date)
         {
             int ret = 0;
@@ -35,49 +40,57 @@ namespace WpfApp1.JvComDbData
                 tmp += o1.TotalHyosuTansyo + ",";
                 tmp += o1.TotalHyosuFukusyo + ",";
 
-                //一旦改行
-                tmp += "\n";
+                db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum, "O1", ref tmp, ref ret);
 
-                for (int i=1; i<=Int32.Parse(o1.TorokuTosu); i++)
+                //単勝・複勝（複勝は未発売でもロギングする）
+                if (o1.TansyoFlag == "7")
                 {
-                    if (o1.OddsTansyoInfo[i - 1].Umaban == "    ")
+                    for (int i = 1; i <= Int32.Parse(o1.TorokuTosu); i++)
                     {
-                        break;
-                    }
+                        if (o1.OddsTansyoInfo[i - 1].Umaban == "    ")
+                        {
+                            break;
+                        }
 
-                    tmp += o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum + o1.OddsTansyoInfo[i - 1].Umaban + ",";
-                    tmp += o1.OddsTansyoInfo[i -1].Umaban + ",";
-                    tmp += o1.OddsTansyoInfo[i - 1].Odds + ",";
-                    tmp += o1.OddsTansyoInfo[i - 1].Ninki + ",";
-                    tmp += o1.OddsFukusyoInfo[i - 1].OddsLow + ",";
-                    tmp += o1.OddsFukusyoInfo[i - 1].OddsHigh + ",";
-                    tmp += o1.OddsFukusyoInfo[i - 1].Ninki + ",";
-                    db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay, o1.head.DataKubun, ref tmp, ref ret);
-                    if(ret == 0) { break; }
-                    
+                        tmp = "";
+                        tmp += o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum + o1.OddsTansyoInfo[i - 1].Umaban + ",";
+                        tmp += o1.OddsTansyoInfo[i - 1].Umaban + ",";
+                        tmp += o1.OddsTansyoInfo[i - 1].Odds + ",";
+                        tmp += o1.OddsTansyoInfo[i - 1].Ninki + ",";
+                        tmp += o1.OddsFukusyoInfo[i - 1].OddsLow + ",";
+                        tmp += o1.OddsFukusyoInfo[i - 1].OddsHigh + ",";
+                        tmp += o1.OddsFukusyoInfo[i - 1].Ninki + ",";
+                        db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum, "O1", ref tmp, ref ret);
+                        if (ret == 0) { break; }
+
+                    }
                 }
 
-                //複勝
+                //枠連
                 tmp2 += o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum + ",";
                 tmp2 += o1.TorokuTosu + ",";
                 tmp2 += o1.WakurenFlag + ",";
                 tmp2 += o1.TotalHyosuWakuren + ",";
-                tmp += "\n";
+                db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum, "O15", ref tmp2, ref ret);
 
-                for(int j = 0; j < 32 ;j++) //枠連最大32
+                if (o1.WakurenFlag == "7")
                 {
-                    if (o1.OddsWakurenInfo[j].Odds == "    ")
+                    for (int j = 0; j < 32; j++) //枠連最大32
                     {
-                        break;
+                        if (o1.OddsWakurenInfo[j].Odds == "    ")
+                        {
+                            j = 99;
+                            break;
+                        }
+                        tmp2 = "";
+                        tmp2 += o1.OddsWakurenInfo[j].Kumi + ",";
+                        tmp2 += o1.OddsWakurenInfo[j].Odds + ",";
+                        tmp2 += o1.OddsWakurenInfo[j].Ninki + ",";
+                        db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum, "O15", ref tmp2, ref ret);
+                        if (ret == 0) { break; }
                     }
 
-                    tmp2 += o1.OddsWakurenInfo[j].Kumi + ",";
-                    tmp2 += o1.OddsWakurenInfo[j].Odds + ",";
-                    tmp2 += o1.OddsWakurenInfo[j].Ninki+ ",";
-                    db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay, o1.head.DataKubun+"5", ref tmp2, ref ret);
-                    if (ret == 0) { break; }
                 }
-
             }
             catch(Exception)
             {
