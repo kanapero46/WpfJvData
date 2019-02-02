@@ -9,7 +9,7 @@ namespace WpfApp1.JvComDbData
     class JvDbO1Data
     {
         dbAccess.dbConnect db;
-
+        
         public JvDbO1Data()
         {
 
@@ -18,7 +18,8 @@ namespace WpfApp1.JvComDbData
         unsafe public JvDbO1Data(String Date)
         {
             int ret = 0;
-            String tmp = "#単勝オッズ：" + Date;
+
+                String tmp = "#単勝オッズ：" + Date;
             db = new dbAccess.dbConnect("O1", ref tmp, ref ret);
         }
 
@@ -33,6 +34,7 @@ namespace WpfApp1.JvComDbData
             {
                 o1.SetDataB(ref buff);
                 tmp += o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum + ",";
+                tmp += o1.HappyoTime.Month + o1.HappyoTime.Day + o1.HappyoTime.Hour + o1.HappyoTime.Minute + ",";
                 tmp += o1.TorokuTosu + ",";
                 tmp += o1.TansyoFlag + ","; //単勝発売フラグ
                 tmp += o1.FukusyoFlag + ",";

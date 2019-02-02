@@ -59,6 +59,10 @@ namespace WpfApp1.Class
                             {
                                 db.DeleteCsv("O1", Key.Substring(0, 8) + ".csv", false);
                                 db.DeleteCsv("O15", Key.Substring(0, 8) + ".csv", false);
+                                db.DeleteCsv("O1", Key.Substring(0, 8) + "/" + "O1" + Key + ".csv");
+                                db.DeleteCsv("O15", Key.Substring(0, 8) + "/" + "O15" + Key + ".csv");
+                                O1.SetJvDbO1Data(ref buff);
+
                             }
                             else
                             {

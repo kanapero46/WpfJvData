@@ -61,6 +61,9 @@
             this.Kaisai = new System.Windows.Forms.Label();
             this.Date = new System.Windows.Forms.Label();
             this.raceNameEng = new System.Windows.Forms.Label();
+            this.OddzTime = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.枠 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Uma = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Bamei = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -79,9 +82,6 @@
             this.FM = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MMFColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FFM = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
@@ -522,6 +522,41 @@
             this.raceNameEng.Size = new System.Drawing.Size(0, 30);
             this.raceNameEng.TabIndex = 51;
             // 
+            // OddzTime
+            // 
+            this.OddzTime.AutoSize = true;
+            this.OddzTime.Enabled = false;
+            this.OddzTime.Location = new System.Drawing.Point(860, 1149);
+            this.OddzTime.Name = "OddzTime";
+            this.OddzTime.Size = new System.Drawing.Size(226, 24);
+            this.OddzTime.TabIndex = 54;
+            this.OddzTime.Text = "天候馬場状態発表後";
+            this.OddzTime.Visible = false;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Enabled = false;
+            this.label6.Location = new System.Drawing.Point(742, 1149);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(118, 24);
+            this.label6.TabIndex = 53;
+            this.label6.Text = "発表時間：";
+            this.label6.Visible = false;
+            // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button3.ForeColor = System.Drawing.Color.Black;
+            this.button3.Location = new System.Drawing.Point(576, 1138);
+            this.button3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(163, 64);
+            this.button3.TabIndex = 52;
+            this.button3.Text = "オッズ取得";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // 枠
             // 
             this.枠.Frozen = true;
@@ -552,7 +587,7 @@
             this.DM.Name = "DM";
             this.DM.ReadOnly = true;
             this.DM.Visible = false;
-            this.DM.Width = 200;
+            this.DM.Width = 150;
             // 
             // VMRank
             // 
@@ -568,7 +603,7 @@
             this.TM.Name = "TM";
             this.TM.ReadOnly = true;
             this.TM.Visible = false;
-            this.TM.Width = 200;
+            this.TM.Width = 159;
             // 
             // TMRank
             // 
@@ -584,6 +619,7 @@
             this.Odds.Name = "Odds";
             this.Odds.ReadOnly = true;
             this.Odds.Visible = false;
+            this.Odds.Width = 150;
             // 
             // OddsRank
             // 
@@ -656,41 +692,6 @@
             this.FFM.ReadOnly = true;
             this.FFM.Width = 350;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Enabled = false;
-            this.label2.Location = new System.Drawing.Point(860, 1149);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(226, 24);
-            this.label2.TabIndex = 54;
-            this.label2.Text = "天候馬場状態発表後";
-            this.label2.Visible = false;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Enabled = false;
-            this.label6.Location = new System.Drawing.Point(742, 1149);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(118, 24);
-            this.label6.TabIndex = 53;
-            this.label6.Text = "発表時間：";
-            this.label6.Visible = false;
-            // 
-            // button3
-            // 
-            this.button3.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button3.ForeColor = System.Drawing.Color.Black;
-            this.button3.Location = new System.Drawing.Point(576, 1138);
-            this.button3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(163, 64);
-            this.button3.TabIndex = 52;
-            this.button3.Text = "オッズ取得";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // Syutsuba
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
@@ -698,7 +699,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(2472, 1226);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.OddzTime);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.HappyoTime);
@@ -777,6 +778,9 @@
         private System.Windows.Forms.Label Kaisai;
         private System.Windows.Forms.Label Date;
         private System.Windows.Forms.Label raceNameEng;
+        private System.Windows.Forms.Label OddzTime;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridViewTextBoxColumn 枠;
         private System.Windows.Forms.DataGridViewTextBoxColumn Uma;
         private System.Windows.Forms.DataGridViewTextBoxColumn Bamei;
@@ -795,8 +799,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FM;
         private System.Windows.Forms.DataGridViewTextBoxColumn MMFColor;
         private System.Windows.Forms.DataGridViewTextBoxColumn FFM;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button3;
     }
 }

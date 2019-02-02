@@ -48,6 +48,10 @@ namespace WpfApp1.form
         /* 定数定義 */
         const int MAX_TOSU = 19;
 
+        /* 表切り替えフラグ */
+        int OddsOnFlag = 0;
+        int MainingOnFlag = 0;
+
         public Syutsuba()
         {
             InitializeComponent();
@@ -603,7 +607,10 @@ namespace WpfApp1.form
             TimeDMArray.Sort((a, b) => a - b);
 
 
+            if(OddsOnFlag != 0)
+            {
 
+            }
 
             //TimeDMArray.AddRange(ArrayRankTM);
             //tmpArray1.Sort((a, b) => b - a);
@@ -690,6 +697,7 @@ namespace WpfApp1.form
             label1.Visible = true;
             DMStatus.Visible = true;
             DMStatus.Text = GetDMStatus();
+            MainingOnFlag = 4;
 
 
 
@@ -711,7 +719,85 @@ namespace WpfApp1.form
         private void button3_Click(object sender, EventArgs e)
         {
             Class.GetOddsComClass getOdds = new Class.GetOddsComClass();
-            int ret = getOdds.GetOddsCom("0B30", RaClassData.getRaceDate() + RaClassData.getRaceCource()+ RaClassData.getRaceNum());
+            List<JvComDbData.JvDbO1Data> ArrayO1 = new List<JvComDbData.JvDbO1Data>();
+            List<String> O1 = new List<string>();
+            int tmpOddz = 0;
+            int tmpOddzRank = 0;
+
+            //オッズ取得
+            int ret = getOdds.GetOddsCom("0B30", RaClassData.getRaceDate() + RaClassData.getRaceCource()+ RaClassData.getRaceKaiji() + RaClassData.getRaceNichiji() + RaClassData.getRaceNum());
+
+            if(ret == 0)
+            {
+                Console.WriteLine("Syutsuba\t GetOddsCom return " + ret);
+                return;
+            }
+
+            dataGridView1.Columns["Odds"].Visible = true;
+            dataGridView1.Columns["OddsRank"].Visible = true;
+
+            for (int i = 1; i<MAX_TOSU; i++)
+            {
+                O1.Clear();
+                if (db.TextReader_Col(RaClassData.GET_RA_KEY(), "O1", 0, ref O1, RaClassData.GET_RA_KEY() + string.Format("{0:00}", i)) != 0)
+                {
+                    if(O1.Count() == 0)
+                    {
+                        break;
+                    }
+
+                    if(Int32.TryParse(O1[2], out tmpOddz))
+                    {
+                        dataGridView1.Rows[i - 1].Cells[7].Value = tmpOddz.ToString().Substring(0, tmpOddz.ToString().Length - 1) + "." + tmpOddz.ToString().Substring(tmpOddz.ToString().Length - 1, 1);
+                    }
+                    else
+                    {
+                        dataGridView1.Rows[i - 1].Cells[7].Value = O1[2];
+                    }
+                    
+                    
+                    if(Int32.TryParse(O1[3],out tmpOddzRank))
+                    {
+                        dataGridView1.Rows[i - 1].Cells[8].Value = tmpOddzRank;
+
+                        //人気によって色付け
+                        if(tmpOddzRank == 1)
+                        {
+                            dataGridView1[7, i-1].Style.BackColor = Color.Pink;
+                            dataGridView1[8, i-1].Style.BackColor = Color.Pink;
+                        }
+                        else if(tmpOddzRank == 2)
+                        {
+                            dataGridView1[7, i - 1].Style.BackColor = Color.PowderBlue;
+                            dataGridView1[8, i - 1].Style.BackColor = Color.PowderBlue;
+                        }
+                        else if(tmpOddzRank == 3)
+                        {
+                            dataGridView1[7, i - 1].Style.BackColor = Color.LightCyan;
+                            dataGridView1[8, i - 1].Style.BackColor = Color.LightCyan;
+                        }
+                    }
+                    else
+                    {
+                        dataGridView1.Rows[i - 1].Cells[8].Value = O1[3];
+                    }
+
+                   
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            String Date = "";
+            if(db.TextReader_aCell("O1", RaClassData.GET_RA_KEY(), RaClassData.GET_RA_KEY(),1, ref Date) != 0)
+            {
+                label6.Visible = true;
+                OddzTime.Visible = true;
+                OddzTime.Text = RaClassData.ConvertToHappyoTime(Date);
+            }
+
             Console.WriteLine(ret);
         }
     }
