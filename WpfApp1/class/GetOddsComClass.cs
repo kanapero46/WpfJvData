@@ -25,10 +25,10 @@ namespace WpfApp1.Class
 
             if (ret != 0)
             {
-                System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー2");
+                //System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー2");
                 Jv.JvForm_JVWatchEventClose();     //速報系スレッドの終了
                 Jv.JvForm_JvClose();
-                return 0;
+                return ret;
             }
             
             ret = 1;

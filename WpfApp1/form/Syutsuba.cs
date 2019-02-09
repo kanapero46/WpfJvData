@@ -52,6 +52,9 @@ namespace WpfApp1.form
         int OddsOnFlag = 0;
         int MainingOnFlag = 0;
 
+        /* レース開催中止（雪や台風)フラグ */
+        Boolean RaceHapning = false;
+
         public Syutsuba()
         {
             InitializeComponent();
@@ -94,6 +97,25 @@ namespace WpfApp1.form
 
             /* レース情報表示 */
             InitForm();
+            
+            String refBuff = "";
+            /* データ情報を取得し、中止情報読み込み #41 */
+            ret = RaClassData.RaGetRTRaData(DataClass.getRaceDate() + DataClass.getRaceCource() + DataClass.getRaceNum(), ref refBuff);
+
+            if (ret != 0)
+            {
+                switch (refBuff)
+                {
+                    case "9":
+                        Console.WriteLine("RAKEY = " + DataClass.GET_RA_KEY() + " refBuff = " + refBuff);
+                        MessageBox.Show("このレースは「中止」となりました。\n詳細はJRAホームページで確認してください。", "レース中止情報");
+                        this.racename.Text = "【中止】" + this.racename.Text;
+                        RaceHapning = true;
+
+                        break;
+                }
+            }
+
 
             /* 競走馬データ */
             InitHorceData();
@@ -360,6 +382,7 @@ namespace WpfApp1.form
                 ProgressStatus++;
 
             }
+                        
             main.LogMainCancelFlagChanger(false);        //スレッド開始処理
            // t.Join();
             t.Abort();
@@ -370,8 +393,10 @@ namespace WpfApp1.form
 
         unsafe private void Form2_Load(object sender, EventArgs e)
         {
+         
 
-            switch(CourceColor)
+
+            switch (CourceColor)
             {
                 case 1:
                     panel1.BackColor = Color.Blue;
@@ -387,6 +412,12 @@ namespace WpfApp1.form
                     break;
             }
             
+            /* #41対応 */
+            if(RaceHapning)
+            {
+                panel1.BackColor = Color.Red;
+            }
+
             /* フォントの変更 */
             dataGridView1.DefaultCellStyle.Font = new Font("Meiryo UI", 12);
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Meiryo UI", 9);
@@ -727,9 +758,21 @@ namespace WpfApp1.form
             //オッズ取得
             int ret = getOdds.GetOddsCom("0B30", RaClassData.getRaceDate() + RaClassData.getRaceCource()+ RaClassData.getRaceKaiji() + RaClassData.getRaceNichiji() + RaClassData.getRaceNum());
 
-            if(ret == 0)
+            if(ret != 1)
             {
                 Console.WriteLine("Syutsuba\t GetOddsCom return " + ret);
+                label6.Visible = true;
+                OddzTime.Visible = true;
+                
+                if(ret == -1)
+                {
+                    OddzTime.Text = "発売前";
+                }
+                else
+                {
+                    OddzTime.Text = "";
+                }
+
                 return;
             }
 

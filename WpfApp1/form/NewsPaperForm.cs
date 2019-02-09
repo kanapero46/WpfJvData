@@ -104,7 +104,7 @@ namespace WpfApp1.form
                 this.labelArray[i].Name = "Name" + i.ToString();
                 this.labelArray[i].Size = new Size(250, 30);
                 this.labelArray[i].Font = new Font("Meiryo UI", 10, FontStyle.Bold);
-                this.labelArray[i].Text = "日本ダービー";
+                this.labelArray[i].Text = "ヴィクトリアマイル";
                 if(i < Heaf)
                 {
                     this.labelArray[i].Location = new Point(430, MarginLoc * i + 300);
@@ -268,24 +268,24 @@ namespace WpfApp1.form
                 {
                     this.TimeArray[i].Location = new Point(830, MarginLoc * j + 390);
                 }
-                
-                //先3F/5F
-                this.Time1Array[i] = new Label();
-                //プロパティ設定
-                this.Time1Array[i].Name = "Time1" + i.ToString();
-                this.Time1Array[i].Size = new Size(90, 30);
-                this.Time1Array[i].Font = new Font("Meiryo UI", 8);
-                this.Time1Array[i].Text = "60.2 →";
 
-                if (i < Heaf)
-                {
-                    this.Time1Array[i].Location = new Point(560, MarginLoc * i + 355);
-                }
-                else
-                {
-                    this.Time1Array[i].Location = new Point(830, MarginLoc * j + 390);
-                }
-                
+                //先3F/5F
+                //this.Time1Array[i] = new Label();
+                ////プロパティ設定
+                //this.Time1Array[i].Name = "Time1" + i.ToString();
+                //this.Time1Array[i].Size = new Size(90, 30);
+                //this.Time1Array[i].Font = new Font("Meiryo UI", 8);
+                //this.Time1Array[i].Text = "60.2 →";
+
+                //if (i < Heaf)
+                //{
+                //    this.Time1Array[i].Location = new Point(560, MarginLoc * i + 355);
+                //}
+                //else
+                //{
+                //    this.Time1Array[i].Location = new Point(830, MarginLoc * j + 390);
+                //}
+
                 //中タイム
                 this.Time2Array[i] = new Label();
                 //プロパティ設定
@@ -413,7 +413,7 @@ namespace WpfApp1.form
             this.Controls.AddRange(this.JockeyArray);
             this.Controls.AddRange(this.TosuArray);
             this.Controls.AddRange(this.TrackArray);
-            this.Controls.AddRange(this.Time1Array);
+           // this.Controls.AddRange(this.Time1Array);
             this.Controls.AddRange(this.Time2Array);
             this.Controls.AddRange(this.Time3Array);
             this.Controls.AddRange(this.Time3Array);
