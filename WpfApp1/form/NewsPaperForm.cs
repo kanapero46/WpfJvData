@@ -12,6 +12,14 @@ namespace WpfApp1.form
 {
     public partial class NewsPaperForm : Form
     {
+        private System.Windows.Forms.Label[] BameiArray;
+        private System.Windows.Forms.Label[] FNameArray;
+        private System.Windows.Forms.Label[] MNameArray;
+        private System.Windows.Forms.Label[] FFNameArray;
+        private System.Windows.Forms.Label[] MFNameArray;
+        private System.Windows.Forms.Label[] JnameArray;
+        private System.Windows.Forms.Label[] JfutanArray;
+        private System.Windows.Forms.Label[] UmaKigoArray;
 
         private System.Windows.Forms.Label[] labelArray;
         private System.Windows.Forms.Label[] KaisaiArray;
@@ -30,6 +38,7 @@ namespace WpfApp1.form
         private System.Windows.Forms.Label[] AiteUmaArray;
         private System.Windows.Forms.Label[] TimeDiffArray;
         private System.Windows.Forms.Panel[] PanelArray;
+        private readonly int tmpStartPotision;
 
         public NewsPaperForm()
         {
@@ -44,6 +53,26 @@ namespace WpfApp1.form
         private void label14_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private String BameiToLength(String inStr)
+        {
+            String tmp = "";
+            String tmp2 = "";
+            for(int i=0; i<inStr.Length; i++)
+            {
+                tmp2 = inStr.Substring(i, 1);
+                if(tmp2 == "ー")
+                {
+                    tmp += "｜";
+                }
+                else
+                {
+                    tmp += tmp2;
+                }
+                tmp += "\n";
+            }
+            return tmp;
         }
 
         private void NewsPaperForm_Load(object sender, EventArgs e)
@@ -66,372 +95,470 @@ namespace WpfApp1.form
             TimeDiffArray = new Label[MAX_TOSU];
             TrackArray = new Label[MAX_TOSU];
             PanelArray = new Panel[MAX_TOSU];
-        
-            int Heaf = 18 / 2;
-            int MarginLoc = 160;
 
-            for (int i = 0, j = 0; i < MAX_TOSU; i++)
+            BameiArray = new Label[MAX_TOSU];
+            FNameArray = new Label[MAX_TOSU];
+            MNameArray = new Label[MAX_TOSU];
+            FFNameArray = new Label[MAX_TOSU];
+            MFNameArray = new Label[MAX_TOSU];
+            JnameArray = new Label[MAX_TOSU];
+            JfutanArray = new Label[MAX_TOSU];
+            UmaKigoArray = new Label[MAX_TOSU];
+
+            int Heaf = 99;
+            int MarginLoc = 850;
+            const int tmpStartPotision = 540;
+            const int YPosition = 150;
+            const int XPosition = 318;
+            const int StartYPosition = 10;
+
+            int gStartPotision = tmpStartPotision;
+
+            for (int k = 0; k < MAX_TOSU; k++)
             {
                 //枠線
-                this.PanelArray[i] = new Panel();
+                this.PanelArray[k] = new Panel();
                 //プロパティ設定
-                this.PanelArray[i].Name = "Panel" + i.ToString();
-                this.PanelArray[i].Size = new Size(new Point(410, 320));
-                this.PanelArray[i].BorderStyle = BorderStyle.FixedSingle;
-                this.PanelArray[i].ForeColor = Color.Transparent;
-                if (i < Heaf)
-                {
-                    this.PanelArray[i].Location = new Point(425, MarginLoc * i + 277);
-                }
-                else
-                {
-                    this.PanelArray[i].Location = new Point(890, MarginLoc * j + 360);
-                }
-
-                if (i > Heaf)
-                {
-                    j++;
-                }
+                this.PanelArray[k].Name = "Panel1_" + k.ToString();
+                this.PanelArray[k].Size = new Size(new Point(YPosition, 530));
+                this.PanelArray[k].BorderStyle = BorderStyle.FixedSingle;
+                //this.PanelArray[k].ForeColor = Color.Transparent;
+                this.PanelArray[k].Location = new Point(StartYPosition + k * YPosition, 220);
                 
-            }
-
-
-
-            for (int i = 0,j=0; i < MAX_TOSU; i++)
-            {
-                this.labelArray[i] = new Label();
+                this.BameiArray[k] = new Label();
                 //プロパティ設定
-                this.labelArray[i].Name = "Name" + i.ToString();
-                this.labelArray[i].Size = new Size(250, 30);
-                this.labelArray[i].Font = new Font("Meiryo UI", 10, FontStyle.Bold);
-                this.labelArray[i].Text = "ヴィクトリアマイル";
-                if(i < Heaf)
-                {
-                    this.labelArray[i].Location = new Point(430, MarginLoc * i + 300);
-                }
-                else
-                {
-                    this.labelArray[i].Location = new Point(1000, MarginLoc * j + 390);
-                }
-
-                //着順
-                this.RankArray[i] = new Label();
+                this.BameiArray[k].Name = "Bamei" + k.ToString();
+                this.BameiArray[k].Size = new Size(40, 430);
+                this.BameiArray[k].Font = new Font("メイリオ", 12, FontStyle.Bold);
+                this.BameiArray[k].Text = BameiToLength("ブラストワンピース");
+                this.BameiArray[k].TextAlign = ContentAlignment.TopCenter;
+                this.BameiArray[k].Location = new Point((StartYPosition + 58) + (k * YPosition), 250);
+                this.BameiArray[k].BackColor = Color.AliceBlue;
+               
+                //父
+                this.FNameArray[k] = new Label();
                 //プロパティ設定
-                this.RankArray[i].Name = "Rank" + i.ToString();
-                this.RankArray[i].Top = 0;
-                this.RankArray[i].Width = 50;
-                this.RankArray[i].Size = new Size(110, 75);
-                this.RankArray[i].Font = new Font("Meiryo UI", 20, FontStyle.Bold);
-                this.RankArray[i].Text = "外" ;
-                this.RankArray[i].TextAlign = ContentAlignment.BottomCenter;
-                //this.RankArray[i].BackColor = Color.Ivory;
-                if (i < Heaf)
-                {
-                    this.RankArray[i].Location = new Point(720, MarginLoc * i + 277);
-                }
-                else
-                {
-                    this.RankArray[i].Location = new Point(1000, MarginLoc * j + 270);
-
-                }
-
-                //日付
-                this.DateArray[i] = new Label();
-                this.DateArray[i].Name = "Date" + i.ToString();
-                this.DateArray[i].Size = new Size(150, 30);
-                this.DateArray[i].Font = new Font("Meiryo UI", 7);
-                this.DateArray[i].Text = "20190105";
-                //this.DateArray[i].BackColor = Color.Aqua;
-                if (i < Heaf)
-                {
-                    this.DateArray[i].Location = new Point(430, MarginLoc * i + 277);
-                }
-                else
-                {
-                    this.DateArray[i].Location = new Point(820, MarginLoc * j + 275);
-                    j++;
-                }
-
-                //開催
-                this.KaisaiArray[i] = new Label();
-                this.KaisaiArray[i].Name = "Date" + i.ToString();
-                this.KaisaiArray[i].Size = new Size(150, 30);
-                this.KaisaiArray[i].Font = new Font("Meiryo UI", 7);
-                this.KaisaiArray[i].Text = "2東京12";
-                if (i < Heaf)
-                {
-                    this.KaisaiArray[i].Location = new Point(560, MarginLoc * i + 277);
-                }
-                else
-                {
-                    this.KaisaiArray[i].Location = new Point(1050, MarginLoc * j + 275);
-                }
-
-
-                //グレード
-                this.GradeArray[i] = new Label();
+                this.FNameArray[k].Name = "Fname" + k.ToString();
+                this.FNameArray[k].Size = new Size(30, 430);
+                this.FNameArray[k].Font = new Font("MS P ゴシック", 7);
+                this.FNameArray[k].Text = BameiToLength("ハービンジャー");
+                this.FNameArray[k].TextAlign = ContentAlignment.TopCenter;
+                this.FNameArray[k].Location = new Point((StartYPosition + 95) + (k * YPosition), 250);
+                
+                //父父
+                this.FFNameArray[k] = new Label();
                 //プロパティ設定
-                this.GradeArray[i].Name = "Grade" + i.ToString();
-                this.GradeArray[i].Font = new Font("Meiryo UI", 8);
-                this.GradeArray[i].Size = new Size(70, 30);
-                this.GradeArray[i].Text = "特別";
-                if (i < Heaf)
-                {
-                    this.GradeArray[i].Location = new Point(670, MarginLoc * i + 277);
-                }
-                else
-                {
-                    this.GradeArray[i].Location = new Point(830, MarginLoc * j + 275);
-                }
+                this.FFNameArray[k].Name = "Fname" + k.ToString();
+                this.FFNameArray[k].Size = new Size(30, 400);
+                this.FFNameArray[k].Font = new Font("MS P ゴシック", 7);
+                this.FFNameArray[k].Text = BameiToLength("Danehill");
+                this.FFNameArray[k].TextAlign = ContentAlignment.TopCenter;
+                this.FFNameArray[k].Location = new Point((StartYPosition + 115) + (k * YPosition), 270);
 
-                //人気
-                this.NinkiArray[i] = new Label();
+                this.Controls.AddRange(this.FFNameArray);
+
+                //母
+                this.MNameArray[k] = new Label();
                 //プロパティ設定
-                this.NinkiArray[i].Name = "Ninki" + i.ToString();
-                this.NinkiArray[i].Font = new Font("メイリオ", 8);
-                this.NinkiArray[i].Size = new Size(100, 30);
-                this.NinkiArray[i].Text = "18人";
+                this.MNameArray[k].Name = "Mname" + k.ToString();
+                this.MNameArray[k].Size = new Size(30, 430);
+                this.MNameArray[k].Font = new Font("MS P ゴシック", 7);
+                this.MNameArray[k].Text = BameiToLength("ツルマルワンピース");
+                this.MNameArray[k].TextAlign = ContentAlignment.TopCenter;
+                this.MNameArray[k].Location = new Point((StartYPosition - 120) + (k * YPosition), 250);
 
-                if (i < Heaf)
-                {
-                    this.NinkiArray[i].Location = new Point(660, MarginLoc * i + 330);
-                }
-                else
-                {
-                    this.NinkiArray[i].Location = new Point(890, MarginLoc * j + 330);
-                }
+                //母父
+                this.MFNameArray[k] = new Label();
+                //プロパティ設定
+                this.MFNameArray[k].Name = "Mname" + k.ToString();
+                this.MFNameArray[k].Size = new Size(30, 430);
+                this.MFNameArray[k].Font = new Font("MS P ゴシック", 7);
+                this.MFNameArray[k].Text = BameiToLength("サンデーサイレンス");
+                this.MFNameArray[k].TextAlign = ContentAlignment.TopCenter;
+                this.MFNameArray[k].Location = new Point((StartYPosition - 145) + (k * YPosition), 270);
+
+                //負担
+                this.JfutanArray[k] = new Label();
+                //プロパティ設定
+                this.JfutanArray[k].Name = "JFutan" + k.ToString();
+                this.JfutanArray[k].Size = new Size(YPosition - 3, 30);
+                this.JfutanArray[k].Font = new Font("MS P ゴシック", 7);
+                this.JfutanArray[k].Text = "(53.5kg)";
+                this.JfutanArray[k].TextAlign = ContentAlignment.MiddleCenter;
+                this.JfutanArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 685);
+                this.JfutanArray[k].BackColor = Color.AliceBlue;
+                this.Controls.AddRange(this.JfutanArray);
 
                 //騎手
-                this.JockeyArray[i] = new Label();
+                this.JnameArray[k] = new Label();
                 //プロパティ設定
-                this.JockeyArray[i].Name = "Jockey" + i.ToString();
-                this.JockeyArray[i].Size = new Size(250, 30);
-                this.JockeyArray[i].Font = new Font("Meiryo UI", 8);
-                this.JockeyArray[i].Text = "☆藤田 菜七子 (53.5kg)";
-
-                if (i < Heaf)
-                {
-                    this.JockeyArray[i].Location = new Point(430, MarginLoc * i + 381);
-                }
-                else
-                {
-                    this.JockeyArray[i].Location = new Point(890, MarginLoc * j + 360);
-                }
-
-                //頭数
-                this.TosuArray[i] = new Label();
-                //プロパティ設定
-                this.TosuArray[i].Name = "Tosu" + i.ToString();
-                this.TosuArray[i].Size = new Size(200, 30);
-                this.TosuArray[i].Font = new Font("Meiryo UI", 8);
-                this.TosuArray[i].Text = "18 ト 18";
-
-                if (i < Heaf)
-                {
-                    this.TosuArray[i].Location = new Point(570, MarginLoc * i + 330);
-                }
-                else
-                {
-                    this.TosuArray[i].Location = new Point(830, MarginLoc * j + 390);
-                }
-
-                //頭数
-                this.TrackArray[i] = new Label();
-                //プロパティ設定
-                this.TrackArray[i].Name = "Tosu" + i.ToString();
-                this.TrackArray[i].Size = new Size(200, 30);
-                this.TrackArray[i].Font = new Font("Meiryo UI", 8);
-                this.TrackArray[i].Text = "ダート 2400m";
-
-                if (i < Heaf)
-                {
-                    this.TrackArray[i].Location = new Point(430, MarginLoc * i + 330);
-                }
-                else
-                {
-                    this.TrackArray[i].Location = new Point(830, MarginLoc * j + 390);
-                }
-
-                //勝ちタイム
-                this.TimeArray[i] = new Label();
-                //プロパティ設定
-                this.TimeArray[i].Name = "Time" + i.ToString();
-                this.TimeArray[i].Size = new Size(120, 30);
-                this.TimeArray[i].Font = new Font("Meiryo UI", 8);
-                this.TimeArray[i].Text = "R 2:21.6";
-                //this.TimeArray[i].BackColor = Color.IndianRed;
-                if (i < Heaf)
-                {
-                    this.TimeArray[i].Location = new Point(430, MarginLoc * i + 355);
-                }
-                else
-                {
-                    this.TimeArray[i].Location = new Point(830, MarginLoc * j + 390);
-                }
-
-                //先3F/5F
-                //this.Time1Array[i] = new Label();
-                ////プロパティ設定
-                //this.Time1Array[i].Name = "Time1" + i.ToString();
-                //this.Time1Array[i].Size = new Size(90, 30);
-                //this.Time1Array[i].Font = new Font("Meiryo UI", 8);
-                //this.Time1Array[i].Text = "60.2 →";
-
-                //if (i < Heaf)
-                //{
-                //    this.Time1Array[i].Location = new Point(560, MarginLoc * i + 355);
-                //}
-                //else
-                //{
-                //    this.Time1Array[i].Location = new Point(830, MarginLoc * j + 390);
-                //}
-
-                //中タイム
-                this.Time2Array[i] = new Label();
-                //プロパティ設定
-                this.Time2Array[i].Name = "Time2" + i.ToString();
-                this.Time2Array[i].Size = new Size(90, 30);
-                this.Time2Array[i].Font = new Font("Meiryo UI", 8);
-                this.Time2Array[i].Text = "47.2 →";
-
-                if (i < Heaf)
-                {
-                    this.Time2Array[i].Location = new Point(645, MarginLoc * i + 355);
-                }
-                else
-                {
-                    this.Time2Array[i].Location = new Point(830, MarginLoc * j + 390);
-                }
-
-                //上がり3F
-                this.Time3Array[i] = new Label();
-                //プロパティ設定
-                this.Time3Array[i].Name = "Time3" + i.ToString();
-                this.Time3Array[i].Size = new Size(90, 30);
-                this.Time3Array[i].Font = new Font("Meiryo UI", 8);
-                this.Time3Array[i].Text = "32.3";
-
-                if (i < Heaf)
-                {
-                    this.Time3Array[i].Location = new Point(735, MarginLoc * i + 355);
-                }
-                else
-                {
-                    this.Time3Array[i].Location = new Point(830, MarginLoc * j + 390);
-                }
-
-                //通過順
-                this.TukaArray[i] = new Label();
-                //プロパティ設定
-                this.TukaArray[i].Name = "Tuka" + i.ToString();
-                this.TukaArray[i].Size = new Size(150, 30);
-                this.TukaArray[i].Font = new Font("Meiryo UI", 8);
-                //this.TukaArray[i].BackColor = Color.Ivory;
-                this.TukaArray[i].Text = "18-18-18-18";
-                this.TukaArray[i].TextAlign = ContentAlignment.MiddleRight;
-
-                if (i < Heaf)
-                {
-                    this.TukaArray[i].Location = new Point(681, MarginLoc * i + 381);
-                }
-                else
-                {
-                    this.TukaArray[i].Location = new Point(890, MarginLoc * j + 360);
-                }
-
-                //相手馬
-                this.AiteUmaArray[i] = new Label();
-                //プロパティ設定
-                this.AiteUmaArray[i].Name = "AiteUma" + i.ToString();
-                this.AiteUmaArray[i].Size = new Size(250, 27);
-                this.AiteUmaArray[i].Font = new Font("Meiryo UI", 8);
-                this.AiteUmaArray[i].Text = "テイクオーバーターゲット";
-                //this.AiteUmaArray[i].BackColor = Color.Bisque;
-                if (i < Heaf)
-                {
-                    this.AiteUmaArray[i].Location = new Point(430, MarginLoc * i + 408);
-                }
-                else
-                {
-                    this.AiteUmaArray[i].Location = new Point(890, MarginLoc * j + 360);
-                }
-
-                //着差
-                this.TimeDiffArray[i] = new Label();
-                //プロパティ設定
-                this.TimeDiffArray[i].Name = "TimeDiff" + i.ToString();
-                this.TimeDiffArray[i].Size = new Size(75, 27);
-                this.TimeDiffArray[i].BackColor = Color.Transparent;
-                this.TimeDiffArray[i].Font = new Font("Meiryo UI", 8);
-                this.TimeDiffArray[i].Text = "+99";
-                //this.TimeDiffArray[i].BackColor = Color.BlueViolet;
-                
-                if (i < Heaf)
-                {
-                    this.TimeDiffArray[i].Location = new Point(750, MarginLoc * i + 408);
-                }
-                else
-                {
-                    this.TimeDiffArray[i].Location = new Point(890, MarginLoc * j + 360);
-                }
-
-                //枠線
-                this.PanelArray[i] = new Panel();
-                //プロパティ設定
-                this.PanelArray[i].Name = "Panel" + i.ToString();         
-                this.PanelArray[i].Size = new Size(new Point(410, 320));
-                this.PanelArray[i].BorderStyle = BorderStyle.FixedSingle;
-                //this.PanelArray[i].ForeColor = Color.Transparent;
-                if (i < Heaf)
-                {
-                    this.PanelArray[i].Location = new Point(425, MarginLoc * i + 277);
-                }
-                else
-                {
-                    this.PanelArray[i].Location = new Point(890, MarginLoc * j + 360);
-                }
-
-                PanelArray[i].Controls.Add(RankArray[i]);
-
-                if (i > Heaf)
-                {
-                    j++;
-                }
+                this.JnameArray[k].Name = "Jname" + k.ToString();
+                this.JnameArray[k].Size = new Size(YPosition - 3, 30);
+                this.JnameArray[k].Font = new Font("MS P ゴシック", 8);
+                this.JnameArray[k].Text = "☆池添 謙一";
+                this.JnameArray[k].TextAlign = ContentAlignment.MiddleCenter;
+                this.JnameArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 715);
+                this.JnameArray[k].BackColor = Color.AliceBlue;
+                this.Controls.AddRange(this.JnameArray);
             }
 
-            //フォームにコントロールを追加
-            this.Controls.AddRange(this.TimeDiffArray);
-            this.Controls.AddRange(this.RankArray);
-            this.Controls.AddRange(this.GradeArray);
-            this.Controls.AddRange(this.labelArray);
-            this.Controls.AddRange(this.KaisaiArray);
-            this.Controls.AddRange(this.TukaArray);
-            this.Controls.AddRange(this.AiteUmaArray);
-            this.Controls.AddRange(this.DateArray);
-            this.Controls.AddRange(this.TimeArray);
-            this.Controls.AddRange(this.NinkiArray);
-            this.Controls.AddRange(this.JockeyArray);
-            this.Controls.AddRange(this.TosuArray);
-            this.Controls.AddRange(this.TrackArray);
-           // this.Controls.AddRange(this.Time1Array);
-            this.Controls.AddRange(this.Time2Array);
-            this.Controls.AddRange(this.Time3Array);
-            this.Controls.AddRange(this.Time3Array);
 
+
+
+            this.Controls.AddRange(this.BameiArray);
+            this.Controls.AddRange(this.MNameArray);
+            this.Controls.AddRange(this.FNameArray);
+            this.Controls.AddRange(this.MFNameArray);
             this.Controls.AddRange(this.PanelArray);
 
+           
+            this.labelArray = new System.Windows.Forms.Label[MAX_TOSU];
 
+            for (int i = 0; i < 3; i++)
+            {
+                switch(i)
+                {
+                    case 0:
+                        //MarginLoc = 850;
+                        break;
+                    case 1:
+                        MarginLoc = MarginLoc - XPosition;
+                        break;
+                    case 2:
+                        MarginLoc = MarginLoc - XPosition;
+                        break;
+                }
+                
+                
+
+                for (int k = 0, j = 0; k < MAX_TOSU; k++)
+                {
+                    this.labelArray[k] = new Label();
+                    //プロパティ設定
+                    this.labelArray[k].Name = "Name" + k.ToString() + i.ToString();
+                    this.labelArray[k].Size = new Size(147, 30);
+                    this.labelArray[k].Font = new Font("Meiryo UI", 10, FontStyle.Bold);
+                    this.labelArray[k].Text = "フェブラリー";
+                    //this.labelArray[k].BackColor = Color.AliceBlue;
+                    this.labelArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc + gStartPotision + 23);
+                    
+                    //着順
+                    this.RankArray[k] = new Label();
+                    //プロパティ設定
+                    this.RankArray[k].Name = "Rank" + k.ToString() + i.ToString();
+                    this.RankArray[k].Top = 0;
+                    this.RankArray[k].Width = 50;
+                    this.RankArray[k].Size = new Size(75, 75);
+                    this.RankArray[k].Font = new Font("Meiryo UI", 14, FontStyle.Bold);
+                    this.RankArray[k].Text = "18";
+                    this.RankArray[k].TextAlign = ContentAlignment.BottomCenter;
+                    //this.RankArray[k].BackColor = Color.Ivory;
+                    this.RankArray[k].Location = new Point(StartYPosition + 70 + k * YPosition, MarginLoc + gStartPotision + 30);
+                    
+                    //日付
+                    this.DateArray[k] = new Label();
+                    this.DateArray[k].Name = "Date" + k.ToString() + i.ToString();
+                    this.DateArray[k].Size = new Size(105, 30);
+                    this.DateArray[k].Font = new Font("Meiryo UI", 7);
+                    this.DateArray[k].Text = "20190105";
+                    //this.DateArray[k].BackColor = Color.Aqua;
+                    if (i < Heaf)
+                    {
+                        this.DateArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision);
+                    }
+                    else
+                    {
+                        this.DateArray[k].Location = new Point(820, MarginLoc * j + gStartPotision);
+                        j++;
+                    }
+
+                    //開催
+                    this.KaisaiArray[k] = new Label();
+                    this.KaisaiArray[k].Name = "Date" + k.ToString() + i.ToString();
+                    this.KaisaiArray[k].Size = new Size(45, 30);
+                    this.KaisaiArray[k].Font = new Font("Meiryo UI", 7);
+                    this.KaisaiArray[k].Text = "東京";
+                    if (i < Heaf)
+                    {
+                        this.KaisaiArray[k].Location = new Point(StartYPosition + 103 + k * YPosition, MarginLoc  + gStartPotision);
+                    }
+                    else
+                    {
+                        this.KaisaiArray[k].Location = new Point(1050, MarginLoc * j + gStartPotision);
+                    }
+
+
+                    //グレード
+                    this.GradeArray[k] = new Label();
+                    //プロパティ設定
+                    this.GradeArray[k].Name = "Grade" + k.ToString() + i.ToString();
+                    this.GradeArray[k].Font = new Font("Meiryo UI", 8);
+                    this.GradeArray[k].Size = new Size(70, 30);
+                    this.GradeArray[k].Text = "特別";
+                    if (i < Heaf)
+                    {
+                        this.GradeArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 53);
+                    }
+                    else
+                    {
+                        this.GradeArray[k].Location = new Point(830, MarginLoc * j + gStartPotision);
+                    }
+
+                    //人気
+                    this.NinkiArray[k] = new Label();
+                    //プロパティ設定
+                    this.NinkiArray[k].Name = "Ninki" + k.ToString() + i.ToString();
+                    this.NinkiArray[k].Font = new Font("メイリオ", 8);
+                    this.NinkiArray[k].Size = new Size(70, 30);
+                    this.NinkiArray[k].Text = "18人";
+
+                    if (i < Heaf)
+                    {
+                        this.NinkiArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 78);
+                    }
+                    else
+                    {
+                        this.NinkiArray[k].Location = new Point(890, MarginLoc * j + gStartPotision + 53);
+                    }
+
+                    //騎手
+                    this.JockeyArray[k] = new Label();
+                    //プロパティ設定
+                    this.JockeyArray[k].Name = "Jockey" + k.ToString() + i.ToString();
+                    this.JockeyArray[k].Size = new Size(147, 30);
+                    this.JockeyArray[k].Font = new Font("Meiryo UI", 8);
+                    this.JockeyArray[k].Text = "☆藤田 菜七";
+
+                    if (i < Heaf)
+                    {
+                        this.JockeyArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision + 153);
+                    }
+                    else
+                    {
+                        this.JockeyArray[k].Location = new Point(890, MarginLoc * j + gStartPotision + 104);
+                    }
+
+                    //頭数
+                    this.TosuArray[k] = new Label();
+                    //プロパティ設定
+                    this.TosuArray[k].Name = "Tosu" + k.ToString() + i.ToString();
+                    this.TosuArray[k].Size = new Size(147, 30);
+                    this.TosuArray[k].Font = new Font("Meiryo UI", 8);
+                    this.TosuArray[k].Text = "18ト18";
+
+                    if (i < Heaf)
+                    {
+                        this.TosuArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision + 257);
+                    }
+                    else
+                    {
+                        this.TosuArray[k].Location = new Point(830, MarginLoc * j + gStartPotision + 53);
+                    }
+
+                    //頭数
+                    this.TrackArray[k] = new Label();
+                    //プロパティ設定
+                    this.TrackArray[k].Name = "Tosu" + k.ToString() + i.ToString();
+                    this.TrackArray[k].Size = new Size(145, 30);
+                    this.TrackArray[k].Font = new Font("Meiryo UI", 8);
+                    this.TrackArray[k].Text = "ダート 2400m";
+
+                    if (i < Heaf)
+                    {
+                        this.TrackArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision + 128);
+                    }
+                    else
+                    {
+                        this.TrackArray[k].Location = new Point(830, MarginLoc * j + gStartPotision + 53);
+                    }
+
+                    //勝ちタイム
+                    this.TimeArray[k] = new Label();
+                    //プロパティ設定
+                    this.TimeArray[k].Name = "Time" + k.ToString() + i.ToString();
+                    this.TimeArray[k].Size = new Size(120, 30);
+                    this.TimeArray[k].Font = new Font("Meiryo UI", 8);
+                    this.TimeArray[k].Text = "R 2:21.6";
+                    //this.TimeArray[k].BackColor = Color.IndianRed;
+                    if (i < Heaf)
+                    {
+                        this.TimeArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 103);
+                    }
+                    else
+                    {
+                        this.TimeArray[k].Location = new Point(830, MarginLoc * j + gStartPotision + 78);
+                    }
+
+                    //負担
+                    this.Time1Array[k] = new Label();
+                    //プロパティ設定
+                    this.Time1Array[k].Name = "Futan" + k.ToString() + i.ToString();
+                    this.Time1Array[k].Size = new Size(146, 30);
+                    this.Time1Array[k].Font = new Font("Meiryo UI", 7);
+                    this.Time1Array[k].Text = "(53.5kg)";
+                    this.Time1Array[k].TextAlign = ContentAlignment.BottomCenter;
+
+                    if (i < Heaf)
+                    {
+                        this.Time1Array[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc + gStartPotision + 178);
+                    }
+                    else
+                    {
+                        this.Time1Array[k].Location = new Point(830, MarginLoc * j + 390);
+                    }
+
+                    //中タイム
+                    this.Time2Array[k] = new Label();
+                    //プロパティ設定
+                    this.Time2Array[k].Name = "Time2" + k.ToString() + i.ToString();
+                    this.Time2Array[k].Size = new Size(90, 30);
+                    this.Time2Array[k].Font = new Font("Meiryo UI", 8);
+                    this.Time2Array[k].Text = "47.2 →";
+
+                    if (i < Heaf)
+                    {
+                        this.Time2Array[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 203);
+                    }
+                    else
+                    {
+                        this.Time2Array[k].Location = new Point(830, MarginLoc * j + gStartPotision + 131);
+                    }
+
+                    //上がり3F
+                    this.Time3Array[k] = new Label();
+                    //プロパティ設定
+                    this.Time3Array[k].Name = "Time3" + k.ToString() + i.ToString();
+                    this.Time3Array[k].Size = new Size(59, 30);
+                    this.Time3Array[k].Font = new Font("Meiryo UI", 8);
+                    this.Time3Array[k].Text = "32.3";
+
+                    if (i < Heaf)
+                    {
+                        this.Time3Array[k].Location = new Point(StartYPosition + 90 + k * YPosition, MarginLoc  + gStartPotision + 203);
+                    }
+                    else
+                    {
+                        this.Time3Array[k].Location = new Point(830, MarginLoc * j + gStartPotision + 78);
+                    }
+
+                    //通過順
+                    this.TukaArray[k] = new Label();
+                    //プロパティ設定
+                    this.TukaArray[k].Name = "Tuka" + k.ToString() + i.ToString();
+                    this.TukaArray[k].Size = new Size(147, 30);
+                    this.TukaArray[k].Font = new Font("Meiryo UI", 8);
+                    //this.TukaArray[k].BackColor = Color.Ivory;
+                    this.TukaArray[k].Text = "18-18-18-18";
+                    //this.TukaArray[k].TextAlign = ContentAlignment.MiddleCenter;
+
+                    if (i < Heaf)
+                    {
+                        this.TukaArray[k].Location = new Point(StartYPosition + 1 + k * YPosition, MarginLoc  + gStartPotision + 230);
+                    }
+                    else
+                    {
+                        this.TukaArray[k].Location = new Point(890, MarginLoc * j + gStartPotision + 104);
+                    }
+
+                    //相手馬
+                    this.AiteUmaArray[k] = new Label();
+                    //プロパティ設定
+                    this.AiteUmaArray[k].Name = "AiteUma" + k.ToString() + i.ToString();
+                    this.AiteUmaArray[k].Size = new Size(144, 27);
+                    this.AiteUmaArray[k].Font = new Font("Meiryo UI", 8);
+                    this.AiteUmaArray[k].Text = "テイクオーバータ";
+                    //this.AiteUmaArray[k].BackColor = Color.Bisque;
+                    if (i < Heaf)
+                    {
+                        this.AiteUmaArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 282);
+                    }
+                    else
+                    {
+                        this.AiteUmaArray[k].Location = new Point(890, MarginLoc * j + gStartPotision + 131);
+                    }
+
+                    //着差
+                    this.TimeDiffArray[k] = new Label();
+                    //プロパティ設定
+                    this.TimeDiffArray[k].Name = "TimeDiff" + k.ToString() + i.ToString();
+                    this.TimeDiffArray[k].Size = new Size(60, 27);
+                    this.TimeDiffArray[k].BackColor = Color.Transparent;
+                    this.TimeDiffArray[k].Font = new Font("Meiryo UI", 8);
+                    this.TimeDiffArray[k].Text = "+99";
+                    this.TimeDiffArray[k].TextAlign = ContentAlignment.MiddleRight;
+                    //this.TimeDiffArray[k].BackColor = Color.BlueViolet;
+
+                    if (i < Heaf)
+                    {
+                        this.TimeDiffArray[k].Location = new Point(StartYPosition + 85 + k * YPosition, MarginLoc  + gStartPotision + 257);
+                    }
+                    else
+                    {
+                        this.TimeDiffArray[k].Location = new Point(890, MarginLoc * j + gStartPotision + 131);
+                    }
+
+                    //枠線
+                    this.PanelArray[k] = new Panel();
+                    //プロパティ設定
+                    this.PanelArray[k].Name = "Panel" + k.ToString() + i.ToString();
+                    this.PanelArray[k].Size = new Size(new Point(YPosition, XPosition));
+                    this.PanelArray[k].BorderStyle = BorderStyle.FixedSingle;
+                    //this.PanelArray[k].ForeColor = Color.Transparent;
+                    if (i < Heaf)
+                    {
+                        this.PanelArray[k].Location = new Point(StartYPosition + k * YPosition, MarginLoc + gStartPotision - 5);
+                    }
+                    else
+                    {
+                        this.PanelArray[k].Location = new Point(890, MarginLoc * j + gStartPotision);
+                    }
+                  
+                }
+
+                this.Controls.AddRange(this.DateArray);
+
+                //フォームにコントロールを追加：上から優先
+                this.Controls.AddRange(this.TimeDiffArray);
+                this.Controls.AddRange(this.labelArray);
+                this.Controls.AddRange(this.GradeArray);
+                
+
+                this.Controls.AddRange(this.TukaArray);
+                this.Controls.AddRange(this.AiteUmaArray);
+
+                this.Controls.AddRange(this.TimeArray);
+                this.Controls.AddRange(this.NinkiArray);
+                this.Controls.AddRange(this.JockeyArray);
+                this.Controls.AddRange(this.TosuArray);
+                this.Controls.AddRange(this.TrackArray);
+                this.Controls.AddRange(this.Time1Array);
+                this.Controls.AddRange(this.Time2Array);
+                this.Controls.AddRange(this.Time3Array);
+                this.Controls.AddRange(this.Time3Array);
+                this.Controls.AddRange(this.RankArray);
+                this.Controls.AddRange(this.KaisaiArray);
+                this.Controls.AddRange(this.DateArray);
+
+
+                this.Controls.AddRange(this.PanelArray);
+            }
             this.SuspendLayout();
 
 
 
             this.ResumeLayout(false);
 
-        }
 
+        }
+        
         private void NewsPaperForm_Load_1(object sender, EventArgs e)
         {
             NewsPaperForm_Load(sender, e);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

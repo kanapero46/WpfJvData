@@ -92,8 +92,6 @@ namespace WpfApp1.JvComDbData
         }
         #endregion
 
-
-
         #region RAキーの自動生成
         public int GET_AUTO_RA_KEY(ref String inParam)
         {
@@ -133,6 +131,8 @@ namespace WpfApp1.JvComDbData
             setTrackStatus(inParam[23]);
         }
         #endregion
+
+        #region　レース開催情報リアルタイムデータ取得
 
         public int RaGetRTRaData(String Key, ref String refBuff)
         {
@@ -198,6 +198,7 @@ namespace WpfApp1.JvComDbData
 
             return 1;
         }
+        #endregion
 
     }
 }
