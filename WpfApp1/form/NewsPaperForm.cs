@@ -40,6 +40,8 @@ namespace WpfApp1.form
         private System.Windows.Forms.Panel[] PanelArray;
         private readonly int tmpStartPotision;
 
+        dbAccess.dbConnect db = new dbAccess.dbConnect();
+
         public NewsPaperForm()
         {
             InitializeComponent();
@@ -114,8 +116,19 @@ namespace WpfApp1.form
 
             int gStartPotision = tmpStartPotision;
 
+            /* DB読み込み用の配列宣言 */
+            List<String> strArray = new List<string>();
+
+            /* DB処理用のインスタンス宣言 */
+            JvComDbData.JvDbRaData data = new JvComDbData.JvDbRaData();
+
             for (int k = 0; k < MAX_TOSU; k++)
             {
+                //DB読み込み
+                strArray.Clear();
+                db.TextReader_Row("201902110501051101", "RA", 0, ref strArray);
+                data.setData(ref strArray);
+
                 //枠線
                 this.PanelArray[k] = new Panel();
                 //プロパティ設定
@@ -228,9 +241,7 @@ namespace WpfApp1.form
                         MarginLoc = MarginLoc - XPosition;
                         break;
                 }
-                
-                
-
+               
                 for (int k = 0, j = 0; k < MAX_TOSU; k++)
                 {
                     this.labelArray[k] = new Label();
