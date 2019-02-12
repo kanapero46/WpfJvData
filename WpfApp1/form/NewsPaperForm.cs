@@ -213,12 +213,25 @@ namespace WpfApp1.form
                 this.JnameArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 715);
                 this.JnameArray[k].BackColor = Color.AliceBlue;
                 this.Controls.AddRange(this.JnameArray);
+
+                //馬記号
+                this.UmaKigoArray[k] = new Label();
+                //プロパティ設定
+                this.UmaKigoArray[k].Name = "Umakigo" + k.ToString();
+                this.UmaKigoArray[k].Size = new Size(60, 30);
+                this.UmaKigoArray[k].Font = new Font("MS P ゴシック", 8);
+                this.UmaKigoArray[k].Text = "[外]"; 
+                this.UmaKigoArray[k].TextAlign = ContentAlignment.MiddleCenter;
+                this.UmaKigoArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 230);
+                this.UmaKigoArray[k].BackColor = Color.AliceBlue;
+                
             }
 
 
 
 
             this.Controls.AddRange(this.BameiArray);
+            this.Controls.AddRange(this.UmaKigoArray);
             this.Controls.AddRange(this.MNameArray);
             this.Controls.AddRange(this.FNameArray);
             this.Controls.AddRange(this.MFNameArray);
