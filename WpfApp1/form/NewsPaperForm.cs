@@ -41,10 +41,18 @@ namespace WpfApp1.form
         private readonly int tmpStartPotision;
 
         dbAccess.dbConnect db = new dbAccess.dbConnect();
+        static String RA_Key;
+
 
         public NewsPaperForm()
         {
             InitializeComponent();
+        }
+
+        public NewsPaperForm(String RaKey)
+        {
+            InitializeComponent();
+            RA_Key = RaKey;
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -77,7 +85,7 @@ namespace WpfApp1.form
             return tmp;
         }
 
-        private void NewsPaperForm_Load(object sender, EventArgs e)
+        private unsafe void NewsPaperForm_Load(object sender, EventArgs e)
         {
             const int MAX_TOSU = 18;
             this.labelArray = new System.Windows.Forms.Label[MAX_TOSU];
@@ -116,18 +124,41 @@ namespace WpfApp1.form
 
             int gStartPotision = tmpStartPotision;
 
+            int libNum = LibJvConv.LibJvConvFuncClass.HOUCE_KIND;
+            String libstr = "";
+
             /* DB読み込み用の配列宣言 */
             List<String> strArray = new List<string>();
+            List<String> str2Array = new List<string>();
 
             /* DB処理用のインスタンス宣言 */
-            JvComDbData.JvDbRaData data = new JvComDbData.JvDbRaData();
+            JvComDbData.JvDbSEData SEdata = new JvComDbData.JvDbSEData();
+            
 
             for (int k = 0; k < MAX_TOSU; k++)
             {
                 //DB読み込み
                 strArray.Clear();
-                db.TextReader_Row("201902110501051101", "RA", 0, ref strArray);
-                data.setData(ref strArray);
+                str2Array.Clear();
+                //db.TextReader_Row("201902110501051101", "RA", 0, ref strArray);
+                db.TextReader_Col(RA_Key.Substring(0, 8), "SE", 0, ref strArray, RA_Key + String.Format("{0:00}", k + 1));
+
+                if(strArray.Count == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    SEdata.SetSEData(strArray);
+                }
+
+                db.TextReader_Col("0", "UM", 0, ref str2Array, SEdata.KettoNum1.ToString());
+                
+                if(str2Array.Count == 0)
+                {
+                    break;
+                }
+
 
                 //枠線
                 this.PanelArray[k] = new Panel();
@@ -143,10 +174,10 @@ namespace WpfApp1.form
                 this.BameiArray[k].Name = "Bamei" + k.ToString();
                 this.BameiArray[k].Size = new Size(40, 430);
                 this.BameiArray[k].Font = new Font("メイリオ", 12, FontStyle.Bold);
-                this.BameiArray[k].Text = BameiToLength("ブラストワンピース");
+                this.BameiArray[k].Text = BameiToLength(SEdata.Name1);
                 this.BameiArray[k].TextAlign = ContentAlignment.TopCenter;
                 this.BameiArray[k].Location = new Point((StartYPosition + 58) + (k * YPosition), 250);
-                this.BameiArray[k].BackColor = Color.AliceBlue;
+                //this.BameiArray[k].BackColor = Color.AliceBlue;
                
                 //父
                 this.FNameArray[k] = new Label();
@@ -154,19 +185,19 @@ namespace WpfApp1.form
                 this.FNameArray[k].Name = "Fname" + k.ToString();
                 this.FNameArray[k].Size = new Size(30, 430);
                 this.FNameArray[k].Font = new Font("MS P ゴシック", 7);
-                this.FNameArray[k].Text = BameiToLength("ハービンジャー");
+                this.FNameArray[k].Text = BameiToLength(str2Array[6]);
                 this.FNameArray[k].TextAlign = ContentAlignment.TopCenter;
                 this.FNameArray[k].Location = new Point((StartYPosition + 95) + (k * YPosition), 250);
                 
                 //父父
                 this.FFNameArray[k] = new Label();
                 //プロパティ設定
-                this.FFNameArray[k].Name = "Fname" + k.ToString();
+                this.FFNameArray[k].Name = "FFname" + k.ToString();
                 this.FFNameArray[k].Size = new Size(30, 400);
                 this.FFNameArray[k].Font = new Font("MS P ゴシック", 7);
-                this.FFNameArray[k].Text = BameiToLength("Danehill");
+                this.FFNameArray[k].Text = BameiToLength(str2Array[8]);
                 this.FFNameArray[k].TextAlign = ContentAlignment.TopCenter;
-                this.FFNameArray[k].Location = new Point((StartYPosition + 115) + (k * YPosition), 270);
+                this.FFNameArray[k].Location = new Point((StartYPosition + 117) + (k * YPosition), 270);
 
                 this.Controls.AddRange(this.FFNameArray);
 
@@ -176,7 +207,7 @@ namespace WpfApp1.form
                 this.MNameArray[k].Name = "Mname" + k.ToString();
                 this.MNameArray[k].Size = new Size(30, 430);
                 this.MNameArray[k].Font = new Font("MS P ゴシック", 7);
-                this.MNameArray[k].Text = BameiToLength("ツルマルワンピース");
+                this.MNameArray[k].Text = BameiToLength(str2Array[7]);
                 this.MNameArray[k].TextAlign = ContentAlignment.TopCenter;
                 this.MNameArray[k].Location = new Point((StartYPosition - 120) + (k * YPosition), 250);
 
@@ -186,7 +217,7 @@ namespace WpfApp1.form
                 this.MFNameArray[k].Name = "Mname" + k.ToString();
                 this.MFNameArray[k].Size = new Size(30, 430);
                 this.MFNameArray[k].Font = new Font("MS P ゴシック", 7);
-                this.MFNameArray[k].Text = BameiToLength("サンデーサイレンス");
+                this.MFNameArray[k].Text = BameiToLength(str2Array[9]);
                 this.MFNameArray[k].TextAlign = ContentAlignment.TopCenter;
                 this.MFNameArray[k].Location = new Point((StartYPosition - 145) + (k * YPosition), 270);
 
@@ -196,10 +227,10 @@ namespace WpfApp1.form
                 this.JfutanArray[k].Name = "JFutan" + k.ToString();
                 this.JfutanArray[k].Size = new Size(YPosition - 3, 30);
                 this.JfutanArray[k].Font = new Font("MS P ゴシック", 7);
-                this.JfutanArray[k].Text = "(53.5kg)";
+                this.JfutanArray[k].Text = "("+ SEdata.Futan1.Substring(0,2) + "." + SEdata.Futan1.Substring(2,1) +"kg)";
                 this.JfutanArray[k].TextAlign = ContentAlignment.MiddleCenter;
                 this.JfutanArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 685);
-                this.JfutanArray[k].BackColor = Color.AliceBlue;
+                //this.JfutanArray[k].BackColor = Color.AliceBlue;
                 this.Controls.AddRange(this.JfutanArray);
 
                 //騎手
@@ -208,27 +239,25 @@ namespace WpfApp1.form
                 this.JnameArray[k].Name = "Jname" + k.ToString();
                 this.JnameArray[k].Size = new Size(YPosition - 3, 30);
                 this.JnameArray[k].Font = new Font("MS P ゴシック", 8);
-                this.JnameArray[k].Text = "☆池添 謙一";
+                this.JnameArray[k].Text = SEdata.Jockey1;
                 this.JnameArray[k].TextAlign = ContentAlignment.MiddleCenter;
                 this.JnameArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 715);
-                this.JnameArray[k].BackColor = Color.AliceBlue;
+                //this.JnameArray[k].BackColor = Color.AliceBlue;
                 this.Controls.AddRange(this.JnameArray);
 
                 //馬記号
                 this.UmaKigoArray[k] = new Label();
                 //プロパティ設定
                 this.UmaKigoArray[k].Name = "Umakigo" + k.ToString();
-                this.UmaKigoArray[k].Size = new Size(60, 30);
+                this.UmaKigoArray[k].Size = new Size(YPosition -3, 30);
                 this.UmaKigoArray[k].Font = new Font("MS P ゴシック", 8);
-                this.UmaKigoArray[k].Text = "[外]"; 
+                LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.UmaKigou1, ref libstr);
+                this.UmaKigoArray[k].Text = libstr; 
                 this.UmaKigoArray[k].TextAlign = ContentAlignment.MiddleCenter;
-                this.UmaKigoArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 230);
-                this.UmaKigoArray[k].BackColor = Color.AliceBlue;
+                this.UmaKigoArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 222);
+                //this.UmaKigoArray[k].BackColor = Color.AliceBlue;
                 
             }
-
-
-
 
             this.Controls.AddRange(this.BameiArray);
             this.Controls.AddRange(this.UmaKigoArray);

@@ -774,7 +774,9 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            NewsPaperForm paperForm = new NewsPaperForm();
+            String strParam = "";
+            mainDataClass.GET_AUTO_RA_KEY(ref strParam);
+            NewsPaperForm paperForm = new NewsPaperForm(strParam);
             paperForm.Show();
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
