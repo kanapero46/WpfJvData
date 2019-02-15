@@ -148,7 +148,9 @@ namespace WpfApp1.JvComDbData
             tmpHist.track = inParam[RA_MAX + 17];
             tmpHist.distance = inParam[RA_MAX + 18];
             tmpHist.tousuu = Int32.Parse(inParam[RA_MAX + 19]);
-            tmpHist.RecornUpdateFlag = (inParam[RA_MAX + 25] == 0 ? false : true);
+            tmpHist.JyokenInfo = inParam[RA_MAX + 13];
+            tmpHist.JyokenName = inParam[RA_MAX + 14];
+            tmpHist.RecornUpdateFlag = (inParam[RA_MAX + 25] == "0" ? false : true);
             RaceHist1 = tmpHist;
 
         }

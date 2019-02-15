@@ -53,6 +53,8 @@ namespace WpfApp1.Class
             public String DMTime;
             public int DMRank;
             public Boolean RecornUpdateFlag;
+            public String JyokenInfo;
+            public String JyokenName;
         };
 
         

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibJvConv;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WpfApp1.dbCom1;
+using WpfApp1.JvComDbData;
 
 namespace WpfApp1.form
 {
@@ -39,8 +41,10 @@ namespace WpfApp1.form
         private System.Windows.Forms.Label[] AiteUmaArray;
         private System.Windows.Forms.Label[] TimeDiffArray;
         private System.Windows.Forms.Panel[] PanelArray;
+        private System.Windows.Forms.Panel[] Panel2Array;
         private readonly int tmpStartPotision;
 
+        JvDbRaData raceData; //レース情報
         dbAccess.dbConnect db = new dbAccess.dbConnect();
         dbCom dbCom = new dbCom();
         static String RA_Key;
@@ -51,10 +55,34 @@ namespace WpfApp1.form
             InitializeComponent();
         }
 
-        public NewsPaperForm(String RaKey)
+        public NewsPaperForm(String RaKey, int ColorNum)
         {
             InitializeComponent();
+
+            if (RaKey == "")
+            {
+                MessageBox.Show("レースが選択されていません。");
+                return;
+            }
+
             RA_Key = RaKey;
+            InitRaceData(RaKey);
+
+            switch (ColorNum)
+            {
+                case 1:
+                    panel1.BackColor = Color.Blue;
+                    flowLayoutPanel4.BackColor = Color.Blue;
+                    break;
+                case 2:
+                    panel1.BackColor = Color.Green;
+                    flowLayoutPanel4.BackColor = Color.Green;
+                    break;
+                case 3:
+                    panel1.BackColor = Color.Purple;
+                    flowLayoutPanel4.BackColor = Color.Purple;
+                    break;
+            }
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -66,6 +94,69 @@ namespace WpfApp1.form
         {
 
         }
+
+        unsafe private void InitRaceData(String RaKey)
+        {
+            raceData = new JvDbRaData();
+            List<String> tmp = new List<string>();
+            int libCode = 0;
+
+            if(db.TextReader_Col(RA_Key.Substring(0, 8), "RA", 0, ref tmp, RaKey) != 0)
+            {
+                raceData.setData(ref tmp);
+            }
+            else
+            {
+                return;
+            }
+
+            String libStr = "";
+
+            //表示処理
+            libCode = 2002;
+            LibJvConvFuncClass.jvSysConvFunction(&libCode, raceData.getWeekDay(), ref libStr);
+            this.Date.Text = raceData.ConvertDateToDate(raceData.getRaceDate());
+            this.Date.Text += "(" + libStr + ")";
+
+            libCode = LibJvConvFuncClass.COURCE_CODE;
+            LibJvConvFuncClass.jvSysConvFunction(&libCode, raceData.getRaceCource(), ref libStr);
+            this.Kaisai.Text = "第" + raceData.getRaceKaiji() + "回" + libStr + raceData.getRaceNichiji() + "日目";
+
+            this.label4.Text = raceData.getRaceStartTime().Substring(0, 2) + "時" + raceData.getRaceStartTime().Substring(2, 2) + "分";
+            this.DistanceLabel.Text = raceData.getDistance();
+
+            libCode = LibJvConvFuncClass.TRACK_CODE ;
+            LibJvConvFuncClass.jvSysConvFunction(&libCode, raceData.getCourceTrack(), ref libStr);
+            this.TrackNameLabel.Text = "（" + libStr + "）";
+
+            libCode = 2007;
+            LibJvConvFuncClass.jvSysConvFunction(&libCode, raceData.getRaceClass(), ref libStr);
+            this.ClassLabel.Text = libStr;
+
+            libCode = 2006;
+            LibJvConvFuncClass.jvSysConvFunction(&libCode, raceData.getRaceKindKigo(), ref libStr);
+            this.KigoLabel.Text = libStr;
+
+            libCode = LibJvConvFuncClass.RACE_NAME;
+            LibJvConvFuncClass.jvSysConvFunction(&libCode, raceData.getRaceName(), ref libStr);
+
+            if(raceData.getRaceGrade() == "一般" || raceData.getRaceGrade() == "特別" || raceData.getRaceGrade() == "")
+            {
+                LibJvConvFuncClass.jvSysConvFunction(&libCode, raceData.getRaceName(), ref libStr);
+                this.racename.Text = libStr;
+            }
+            else
+            {
+                this.racename.Text = libStr + "（" + raceData.getRaceGrade() + "）";
+            }
+
+            
+
+            this.kaiji.Text = (raceData.getRaceGradeKai() == 0 ? "" : "第" + raceData.getRaceGradeKai() + "回");
+            this.raceNameEng.Text = raceData.getRaceNameEng();
+            this.RaceNum.Text = Int32.Parse(raceData.getRaceNum()) + "R";
+         }
+
 
         private String BameiToLength(String inStr)
         {
@@ -89,6 +180,12 @@ namespace WpfApp1.form
 
         private unsafe void NewsPaperForm_Load(object sender, EventArgs e)
         {
+            if (RA_Key == "" || RA_Key == null)
+            {
+                MessageBox.Show("レースが選択されていません。");
+                return;
+            }
+
             const int MAX_TOSU = 18;
             this.labelArray = new System.Windows.Forms.Label[MAX_TOSU];
             RankArray = new Label[MAX_TOSU];
@@ -107,6 +204,7 @@ namespace WpfApp1.form
             TimeDiffArray = new Label[MAX_TOSU];
             TrackArray = new Label[MAX_TOSU];
             PanelArray = new Panel[MAX_TOSU];
+            Panel2Array = new Panel[MAX_TOSU];
 
             BameiArray = new Label[MAX_TOSU];
             FNameArray = new Label[MAX_TOSU];
@@ -132,6 +230,8 @@ namespace WpfApp1.form
             /* DB読み込み用の配列宣言 */
             List<String> strArray = new List<string>();
             List<String> str2Array = new List<string>();
+
+            List<String> KettoNumArray = new List<string>();
 
             /* DB処理用のインスタンス宣言 */
             JvComDbData.JvDbSEData SEdata = new JvComDbData.JvDbSEData();
@@ -161,6 +261,9 @@ namespace WpfApp1.form
                     break;
                 }
 
+                //血統番号登録
+                KettoNumArray.Add(SEdata.KettoNum1.ToString());
+
 
                 //枠線
                 this.PanelArray[k] = new Panel();
@@ -168,9 +271,19 @@ namespace WpfApp1.form
                 this.PanelArray[k].Name = "Panel1_" + k.ToString();
                 this.PanelArray[k].Size = new Size(new Point(YPosition, 530));
                 this.PanelArray[k].BorderStyle = BorderStyle.FixedSingle;
-                //this.PanelArray[k].ForeColor = Color.Transparent;
+                //this.PanelArray[k].BackColor = Color.Transparent;
                 this.PanelArray[k].Location = new Point(StartYPosition + k * YPosition, 220);
-                
+
+                //枠線2
+                this.Panel2Array[k] = new Panel();
+                //プロパティ設定
+                this.Panel2Array[k].Name = "Panel2_" + k.ToString();
+                this.Panel2Array[k].Size = new Size(new Point(YPosition, 50));
+                this.Panel2Array[k].BorderStyle = BorderStyle.FixedSingle;
+                this.Panel2Array[k].BackColor = dbCom.WakubanToColor(SEdata.Waku1);
+                this.Panel2Array[k].Location = new Point(StartYPosition + k * YPosition, 200);
+
+
                 this.BameiArray[k] = new Label();
                 //プロパティ設定
                 this.BameiArray[k].Name = "Bamei" + k.ToString();
@@ -258,7 +371,20 @@ namespace WpfApp1.form
                 this.UmaKigoArray[k].TextAlign = ContentAlignment.MiddleCenter;
                 this.UmaKigoArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 222);
                 //this.UmaKigoArray[k].BackColor = Color.AliceBlue;
-                
+
+                //馬記号
+                this.TosuArray[k] = new Label();
+                //プロパティ設定
+                this.TosuArray[k].Name = "Umaban" + k.ToString();
+                this.TosuArray[k].Size = new Size(YPosition - 3, 30);
+                this.TosuArray[k].Font = new Font("MS P ゴシック", 10);
+                this.TosuArray[k].Text = Int32.Parse(SEdata.Umaban1).ToString();
+                this.TosuArray[k].TextAlign = ContentAlignment.MiddleCenter;
+                this.TosuArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 190);
+                //this.UmaKigoArray[k].BackColor = Color.AliceBlue;
+
+
+
             }
 
             this.Controls.AddRange(this.BameiArray);
@@ -266,9 +392,14 @@ namespace WpfApp1.form
             this.Controls.AddRange(this.MNameArray);
             this.Controls.AddRange(this.FNameArray);
             this.Controls.AddRange(this.MFNameArray);
+            this.Controls.AddRange(this.TosuArray);
+            this.Controls.AddRange(this.Panel2Array);
             this.Controls.AddRange(this.PanelArray);
+            
 
-           
+
+
+
             this.labelArray = new System.Windows.Forms.Label[MAX_TOSU];
             int tmpRank = 0;
             Color RankColor = new Color();
@@ -288,16 +419,16 @@ namespace WpfApp1.form
                         break;
                 }
                
-                for (int k = 0, j = 0; k < MAX_TOSU; k++)
+                for (int k = 0, j = 0; k < KettoNumArray.Count; k++)
                 {
                     
                     /* DBから過去走データ取得 */
                     strArray.Clear();
                     SEdata = new JvComDbData.JvDbSEData();
 
-                    if(dbCom.DbComGetOldRunDataMapping(SEdata.KettoNum1.ToString(), ref strArray, k) == 0)
+                    if(dbCom.DbComGetOldRunDataMapping(KettoNumArray[k], ref strArray, i+1) == 0)
                     {
-                        break;
+                        continue;
                     }
                     
                     SEdata.SetSEMSTData(strArray);
@@ -310,8 +441,14 @@ namespace WpfApp1.form
                     this.RankArray[k].Width = 50;
                     this.RankArray[k].Size = new Size(75, 75);
                     this.RankArray[k].Font = new Font("Meiryo UI", 14, FontStyle.Bold);
-                    this.RankArray[k].Text = SEdata.RaceHist1.rank;
+                    this.RankArray[k].Text = Int32.Parse(SEdata.RaceHist1.rank).ToString();
                     this.RankArray[k].TextAlign = ContentAlignment.BottomCenter;
+
+                    if(this.RankArray[k].Text == "0")
+                    {
+                        this.RankArray[k].Text = "外";
+                    }
+
                     //this.RankArray[k].BackColor = Color.Ivory;
                     this.RankArray[k].Location = new Point(StartYPosition + 70 + k * YPosition, MarginLoc + gStartPotision + 30);
                     
@@ -330,7 +467,17 @@ namespace WpfApp1.form
                     this.labelArray[k].Name = "Name" + k.ToString() + i.ToString();
                     this.labelArray[k].Size = new Size(147, 30);
                     this.labelArray[k].Font = new Font("Meiryo UI", 10, FontStyle.Bold);
-                    this.labelArray[k].Text = SEdata.RaceHist1.raceName10;                        //TODO 10文字→6文字に変更予定
+                    if(SEdata.RaceHist1.raceName10 == "")
+                    {
+                        libNum = 2007;
+                        LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.JyokenName.ToString(), ref libstr);
+                        this.labelArray[k].Text = libstr;                     //TODO 10文字→6文字に変更予定
+                    }
+                    else
+                    {
+                        this.labelArray[k].Text = SEdata.RaceHist1.raceName10;                        //TODO 10文字→6文字に変更予定
+                    }
+                    
                     //this.labelArray[k].BackColor = Color.AliceBlue;
                     this.labelArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc + gStartPotision + 23);
                     
@@ -369,7 +516,15 @@ namespace WpfApp1.form
                     this.NinkiArray[k].Name = "Ninki" + k.ToString() + i.ToString();
                     this.NinkiArray[k].Font = new Font("メイリオ", 8);
                     this.NinkiArray[k].Size = new Size(70, 30);
-                    this.NinkiArray[k].Text = SEdata.RaceHist1.Ninki;
+                    if(SEdata.RaceHist1.Ninki == "00")
+                    {
+
+                    }
+                    else
+                    {
+                        this.NinkiArray[k].Text = SEdata.RaceHist1.Ninki + "人";
+                    }
+                    
                     this.NinkiArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 78);
             
                     //騎手
@@ -398,7 +553,7 @@ namespace WpfApp1.form
                     this.TrackArray[k].Name = "Track" + k.ToString() + i.ToString();
                     this.TrackArray[k].Size = new Size(145, 30);
                     this.TrackArray[k].Font = new Font("Meiryo UI", 8);
-                    libNum = LibJvConvFuncClass.TRACK_CODE;
+                    libNum = LibJvConvFuncClass.TRACK_CODE_SHORT;
                     LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.track, ref libstr);
                     this.TrackArray[k].Text = libstr + " " + SEdata.RaceHist1.distance + "m";
                     this.TrackArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision + 128);
@@ -409,7 +564,7 @@ namespace WpfApp1.form
                     this.TimeArray[k].Name = "Time" + k.ToString() + i.ToString();
                     this.TimeArray[k].Size = new Size(120, 30);
                     this.TimeArray[k].Font = new Font("Meiryo UI", 8);
-                    this.TimeArray[k].Text = (SEdata.RaceHist1.RecornUpdateFlag ? "R " : "") + SEdata.RaceHist1.time.Substring(0,1) + ":" + SEdata.RaceHist1.distance.Substring(1,2) + "." + SEdata.RaceHist1.distance.Substring(3,1);
+                    this.TimeArray[k].Text = (SEdata.RaceHist1.RecornUpdateFlag ? "R " : "") + SEdata.RaceHist1.time.Substring(0,1) + ":" + SEdata.RaceHist1.time.Substring(1,2) + "." + SEdata.RaceHist1.time.Substring(3,1);
                     //this.TimeArray[k].BackColor = Color.IndianRed;
                     this.TimeArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 103);
 
@@ -488,7 +643,7 @@ namespace WpfApp1.form
                     this.PanelArray[k].Name = "Panel" + k.ToString() + i.ToString();
                     this.PanelArray[k].Size = new Size(new Point(YPosition, XPosition));
                     this.PanelArray[k].BorderStyle = BorderStyle.FixedSingle;
-                    //this.PanelArray[k].ForeColor = ConvRankToColor(tmpRank);
+                    //this.PanelArray[k].BackColor = ConvRankToColor(tmpRank);
                     
                     if (i < Heaf)
                     {
@@ -501,29 +656,29 @@ namespace WpfApp1.form
                   
                     /* 着順に合わせて背景色を変える */
                     RankColor = ConvRankToColor(SEdata.RaceHist1.rank);
-                    this.RankArray[k].ForeColor = RankColor;
-                    this.labelArray[k].ForeColor = RankColor;
-                    this.DateArray[k].ForeColor = RankColor;
-                    this.KaisaiArray[k].ForeColor = RankColor;
-                    this.GradeArray[k].ForeColor = RankColor;
-                    this.NinkiArray[k].ForeColor = RankColor;
-                    this.JockeyArray[k].ForeColor = RankColor;
-                    this.TosuArray[k].ForeColor = RankColor;
-                    this.TrackArray[k].ForeColor = RankColor;
-                    this.TimeArray[k].ForeColor = RankColor;
-                    this.Time1Array[k].ForeColor = RankColor;
-                    this.Time2Array[k].ForeColor = RankColor;
-                    this.Time3Array[k].ForeColor = RankColor;
-                    this.TukaArray[k].ForeColor = RankColor;
-                    this.AiteUmaArray[k].ForeColor = RankColor;
-                    this.TimeDiffArray[k].ForeColor = RankColor;
-                    this.PanelArray[k].ForeColor = RankColor;
+                    this.RankArray[k].BackColor = RankColor;
+                    this.labelArray[k].BackColor = RankColor;
+                    this.DateArray[k].BackColor = RankColor;
+                    this.KaisaiArray[k].BackColor = RankColor;
+                    this.GradeArray[k].BackColor = RankColor;
+                    this.NinkiArray[k].BackColor = RankColor;
+                    this.JockeyArray[k].BackColor = RankColor;
+                    this.TosuArray[k].BackColor = RankColor;
+                    this.TrackArray[k].BackColor = RankColor;
+                    this.TimeArray[k].BackColor = RankColor;
+                    this.Time1Array[k].BackColor = RankColor;
+                    this.Time2Array[k].BackColor = RankColor;
+                    this.Time3Array[k].BackColor = RankColor;
+                    this.TukaArray[k].BackColor = RankColor;
+                    this.AiteUmaArray[k].BackColor = RankColor;
+                    this.TimeDiffArray[k].BackColor = RankColor;
+                    this.PanelArray[k].BackColor = RankColor;
 
                     /* レコードが出たレースの場合はタイムを赤表示する */
                     if(SEdata.RaceHist1.RecornUpdateFlag)
                     {
                         this.TimeArray[k].BackColor = Color.Red;
-                        this.TimeArray[k].ForeColor = Color.White;
+                        this.TimeArray[k].BackColor = Color.White;
                     }
                     
                     
@@ -586,10 +741,16 @@ namespace WpfApp1.form
             String ret = "";
             for(int i=0; i<param.Length; i = i + 2)
             {
-                if(i != 0)
+                if(param.Substring(i,2) == "00")
+                {
+                    continue;
+                }
+
+                if(ret.Length != 0)
                 {
                     ret += "-";
                 }
+                
                 ret += param.Substring(i,2);
             }
             return ret;
@@ -618,7 +779,7 @@ namespace WpfApp1.form
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
     }
 

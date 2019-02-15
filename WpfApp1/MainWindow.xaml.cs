@@ -776,7 +776,24 @@ namespace WpfApp1
         {
             String strParam = "";
             mainDataClass.GET_AUTO_RA_KEY(ref strParam);
-            NewsPaperForm paperForm = new NewsPaperForm(strParam);
+            System.Windows.Media.Brush brush = MainBack.Fill;
+            String Color = brush.ToString();
+            int JomeiColor = 0;
+            switch (Color)
+            {
+                case "#FF0000FF":
+                    JomeiColor = 1;
+                    break;
+                case "#FF006400":
+                    JomeiColor = 2;
+                    break;
+                case "#FF800080":
+                    JomeiColor = 3;
+                    break;
+            }
+
+
+            NewsPaperForm paperForm = new NewsPaperForm(strParam, JomeiColor);
             paperForm.Show();
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)

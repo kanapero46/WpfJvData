@@ -323,5 +323,31 @@ namespace WpfApp1.dbCom1
         }
         #endregion
 
+
+        #region ògî‘Ç©ÇÁÉJÉâÅ[éZèo
+        public Color WakubanToColor(String Wakuban)
+        {
+            switch(Wakuban)
+            {
+                case "1":
+                    return Color.White;
+                case "2":
+                    return Color.Black;
+                case "3":
+                    return Color.Red;
+                case "4":
+                    return Color.Blue;
+                case "5":
+                    return Color.Yellow;
+                case "6":
+                    return Color.Green;
+                case "7":
+                    return Color.Orange;
+                case "8":
+                    return Color.Pink;
+            }
+            return Color.White;
+        }
+        #endregion
     }
 }
