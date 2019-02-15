@@ -79,6 +79,7 @@ namespace WpfApp1.JvComDbData
             tmp += JV_RACE.HassoTime + ",";
             tmp += JV_RACE.TenkoBaba.TenkoCD + ",";
             tmp += JV_RACE.TenkoBaba.SibaBabaCD + JV_RACE.TenkoBaba.DirtBabaCD + ",";
+            tmp += JV_RACE.RecordUpKubun + ",";
             
             if(kind == 0)
             {

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WpfApp1.dbCom1;
 
 namespace WpfApp1.form
 {
@@ -41,6 +42,7 @@ namespace WpfApp1.form
         private readonly int tmpStartPotision;
 
         dbAccess.dbConnect db = new dbAccess.dbConnect();
+        dbCom dbCom = new dbCom();
         static String RA_Key;
 
 
@@ -124,7 +126,7 @@ namespace WpfApp1.form
 
             int gStartPotision = tmpStartPotision;
 
-            int libNum = LibJvConv.LibJvConvFuncClass.HOUCE_KIND;
+            int libNum = LibJvConvFuncClass.HOUCE_KIND;
             String libstr = "";
 
             /* DB読み込み用の配列宣言 */
@@ -251,7 +253,7 @@ namespace WpfApp1.form
                 this.UmaKigoArray[k].Name = "Umakigo" + k.ToString();
                 this.UmaKigoArray[k].Size = new Size(YPosition -3, 30);
                 this.UmaKigoArray[k].Font = new Font("MS P ゴシック", 8);
-                LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.UmaKigou1, ref libstr);
+                LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.UmaKigou1, ref libstr);
                 this.UmaKigoArray[k].Text = libstr; 
                 this.UmaKigoArray[k].TextAlign = ContentAlignment.MiddleCenter;
                 this.UmaKigoArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 222);
@@ -268,6 +270,8 @@ namespace WpfApp1.form
 
            
             this.labelArray = new System.Windows.Forms.Label[MAX_TOSU];
+            int tmpRank = 0;
+            Color RankColor = new Color();
 
             for (int i = 0; i < 3; i++)
             {
@@ -286,15 +290,18 @@ namespace WpfApp1.form
                
                 for (int k = 0, j = 0; k < MAX_TOSU; k++)
                 {
-                    this.labelArray[k] = new Label();
-                    //プロパティ設定
-                    this.labelArray[k].Name = "Name" + k.ToString() + i.ToString();
-                    this.labelArray[k].Size = new Size(147, 30);
-                    this.labelArray[k].Font = new Font("Meiryo UI", 10, FontStyle.Bold);
-                    this.labelArray[k].Text = "フェブラリー";
-                    //this.labelArray[k].BackColor = Color.AliceBlue;
-                    this.labelArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc + gStartPotision + 23);
                     
+                    /* DBから過去走データ取得 */
+                    strArray.Clear();
+                    SEdata = new JvComDbData.JvDbSEData();
+
+                    if(dbCom.DbComGetOldRunDataMapping(SEdata.KettoNum1.ToString(), ref strArray, k) == 0)
+                    {
+                        break;
+                    }
+                    
+                    SEdata.SetSEMSTData(strArray);
+
                     //着順
                     this.RankArray[k] = new Label();
                     //プロパティ設定
@@ -303,43 +310,49 @@ namespace WpfApp1.form
                     this.RankArray[k].Width = 50;
                     this.RankArray[k].Size = new Size(75, 75);
                     this.RankArray[k].Font = new Font("Meiryo UI", 14, FontStyle.Bold);
-                    this.RankArray[k].Text = "18";
+                    this.RankArray[k].Text = SEdata.RaceHist1.rank;
                     this.RankArray[k].TextAlign = ContentAlignment.BottomCenter;
                     //this.RankArray[k].BackColor = Color.Ivory;
                     this.RankArray[k].Location = new Point(StartYPosition + 70 + k * YPosition, MarginLoc + gStartPotision + 30);
                     
+                    /* 着順はこのあとの工程で利用するためローカル変数に保持する */
+                    if(Int32.TryParse(SEdata.RaceHist1.rank, out tmpRank))
+                    {
+                        
+                    }
+                    else
+                    {
+                        tmpRank = 99;       //取消・除外などはここに来る
+                    }
+
+                    this.labelArray[k] = new Label();
+                    //プロパティ設定
+                    this.labelArray[k].Name = "Name" + k.ToString() + i.ToString();
+                    this.labelArray[k].Size = new Size(147, 30);
+                    this.labelArray[k].Font = new Font("Meiryo UI", 10, FontStyle.Bold);
+                    this.labelArray[k].Text = SEdata.RaceHist1.raceName10;                        //TODO 10文字→6文字に変更予定
+                    //this.labelArray[k].BackColor = Color.AliceBlue;
+                    this.labelArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc + gStartPotision + 23);
+                    
+
                     //日付
                     this.DateArray[k] = new Label();
                     this.DateArray[k].Name = "Date" + k.ToString() + i.ToString();
                     this.DateArray[k].Size = new Size(105, 30);
                     this.DateArray[k].Font = new Font("Meiryo UI", 7);
-                    this.DateArray[k].Text = "20190105";
+                    this.DateArray[k].Text = SEdata.RaceHist1.RaceDate;
                     //this.DateArray[k].BackColor = Color.Aqua;
-                    if (i < Heaf)
-                    {
-                        this.DateArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision);
-                    }
-                    else
-                    {
-                        this.DateArray[k].Location = new Point(820, MarginLoc * j + gStartPotision);
-                        j++;
-                    }
-
+                    this.DateArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision);
+                    
                     //開催
                     this.KaisaiArray[k] = new Label();
                     this.KaisaiArray[k].Name = "Date" + k.ToString() + i.ToString();
                     this.KaisaiArray[k].Size = new Size(45, 30);
                     this.KaisaiArray[k].Font = new Font("Meiryo UI", 7);
-                    this.KaisaiArray[k].Text = "東京";
-                    if (i < Heaf)
-                    {
-                        this.KaisaiArray[k].Location = new Point(StartYPosition + 103 + k * YPosition, MarginLoc  + gStartPotision);
-                    }
-                    else
-                    {
-                        this.KaisaiArray[k].Location = new Point(1050, MarginLoc * j + gStartPotision);
-                    }
-
+                    libNum = LibJvConvFuncClass.COURCE_CODE;
+                    LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.Cource, ref libstr);
+                    this.KaisaiArray[k].Text = libstr;
+                    this.KaisaiArray[k].Location = new Point(StartYPosition + 103 + k * YPosition, MarginLoc  + gStartPotision);
 
                     //グレード
                     this.GradeArray[k] = new Label();
@@ -347,15 +360,8 @@ namespace WpfApp1.form
                     this.GradeArray[k].Name = "Grade" + k.ToString() + i.ToString();
                     this.GradeArray[k].Font = new Font("Meiryo UI", 8);
                     this.GradeArray[k].Size = new Size(70, 30);
-                    this.GradeArray[k].Text = "特別";
-                    if (i < Heaf)
-                    {
-                        this.GradeArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 53);
-                    }
-                    else
-                    {
-                        this.GradeArray[k].Location = new Point(830, MarginLoc * j + gStartPotision);
-                    }
+                    this.GradeArray[k].Text = SEdata.RaceHist1.grade;
+                    this.GradeArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 53);
 
                     //人気
                     this.NinkiArray[k] = new Label();
@@ -363,33 +369,19 @@ namespace WpfApp1.form
                     this.NinkiArray[k].Name = "Ninki" + k.ToString() + i.ToString();
                     this.NinkiArray[k].Font = new Font("メイリオ", 8);
                     this.NinkiArray[k].Size = new Size(70, 30);
-                    this.NinkiArray[k].Text = "18人";
-
-                    if (i < Heaf)
-                    {
-                        this.NinkiArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 78);
-                    }
-                    else
-                    {
-                        this.NinkiArray[k].Location = new Point(890, MarginLoc * j + gStartPotision + 53);
-                    }
-
+                    this.NinkiArray[k].Text = SEdata.RaceHist1.Ninki;
+                    this.NinkiArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 78);
+            
                     //騎手
                     this.JockeyArray[k] = new Label();
                     //プロパティ設定
                     this.JockeyArray[k].Name = "Jockey" + k.ToString() + i.ToString();
                     this.JockeyArray[k].Size = new Size(147, 30);
                     this.JockeyArray[k].Font = new Font("Meiryo UI", 8);
-                    this.JockeyArray[k].Text = "☆藤田 菜七";
-
-                    if (i < Heaf)
-                    {
-                        this.JockeyArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision + 153);
-                    }
-                    else
-                    {
-                        this.JockeyArray[k].Location = new Point(890, MarginLoc * j + gStartPotision + 104);
-                    }
+                    libNum = LibJvConvFuncClass.JOCKEY_MINARAI_CD;
+                    LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.MinaraiCd, ref libstr);
+                    this.JockeyArray[k].Text = libstr + SEdata.RaceHist1.jockey;
+                    this.JockeyArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision + 153);
 
                     //頭数
                     this.TosuArray[k] = new Label();
@@ -397,50 +389,29 @@ namespace WpfApp1.form
                     this.TosuArray[k].Name = "Tosu" + k.ToString() + i.ToString();
                     this.TosuArray[k].Size = new Size(147, 30);
                     this.TosuArray[k].Font = new Font("Meiryo UI", 8);
-                    this.TosuArray[k].Text = "18ト18";
+                    this.TosuArray[k].Text = SEdata.RaceHist1.tousuu + "ト" + SEdata.RaceHist1.umaban ;
+                    this.TosuArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision + 257);
 
-                    if (i < Heaf)
-                    {
-                        this.TosuArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision + 257);
-                    }
-                    else
-                    {
-                        this.TosuArray[k].Location = new Point(830, MarginLoc * j + gStartPotision + 53);
-                    }
-
-                    //頭数
+                    //トラック・距離
                     this.TrackArray[k] = new Label();
                     //プロパティ設定
-                    this.TrackArray[k].Name = "Tosu" + k.ToString() + i.ToString();
+                    this.TrackArray[k].Name = "Track" + k.ToString() + i.ToString();
                     this.TrackArray[k].Size = new Size(145, 30);
                     this.TrackArray[k].Font = new Font("Meiryo UI", 8);
-                    this.TrackArray[k].Text = "ダート 2400m";
-
-                    if (i < Heaf)
-                    {
-                        this.TrackArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision + 128);
-                    }
-                    else
-                    {
-                        this.TrackArray[k].Location = new Point(830, MarginLoc * j + gStartPotision + 53);
-                    }
-
-                    //勝ちタイム
+                    libNum = LibJvConvFuncClass.TRACK_CODE;
+                    LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.track, ref libstr);
+                    this.TrackArray[k].Text = libstr + " " + SEdata.RaceHist1.distance + "m";
+                    this.TrackArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision + 128);
+                    
+                    //勝ちタイム：レコードの場合は先頭に「R」をつける
                     this.TimeArray[k] = new Label();
                     //プロパティ設定
                     this.TimeArray[k].Name = "Time" + k.ToString() + i.ToString();
                     this.TimeArray[k].Size = new Size(120, 30);
                     this.TimeArray[k].Font = new Font("Meiryo UI", 8);
-                    this.TimeArray[k].Text = "R 2:21.6";
+                    this.TimeArray[k].Text = (SEdata.RaceHist1.RecornUpdateFlag ? "R " : "") + SEdata.RaceHist1.time.Substring(0,1) + ":" + SEdata.RaceHist1.distance.Substring(1,2) + "." + SEdata.RaceHist1.distance.Substring(3,1);
                     //this.TimeArray[k].BackColor = Color.IndianRed;
-                    if (i < Heaf)
-                    {
-                        this.TimeArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 103);
-                    }
-                    else
-                    {
-                        this.TimeArray[k].Location = new Point(830, MarginLoc * j + gStartPotision + 78);
-                    }
+                    this.TimeArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 103);
 
                     //負担
                     this.Time1Array[k] = new Label();
@@ -448,17 +419,9 @@ namespace WpfApp1.form
                     this.Time1Array[k].Name = "Futan" + k.ToString() + i.ToString();
                     this.Time1Array[k].Size = new Size(146, 30);
                     this.Time1Array[k].Font = new Font("Meiryo UI", 7);
-                    this.Time1Array[k].Text = "(53.5kg)";
+                    this.Time1Array[k].Text = "(" + SEdata.RaceHist1.futan.Substring(0,2) + "." + SEdata.RaceHist1.futan.Substring(2,1) + ")";
                     this.Time1Array[k].TextAlign = ContentAlignment.BottomCenter;
-
-                    if (i < Heaf)
-                    {
-                        this.Time1Array[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc + gStartPotision + 178);
-                    }
-                    else
-                    {
-                        this.Time1Array[k].Location = new Point(830, MarginLoc * j + 390);
-                    }
+                    this.Time1Array[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc + gStartPotision + 178);
 
                     //中タイム
                     this.Time2Array[k] = new Label();
@@ -483,16 +446,8 @@ namespace WpfApp1.form
                     this.Time3Array[k].Name = "Time3" + k.ToString() + i.ToString();
                     this.Time3Array[k].Size = new Size(59, 30);
                     this.Time3Array[k].Font = new Font("Meiryo UI", 8);
-                    this.Time3Array[k].Text = "32.3";
-
-                    if (i < Heaf)
-                    {
-                        this.Time3Array[k].Location = new Point(StartYPosition + 90 + k * YPosition, MarginLoc  + gStartPotision + 203);
-                    }
-                    else
-                    {
-                        this.Time3Array[k].Location = new Point(830, MarginLoc * j + gStartPotision + 78);
-                    }
+                    this.Time3Array[k].Text = SEdata.RaceHist1.myLast3f.Substring(0,2) + "." + SEdata.RaceHist1.myLast3f.Substring(2,1);
+                    this.Time3Array[k].Location = new Point(StartYPosition + 90 + k * YPosition, MarginLoc  + gStartPotision + 203);
 
                     //通過順
                     this.TukaArray[k] = new Label();
@@ -501,17 +456,9 @@ namespace WpfApp1.form
                     this.TukaArray[k].Size = new Size(147, 30);
                     this.TukaArray[k].Font = new Font("Meiryo UI", 8);
                     //this.TukaArray[k].BackColor = Color.Ivory;
-                    this.TukaArray[k].Text = "18-18-18-18";
+                    this.TukaArray[k].Text = ConvToCournerInfo(SEdata.RaceHist1.courner);
                     //this.TukaArray[k].TextAlign = ContentAlignment.MiddleCenter;
-
-                    if (i < Heaf)
-                    {
-                        this.TukaArray[k].Location = new Point(StartYPosition + 1 + k * YPosition, MarginLoc  + gStartPotision + 230);
-                    }
-                    else
-                    {
-                        this.TukaArray[k].Location = new Point(890, MarginLoc * j + gStartPotision + 104);
-                    }
+                    this.TukaArray[k].Location = new Point(StartYPosition + 1 + k * YPosition, MarginLoc  + gStartPotision + 230);
 
                     //相手馬
                     this.AiteUmaArray[k] = new Label();
@@ -519,17 +466,10 @@ namespace WpfApp1.form
                     this.AiteUmaArray[k].Name = "AiteUma" + k.ToString() + i.ToString();
                     this.AiteUmaArray[k].Size = new Size(144, 27);
                     this.AiteUmaArray[k].Font = new Font("Meiryo UI", 8);
-                    this.AiteUmaArray[k].Text = "テイクオーバータ";
+                    this.AiteUmaArray[k].Text = SEdata.RaceHist1.aiteuma;
+                    this.AiteUmaArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 282);
                     //this.AiteUmaArray[k].BackColor = Color.Bisque;
-                    if (i < Heaf)
-                    {
-                        this.AiteUmaArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 282);
-                    }
-                    else
-                    {
-                        this.AiteUmaArray[k].Location = new Point(890, MarginLoc * j + gStartPotision + 131);
-                    }
-
+                    
                     //着差
                     this.TimeDiffArray[k] = new Label();
                     //プロパティ設定
@@ -537,26 +477,19 @@ namespace WpfApp1.form
                     this.TimeDiffArray[k].Size = new Size(60, 27);
                     this.TimeDiffArray[k].BackColor = Color.Transparent;
                     this.TimeDiffArray[k].Font = new Font("Meiryo UI", 8);
-                    this.TimeDiffArray[k].Text = "+99";
+                    this.TimeDiffArray[k].Text = SEdata.RaceHist1.timeDiff;
                     this.TimeDiffArray[k].TextAlign = ContentAlignment.MiddleRight;
                     //this.TimeDiffArray[k].BackColor = Color.BlueViolet;
-
-                    if (i < Heaf)
-                    {
-                        this.TimeDiffArray[k].Location = new Point(StartYPosition + 85 + k * YPosition, MarginLoc  + gStartPotision + 257);
-                    }
-                    else
-                    {
-                        this.TimeDiffArray[k].Location = new Point(890, MarginLoc * j + gStartPotision + 131);
-                    }
-
+                    this.TimeDiffArray[k].Location = new Point(StartYPosition + 85 + k * YPosition, MarginLoc  + gStartPotision + 257);
+                    
                     //枠線
                     this.PanelArray[k] = new Panel();
                     //プロパティ設定
                     this.PanelArray[k].Name = "Panel" + k.ToString() + i.ToString();
                     this.PanelArray[k].Size = new Size(new Point(YPosition, XPosition));
                     this.PanelArray[k].BorderStyle = BorderStyle.FixedSingle;
-                    //this.PanelArray[k].ForeColor = Color.Transparent;
+                    //this.PanelArray[k].ForeColor = ConvRankToColor(tmpRank);
+                    
                     if (i < Heaf)
                     {
                         this.PanelArray[k].Location = new Point(StartYPosition + k * YPosition, MarginLoc + gStartPotision - 5);
@@ -566,6 +499,34 @@ namespace WpfApp1.form
                         this.PanelArray[k].Location = new Point(890, MarginLoc * j + gStartPotision);
                     }
                   
+                    /* 着順に合わせて背景色を変える */
+                    RankColor = ConvRankToColor(SEdata.RaceHist1.rank);
+                    this.RankArray[k].ForeColor = RankColor;
+                    this.labelArray[k].ForeColor = RankColor;
+                    this.DateArray[k].ForeColor = RankColor;
+                    this.KaisaiArray[k].ForeColor = RankColor;
+                    this.GradeArray[k].ForeColor = RankColor;
+                    this.NinkiArray[k].ForeColor = RankColor;
+                    this.JockeyArray[k].ForeColor = RankColor;
+                    this.TosuArray[k].ForeColor = RankColor;
+                    this.TrackArray[k].ForeColor = RankColor;
+                    this.TimeArray[k].ForeColor = RankColor;
+                    this.Time1Array[k].ForeColor = RankColor;
+                    this.Time2Array[k].ForeColor = RankColor;
+                    this.Time3Array[k].ForeColor = RankColor;
+                    this.TukaArray[k].ForeColor = RankColor;
+                    this.AiteUmaArray[k].ForeColor = RankColor;
+                    this.TimeDiffArray[k].ForeColor = RankColor;
+                    this.PanelArray[k].ForeColor = RankColor;
+
+                    /* レコードが出たレースの場合はタイムを赤表示する */
+                    if(SEdata.RaceHist1.RecornUpdateFlag)
+                    {
+                        this.TimeArray[k].BackColor = Color.Red;
+                        this.TimeArray[k].ForeColor = Color.White;
+                    }
+                    
+                    
                 }
 
                 this.Controls.AddRange(this.DateArray);
@@ -604,6 +565,52 @@ namespace WpfApp1.form
 
         }
         
+        private String ConvToCournerInfo(String param)
+        {
+            switch(param.Length)
+            {
+                case 2:
+                    return param;
+                case 4:
+                case 6:
+                case 8:
+                    return ConvToCournerInfo2(ref param);
+                case 0:
+                default:
+                    return "";
+            }
+        }
+
+        private String ConvToCournerInfo2(ref String param)
+        {
+            String ret = "";
+            for(int i=0; i<param.Length; i = i + 2)
+            {
+                if(i != 0)
+                {
+                    ret += "-";
+                }
+                ret += param.Substring(i,2);
+            }
+            return ret;
+        }
+
+        private Color ConvRankToColor(String Rank)
+        {
+            switch(Rank)
+            {
+                case "01":
+                    return Color.Plum;
+                case "02":
+                    return Color.LemonChiffon;
+                case "03":
+                    return Color.LightBlue;
+                default:
+                    return Color.Transparent;
+
+            }
+        }
+
         private void NewsPaperForm_Load_1(object sender, EventArgs e)
         {
             NewsPaperForm_Load(sender, e);

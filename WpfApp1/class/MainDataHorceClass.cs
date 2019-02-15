@@ -52,6 +52,7 @@ namespace WpfApp1.Class
             public String Ninki;
             public String DMTime;
             public int DMRank;
+            public Boolean RecornUpdateFlag;
         };
 
         

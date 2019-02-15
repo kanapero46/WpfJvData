@@ -11,7 +11,7 @@ namespace WpfApp1.JvComDbData
 
     public class JvDbSEData : MainDataHorceClass
     {
-        const int RA_MAX = 27;
+        const int RA_MAX = 29;
         dbConnect db = new dbConnect();
         private const String MAGIC_STR = "A";
         String statHorce = "";
@@ -93,7 +93,9 @@ namespace WpfApp1.JvComDbData
             tmp += JV_SE_UMA.ChakuUmaInfo[0].Bamei + ",";
             tmp += JV_SE_UMA.Time + ",";
             tmp += JV_SE_UMA.TimeDiff + ",";
-            tmp += JV_SE_UMA.Ninki + ",";
+            tmp += JV_SE_UMA.Ninki + ",";        //25
+            tmp += JV_SE_UMA.Jyuni1c + JV_SE_UMA.Jyuni2c + JV_SE_UMA.Jyuni3c + JV_SE_UMA.Jyuni4c + ",";
+            tmp += JV_SE_UMA.HaronTimeL3 + ",";
 
             if (Master == -1)
             {
@@ -132,6 +134,8 @@ namespace WpfApp1.JvComDbData
             tmpHist.time = inParam[23];
             tmpHist.timeDiff = inParam[24];
             tmpHist.Ninki = inParam[25];
+            tmpHist.courner = inParam[26];
+            tmpHist.myLast3f = inParam[27];
             //ここまでindex [26]→空セル
             //ここからRAデータ
             tmpHist.rA_KEY = inParam[RA_MAX];
@@ -143,6 +147,8 @@ namespace WpfApp1.JvComDbData
             tmpHist.grade = inParam[RA_MAX + 16];
             tmpHist.track = inParam[RA_MAX + 17];
             tmpHist.distance = inParam[RA_MAX + 18];
+            tmpHist.tousuu = Int32.Parse(inParam[RA_MAX + 19]);
+            tmpHist.RecornUpdateFlag = (inParam[RA_MAX + 25] == 0 ? false : true);
             RaceHist1 = tmpHist;
 
         }
