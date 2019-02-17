@@ -280,8 +280,8 @@ namespace WpfApp1.form
                 this.Panel2Array[k].Name = "Panel2_" + k.ToString();
                 this.Panel2Array[k].Size = new Size(new Point(YPosition, 50));
                 this.Panel2Array[k].BorderStyle = BorderStyle.FixedSingle;
-                this.Panel2Array[k].BackColor = dbCom.WakubanToColor(SEdata.Waku1);
-                this.Panel2Array[k].Location = new Point(StartYPosition + k * YPosition, 200);
+                this.Panel2Array[k].BackColor = dbCom.WakubanToColor(0, SEdata.Waku1);
+                this.Panel2Array[k].Location = new Point(StartYPosition + k * YPosition, 180);
 
 
                 this.BameiArray[k] = new Label();
@@ -299,7 +299,7 @@ namespace WpfApp1.form
                 //プロパティ設定
                 this.FNameArray[k].Name = "Fname" + k.ToString();
                 this.FNameArray[k].Size = new Size(30, 430);
-                this.FNameArray[k].Font = new Font("MS P ゴシック", 7);
+                this.FNameArray[k].Font = new Font("Meiryo UI", 7);
                 this.FNameArray[k].Text = BameiToLength(str2Array[6]);
                 this.FNameArray[k].TextAlign = ContentAlignment.TopCenter;
                 this.FNameArray[k].Location = new Point((StartYPosition + 95) + (k * YPosition), 250);
@@ -309,7 +309,7 @@ namespace WpfApp1.form
                 //プロパティ設定
                 this.FFNameArray[k].Name = "FFname" + k.ToString();
                 this.FFNameArray[k].Size = new Size(30, 400);
-                this.FFNameArray[k].Font = new Font("MS P ゴシック", 7);
+                this.FFNameArray[k].Font = new Font("Meiryo UI", 7);
                 this.FFNameArray[k].Text = BameiToLength(str2Array[8]);
                 this.FFNameArray[k].TextAlign = ContentAlignment.TopCenter;
                 this.FFNameArray[k].Location = new Point((StartYPosition + 117) + (k * YPosition), 270);
@@ -321,20 +321,20 @@ namespace WpfApp1.form
                 //プロパティ設定
                 this.MNameArray[k].Name = "Mname" + k.ToString();
                 this.MNameArray[k].Size = new Size(30, 430);
-                this.MNameArray[k].Font = new Font("MS P ゴシック", 7);
+                this.MNameArray[k].Font = new Font("Meiryo UI", 7);
                 this.MNameArray[k].Text = BameiToLength(str2Array[7]);
                 this.MNameArray[k].TextAlign = ContentAlignment.TopCenter;
-                this.MNameArray[k].Location = new Point((StartYPosition - 120) + (k * YPosition), 250);
+                this.MNameArray[k].Location = new Point((StartYPosition +30) + (k * YPosition), 250);
 
                 //母父
                 this.MFNameArray[k] = new Label();
                 //プロパティ設定
                 this.MFNameArray[k].Name = "Mname" + k.ToString();
                 this.MFNameArray[k].Size = new Size(30, 430);
-                this.MFNameArray[k].Font = new Font("MS P ゴシック", 7);
+                this.MFNameArray[k].Font = new Font("Meiryo UI", 7);
                 this.MFNameArray[k].Text = BameiToLength(str2Array[9]);
                 this.MFNameArray[k].TextAlign = ContentAlignment.TopCenter;
-                this.MFNameArray[k].Location = new Point((StartYPosition - 145) + (k * YPosition), 270);
+                this.MFNameArray[k].Location = new Point((StartYPosition+2) + (k * YPosition), 270);
 
                 //負担
                 this.JfutanArray[k] = new Label();
@@ -372,14 +372,16 @@ namespace WpfApp1.form
                 this.UmaKigoArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 222);
                 //this.UmaKigoArray[k].BackColor = Color.AliceBlue;
 
-                //馬記号
+                //馬番
                 this.TosuArray[k] = new Label();
                 //プロパティ設定
                 this.TosuArray[k].Name = "Umaban" + k.ToString();
-                this.TosuArray[k].Size = new Size(YPosition - 3, 30);
+                this.TosuArray[k].Size = new Size(YPosition - 3, 25);
                 this.TosuArray[k].Font = new Font("MS P ゴシック", 10);
                 this.TosuArray[k].Text = Int32.Parse(SEdata.Umaban1).ToString();
                 this.TosuArray[k].TextAlign = ContentAlignment.MiddleCenter;
+                this.TosuArray[k].BackColor = dbCom.WakubanToColor(0, SEdata.Waku1);
+                this.TosuArray[k].ForeColor = dbCom.WakubanToColor(1, SEdata.Waku1);
                 this.TosuArray[k].Location = new Point((StartYPosition + 2) + (k * YPosition), 190);
                 //this.UmaKigoArray[k].BackColor = Color.AliceBlue;
 

@@ -22,6 +22,7 @@ using WpfApp1.Class;
 using WpfApp1.dbAccess;
 using WpfApp1.form;
 using WpfApp1.JvComDbData;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace WpfApp1
 {
@@ -776,6 +777,13 @@ namespace WpfApp1
         {
             String strParam = "";
             mainDataClass.GET_AUTO_RA_KEY(ref strParam);
+            if(strParam == null || strParam == "")
+            {
+                MessageBox.Show("レースが選択されていません。");
+                Console.WriteLine("[MAIN] RaceSelectError! strParam" + (strParam == null? " null" : strParam));
+                return;
+            }
+
             System.Windows.Media.Brush brush = MainBack.Fill;
             String Color = brush.ToString();
             int JomeiColor = 0;

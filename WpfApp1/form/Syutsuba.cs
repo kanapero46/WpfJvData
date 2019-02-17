@@ -422,6 +422,11 @@ namespace WpfApp1.form
             dataGridView1.DefaultCellStyle.Font = new Font("Meiryo UI", 12);
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Meiryo UI", 9);
 
+            /* タイトル表示 */
+            int Code = LibJvConvFuncClass.COURCE_CODE;
+            String tmp = "";
+            LibJvConvFuncClass.jvSysConvFunction(&Code, DataClass.getRaceCource(), ref tmp);
+            this.Text = "【出馬表】" + tmp + DataClass.getRaceNum() + "R：" + DataClass.getRaceName();
         }
 
         unsafe private void InitForm()
@@ -819,6 +824,11 @@ namespace WpfApp1.form
                             dataGridView1[7, i - 1].Style.BackColor = Color.LightCyan;
                             dataGridView1[8, i - 1].Style.BackColor = Color.LightCyan;
                         }
+                        else
+                        {
+                            dataGridView1[7, i - 1].Style.BackColor = Color.White;
+                            dataGridView1[8, i - 1].Style.BackColor = Color.White;
+                        }
                     }
                     else
                     {
@@ -834,11 +844,32 @@ namespace WpfApp1.form
             }
 
             String Date = "";
-            if(db.TextReader_aCell("O1", RaClassData.GET_RA_KEY(), RaClassData.GET_RA_KEY(),1, ref Date) != 0)
+            if(db.TextReader_aCell("O1", RaClassData.GET_RA_KEY(), RaClassData.GET_RA_KEY(),8, ref Date) != 0)
             {
                 label6.Visible = true;
                 OddzTime.Visible = true;
-                OddzTime.Text = RaClassData.ConvertToHappyoTime(Date);
+
+                switch(Date)
+                {
+                    case "1":
+                        db.TextReader_aCell("O1", RaClassData.GET_RA_KEY(), RaClassData.GET_RA_KEY(), 1, ref Date);
+                        Date = RaClassData.ConvertToHappyoTime(Date);
+                        break;
+                    case "2":
+                        Date = "前日最終";
+                        break;
+                    case "3":
+                        Date = "最終オッズ";
+                        break;
+                    case "4":
+                    case "5":
+                        Date = "確定";
+                        break;
+                    case "9":
+                        Date = "レース中止";
+                        break;
+                }
+                OddzTime.Text = Date;
             }
 
             Console.WriteLine(ret);

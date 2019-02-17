@@ -41,6 +41,7 @@ namespace WpfApp1.JvComDbData
                 tmp += o1.FukuChakuBaraiKey + ",";
                 tmp += o1.TotalHyosuTansyo + ",";
                 tmp += o1.TotalHyosuFukusyo + ",";
+                tmp += o1.head.DataKubun + ",";
 
                 db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum, "O1", ref tmp, ref ret);
 

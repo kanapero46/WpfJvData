@@ -79,7 +79,7 @@
             // 
             this.raceNameEng.AutoSize = true;
             this.raceNameEng.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.raceNameEng.Location = new System.Drawing.Point(187, 143);
+            this.raceNameEng.Location = new System.Drawing.Point(187, 139);
             this.raceNameEng.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.raceNameEng.Name = "raceNameEng";
             this.raceNameEng.Size = new System.Drawing.Size(0, 30);
@@ -91,7 +91,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel4.BackColor = System.Drawing.Color.SlateGray;
             this.flowLayoutPanel4.Controls.Add(this.panel2);
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(-37, 179);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(-37, 175);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(2645, 10);

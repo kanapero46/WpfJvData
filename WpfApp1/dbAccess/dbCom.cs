@@ -325,28 +325,95 @@ namespace WpfApp1.dbCom1
 
 
         #region ògî‘Ç©ÇÁÉJÉâÅ[éZèo
-        public Color WakubanToColor(String Wakuban)
+        public Color WakubanToColor(int Kind, String Wakuban)
         {
             switch(Wakuban)
             {
                 case "1":
-                    return Color.White;
+                    if(Kind == 0)
+                    {
+                        return Color.White;
+                    }
+                    else
+                    {
+                        return Color.Black;
+                    }
+                    
                 case "2":
-                    return Color.Black;
+                    if(Kind == 0)
+                    {
+                        return Color.Black;
+                    }
+                    else
+                    {
+                        return Color.White;
+                    }
+                    
                 case "3":
-                    return Color.Red;
+                    if (Kind == 0)
+                    {
+                        return Color.Red;
+                    }
+                    else
+                    {
+                        return Color.White;
+                    }
                 case "4":
-                    return Color.Blue;
+                    if (Kind == 0)
+                    {
+                        return Color.Blue;
+                    }
+                    else
+                    {
+                        return Color.White;
+                    }
                 case "5":
-                    return Color.Yellow;
+                    if (Kind == 0)
+                    {
+                        return Color.Yellow;
+                    }
+                    else
+                    {
+                        return Color.Black;
+                    }
                 case "6":
-                    return Color.Green;
-                case "7":
-                    return Color.Orange;
+                    if (Kind == 0)
+                    {
+                        return Color.Green;
+                    }
+                    else
+                    {
+                        return Color.White;
+                    }
+                 case "7":
+                    if (Kind == 0)
+                    {
+                        return Color.Orange;
+                    }
+                    else
+                    {
+                        return Color.Black;
+                    }
                 case "8":
-                    return Color.Pink;
+                    if (Kind == 0)
+                    {
+                        return Color.Pink;
+                    }
+                    else
+                    {
+                        return Color.Black;
+                    }
             }
-            return Color.White;
+
+            if (Kind == 0)
+            {
+                return Color.White;
+            }
+            else
+            {
+                return Color.Black;
+            }
+           
         }
         #endregion
     }
