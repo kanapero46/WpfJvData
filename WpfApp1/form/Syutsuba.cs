@@ -48,6 +48,13 @@ namespace WpfApp1.form
         /* 定数定義 */
         const int MAX_TOSU = 19;
 
+        /* 表切り替えフラグ */
+        int OddsOnFlag = 0;
+        int MainingOnFlag = 0;
+
+        /* レース開催中止（雪や台風)フラグ */
+        Boolean RaceHapning = false;
+
         public Syutsuba()
         {
             InitializeComponent();
@@ -90,6 +97,25 @@ namespace WpfApp1.form
 
             /* レース情報表示 */
             InitForm();
+            
+            String refBuff = "";
+            /* データ情報を取得し、中止情報読み込み #41 */
+            ret = RaClassData.RaGetRTRaData(DataClass.getRaceDate() + DataClass.getRaceCource() + DataClass.getRaceNum(), ref refBuff);
+
+            if (ret != 0)
+            {
+                switch (refBuff)
+                {
+                    case "9":
+                        Console.WriteLine("RAKEY = " + DataClass.GET_RA_KEY() + " refBuff = " + refBuff);
+                        MessageBox.Show("このレースは「中止」となりました。\n詳細はJRAホームページで確認してください。", "レース中止情報");
+                        this.racename.Text = "【中止】" + this.racename.Text;
+                        RaceHapning = true;
+
+                        break;
+                }
+            }
+
 
             /* 競走馬データ */
             InitHorceData();
@@ -309,7 +335,7 @@ namespace WpfApp1.form
                 horceClasses.Add(pHorceClasses);
 
                 /* 書き込み */
-                dataGridView1.Rows.Add(pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.UmaKigou1 + pHorceClasses.Name1, "", "", "", "", pHorceClasses.MinaraiCd1,
+                dataGridView1.Rows.Add(pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.UmaKigou1 + pHorceClasses.Name1, "", "", "", "", "", "", pHorceClasses.MinaraiCd1,
                     pHorceClasses.Jockey1, pHorceClasses.Futan1 + "kg", "",pHorceClasses.F1, "", pHorceClasses.FM1, "", pHorceClasses.FFM1);
                 
                 switch(pHorceClasses.Waku1)
@@ -348,14 +374,15 @@ namespace WpfApp1.form
                         break;
 
                 }
-                dataGridView1[10, i - 1].Style.BackColor =  dbCom.DbComSearchBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
-                dataGridView1[12, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1);
-                dataGridView1[14, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FFM_NUM1);
+                dataGridView1[12, i - 1].Style.BackColor =  dbCom.DbComSearchBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
+                dataGridView1[14, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1);
+                dataGridView1[16, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FFM_NUM1);
 
                 /* プログレスバー更新 */
                 ProgressStatus++;
 
             }
+                        
             main.LogMainCancelFlagChanger(false);        //スレッド開始処理
            // t.Join();
             t.Abort();
@@ -366,8 +393,10 @@ namespace WpfApp1.form
 
         unsafe private void Form2_Load(object sender, EventArgs e)
         {
+         
 
-            switch(CourceColor)
+
+            switch (CourceColor)
             {
                 case 1:
                     panel1.BackColor = Color.Blue;
@@ -383,10 +412,21 @@ namespace WpfApp1.form
                     break;
             }
             
+            /* #41対応 */
+            if(RaceHapning)
+            {
+                panel1.BackColor = Color.Red;
+            }
+
             /* フォントの変更 */
             dataGridView1.DefaultCellStyle.Font = new Font("Meiryo UI", 12);
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Meiryo UI", 9);
 
+            /* タイトル表示 */
+            int Code = LibJvConvFuncClass.COURCE_CODE;
+            String tmp = "";
+            LibJvConvFuncClass.jvSysConvFunction(&Code, DataClass.getRaceCource(), ref tmp);
+            this.Text = "【出馬表】" + tmp + DataClass.getRaceNum() + "R：" + DataClass.getRaceName();
         }
 
         unsafe private void InitForm()
@@ -603,7 +643,10 @@ namespace WpfApp1.form
             TimeDMArray.Sort((a, b) => a - b);
 
 
+            if(OddsOnFlag != 0)
+            {
 
+            }
 
             //TimeDMArray.AddRange(ArrayRankTM);
             //tmpArray1.Sort((a, b) => b - a);
@@ -690,6 +733,7 @@ namespace WpfApp1.form
             label1.Visible = true;
             DMStatus.Visible = true;
             DMStatus.Text = GetDMStatus();
+            MainingOnFlag = 4;
 
 
 
@@ -705,9 +749,131 @@ namespace WpfApp1.form
             LibJvConvFuncClass.jvSysConvFunction(&CODE, str, ref Libtmp);
             return Libtmp;
         }
+
         #endregion
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Class.GetOddsComClass getOdds = new Class.GetOddsComClass();
+            List<JvComDbData.JvDbO1Data> ArrayO1 = new List<JvComDbData.JvDbO1Data>();
+            List<String> O1 = new List<string>();
+            int tmpOddz = 0;
+            int tmpOddzRank = 0;
 
+            //オッズ取得
+            int ret = getOdds.GetOddsCom("0B30", RaClassData.getRaceDate() + RaClassData.getRaceCource()+ RaClassData.getRaceKaiji() + RaClassData.getRaceNichiji() + RaClassData.getRaceNum());
+
+            if(ret != 1)
+            {
+                Console.WriteLine("Syutsuba\t GetOddsCom return " + ret);
+                label6.Visible = true;
+                OddzTime.Visible = true;
+                
+                if(ret == -1)
+                {
+                    OddzTime.Text = "発売前";
+                }
+                else
+                {
+                    OddzTime.Text = "";
+                }
+
+                return;
+            }
+
+            dataGridView1.Columns["Odds"].Visible = true;
+            dataGridView1.Columns["OddsRank"].Visible = true;
+
+            for (int i = 1; i<MAX_TOSU; i++)
+            {
+                O1.Clear();
+                if (db.TextReader_Col(RaClassData.GET_RA_KEY(), "O1", 0, ref O1, RaClassData.GET_RA_KEY() + string.Format("{0:00}", i)) != 0)
+                {
+                    if(O1.Count() == 0)
+                    {
+                        break;
+                    }
+
+                    if(Int32.TryParse(O1[2], out tmpOddz))
+                    {
+                        dataGridView1.Rows[i - 1].Cells[7].Value = tmpOddz.ToString().Substring(0, tmpOddz.ToString().Length - 1) + "." + tmpOddz.ToString().Substring(tmpOddz.ToString().Length - 1, 1);
+                    }
+                    else
+                    {
+                        dataGridView1.Rows[i - 1].Cells[7].Value = O1[2];
+                    }
+                    
+                    
+                    if(Int32.TryParse(O1[3],out tmpOddzRank))
+                    {
+                        dataGridView1.Rows[i - 1].Cells[8].Value = tmpOddzRank;
+
+                        //人気によって色付け
+                        if(tmpOddzRank == 1)
+                        {
+                            dataGridView1[7, i-1].Style.BackColor = Color.Pink;
+                            dataGridView1[8, i-1].Style.BackColor = Color.Pink;
+                        }
+                        else if(tmpOddzRank == 2)
+                        {
+                            dataGridView1[7, i - 1].Style.BackColor = Color.PowderBlue;
+                            dataGridView1[8, i - 1].Style.BackColor = Color.PowderBlue;
+                        }
+                        else if(tmpOddzRank == 3)
+                        {
+                            dataGridView1[7, i - 1].Style.BackColor = Color.LightCyan;
+                            dataGridView1[8, i - 1].Style.BackColor = Color.LightCyan;
+                        }
+                        else
+                        {
+                            dataGridView1[7, i - 1].Style.BackColor = Color.White;
+                            dataGridView1[8, i - 1].Style.BackColor = Color.White;
+                        }
+                    }
+                    else
+                    {
+                        dataGridView1.Rows[i - 1].Cells[8].Value = O1[3];
+                    }
+
+                   
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            String Date = "";
+            if(db.TextReader_aCell("O1", RaClassData.GET_RA_KEY(), RaClassData.GET_RA_KEY(),8, ref Date) != 0)
+            {
+                label6.Visible = true;
+                OddzTime.Visible = true;
+
+                switch(Date)
+                {
+                    case "1":
+                        db.TextReader_aCell("O1", RaClassData.GET_RA_KEY(), RaClassData.GET_RA_KEY(), 1, ref Date);
+                        Date = RaClassData.ConvertToHappyoTime(Date);
+                        break;
+                    case "2":
+                        Date = "前日最終";
+                        break;
+                    case "3":
+                        Date = "最終オッズ";
+                        break;
+                    case "4":
+                    case "5":
+                        Date = "確定";
+                        break;
+                    case "9":
+                        Date = "レース中止";
+                        break;
+                }
+                OddzTime.Text = Date;
+            }
+
+            Console.WriteLine(ret);
+        }
     }
 
 

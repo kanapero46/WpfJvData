@@ -74,6 +74,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="class\GetOddsComClass.cs" />
     <Compile Include="class\HorceProgramClass.cs" />
     <Compile Include="class\MainDataClass.cs" />
     <Compile Include="class\MainDataHorceClass.cs" />
@@ -118,6 +119,7 @@
     </Compile>
     <Compile Include="JvComDbData\JvDbJCData.cs" />
     <Compile Include="JvComDbData\JvDbAVData.cs" />
+    <Compile Include="JvComDbData\JvDbO1Data.cs" />
     <Compile Include="JvComDbData\JvDbRaData.cs" />
     <Compile Include="JvComDbData\JvDbSEData.cs" />
     <Compile Include="JvComDbData\Sample.cs" />

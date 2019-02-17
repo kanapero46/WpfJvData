@@ -176,10 +176,10 @@ namespace WpfApp1.dbAccess
          * @OutPrm  int：取得結果　０：失敗・プロセス実行中
          *                      　１：取得成功
          **************************************************/  
-        public int TextReader_Row(String Date, String dtSpec, int Kind, ref List<String> srt)
+        public int TextReader_Row(String Key, String dtSpec, int Kind, ref List<String> srt)
         {
             /* たて列ぜんぶ */
-            return ReadCsv(Date, dtSpec, Kind, ref srt, 0, "", 0);
+            return ReadCsv(Key, dtSpec, Kind, ref srt, 0, "", 0);
         }
 
         public int TextReader_Col(String Date, String dtSpec, int Kind, ref List<String> srt, String Key)

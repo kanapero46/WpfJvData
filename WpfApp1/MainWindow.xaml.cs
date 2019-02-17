@@ -22,6 +22,7 @@ using WpfApp1.Class;
 using WpfApp1.dbAccess;
 using WpfApp1.form;
 using WpfApp1.JvComDbData;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace WpfApp1
 {
@@ -774,7 +775,34 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            String strParam = "";
+            mainDataClass.GET_AUTO_RA_KEY(ref strParam);
+            if(strParam == null || strParam == "")
+            {
+                MessageBox.Show("レースが選択されていません。");
+                Console.WriteLine("[MAIN] RaceSelectError! strParam" + (strParam == null? " null" : strParam));
+                return;
+            }
 
+            System.Windows.Media.Brush brush = MainBack.Fill;
+            String Color = brush.ToString();
+            int JomeiColor = 0;
+            switch (Color)
+            {
+                case "#FF0000FF":
+                    JomeiColor = 1;
+                    break;
+                case "#FF006400":
+                    JomeiColor = 2;
+                    break;
+                case "#FF800080":
+                    JomeiColor = 3;
+                    break;
+            }
+
+
+            NewsPaperForm paperForm = new NewsPaperForm(strParam, JomeiColor);
+            paperForm.Show();
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {

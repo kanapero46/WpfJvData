@@ -17,7 +17,7 @@
         <ComboBox x:Name="RaceListBox" HorizontalAlignment="Right" Margin="0,12,10.5,0" VerticalAlignment="Top" Width="332" Grid.ColumnSpan="3" SelectionChanged="ComboBox_SelectionChanged" Height="40" VerticalContentAlignment="Center"/>
         <Button x:Name="SyutubaButton" Content="出馬表" HorizontalAlignment="Left" Height="59" Margin="14,121,0,0" VerticalAlignment="Top" Width="102" Click="SyutubaButton_Click"/>
         <Button x:Name="ButtonFunction2" Content="血統表" HorizontalAlignment="Left" Height="59" Margin="132,121,0,0" VerticalAlignment="Top" Width="100" Click="ButtonFunction2_Click"/>
-        <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="248,121,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click"/>
+        <Button Content="詳細出馬表" HorizontalAlignment="Left" Height="59" Margin="248,121,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click"/>
         <Rectangle x:Name="MainBack" Height="33" Margin="10,79,10.5,0" Stroke="Black" VerticalAlignment="Top" Grid.ColumnSpan="3"/>
         <Label x:Name="LabelCource" Content="" HorizontalAlignment="Left" Margin="28,75,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>
         <Label x:Name="LabelRaceNum" Content="" HorizontalAlignment="Left" Margin="83,75,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>

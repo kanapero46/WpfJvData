@@ -79,6 +79,7 @@ namespace WpfApp1.JvComDbData
             tmp += JV_RACE.HassoTime + ",";
             tmp += JV_RACE.TenkoBaba.TenkoCD + ",";
             tmp += JV_RACE.TenkoBaba.SibaBabaCD + JV_RACE.TenkoBaba.DirtBabaCD + ",";
+            tmp += JV_RACE.RecordUpKubun + ",";
             
             if(kind == 0)
             {
@@ -91,8 +92,6 @@ namespace WpfApp1.JvComDbData
             }
         }
         #endregion
-
-
 
         #region RAキーの自動生成
         public int GET_AUTO_RA_KEY(ref String inParam)
@@ -133,5 +132,74 @@ namespace WpfApp1.JvComDbData
             setTrackStatus(inParam[23]);
         }
         #endregion
+
+        #region　レース開催情報リアルタイムデータ取得
+
+        public int RaGetRTRaData(String Key, ref String refBuff)
+        {
+            JVForm jVForm = new JVForm();
+            MainWindow main = new MainWindow();
+
+            jVForm.JvForm_JvInit();
+
+            //速報系スレッド起動
+            jVForm.JvForm_JVWatchEvent();
+
+            int ret = jVForm.JvForm_JvRTOpen("0B15", Key);
+
+            if(ret != 0)
+            {
+                if (ret != -202)
+                {
+                    //System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー");
+                    jVForm.JvForm_JVWatchEventClose();     //速報系スレッドの終了
+                    return 0;
+                }
+                ret = jVForm.JvForm_JvRTOpen("OB15", Key);
+                if (ret != 0)
+                {
+                    //System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー2");
+                    jVForm.JvForm_JVWatchEventClose();     //速報系スレッドの終了
+                    return 0;
+                }
+            }
+
+            JVData_Struct.JV_RA_RACE RaData = new JVData_Struct.JV_RA_RACE();
+            ret = 1;
+
+            String buff = "";
+            int size = 20000;
+            String fname = "";
+
+            String retBuff = "";
+
+            while (ret >= 1)
+            {
+                ret = jVForm.JvForm_JvRead(ref buff, out size, out fname);
+
+                if (ret > 0)
+                {
+                    if (buff == "")
+                    {
+                        continue;
+                    }
+
+                    switch (buff.Substring(0, 2))
+                    {
+                        case "RA":
+                            RaData.SetDataB(ref buff);
+                            refBuff = RaData.head.DataKubun;
+                            break;
+                    }
+                }
+            }
+
+            jVForm.JvForm_JVWatchEventClose();
+            jVForm.JvForm_JvClose();
+
+            return 1;
+        }
+        #endregion
+
     }
 }
