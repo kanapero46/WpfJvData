@@ -93,6 +93,12 @@
     <Compile Include="form\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\info\InfomationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\info\InfomationForm.Designer.cs">
+      <DependentUpon>InfomationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\Kettou.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +116,12 @@
     </Compile>
     <Compile Include="form\NewsPaperForm.Designer.cs">
       <DependentUpon>NewsPaperForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\odds\O1_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\odds\O1_Form.Designer.cs">
+      <DependentUpon>O1_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="form\Syutsuba.cs">
       <SubType>Form</SubType>
@@ -149,6 +161,9 @@
     <EmbeddedResource Include="form\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="form\info\InfomationForm.resx">
+      <DependentUpon>InfomationForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="form\Kettou.resx">
       <DependentUpon>Kettou.cs</DependentUpon>
     </EmbeddedResource>
@@ -157,6 +172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\NewsPaperForm.resx">
       <DependentUpon>NewsPaperForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\odds\O1_Form.resx">
+      <DependentUpon>O1_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\Syutsuba.resx">
       <DependentUpon>Syutsuba.cs</DependentUpon>
