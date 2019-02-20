@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="class\GetOddsComClass.cs" />
     <Compile Include="class\HorceProgramClass.cs" />
+    <Compile Include="class\InfomationFormSettingClass.cs" />
     <Compile Include="class\MainDataClass.cs" />
     <Compile Include="class\MainDataHorceClass.cs" />
     <Compile Include="class\WeatherCourceStatus.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="form\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\info\BackEndoInfomationForm.cs" />
     <Compile Include="form\info\InfomationForm.cs">
       <SubType>Form</SubType>
     </Compile>

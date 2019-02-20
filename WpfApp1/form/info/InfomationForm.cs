@@ -22,8 +22,14 @@ namespace WpfApp1.form.info
             InitializeComponent();
         }
 
+        private void InfomationForm_Load(object sender, EventArgs e)
+        {
+            
+        }
 
+        private void label9_Click(object sender, EventArgs e)
+        {
 
-
+        }
     }
 }
