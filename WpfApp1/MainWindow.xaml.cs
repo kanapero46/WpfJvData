@@ -1653,6 +1653,12 @@ namespace WpfApp1
 
             DateText.Text = dt.ToLongDateString();
         }
+
+        private void InfomationEventForm(object sender, RoutedEventArgs e)
+        {
+            form.info.InfomationForm form = new form.info.InfomationForm();
+            form.Show();
+        }
     }
 
     
