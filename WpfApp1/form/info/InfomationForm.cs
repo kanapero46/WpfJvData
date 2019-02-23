@@ -20,6 +20,7 @@ namespace WpfApp1.form.info
 
         InfomationFormSettingClass SettingClass = new InfomationFormSettingClass();
         BackEndInfomationForm BackEnd = new BackEndInfomationForm();    //バックエンドクラス
+        
 
         public InfomationForm()
         {
@@ -47,10 +48,13 @@ namespace WpfApp1.form.info
 
         }
 
+        int ret = 0;
+
         /* 天候情報イベントハンドラー */
         private void axJVLink1_JVEvtWeather(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtWeatherEvent e)
         {
             Console.WriteLine(e.bstr);
+           // dbAccess.dbConnect db = new dbAccess.dbConnect("RT", ref e.bstr, ref ret);
         }
 
         private void label20_Click_1(object sender, EventArgs e)
@@ -70,9 +74,19 @@ namespace WpfApp1.form.info
         private void axJVLink1_JVEvtWeight(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtWeightEvent e)
         {
             Console.WriteLine(e.bstr);  //201902170511の形で入ってくる
+            dbAccess.dbConnect db = new dbAccess.dbConnect("RT", ref e.bstr, ref ret);
         }
         #endregion
 
+        private void CallBackEndSyncFunction(object obj)
+        {
+            
+        }
 
+        private void axJVLink1_JVEvtPay(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtPayEvent e)
+        {
+            int ret = BackEnd.JvInfoBackMain(BackEndInfomationForm.JV_RT_EVENT_PAY, e.bstr);
+            Console.WriteLine(e.bstr + "(" + ret + ")");
+        }
     }
 }

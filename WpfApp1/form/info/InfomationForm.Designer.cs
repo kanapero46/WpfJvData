@@ -44,6 +44,11 @@
             this.panel15 = new System.Windows.Forms.Panel();
             this.label15 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
             this.statusBar1 = new System.Windows.Forms.StatusBar();
             this.flowMain1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
@@ -95,11 +100,6 @@
             this.panel31 = new System.Windows.Forms.Panel();
             this.label25 = new System.Windows.Forms.Label();
             this.axJVLink1 = new AxJVDTLabLib.AxJVLink();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -300,6 +300,66 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(548, 386);
             this.flowLayoutPanel1.TabIndex = 17;
+            // 
+            // label20
+            // 
+            this.label20.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label20.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label20.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.label20.Location = new System.Drawing.Point(3, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(533, 100);
+            this.label20.TabIndex = 2;
+            this.label20.Text = "東京 5レースまで確定";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label21
+            // 
+            this.label21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label21.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label21.ForeColor = System.Drawing.Color.Black;
+            this.label21.Location = new System.Drawing.Point(3, 100);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(545, 60);
+            this.label21.TabIndex = 3;
+            this.label21.Text = "騎手変更　1件";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label26
+            // 
+            this.label26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label26.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label26.ForeColor = System.Drawing.Color.Black;
+            this.label26.Location = new System.Drawing.Point(3, 160);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(545, 60);
+            this.label26.TabIndex = 4;
+            this.label26.Text = "発走時刻変更　1件";
+            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label27
+            // 
+            this.label27.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label27.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label27.ForeColor = System.Drawing.Color.Black;
+            this.label27.Location = new System.Drawing.Point(3, 220);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(545, 60);
+            this.label27.TabIndex = 5;
+            this.label27.Text = "コース変更　1件";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label28
+            // 
+            this.label28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label28.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label28.ForeColor = System.Drawing.Color.Black;
+            this.label28.Location = new System.Drawing.Point(3, 280);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(545, 60);
+            this.label28.TabIndex = 6;
+            this.label28.Text = "出走取消・競走除外 1件";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // statusBar1
             // 
@@ -821,68 +881,9 @@
             this.axJVLink1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axJVLink1.OcxState")));
             this.axJVLink1.Size = new System.Drawing.Size(67, 68);
             this.axJVLink1.TabIndex = 24;
+            this.axJVLink1.JVEvtPay += new AxJVDTLabLib._IJVLinkEvents_JVEvtPayEventHandler(this.axJVLink1_JVEvtPay);
             this.axJVLink1.JVEvtWeather += new AxJVDTLabLib._IJVLinkEvents_JVEvtWeatherEventHandler(this.axJVLink1_JVEvtWeather);
             this.axJVLink1.JVEvtWeight += new AxJVDTLabLib._IJVLinkEvents_JVEvtWeightEventHandler(this.axJVLink1_JVEvtWeight);
-            // 
-            // label20
-            // 
-            this.label20.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label20.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label20.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.label20.Location = new System.Drawing.Point(3, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(533, 100);
-            this.label20.TabIndex = 2;
-            this.label20.Text = "東京 5レースまで確定";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label21
-            // 
-            this.label21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label21.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label21.ForeColor = System.Drawing.Color.Black;
-            this.label21.Location = new System.Drawing.Point(3, 100);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(545, 60);
-            this.label21.TabIndex = 3;
-            this.label21.Text = "騎手変更　1件";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label26
-            // 
-            this.label26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label26.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label26.ForeColor = System.Drawing.Color.Black;
-            this.label26.Location = new System.Drawing.Point(3, 160);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(545, 60);
-            this.label26.TabIndex = 4;
-            this.label26.Text = "発走時刻変更　1件";
-            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label27
-            // 
-            this.label27.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label27.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label27.ForeColor = System.Drawing.Color.Black;
-            this.label27.Location = new System.Drawing.Point(3, 220);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(545, 60);
-            this.label27.TabIndex = 5;
-            this.label27.Text = "コース変更　1件";
-            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label28
-            // 
-            this.label28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label28.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label28.ForeColor = System.Drawing.Color.Black;
-            this.label28.Location = new System.Drawing.Point(3, 280);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(545, 60);
-            this.label28.TabIndex = 6;
-            this.label28.Text = "出走取消・競走除外 1件";
-            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // InfomationForm
             // 
