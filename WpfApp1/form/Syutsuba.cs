@@ -452,7 +452,7 @@ namespace WpfApp1.form
 
             this.RaceNum.Text = Int32.Parse(RaClassData.getRaceNum()) + "Ｒ";
             this.kaiji.Text = (RaClassData.getRaceGradeKai() == 0 ? "" : "第" + RaClassData.getRaceGradeKai() + "回");
-            this.racename.Text = RaClassData.getRaceNameFukus() + RaClassData.getRaceName() + (RaClassData.getRaceNameEnd() == ""? "": "(" + RaClassData.getRaceNameEnd() + ")");
+            this.racename.Text = RaClassData.getRaceNameFukus() + (RaClassData.getRaceNameFukus().Length >= 1 ? " " : "") + RaClassData.getRaceName() + (RaClassData.getRaceNameEnd() == ""? "": "(" + RaClassData.getRaceNameEnd() + ")");
             this.raceNameEng.Text = " "+ RaClassData.getRaceNameEng();
 
             if(RaClassData.getRaceGradeKai() != 0)

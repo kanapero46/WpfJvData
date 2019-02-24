@@ -8,13 +8,14 @@ namespace WpfApp1.Class
 {
     class GetOddsComClass
     {
+    
         public int GetOddsCom(String Odds, String Key)
         {
             int ret;
             WpfApp1.JVForm Jv = new JVForm();
             MainWindow main = new MainWindow();
             dbAccess.dbConnect db = new dbAccess.dbConnect();
-
+            
             if(Jv.JvForm_JvInit() != 0)
             {
                 return -1;
@@ -97,6 +98,12 @@ namespace WpfApp1.Class
             Jv.JvForm_JvClose();
 
                 return 1;
+        }
+
+        #region 発売フラグのマッピング関数
+        public Boolean MappingGetPayFlag()
+        {
+
         }
     }
 }

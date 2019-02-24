@@ -44,12 +44,11 @@
             this.panel15 = new System.Windows.Forms.Panel();
             this.label15 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label20 = new System.Windows.Forms.Label();
+            this.PayInfo1 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
-            this.statusBar1 = new System.Windows.Forms.StatusBar();
             this.flowMain1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
@@ -68,6 +67,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
+            this.PayInfo2 = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
             this.panel11 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
@@ -90,6 +90,7 @@
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.flowLayoutPanel10 = new System.Windows.Forms.FlowLayoutPanel();
+            this.PayInfo3 = new System.Windows.Forms.Label();
             this.panel18 = new System.Windows.Forms.Panel();
             this.panel19 = new System.Windows.Forms.Panel();
             this.label19 = new System.Windows.Forms.Label();
@@ -161,6 +162,7 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "更新";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // checkBox1
             // 
@@ -177,7 +179,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(650, -2);
+            this.label1.Location = new System.Drawing.Point(643, 1);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(462, 72);
             this.label1.TabIndex = 1;
@@ -291,7 +293,7 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.label20);
+            this.flowLayoutPanel1.Controls.Add(this.PayInfo1);
             this.flowLayoutPanel1.Controls.Add(this.label21);
             this.flowLayoutPanel1.Controls.Add(this.label26);
             this.flowLayoutPanel1.Controls.Add(this.label27);
@@ -301,17 +303,17 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(548, 386);
             this.flowLayoutPanel1.TabIndex = 17;
             // 
-            // label20
+            // PayInfo1
             // 
-            this.label20.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label20.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label20.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.label20.Location = new System.Drawing.Point(3, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(533, 100);
-            this.label20.TabIndex = 2;
-            this.label20.Text = "東京 5レースまで確定";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.PayInfo1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PayInfo1.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PayInfo1.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.PayInfo1.Location = new System.Drawing.Point(3, 0);
+            this.PayInfo1.Name = "PayInfo1";
+            this.PayInfo1.Size = new System.Drawing.Size(533, 100);
+            this.PayInfo1.TabIndex = 2;
+            this.PayInfo1.Text = "東京 5レースまで確定";
+            this.PayInfo1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label21
             // 
@@ -360,14 +362,6 @@
             this.label28.TabIndex = 6;
             this.label28.Text = "出走取消・競走除外 1件";
             this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // statusBar1
-            // 
-            this.statusBar1.Location = new System.Drawing.Point(0, 888);
-            this.statusBar1.Name = "statusBar1";
-            this.statusBar1.Size = new System.Drawing.Size(1751, 32);
-            this.statusBar1.TabIndex = 18;
-            this.statusBar1.Text = "statusBar1";
             // 
             // flowMain1
             // 
@@ -551,6 +545,7 @@
             // 
             // flowLayoutPanel8
             // 
+            this.flowLayoutPanel8.Controls.Add(this.PayInfo2);
             this.flowLayoutPanel8.Controls.Add(this.panel10);
             this.flowLayoutPanel8.Controls.Add(this.panel13);
             this.flowLayoutPanel8.Location = new System.Drawing.Point(3, 149);
@@ -558,11 +553,23 @@
             this.flowLayoutPanel8.Size = new System.Drawing.Size(548, 386);
             this.flowLayoutPanel8.TabIndex = 17;
             // 
+            // PayInfo2
+            // 
+            this.PayInfo2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PayInfo2.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PayInfo2.ForeColor = System.Drawing.Color.Green;
+            this.PayInfo2.Location = new System.Drawing.Point(3, 0);
+            this.PayInfo2.Name = "PayInfo2";
+            this.PayInfo2.Size = new System.Drawing.Size(533, 100);
+            this.PayInfo2.TabIndex = 20;
+            this.PayInfo2.Text = "京都 5レースまで確定";
+            this.PayInfo2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // panel10
             // 
             this.panel10.BackColor = System.Drawing.Color.Khaki;
             this.panel10.Controls.Add(this.panel11);
-            this.panel10.Location = new System.Drawing.Point(3, 3);
+            this.panel10.Location = new System.Drawing.Point(3, 103);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(553, 70);
             this.panel10.TabIndex = 18;
@@ -591,7 +598,7 @@
             // 
             this.panel13.BackColor = System.Drawing.Color.Khaki;
             this.panel13.Controls.Add(this.panel24);
-            this.panel13.Location = new System.Drawing.Point(3, 79);
+            this.panel13.Location = new System.Drawing.Point(3, 179);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(553, 70);
             this.panel13.TabIndex = 19;
@@ -620,7 +627,7 @@
             // panel26
             // 
             this.panel26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel26.BackColor = System.Drawing.Color.SteelBlue;
+            this.panel26.BackColor = System.Drawing.Color.ForestGreen;
             this.panel26.Controls.Add(this.panel27);
             this.panel26.Location = new System.Drawing.Point(591, 124);
             this.panel26.Name = "panel26";
@@ -640,7 +647,7 @@
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label22.ForeColor = System.Drawing.Color.DarkBlue;
+            this.label22.ForeColor = System.Drawing.Color.DarkGreen;
             this.label22.Location = new System.Drawing.Point(28, 10);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(419, 55);
@@ -777,6 +784,7 @@
             // 
             // flowLayoutPanel10
             // 
+            this.flowLayoutPanel10.Controls.Add(this.PayInfo3);
             this.flowLayoutPanel10.Controls.Add(this.panel18);
             this.flowLayoutPanel10.Controls.Add(this.panel28);
             this.flowLayoutPanel10.Location = new System.Drawing.Point(3, 149);
@@ -784,11 +792,23 @@
             this.flowLayoutPanel10.Size = new System.Drawing.Size(548, 386);
             this.flowLayoutPanel10.TabIndex = 17;
             // 
+            // PayInfo3
+            // 
+            this.PayInfo3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PayInfo3.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PayInfo3.ForeColor = System.Drawing.Color.Fuchsia;
+            this.PayInfo3.Location = new System.Drawing.Point(3, 0);
+            this.PayInfo3.Name = "PayInfo3";
+            this.PayInfo3.Size = new System.Drawing.Size(533, 100);
+            this.PayInfo3.TabIndex = 21;
+            this.PayInfo3.Text = "札幌 5レースまで確定";
+            this.PayInfo3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // panel18
             // 
             this.panel18.BackColor = System.Drawing.Color.Khaki;
             this.panel18.Controls.Add(this.panel19);
-            this.panel18.Location = new System.Drawing.Point(3, 3);
+            this.panel18.Location = new System.Drawing.Point(3, 103);
             this.panel18.Name = "panel18";
             this.panel18.Size = new System.Drawing.Size(553, 70);
             this.panel18.TabIndex = 18;
@@ -817,7 +837,7 @@
             // 
             this.panel28.BackColor = System.Drawing.Color.Khaki;
             this.panel28.Controls.Add(this.panel29);
-            this.panel28.Location = new System.Drawing.Point(3, 79);
+            this.panel28.Location = new System.Drawing.Point(3, 179);
             this.panel28.Name = "panel28";
             this.panel28.Size = new System.Drawing.Size(553, 70);
             this.panel28.TabIndex = 19;
@@ -845,8 +865,8 @@
             // 
             // panel30
             // 
-            this.panel30.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel30.BackColor = System.Drawing.Color.SteelBlue;
+            this.panel30.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel30.BackColor = System.Drawing.Color.Magenta;
             this.panel30.Controls.Add(this.panel31);
             this.panel30.Location = new System.Drawing.Point(1164, 124);
             this.panel30.Name = "panel30";
@@ -866,7 +886,7 @@
             // 
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label25.ForeColor = System.Drawing.Color.DarkBlue;
+            this.label25.ForeColor = System.Drawing.Color.Purple;
             this.label25.Location = new System.Drawing.Point(28, 10);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(419, 55);
@@ -876,10 +896,10 @@
             // axJVLink1
             // 
             this.axJVLink1.Enabled = true;
-            this.axJVLink1.Location = new System.Drawing.Point(0, 0);
+            this.axJVLink1.Location = new System.Drawing.Point(13, 62);
             this.axJVLink1.Name = "axJVLink1";
             this.axJVLink1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axJVLink1.OcxState")));
-            this.axJVLink1.Size = new System.Drawing.Size(67, 68);
+            this.axJVLink1.Size = new System.Drawing.Size(79, 56);
             this.axJVLink1.TabIndex = 24;
             this.axJVLink1.JVEvtPay += new AxJVDTLabLib._IJVLinkEvents_JVEvtPayEventHandler(this.axJVLink1_JVEvtPay);
             this.axJVLink1.JVEvtWeather += new AxJVDTLabLib._IJVLinkEvents_JVEvtWeatherEventHandler(this.axJVLink1_JVEvtWeather);
@@ -897,7 +917,6 @@
             this.Controls.Add(this.panel26);
             this.Controls.Add(this.flowMain1);
             this.Controls.Add(this.panel);
-            this.Controls.Add(this.statusBar1);
             this.Controls.Add(this.panel1);
             this.Name = "InfomationForm";
             this.Text = "開催情報";
@@ -985,7 +1004,6 @@
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.StatusBar statusBar1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.FlowLayoutPanel flowMain1;
@@ -1038,10 +1056,12 @@
         private System.Windows.Forms.Panel panel31;
         private System.Windows.Forms.Label label25;
         private AxJVDTLabLib.AxJVLink axJVLink1;
-        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label PayInfo1;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label PayInfo2;
+        private System.Windows.Forms.Label PayInfo3;
     }
 }

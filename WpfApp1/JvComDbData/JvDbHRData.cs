@@ -8,6 +8,10 @@ namespace WpfApp1.JvComDbData
 {
     class JvDbHRData
     {
+
+        public int RaceNum { get; set; }
+        public String Cource { get; set; }
+
         public void SetHrData(ref String buff)
         {
             String tmp = "";
@@ -54,9 +58,16 @@ namespace WpfApp1.JvComDbData
                 }
                 tmp += ",";
             }
-
+            Cource = JvPay.id.JyoCD;
+            RaceNum = Int32.Parse(JvPay.id.RaceNum);
             dbAccess.dbConnect db = new dbAccess.dbConnect(JvPay.id.Year + JvPay.id.MonthDay, JvPay.head.RecordSpec, ref tmp, ref tmpInteger);
                
+        }
+
+        public void GetPayInfo(ref String inCource, ref int inRacenNum)
+        {
+            inCource = this.Cource;
+            inRacenNum = this.RaceNum;
         }
     }
 }

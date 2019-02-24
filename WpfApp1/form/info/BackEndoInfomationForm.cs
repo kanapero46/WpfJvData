@@ -23,13 +23,21 @@ namespace WpfApp1.form.info
         public const int JV_RT_EVENT_TIME_CHANGE = 6;
         public const int JV_RT_EVENT_WEIGHT = 7;
 
+        JvComDbData.JvDbHRData HR = new JvComDbData.JvDbHRData();
+
+
         public int JvInfoBackMain(int kind, String Key)
         {
             int ret = 0;
             switch(kind)
             {
-                case JV_RT_EVENT_PAY:
-                    ret = JvInfoBackEventPay(Key);
+                case JV_RT_EVENT_PAY:   //払戻確定情報
+                    ret = JvInfoBackJvRead("0B15", Key);
+                    break;
+                case JV_RT_EVENT_JOCKEY_CHANGE: //騎手変更
+                    ret = JvInfoBackJvRead("0B16", Key);
+                    break;
+                case JV_RT_EVENT_WEATHER: //天候・馬場状態変更情報
                     break;
             }
 
@@ -38,7 +46,7 @@ namespace WpfApp1.form.info
         }
 
 
-        private int JvInfoBackEventPay(String Key)
+        private int JvInfoBackJvRead(String Spec, String Key)
         {
             JVData_Struct.JV_HR_PAY Pay = new JVData_Struct.JV_HR_PAY();
             JVForm JvForm = new JVForm();
@@ -46,11 +54,11 @@ namespace WpfApp1.form.info
 
             JvForm.JvForm_JvInit();
 
-            ret = JvForm.JvForm_JvRTOpen("0B15", Key);
+            ret = JvForm.JvForm_JvRTOpen(Spec, Key);
 
             if(ret != 0)
             {
-                Console.WriteLine("JVRTOPEN ERROR! JvInfoBackEventPay(" + ret + ")");
+                Console.WriteLine("JVRTOPEN ERROR! JvInfoBackJvRead["+ Spec +"](" + ret + ")");
                 return ret;
             }
 
@@ -58,10 +66,7 @@ namespace WpfApp1.form.info
             String buff = "";
             int size = 20000;
             String filename = "";
-
-            JvComDbData.JvDbHRData HR = new JvComDbData.JvDbHRData();
-
-
+            
             while(ret >= 1)
             {
                 ret = JvForm.JvForm_JvRead(ref buff, out size, out filename);
@@ -92,6 +97,22 @@ namespace WpfApp1.form.info
             }
             JvForm.JvForm_JvClose();
             return 1;
+        }
+
+        #region 払戻金確定競馬場・場名取得
+        public void BackEndoGetPayCource(ref String Cource, ref int Racenum)
+        {
+            HR.GetPayInfo(ref Cource, ref Racenum);
+        }
+        #endregion
+
+        unsafe public String BackendMappingCourceName(String JyoCd)
+        {
+            int libCode = 0;
+            String retTmp = "";
+            libCode = LibJvConv.LibJvConvFuncClass.COURCE_CODE;
+            LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&libCode, JyoCd, ref retTmp);
+            return retTmp;
         }
     }
 }

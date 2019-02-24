@@ -9,7 +9,9 @@ namespace WpfApp1.JvComDbData
     class JvDbO1Data
     {
         dbAccess.dbConnect db;
-        
+
+        public Boolean PayFlag = false;
+
         public JvDbO1Data()
         {
 
@@ -42,6 +44,8 @@ namespace WpfApp1.JvComDbData
                 tmp += o1.TotalHyosuTansyo + ",";
                 tmp += o1.TotalHyosuFukusyo + ",";
                 tmp += o1.head.DataKubun + ",";
+
+                PayFlag = (o1.head.DataKubun == "1" ? true : false); //発売フラグをセット
 
                 db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum, "O1", ref tmp, ref ret);
 
@@ -100,5 +104,12 @@ namespace WpfApp1.JvComDbData
 
             }
         }
+
+#region 取得したレースの発売・締切フラグ
+        public Boolean GetPayStatus(String Key)
+        {
+            return PayFlag;
+        }
+#endregion
     }
 }
