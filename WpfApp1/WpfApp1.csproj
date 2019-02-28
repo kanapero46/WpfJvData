@@ -74,12 +74,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="class\GetOddsComClass.cs" />
-    <Compile Include="class\HorceProgramClass.cs" />
-    <Compile Include="class\InfomationFormSettingClass.cs" />
-    <Compile Include="class\MainDataClass.cs" />
-    <Compile Include="class\MainDataHorceClass.cs" />
-    <Compile Include="class\WeatherCourceStatus.cs" />
+    <Compile Include="Class\com\JvComClass.cs" />
+    <Compile Include="Class\GetOddsComClass.cs" />
+    <Compile Include="Class\HorceProgramClass.cs" />
+    <Compile Include="Class\InfomationFormSettingClass.cs" />
+    <Compile Include="Class\MainDataClass.cs" />
+    <Compile Include="Class\MainDataHorceClass.cs" />
+    <Compile Include="Class\WeatherCourceStatus.cs" />
     <Compile Include="dbAccess\dbConnect.cs" />
     <Compile Include="dbAccess\dbCom.cs" />
     <Compile Include="Form1.cs">
@@ -137,6 +138,7 @@
     <Compile Include="JvComDbData\JvDbO1Data.cs" />
     <Compile Include="JvComDbData\JvDbRaData.cs" />
     <Compile Include="JvComDbData\JvDbSEData.cs" />
+    <Compile Include="JvComDbData\JvDbWEData.cs" />
     <Compile Include="JvComDbData\Sample.cs" />
     <Compile Include="JVDataClass.cs" />
     <Compile Include="MainWindow.xaml.cs">

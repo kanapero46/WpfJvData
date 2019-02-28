@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WpfApp1.Class;
+using WpfApp1.Class.com;
 
 namespace WpfApp1.form.info
 {
@@ -22,6 +23,9 @@ namespace WpfApp1.form.info
         public const int JV_RT_EVENT_AVOID = 5;
         public const int JV_RT_EVENT_TIME_CHANGE = 6;
         public const int JV_RT_EVENT_WEIGHT = 7;
+
+
+        Class.com.JvComClass JvCom = new JvComClass();
 
         JvComDbData.JvDbHRData HR = new JvComDbData.JvDbHRData();
 
@@ -59,6 +63,7 @@ namespace WpfApp1.form.info
             if(ret != 0)
             {
                 Console.WriteLine("JVRTOPEN ERROR! JvInfoBackJvRead["+ Spec +"](" + ret + ")");
+                JvForm.JvForm_JvClose();
                 return ret;
             }
 
@@ -113,6 +118,68 @@ namespace WpfApp1.form.info
             libCode = LibJvConv.LibJvConvFuncClass.COURCE_CODE;
             LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&libCode, JyoCd, ref retTmp);
             return retTmp;
+        }
+
+        unsafe public void BackEndGetKaisaiInfo(String Date)
+        {
+
+            JVForm Jv = new JVForm();
+
+            Jv.JvForm_JvInit();
+            Jv.JvForm_JVWatchEvent();
+            int ret = Jv.JvForm_JvRTOpen("0B14", Date);
+
+            if(ret != 0)
+            {
+                JvCom.CONSOLE_MODULE("BACKEND", "KaisaiInfo Error RTOPEN[" + ret + "]");
+                return;
+            }
+
+            String fileName = "";
+            int size = 20000;
+            String buff = "";
+            ret = 1;
+
+            while(ret >= 1)
+            {
+                ret = Jv.JvForm_JvRead(ref buff, out size, out fileName);
+
+                if(ret == 0)
+                {
+                    break;
+                }
+                else if(ret == -3)
+                {
+                    ret = 1;
+                    continue;
+                }
+                else if(ret == -202)
+                {
+                    break;
+                }
+                else if(ret == -1)
+                {
+                    ret = 1;
+                    continue;
+                }
+
+                if (buff == "")
+                {
+                    ret = 0;
+                    break;
+                }
+
+                switch(buff.Substring(0,2))
+                {
+                    case "WE":
+                        break;
+                }
+            
+
+
+            }
+
+
         }
     }
 }

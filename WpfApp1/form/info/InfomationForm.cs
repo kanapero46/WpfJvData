@@ -17,7 +17,29 @@ namespace WpfApp1.form.info
 {
     public partial class InfomationForm : Form
     {
+        struct RC_STRUCT
+        {
+            public Boolean KaisaiFlag;
+            public String Key;
+            public int PayEndRaceNum;
+        }
 
+        const int SAPPORO = 5;
+        const int HAKODATE = 5;
+        const int NIIGATA = 3;
+        const int FUKUSHIMA = 3;
+        const int CHUKYO = 4;
+        const int KOKURA = 4;
+        const int TOKYO = 1;
+        const int NAKAYAMA = 1;
+        const int KYOTO = 2;
+        const int HANSHIN = 2;
+
+        private System.Windows.Forms.Label[] InfomationLabel;
+
+        String DateParam;
+
+        RC_STRUCT[] RCNameArray = new RC_STRUCT[3];
         InfomationFormSettingClass SettingClass = new InfomationFormSettingClass();
         BackEndInfomationForm BackEnd = new BackEndInfomationForm();    //バックエンドクラス   
         String[] CourceArray = new string[3];
@@ -27,33 +49,88 @@ namespace WpfApp1.form.info
             InitializeComponent();
         }
 
-        public InfomationForm(String Key)
+        public InfomationForm(String Date)
         {
             InitializeComponent();
-            SettingClass.RaKey = Key;
-            Console.WriteLine("InfomatioForm SetKey = " + Key);
+            DateParam = Date;
+            Console.WriteLine("InfomatioForm Date = " + Date);
 
         }
+
+        #region フォーム読み込み処理
 
         private void InfomationForm_Load(object sender, EventArgs e)
         {
             Class.GetOddsComClass getOdds = new Class.GetOddsComClass();
             int ret = 0;
 
+            if(DateParam == "")
+            {
+                DateParam = DateTime.Today.ToShortDateString();
+            }
+
+            dbAccess.dbConnect db = new dbAccess.dbConnect();
+            List<String> ArrayStr = new List<string>();
+            db.TextReader_Row(DateParam, "RA", 0, ref ArrayStr);
+
+
+
+
+            if(RCNameArray[0].Key == "" && RCNameArray[1].Key == "" && RCNameArray[2].Key == "")
+            {
+                ShowErrorMessage("設定データにエラーが発生しました。");
+                return;
+            }
+            
             axJVLink1.JVInit("UNKNOWN");
             axJVLink1.JVWatchEvent();
 
-            for(int i=1; i<=12; i++)
+            for(int j=0; 0<3; j++)
             {
-                ret = getOdds.GetOddsCom("0B30", SettingClass.RaKey.Substring(0, 14) + String.Format("{0:00}", i));
+                for(int i=1; i<=12; i++)
+                {
+                    ret = getOdds.GetOddsCom("0B31", SettingClass.RaKey.Substring(0, 14) + String.Format("{0:00}", i)); //単勝オッズ
+                    if(ret != 1)
+                    {
+                        //エラー
+                        break;
+                    }
+
+                    if(!getOdds.MappingGetPayFlag())
+                    {
+                        RCNameArray[j].PayEndRaceNum++;
+                        continue; //締切済み・未発売
+                    }  
+                    else
+                    {
+                        break;
+                    }
+                }
             }
 
-            if (db.TextReader_Col(RaClassData.GET_RA_KEY(), "O1", 0, ref O1, RaClassData.GET_RA_KEY() + string.Format("{0:00}", i)) != 0)
-            {
+            SetPayOutRaceNumForLabel();
 
-            }
 
         }
+        #endregion
+
+        #region 締切済みレース名を表示
+        private void SetPayOutRaceNumForLabel()
+        {
+
+        }
+        #endregion
+
+        #region エラー時のメッセージ表示
+        private void ShowErrorMessage(String msg)
+        {
+            InfomationLabel = new Label[1];
+            InfomationLabel[0].Text = msg;
+            InfomationLabel[0].Font = new Font("Meiryo UI", 15);
+            InfomationLabel[0].Size = new Size(new Point(250, 250));
+            InfomationLabel[0].TextAlign = ContentAlignment.MiddleCenter;
+        }
+        #endregion
 
         private void label9_Click(object sender, EventArgs e)
         {

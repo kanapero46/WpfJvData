@@ -205,6 +205,7 @@
             this.panel.Name = "panel";
             this.panel.Size = new System.Drawing.Size(567, 70);
             this.panel.TabIndex = 2;
+            this.panel.Visible = false;
             // 
             // panel3
             // 
@@ -374,6 +375,7 @@
             this.flowMain1.Name = "flowMain1";
             this.flowMain1.Size = new System.Drawing.Size(567, 643);
             this.flowMain1.TabIndex = 19;
+            this.flowMain1.Visible = false;
             // 
             // flowLayoutPanel3
             // 
@@ -426,6 +428,7 @@
             this.flowMain2.Name = "flowMain2";
             this.flowMain2.Size = new System.Drawing.Size(567, 643);
             this.flowMain2.TabIndex = 21;
+            this.flowMain2.Visible = false;
             // 
             // flowLayoutPanel6
             // 
@@ -633,6 +636,7 @@
             this.panel26.Name = "panel26";
             this.panel26.Size = new System.Drawing.Size(567, 70);
             this.panel26.TabIndex = 20;
+            this.panel26.Visible = false;
             // 
             // panel27
             // 
@@ -665,6 +669,7 @@
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(567, 643);
             this.flowLayoutPanel2.TabIndex = 23;
+            this.flowLayoutPanel2.Visible = false;
             // 
             // flowLayoutPanel5
             // 
@@ -872,6 +877,7 @@
             this.panel30.Name = "panel30";
             this.panel30.Size = new System.Drawing.Size(567, 70);
             this.panel30.TabIndex = 22;
+            this.panel30.Visible = false;
             // 
             // panel31
             // 
@@ -901,6 +907,7 @@
             this.axJVLink1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axJVLink1.OcxState")));
             this.axJVLink1.Size = new System.Drawing.Size(79, 56);
             this.axJVLink1.TabIndex = 24;
+            this.axJVLink1.Visible = false;
             this.axJVLink1.JVEvtPay += new AxJVDTLabLib._IJVLinkEvents_JVEvtPayEventHandler(this.axJVLink1_JVEvtPay);
             this.axJVLink1.JVEvtWeather += new AxJVDTLabLib._IJVLinkEvents_JVEvtWeatherEventHandler(this.axJVLink1_JVEvtWeather);
             this.axJVLink1.JVEvtWeight += new AxJVDTLabLib._IJVLinkEvents_JVEvtWeightEventHandler(this.axJVLink1_JVEvtWeight);

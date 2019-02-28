@@ -8,7 +8,9 @@ namespace WpfApp1.Class
 {
     class GetOddsComClass
     {
-    
+        /* オッズ */
+        JvComDbData.JvDbO1Data O1 = new JvComDbData.JvDbO1Data();
+
         public int GetOddsCom(String Odds, String Key)
         {
             int ret;
@@ -39,8 +41,7 @@ namespace WpfApp1.Class
 
             Boolean InitO1Flag = true;
 
-            /* オッズ */
-            JvComDbData.JvDbO1Data O1 = new JvComDbData.JvDbO1Data(Key.Substring(0,8));
+            O1.InitJvDbO1Data(Key.Substring(0, 8));
 
             while (ret >= 1)
             {
@@ -103,7 +104,8 @@ namespace WpfApp1.Class
         #region 発売フラグのマッピング関数
         public Boolean MappingGetPayFlag()
         {
-
+            return O1.GetPayStatus();
         }
+        #endregion
     }
 }

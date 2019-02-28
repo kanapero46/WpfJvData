@@ -25,6 +25,14 @@ namespace WpfApp1.JvComDbData
             db = new dbAccess.dbConnect("O1", ref tmp, ref ret);
         }
 
+        public void InitJvDbO1Data(String Date)
+        {
+            int ret = 0;
+
+            String tmp = "#単勝オッズ：" + Date;
+            db = new dbAccess.dbConnect("O1", ref tmp, ref ret);
+        }
+
         public void SetJvDbO1Data(ref String buff)
         {
             int ret = 0;
@@ -106,8 +114,9 @@ namespace WpfApp1.JvComDbData
         }
 
 #region 取得したレースの発売・締切フラグ
-        public Boolean GetPayStatus(String Key)
+        public Boolean GetPayStatus()
         {
+            // true 発売中
             return PayFlag;
         }
 #endregion

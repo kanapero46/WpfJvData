@@ -1656,7 +1656,18 @@ namespace WpfApp1
 
         private void InfomationEventForm(object sender, RoutedEventArgs e)
         {
-            form.info.InfomationForm form = new form.info.InfomationForm();
+            DateTime dt = DateTime.Now;
+            if (DateText.Text == "")
+            {
+                
+            }
+            else
+            {
+                dt = DateTime.Parse(DateText.Text);
+            }
+            
+
+            form.info.InfomationForm form = new form.info.InfomationForm(dt.ToLongDateString());
             form.Show();
         }
     }
