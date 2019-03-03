@@ -66,16 +66,18 @@ namespace WpfApp1.form.info
 
             if(DateParam == "")
             {
-                DateParam = DateTime.Today.ToShortDateString();
+                DateParam = DateTime.Today.ToString("yyyyMMdd");
+  //              DateParam = "20190303";
             }
+            DateParam = DateTime.Today.ToString("yyyyMMdd");
+
 
             dbAccess.dbConnect db = new dbAccess.dbConnect();
             List<String> ArrayStr = new List<string>();
             db.TextReader_Row(DateParam, "RA", 0, ref ArrayStr);
 
-
-
-
+            MainWindow main = new MainWindow();
+                       
             if(RCNameArray[0].Key == "" && RCNameArray[1].Key == "" && RCNameArray[2].Key == "")
             {
                 ShowErrorMessage("設定データにエラーが発生しました。");
@@ -85,11 +87,18 @@ namespace WpfApp1.form.info
             axJVLink1.JVInit("UNKNOWN");
             axJVLink1.JVWatchEvent();
 
-            for(int j=0; 0<3; j++)
+            main.SetKaisaiInfo(DateParam, ref ArrayStr);
+
+            if(ArrayStr.Count == 0)
+            {
+                return;
+            }
+
+            for (int j=0; j<3; j++)
             {
                 for(int i=1; i<=12; i++)
                 {
-                    ret = getOdds.GetOddsCom("0B31", SettingClass.RaKey.Substring(0, 14) + String.Format("{0:00}", i)); //単勝オッズ
+                    ret = getOdds.GetOddsCom("0B31", DateParam + ArrayStr[j] + String.Format("{0:00}", i)); //単勝オッズ
                     if(ret != 1)
                     {
                         //エラー
