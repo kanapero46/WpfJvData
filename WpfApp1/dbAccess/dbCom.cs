@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using WpfApp1.dbAccess;
 using WpfApp1.Class;
 using System.Drawing;
+using WpfApp1.JvComDbData;
 
 namespace WpfApp1.dbCom1
 {
@@ -416,5 +417,75 @@ namespace WpfApp1.dbCom1
            
         }
         #endregion
+
+        public Boolean GetJockeyChangeInfo(String RaKey, ref List<JvComDbData.JvDbJcData> retArray)
+        {
+            //List<JvComDbData.JvDbJcData> retArray = new List<JvComDbData.JvDbJcData>();
+            List<JvComDbData.JvDbJcData> JvDbJcData = new List<JvComDbData.JvDbJcData>();
+            List<String> tmp = new List<string>();
+            Boolean SetFlag = false;
+            JvComDbData.JvDbJcData cacheJcData;
+
+
+            for (int i = 1; ; i++) //ÉGÉâÅ[Ç…Ç»ÇÈÇ‹Ç≈åpë±
+            {
+                tmp.Clear();
+                cacheJcData = new JvComDbData.JvDbJcData();
+                if (db.TextReader_Col(RaKey.Substring(0, 8), "JC", 0, ref tmp, i.ToString()) != 0)
+                {
+                    if (cacheJcData.ReadData_AV(ref tmp) == 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        JvDbJcData.Add(cacheJcData);
+                        Console.WriteLine("[INFO]InitChangeInfo TRUE!");
+                    }
+                }
+                else
+                {
+                    //éÊìæèIóπÅEÇ‹ÇΩÇÕéÊìæÇ»Çµ
+                    return false;
+                }
+            }
+
+            //ãRéËïœçX
+            for (int i = 0; i < JvDbJcData.Count; i++)
+            {
+                SetFlag = false;
+                if (JvDbJcData[i].Key1.Substring(0, 16) == RaKey)
+                {
+                    if (retArray.Count == 0)
+                    {
+                        SetFlag = true;
+                        retArray.Add(JvDbJcData[i]);
+                    }
+                    else
+                    {
+                        for (int j = 0; j < retArray.Count; j++)
+                        {
+                            if (retArray[j].BeforeInfo1.JcokeyCode == JvDbJcData[i].BeforeInfo1.JcokeyCode)
+                            {
+                                //Ç∑Ç≈Ç…ìoò^çœÇ›ÇÃãRéËÇÃèÍçáÇÕè„èëÇ´
+                                retArray[j] = JvDbJcData[i];
+                                SetFlag = true;
+                            }
+                        }
+                        if (!SetFlag)
+                        {
+                            //forï∂ÇÃíÜÇ≈åüçıÇ…à¯Ç¡Ç©Ç©ÇÁÇ»Ç¢èÍçáÇÕí«â¡
+                            retArray.Add(JvDbJcData[i]);
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return (retArray.Count == 0 ? false : true);
+        }
+
     }
 }
