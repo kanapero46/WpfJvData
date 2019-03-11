@@ -107,5 +107,12 @@ namespace WpfApp1.Class
             return O1.GetPayStatus();
         }
         #endregion
+
+        #region 競馬場のマッピング関数
+        public String MappingGetRaceCourceCode()
+        {
+            return O1.GetRaceCourceCode();
+        }
+        #endregion
     }
 }

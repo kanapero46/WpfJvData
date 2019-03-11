@@ -1667,7 +1667,7 @@ namespace WpfApp1
             }
             
 
-            form.info.InfomationForm form = new form.info.InfomationForm(dt.ToLongDateString());
+            form.info.InfomationForm form = new form.info.InfomationForm(dt.ToString("yyyyMMdd"));
             form.Show();
         }
 

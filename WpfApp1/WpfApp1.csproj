@@ -95,6 +95,7 @@
     <Compile Include="form\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\info\backClass\baclClassInfo.cs" />
     <Compile Include="form\info\BackEndoInfomationForm.cs" />
     <Compile Include="form\info\InfomationForm.cs">
       <SubType>Form</SubType>
