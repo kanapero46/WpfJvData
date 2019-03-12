@@ -66,7 +66,7 @@ namespace WpfApp1.form.info
 
             if(ret != 0)
             {
-                Console.WriteLine("JVRTOPEN ERROR! JvInfoBackJvRead["+ Spec +"](" + ret + ")");
+                JvCom.CONSOLE_MODULE("BACKEND", "JVRTOPEN ERROR! JvInfoBackJvRead["+ Spec +"](" + ret + ")");
                 JvForm.JvForm_JvClose();
                 return ret;
             }
