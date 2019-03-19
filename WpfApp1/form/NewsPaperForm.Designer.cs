@@ -79,7 +79,7 @@
             // 
             this.raceNameEng.AutoSize = true;
             this.raceNameEng.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.raceNameEng.Location = new System.Drawing.Point(187, 139);
+            this.raceNameEng.Location = new System.Drawing.Point(255, 138);
             this.raceNameEng.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.raceNameEng.Name = "raceNameEng";
             this.raceNameEng.Size = new System.Drawing.Size(0, 30);
@@ -377,7 +377,7 @@
             this.panel1.Location = new System.Drawing.Point(16, 33);
             this.panel1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(106, 74);
+            this.panel1.Size = new System.Drawing.Size(179, 74);
             this.panel1.TabIndex = 59;
             // 
             // RaceNum
@@ -385,12 +385,12 @@
             this.RaceNum.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.RaceNum.ForeColor = System.Drawing.Color.White;
             this.RaceNum.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.RaceNum.Location = new System.Drawing.Point(-9, 10);
+            this.RaceNum.Location = new System.Drawing.Point(-13, 9);
             this.RaceNum.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.RaceNum.Name = "RaceNum";
-            this.RaceNum.Size = new System.Drawing.Size(129, 63);
+            this.RaceNum.Size = new System.Drawing.Size(211, 63);
             this.RaceNum.TabIndex = 10;
-            this.RaceNum.Text = "10Ｒ";
+            this.RaceNum.Text = "京都10Ｒ";
             this.RaceNum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label10
@@ -409,7 +409,7 @@
             this.flowLayoutPanel6.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.flowLayoutPanel6.Controls.Add(this.kaiji);
             this.flowLayoutPanel6.Controls.Add(this.racename);
-            this.flowLayoutPanel6.Location = new System.Drawing.Point(134, 77);
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(202, 81);
             this.flowLayoutPanel6.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
             this.flowLayoutPanel6.Size = new System.Drawing.Size(1710, 70);
@@ -489,7 +489,7 @@
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Font = new System.Drawing.Font("Meiryo UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button1.ForeColor = System.Drawing.Color.Red;
-            this.button1.Location = new System.Drawing.Point(2429, 21);
+            this.button1.Location = new System.Drawing.Point(2392, 91);
             this.button1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(163, 64);
@@ -521,7 +521,7 @@
             this.flowLayoutPanel2.Controls.Add(this.label18);
             this.flowLayoutPanel2.Controls.Add(this.TrackNameLabel);
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel1);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(134, 21);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(202, 21);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(2270, 51);
             this.flowLayoutPanel2.TabIndex = 71;

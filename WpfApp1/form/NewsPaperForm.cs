@@ -121,6 +121,7 @@ namespace WpfApp1.form
             libCode = LibJvConvFuncClass.COURCE_CODE;
             LibJvConvFuncClass.jvSysConvFunction(&libCode, raceData.getRaceCource(), ref libStr);
             this.Kaisai.Text = "第" + raceData.getRaceKaiji() + "回" + libStr + raceData.getRaceNichiji() + "日目";
+            this.RaceNum.Text = libStr;
 
             this.label4.Text = raceData.getRaceStartTime().Substring(0, 2) + "時" + raceData.getRaceStartTime().Substring(2, 2) + "分";
             this.DistanceLabel.Text = raceData.getDistance();
@@ -154,7 +155,7 @@ namespace WpfApp1.form
 
             this.kaiji.Text = (raceData.getRaceGradeKai() == 0 ? "" : "第" + raceData.getRaceGradeKai() + "回");
             this.raceNameEng.Text = raceData.getRaceNameEng();
-            this.RaceNum.Text = Int32.Parse(raceData.getRaceNum()) + "R";
+            this.RaceNum.Text += Int32.Parse(raceData.getRaceNum()) + "R";
          }
 
 

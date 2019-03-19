@@ -7,7 +7,7 @@ using WpfApp1.dbAccess;
 
 namespace WpfApp1.JvComDbData
 {
-    class JvDbJcData
+    public class JvDbJcData
     {
 
         public struct JV_JC_DATA

@@ -8,13 +8,16 @@ namespace WpfApp1.Class
 {
     class GetOddsComClass
     {
+        /* オッズ */
+        JvComDbData.JvDbO1Data O1 = new JvComDbData.JvDbO1Data();
+
         public int GetOddsCom(String Odds, String Key)
         {
             int ret;
             WpfApp1.JVForm Jv = new JVForm();
             MainWindow main = new MainWindow();
             dbAccess.dbConnect db = new dbAccess.dbConnect();
-
+            
             if(Jv.JvForm_JvInit() != 0)
             {
                 return -1;
@@ -38,8 +41,7 @@ namespace WpfApp1.Class
 
             Boolean InitO1Flag = true;
 
-            /* オッズ */
-            JvComDbData.JvDbO1Data O1 = new JvComDbData.JvDbO1Data(Key.Substring(0,8));
+            O1.InitJvDbO1Data(Key.Substring(0, 8));
 
             while (ret >= 1)
             {
@@ -98,5 +100,19 @@ namespace WpfApp1.Class
 
                 return 1;
         }
+
+        #region 発売フラグのマッピング関数
+        public Boolean MappingGetPayFlag()
+        {
+            return O1.GetPayStatus();
+        }
+        #endregion
+
+        #region 競馬場のマッピング関数
+        public String MappingGetRaceCourceCode()
+        {
+            return O1.GetRaceCourceCode();
+        }
+        #endregion
     }
 }

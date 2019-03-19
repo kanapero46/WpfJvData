@@ -1653,6 +1653,67 @@ namespace WpfApp1
 
             DateText.Text = dt.ToLongDateString();
         }
+
+        private void InfomationEventForm(object sender, RoutedEventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            if (DateText.Text == "")
+            {
+                
+            }
+            else
+            {
+                dt = DateTime.Parse(DateText.Text);
+            }
+            
+
+            form.info.InfomationForm form = new form.info.InfomationForm(dt.ToString("yyyyMMdd"));
+            form.Show();
+        }
+
+        #region DBから開催競馬場を取得
+        public void SetKaisaiInfo(String Date, ref List<String> ret)
+        {
+            List<String> ArrayStr = new List<string>();
+            List<String> ArrayRet = new List<string>();
+            Boolean SetFlag = false;
+            db = new dbConnect();
+
+            if( db.TextReader_Row(Date, "RA", 2, ref ArrayStr) != 0)
+            {
+                if(ArrayStr.Count != 0)
+                {
+                    for(int i=0; i<ArrayStr.Count;i++)
+                    {
+                        SetFlag = false;
+                        if(ArrayRet.Count == 0)
+                        {
+                            ArrayRet.Add(ArrayStr[i]);
+                        }
+                        else
+                        {
+                            for(int j=0; j<ArrayRet.Count; j++)
+                            {
+                                if(ArrayStr[i] == ArrayRet[j])
+                                {
+                                    SetFlag = true;
+                                    break;
+                                }
+                            }
+
+                            if(!SetFlag)
+                            {
+                                ArrayRet.Add(ArrayStr[i]);
+                                SetFlag = false;
+                            }
+                        }
+                    }
+                }
+            }
+            ret = ArrayRet;
+
+        }
+        #endregion 
     }
 
     

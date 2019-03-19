@@ -382,11 +382,35 @@ namespace WpfApp1.form
                 ProgressStatus++;
 
             }
-                        
+
+            //騎手変更情報反映
+            List<JvComDbData.JvDbJcData> AfterJockey = new List<JvComDbData.JvDbJcData>();
+            int ArrayNum = 0;
+            CODE = LibJvConv.LibJvConvFuncClass.JOCKEY_MINARAI_CD;
+
+            if (dbCom.GetJockeyChangeInfo(RaClassData.GET_RA_KEY(), ref AfterJockey))
+            {
+                for(int j = 0; j < AfterJockey.Count; j++)
+                {
+                    LibJvConvFuncClass.jvSysConvFunction(&CODE, AfterJockey[j].AfterInfo1.MinaraiCd, ref tmp);
+                    pHorceClasses.MinaraiCd1 = tmp;
+                    ArrayNum = AfterJockey[j].Umaban1 - 1;
+                    dataGridView1[9, ArrayNum].Value = tmp;
+                    dataGridView1[10, ArrayNum].Value = AfterJockey[j].AfterInfo1.Name;
+
+                    //フォント
+                    dataGridView1[9, ArrayNum].Style.ForeColor = Color.Red;
+                    dataGridView1[10, ArrayNum].Style.ForeColor = Color.Red;
+                }
+            }
+
+
             main.LogMainCancelFlagChanger(false);        //スレッド開始処理
            // t.Join();
             t.Abort();
-            t.Join();
+            try { t.Join(); }
+            catch (Exception){  }
+            
         }
 
         /*  DataGridView1[0, 0].Style.BackColor =*/
@@ -452,7 +476,7 @@ namespace WpfApp1.form
 
             this.RaceNum.Text = Int32.Parse(RaClassData.getRaceNum()) + "Ｒ";
             this.kaiji.Text = (RaClassData.getRaceGradeKai() == 0 ? "" : "第" + RaClassData.getRaceGradeKai() + "回");
-            this.racename.Text = RaClassData.getRaceNameFukus() + RaClassData.getRaceName() + (RaClassData.getRaceNameEnd() == ""? "": "(" + RaClassData.getRaceNameEnd() + ")");
+            this.racename.Text = RaClassData.getRaceNameFukus() + (RaClassData.getRaceNameFukus().Length >= 1 ? " " : "") + RaClassData.getRaceName() + (RaClassData.getRaceNameEnd() == ""? "": "(" + RaClassData.getRaceNameEnd() + ")");
             this.raceNameEng.Text = " "+ RaClassData.getRaceNameEng();
 
             if(RaClassData.getRaceGradeKai() != 0)

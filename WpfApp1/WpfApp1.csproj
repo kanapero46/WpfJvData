@@ -74,11 +74,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="class\GetOddsComClass.cs" />
-    <Compile Include="class\HorceProgramClass.cs" />
-    <Compile Include="class\MainDataClass.cs" />
-    <Compile Include="class\MainDataHorceClass.cs" />
-    <Compile Include="class\WeatherCourceStatus.cs" />
+    <Compile Include="Class\com\JvComClass.cs" />
+    <Compile Include="Class\GetOddsComClass.cs" />
+    <Compile Include="Class\HorceProgramClass.cs" />
+    <Compile Include="Class\InfomationFormSettingClass.cs" />
+    <Compile Include="Class\MainDataClass.cs" />
+    <Compile Include="Class\MainDataHorceClass.cs" />
+    <Compile Include="Class\WeatherCourceStatus.cs" />
     <Compile Include="dbAccess\dbConnect.cs" />
     <Compile Include="dbAccess\dbCom.cs" />
     <Compile Include="Form1.cs">
@@ -92,6 +94,14 @@
     </Compile>
     <Compile Include="form\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\info\backClass\baclClassInfo.cs" />
+    <Compile Include="form\info\BackEndoInfomationForm.cs" />
+    <Compile Include="form\info\InfomationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\info\InfomationForm.Designer.cs">
+      <DependentUpon>InfomationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="form\Kettou.cs">
       <SubType>Form</SubType>
@@ -111,17 +121,25 @@
     <Compile Include="form\NewsPaperForm.Designer.cs">
       <DependentUpon>NewsPaperForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\odds\O1_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\odds\O1_Form.Designer.cs">
+      <DependentUpon>O1_Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\Syutsuba.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="form\Syutsuba.Designer.cs">
       <DependentUpon>Syutsuba.cs</DependentUpon>
     </Compile>
+    <Compile Include="JvComDbData\JvDbHRData.cs" />
     <Compile Include="JvComDbData\JvDbJCData.cs" />
     <Compile Include="JvComDbData\JvDbAVData.cs" />
     <Compile Include="JvComDbData\JvDbO1Data.cs" />
     <Compile Include="JvComDbData\JvDbRaData.cs" />
     <Compile Include="JvComDbData\JvDbSEData.cs" />
+    <Compile Include="JvComDbData\JvDbWEData.cs" />
     <Compile Include="JvComDbData\Sample.cs" />
     <Compile Include="JVDataClass.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -149,6 +167,9 @@
     <EmbeddedResource Include="form\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="form\info\InfomationForm.resx">
+      <DependentUpon>InfomationForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="form\Kettou.resx">
       <DependentUpon>Kettou.cs</DependentUpon>
     </EmbeddedResource>
@@ -157,6 +178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\NewsPaperForm.resx">
       <DependentUpon>NewsPaperForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\odds\O1_Form.resx">
+      <DependentUpon>O1_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\Syutsuba.resx">
       <DependentUpon>Syutsuba.cs</DependentUpon>
