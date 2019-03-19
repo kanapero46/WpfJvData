@@ -224,6 +224,7 @@ namespace WpfApp1.dbCom1
                 {
                     /* ヒットしたら父馬の血統登録番号で検索続行 */
                     fBloodName = tmp;
+                    tmp = "";
                     if (db.TextReader_aCell("ST", fBloodName, "0", 3, ref tmp) == 1)
                     {
                         /* 検索にヒットしたら処理中断 */

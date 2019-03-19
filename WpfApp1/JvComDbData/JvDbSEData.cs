@@ -151,6 +151,7 @@ namespace WpfApp1.JvComDbData
             tmpHist.JyokenInfo = inParam[RA_MAX + 13];
             tmpHist.JyokenName = inParam[RA_MAX + 14];
             tmpHist.RecornUpdateFlag = (inParam[RA_MAX + 25] == "0" ? false : true);
+            tmpHist.raceName6 = inParam[RA_MAX + 26].Trim();
             RaceHist1 = tmpHist;
 
         }

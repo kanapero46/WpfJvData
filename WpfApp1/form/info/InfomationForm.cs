@@ -154,11 +154,12 @@ namespace WpfApp1.form.info
         #region 天候・馬場状態設定
         private void SetWeatherInfo()
         {
-            backClass.baclClassInfo backInfo = new backClass.baclClassInfo();
-            for(int i=0; i<MAX_RACE_CNT;i++)
+            List<backClass.baclClassInfo> backInfo = new List<backClass.baclClassInfo>();
+            BackEnd.BackEndWeatherCondInfo("0B14", DateParam, ref backInfo);
+            for (int i=0; i < backInfo.Count || i < MAX_RACE_CNT;i++)
             {
-                BackEnd.BackEndWeatherCondInfo("0B14", DateParam + String.Format("{0:00}", RCNameArray[i].CourceCd), ref backInfo);
-                WeatherCond[i] = backInfo;
+                WeatherCond[i] = backInfo[i];
+
             }
             WriteWeatherInfo(); //書き込み 
         }
@@ -181,6 +182,7 @@ namespace WpfApp1.form.info
             }
         }
 
+        #region 天候による背景色の指定
         private Color ConvWeatherKigo(String WeatherCd)
         {
             switch(WeatherCd)
@@ -195,6 +197,7 @@ namespace WpfApp1.form.info
                 default: return Color.White;
             }
         }
+        #endregion
 
         #region 競馬場コードから表示レベルを取得
         private int GetOutPutLebel(int JyoCd)
@@ -376,7 +379,7 @@ namespace WpfApp1.form.info
                        switch(Kind)
                     {
                         case 1:
-                            if (RCNameArray[i].KaisaiFlag)
+                            if (RCNameArray[i].KaisaiFlag && RCNameArray[i].PayEndRaceNum != 0)
                             {
                                 PayInfo1.Visible = true;
                                 PayInfo1.Text = RCNameArray[i].CourceStr + " " + RCNameArray[i].PayEndRaceNum + "レースまで確定";
@@ -387,7 +390,7 @@ namespace WpfApp1.form.info
                             }
                             break;
                         case 2:
-                            if (RCNameArray[i].KaisaiFlag)
+                            if (RCNameArray[i].KaisaiFlag && RCNameArray[i].PayEndRaceNum != 0)
                             {
                                 PayInfo2.Visible = true;
                                 PayInfo2.Text = RCNameArray[i].CourceStr + " " + RCNameArray[i].PayEndRaceNum + "レースまで確定";
@@ -398,7 +401,7 @@ namespace WpfApp1.form.info
                             }
                             break;
                         case 3:
-                            if (RCNameArray[i].KaisaiFlag)
+                            if (RCNameArray[i].KaisaiFlag && RCNameArray[i].PayEndRaceNum != 0)
                             {
                                 PayInfo3.Visible = true;
                                 PayInfo3.Text = RCNameArray[i].CourceStr + " " + RCNameArray[i].PayEndRaceNum + "レースまで確定";

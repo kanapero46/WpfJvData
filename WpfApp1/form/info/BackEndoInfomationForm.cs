@@ -281,17 +281,20 @@ namespace WpfApp1.form.info
         }
         #endregion
 
-        public int BackEndWeatherCondInfo(String Spec, String Key, ref backClass.baclClassInfo InfoClass)
+        public int BackEndWeatherCondInfo(String Spec, String Key, ref List<backClass.baclClassInfo> InfoClass)
         {
             int ret = 0;
 
             JVForm JvForm = new JVForm();
+            backClass.baclClassInfo tmpWeatherCond = new baclClassInfo();
 
             JvForm.JvForm_JvInit();
             JvForm.JvForm_JVWatchEvent();
             ret = JvForm.JvForm_JvRTOpen(Spec, Key);
-            if(ret != 0)
+
+            if (ret != 0)
             {
+                JvCom.CONSOLE_MODULE("BACKEND", "JVRTOPEN ERROR! WeatherCondeInfo[" + Spec + "](" + ret + ")");
                 return -1;
             }
 
@@ -334,23 +337,24 @@ namespace WpfApp1.form.info
                 {
                     case "WE":
                         we.SetDataB(ref buff);
-                        InfoClass.WeatherFlag1 = true;
-                        InfoClass.Weather = we.TenkoBaba.TenkoCD;
-                        InfoClass.TurfStatus = we.TenkoBaba.SibaBabaCD;
-                        InfoClass.DirtStatus = we.TenkoBaba.DirtBabaCD;
+                        tmpWeatherCond.WeatherFlag1 = true;
+                        tmpWeatherCond.Weather = we.TenkoBaba.TenkoCD;
+                        tmpWeatherCond.TurfStatus = we.TenkoBaba.SibaBabaCD;
+                        tmpWeatherCond.DirtStatus = we.TenkoBaba.DirtBabaCD;
+                        InfoClass.Add(tmpWeatherCond);
                         break;
                     case "AV":
                         we.SetDataB(ref buff);
-                        InfoClass.SetDNSInfo();
+                        //InfoClass.SetDNSInfo();
                         break;
                     case "JC":
-                        InfoClass.SetJockeyInfo();
+                        //InfoClass.SetJockeyInfo();
                         break;
                     case "TC":
-                        InfoClass.SetTimeInfo();
+                      //  InfoClass.SetTimeInfo();
                         break;
                     case "CC":
-                        InfoClass.SetCourceInfo();
+                     //   InfoClass.SetCourceInfo();
                         break;
                     default:
                         break;
