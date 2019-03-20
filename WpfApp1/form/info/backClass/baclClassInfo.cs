@@ -8,10 +8,14 @@ namespace WpfApp1.form.info.backClass
 {
     public class baclClassInfo
     {
-        private Boolean WeatherFlag;
-        private String turfStatus;
-        private String dirtStatus;
-        private String weather;
+        private String Key;
+        public struct WTHER_COND
+        {
+            public Boolean WeatherInfoFlag;
+            public String Weather;
+            public String TurfStatus;
+            public String DirtStatus;
+        }
 
         public struct INFO_COND
         {
@@ -19,19 +23,21 @@ namespace WpfApp1.form.info.backClass
             public int InfoCount;
         }
 
+        WTHER_COND WeatherCourceCond; //天候・馬場状態
         INFO_COND Jockey;       //騎手変更
         INFO_COND TimeChange;   //発走時刻
         INFO_COND CourceChange; //コース変更
         INFO_COND DNSInfo;      //出走取消・除外
 
-        public string TurfStatus { get => turfStatus; set => turfStatus = value; }
-        public string DirtStatus { get => dirtStatus; set => dirtStatus = value; }
-        public string Weather { get => weather; set => weather = value; }
+        public string TurfStatus { get => WeatherCourceCond.TurfStatus; set => WeatherCourceCond.TurfStatus = value; }
+        public string DirtStatus { get => WeatherCourceCond.DirtStatus; set => WeatherCourceCond.DirtStatus = value; }
+        public string Weather { get => WeatherCourceCond.Weather; set => WeatherCourceCond.Weather = value; }
         internal INFO_COND Jockey1 { get => Jockey; set => Jockey = value; }
         internal INFO_COND TimeChange1 { get => TimeChange; set => TimeChange = value; }
         internal INFO_COND CourceChange1 { get => CourceChange; set => CourceChange = value; }
         internal INFO_COND DNSInfo1 { get => DNSInfo; set => DNSInfo = value; }
-        public bool WeatherFlag1 { get => WeatherFlag; set => WeatherFlag = value; }
+        public bool WeatherFlag1 { get => WeatherCourceCond.WeatherInfoFlag; set => WeatherCourceCond.WeatherInfoFlag = value; }
+        public string Key1 { get => Key; set => Key = value; }
 
         public void SetJockeyInfo()
         {

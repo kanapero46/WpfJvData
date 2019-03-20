@@ -17,6 +17,7 @@ namespace WpfApp1.Class
             public String RaceDate;
             public String rA_KEY;
             public String raceName;
+            public String raceName6;
             public String raceName10;
             public String grade;
             public String track;

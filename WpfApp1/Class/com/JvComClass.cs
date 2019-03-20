@@ -20,7 +20,7 @@ namespace WpfApp1.Class.com
 
         public void CONSOLE_MODULE(String Md, String msg)
         {
-            Console.WriteLine(Md + "\t" + msg);
+            Console.WriteLine("(" + Md + ")\t" + msg);
         }
     }
 }

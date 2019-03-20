@@ -80,7 +80,8 @@ namespace WpfApp1.JvComDbData
             tmp += JV_RACE.TenkoBaba.TenkoCD + ",";
             tmp += JV_RACE.TenkoBaba.SibaBabaCD + JV_RACE.TenkoBaba.DirtBabaCD + ",";
             tmp += JV_RACE.RecordUpKubun + ",";
-            
+            tmp += JV_RACE.RaceInfo.Ryakusyo6 + ",";
+
             if(kind == 0)
             {
                 //マスターデータ
@@ -130,6 +131,7 @@ namespace WpfApp1.JvComDbData
             setRaceHandCap(inParam[21]);
             setRaceStartTime(inParam[22]);
             setTrackStatus(inParam[23]);
+            setRaceName6(inParam[27]);
         }
         #endregion
 

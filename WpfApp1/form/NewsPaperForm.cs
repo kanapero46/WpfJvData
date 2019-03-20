@@ -470,7 +470,7 @@ namespace WpfApp1.form
                     this.labelArray[k].Name = "Name" + k.ToString() + i.ToString();
                     this.labelArray[k].Size = new Size(147, 30);
                     this.labelArray[k].Font = new Font("Meiryo UI", 10, FontStyle.Bold);
-                    if(SEdata.RaceHist1.raceName10 == "")
+                    if(SEdata.RaceHist1.raceName6 == "")
                     {
                         libNum = 2007;
                         LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.JyokenName.ToString(), ref libstr);
@@ -478,7 +478,7 @@ namespace WpfApp1.form
                     }
                     else
                     {
-                        this.labelArray[k].Text = SEdata.RaceHist1.raceName10;                        //TODO 10文字→6文字に変更予定
+                        this.labelArray[k].Text = SEdata.RaceHist1.raceName6;                        //TODO 10文字→6文字に変更予定
                     }
                     
                     //this.labelArray[k].BackColor = Color.AliceBlue;
@@ -561,13 +561,13 @@ namespace WpfApp1.form
                     this.TrackArray[k].Text = libstr + " " + SEdata.RaceHist1.distance + "m";
                     this.TrackArray[k].Location = new Point(StartYPosition + 2 + k * YPosition, MarginLoc  + gStartPotision + 128);
                     
-                    //勝ちタイム：レコードの場合は先頭に「R」をつける
+                    //勝ちタイム：レコードの場合は先頭に「R」をつける→Rをつける処理は最後に移動した
                     this.TimeArray[k] = new Label();
                     //プロパティ設定
                     this.TimeArray[k].Name = "Time" + k.ToString() + i.ToString();
                     this.TimeArray[k].Size = new Size(120, 30);
                     this.TimeArray[k].Font = new Font("Meiryo UI", 8);
-                    this.TimeArray[k].Text = (SEdata.RaceHist1.RecornUpdateFlag ? "R " : "") + SEdata.RaceHist1.time.Substring(0,1) + ":" + SEdata.RaceHist1.time.Substring(1,2) + "." + SEdata.RaceHist1.time.Substring(3,1);
+                    this.TimeArray[k].Text = SEdata.RaceHist1.time.Substring(0,1) + ":" + SEdata.RaceHist1.time.Substring(1,2) + "." + SEdata.RaceHist1.time.Substring(3,1);
                     //this.TimeArray[k].BackColor = Color.IndianRed;
                     this.TimeArray[k].Location = new Point(StartYPosition + 5 + k * YPosition, MarginLoc  + gStartPotision + 103);
 
@@ -678,10 +678,11 @@ namespace WpfApp1.form
                     this.PanelArray[k].BackColor = RankColor;
 
                     /* レコードが出たレースの場合はタイムを赤表示する */
-                    if(SEdata.RaceHist1.RecornUpdateFlag)
+                    if(SEdata.RaceHist1.RecornUpdateFlag && tmpRank == 1)
                     {
-                        this.TimeArray[k].BackColor = Color.Red;
-                        this.TimeArray[k].BackColor = Color.White;
+                        this.TimeArray[k].Text = "R " + this.TimeArray[k].Text;
+                        this.TimeArray[k].ForeColor = Color.Red;
+                        this.TimeArray[k].Font =  new Font("Meiryo UI", 8, FontStyle.Bold);
                     }
                     
                     
