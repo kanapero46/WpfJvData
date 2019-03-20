@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using WpfApp1.Class;
 using WpfApp1.Class.com;
 using WpfApp1.form.info.backClass;
+using WpfApp1.JvComDbData;
 
 namespace WpfApp1.form.info
 {
@@ -66,7 +67,7 @@ namespace WpfApp1.form.info
 
             if(ret != 0)
             {
-                JvCom.CONSOLE_MODULE("BACKEND", "JVRTOPEN ERROR! JvInfoBackJvRead["+ Spec +"](" + ret + ")");
+                JvCom.CONSOLE_MODULE("BE_INFO", "JVRTOPEN ERROR! JvInfoBackJvRead["+ Spec +"](" + ret + ")");
                 JvForm.JvForm_JvClose();
                 return ret;
             }
@@ -135,7 +136,7 @@ namespace WpfApp1.form.info
 
             if(ret != 0)
             {
-                JvCom.CONSOLE_MODULE("BACKEND", "KaisaiInfo Error RTOPEN[" + ret + "]");
+                JvCom.CONSOLE_MODULE("BE_INFO", "KaisaiInfo Error RTOPEN[" + ret + "]");
                 return;
             }
 
@@ -288,13 +289,16 @@ namespace WpfApp1.form.info
             JVForm JvForm = new JVForm();
             backClass.baclClassInfo tmpWeatherCond = new baclClassInfo();
 
+
+            JvDbWEData JvWeData = new JvDbWEData();
+
             JvForm.JvForm_JvInit();
             JvForm.JvForm_JVWatchEvent();
             ret = JvForm.JvForm_JvRTOpen(Spec, Key);
 
             if (ret != 0)
             {
-                JvCom.CONSOLE_MODULE("BACKEND", "JVRTOPEN ERROR! WeatherCondeInfo[" + Spec + "](" + ret + ")");
+                JvCom.CONSOLE_MODULE("BE_INFO", "JVRTOPEN ERROR! WeatherCondeInfo[" + Spec + "](" + ret + ")");
                 return -1;
             }
 
@@ -337,11 +341,7 @@ namespace WpfApp1.form.info
                 {
                     case "WE":
                         we.SetDataB(ref buff);
-                        tmpWeatherCond.WeatherFlag1 = true;
-                        tmpWeatherCond.Weather = we.TenkoBaba.TenkoCD;
-                        tmpWeatherCond.TurfStatus = we.TenkoBaba.SibaBabaCD;
-                        tmpWeatherCond.DirtStatus = we.TenkoBaba.DirtBabaCD;
-                        InfoClass.Add(tmpWeatherCond);
+                        JvWeData.JvDbWeSetData(ref buff);
                         break;
                     case "AV":
                         we.SetDataB(ref buff);
@@ -363,6 +363,17 @@ namespace WpfApp1.form.info
                
             }
 
+            WeatherCourceStatus weatherStatus = new WeatherCourceStatus();
+            backClass.baclClassInfo tmpInfoClass;
+
+            for(int i = 0; i < JvWeData.JvDbWeGetCount(); i++)
+            {
+                tmpInfoClass = new baclClassInfo();
+                ret = JvWeData.JvDbWeGetDataMapping(i, ref weatherStatus);
+                BackEndConvWeatherStatusClassInfo(ref weatherStatus, ref tmpInfoClass);
+                InfoClass.Add(tmpInfoClass);
+            }
+
             JvForm.JvForm_JVWatchEventClose();
             JvForm.Close();
             return 1;
@@ -374,6 +385,24 @@ namespace WpfApp1.form.info
             String libStr = "";
             LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&LibCode, Cd, ref libStr);
             return libStr;
+        }
+
+        private void BackEndConvWeatherStatusClassInfo(ref WeatherCourceStatus In, ref backClass.baclClassInfo Out)
+        {
+            try
+            {
+                //天候・馬場状態をInformationForm用に生成
+                Out.Key1 = In.Key;
+                Out.WeatherFlag1 = true;
+                Out.Weather = In.Weather;
+                Out.TurfStatus = In.Turf;
+                Out.DirtStatus = In.Dirt;
+            }
+            catch(Exception e)
+            {
+                JvCom.CONSOLE_MODULE("BE_INFO", "ConvWeatherStatusInfo ConvertError!");
+                JvCom.CONSOLE_MODULE("BE_INFO", e.Message);
+            }
         }
     }
 }

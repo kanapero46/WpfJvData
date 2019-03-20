@@ -11,6 +11,7 @@ namespace WpfApp1.JvComDbData
     {
         dbAccess.dbConnect db = new dbAccess.dbConnect();
         JVData_Struct.JV_WE_WEATHER JV_WEATHER = new JVData_Struct.JV_WE_WEATHER();
+        List<Class.WeatherCourceStatus> WCstatus = new List<WeatherCourceStatus>();
 
         public void JvDbInitData()
         {
@@ -20,12 +21,16 @@ namespace WpfApp1.JvComDbData
             db = new dbAccess.dbConnect("WE", ref buff, ref ret);
         }
 
-        public void JvDbWeSetData(String buff)
+        public JvDbWEData()
+        {
+            WCstatus = new List<WeatherCourceStatus>();
+        }
+
+        public void JvDbWeSetData(ref String buff)
         {
 
             String tmp = "";
             Boolean Flag = false;
-            List<Class.WeatherCourceStatus> WCstatus = new List<WeatherCourceStatus>();
 
             JV_WEATHER.SetDataB(ref buff);
             
@@ -59,7 +64,40 @@ namespace WpfApp1.JvComDbData
                 WCstatus.Add(tmpClass);
             }
 
-    
         }
+
+        #region 天候・馬場状態の取得（1開催場分）
+        public int JvDbWeGetData(String Key, ref WeatherCourceStatus refWthCond)
+        {
+            if(WCstatus.Count == 0 || Key == "")
+            {
+                return 0;
+            }
+
+            for(int i=0; i<WCstatus.Count; i++)
+            {
+                if(WCstatus[i].Key == Key)
+                {
+                    refWthCond = WCstatus[i];
+                    return 1;
+                }
+            }
+            return 0;
+        }
+        #endregion
+
+        #region 天候・馬場状態配列数取得関数
+        public int JvDbWeGetCount()
+        {
+            return WCstatus.Count;
+        }
+        #endregion
+
+        #region　外部からの天候・馬場状態取得関数
+        public int JvDbWeGetDataMapping(int idx, ref WeatherCourceStatus refWthCond)
+        {
+            return JvDbWeGetData(WCstatus[idx].Key, ref refWthCond);
+        }
+        #endregion
     }
 }
