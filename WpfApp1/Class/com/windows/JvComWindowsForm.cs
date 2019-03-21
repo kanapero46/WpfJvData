@@ -13,10 +13,10 @@ namespace WpfApp1.Class.com.windows
     public partial class JvComWindowsForm : Form
     {
         /* Windowsのポップアップ通知のアイコン */
-        const int NONE_STATUS = 0;  //無印
-        const int INFO_STATUS = 1;  //情報
-        const int WARN_STATUS = 2;  //警告
-        const int ERRO_STATUS = 3;  //エラー
+        public const int NONE_STATUS = 0;  //無印
+        public const int INFO_STATUS = 1;  //情報
+        public const int WARN_STATUS = 2;  //警告
+        public const int ERRO_STATUS = 3;  //エラー
 
         const String IconImgFilePath = "icon.ico";
 
@@ -72,20 +72,30 @@ namespace WpfApp1.Class.com.windows
             }
 
             /* パラメータが設定されればWindowsへ通知を出す。 */
-            if(setEnable)
+            try
             {
-                //表示時間を指定する。ただし0以下の場合はExceptionをはくため、
-                //0秒以下を指定した場合はデフォルト3mSecを指定する。
-                notifyIcon1.BalloonTipTitle = title;
-                notifyIcon1.BalloonTipText = msg;
-                notifyIcon1.ShowBalloonTip
-                    (
-                    (ShowTime >= 1 ? ShowTime : 3000 )
-                    );
+                if (setEnable)
+                {
+                    //表示時間を指定する。ただし0以下の場合はExceptionをはくため、
+                    //0秒以下を指定した場合はデフォルト3mSecを指定する。
+                    notifyIcon1.BalloonTipTitle = title;
+                    notifyIcon1.BalloonTipText = msg;
+                    notifyIcon1.ShowBalloonTip
+                        (
+                        (ShowTime >= 1 ? ShowTime : 3000)
+                        );
+                }
+                else
+                {
+                    return 0; //失敗で返す
+                }
+
             }
-            else
+            catch(Exception e)
             {
-                return 0; //失敗で返す
+                Class.com.JvComClass Log = new JvComClass();
+                Log.CONSOLE_MODULE("WINDOWS", "WindowsNotice -> Exception!!!\n" + e.Message);
+                return 0;
             }
 
             return 1;

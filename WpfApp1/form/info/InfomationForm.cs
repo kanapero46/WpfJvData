@@ -469,17 +469,6 @@ namespace WpfApp1.form.info
                             break;
                     }
 
-
-
-                    switch (Kind)
-                    {
-
-
-
-
-                        
-                    }
-                    break;
                 }
             }         
         }
@@ -579,17 +568,44 @@ namespace WpfApp1.form.info
         {
             String Cource = "";
             int RaceNum = 0;
+            String Key = "";
             int ret = BackEnd.JvInfoBackMain(BackEndInfomationForm.JV_RT_EVENT_PAY, e.bstr);
             COM.CONSOLE_MODULE("INFO_HDL", e.bstr + "(" + ret + ")");
             if(ret == 1)
             {
-                BackEnd.BackEndoGetPayCource(ref Cource, ref RaceNum);
-                Cource = BackEnd.BackendMappingCourceName(Cource);
-                COM.CONSOLE_MODULE("INFO_HDL", Cource + RaceNum);
-                            }
+                BackEnd.BackEndoGetPayCource(ref Key, ref Cource, ref RaceNum);                                      //取得した払戻情報をBackEndクラス取得
+                gCacheParamRaceData[SearchCourceParamIndex(Int32.Parse(Cource))].PayEndRaceNum = RaceNum;   //締切済みレース番号を更新
+                OutPutPayRaceLabel(Int32.Parse(Cource), SearchOutPutLebel(Int32.Parse(Cource), ""));        //締切情報を更新
+                BackEnd.BackEndPayInfoNotice();
+            }
             
         }
         #endregion
+
+        private int SearchOutPutLebel(int JyoCd, String name)
+        {
+            for (int i = 0; i < gCacheParamRaceData.Length; i++)
+            {
+                if(JyoCd == gCacheParamRaceData[i].CourceCd || name == gCacheParamRaceData[i].CourceStr)
+                {
+                    return gCacheParamRaceData[i].OutputLebel;
+                }
+            }
+            return 0;
+        }
+
+        private int SearchCourceParamIndex(int JyoCd)
+        {
+            for (int i = 0; i < gCacheParamRaceData.Length; i++)
+            {
+                if (JyoCd == gCacheParamRaceData[i].CourceCd)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
 
         private void statusBar1_PanelClick(object sender, StatusBarPanelClickEventArgs e)
         {

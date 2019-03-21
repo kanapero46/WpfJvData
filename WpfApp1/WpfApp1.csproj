@@ -141,6 +141,7 @@
       <DependentUpon>Syutsuba.cs</DependentUpon>
     </Compile>
     <Compile Include="JvComDbData\JvDbHRData.cs" />
+    <Compile Include="JvComDbData\JvDbHRInfoData.cs" />
     <Compile Include="JvComDbData\JvDbJCData.cs" />
     <Compile Include="JvComDbData\JvDbAVData.cs" />
     <Compile Include="JvComDbData\JvDbO1Data.cs" />

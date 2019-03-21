@@ -56,30 +56,6 @@
             this.label28 = new System.Windows.Forms.Label();
             this.flowMain1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowMain2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
-            this.PayInfo2 = new System.Windows.Forms.Label();
-            this.panel10 = new System.Windows.Forms.Panel();
-            this.panel11 = new System.Windows.Forms.Panel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.panel13 = new System.Windows.Forms.Panel();
-            this.panel24 = new System.Windows.Forms.Panel();
-            this.label13 = new System.Windows.Forms.Label();
-            this.panel26 = new System.Windows.Forms.Panel();
-            this.panel27 = new System.Windows.Forms.Panel();
-            this.label22 = new System.Windows.Forms.Label();
-            this.flowMain3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel10 = new System.Windows.Forms.FlowLayoutPanel();
-            this.PayInfo3 = new System.Windows.Forms.Label();
-            this.panel18 = new System.Windows.Forms.Panel();
-            this.panel19 = new System.Windows.Forms.Panel();
-            this.label19 = new System.Windows.Forms.Label();
-            this.panel28 = new System.Windows.Forms.Panel();
-            this.panel29 = new System.Windows.Forms.Panel();
-            this.label24 = new System.Windows.Forms.Label();
-            this.panel30 = new System.Windows.Forms.Panel();
-            this.panel31 = new System.Windows.Forms.Panel();
-            this.label25 = new System.Windows.Forms.Label();
-            this.axJVLink1 = new AxJVDTLabLib.AxJVLink();
             this.flowLayoutPanel11 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel12 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -92,6 +68,18 @@
             this.panel22 = new System.Windows.Forms.Panel();
             this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
+            this.PayInfo2 = new System.Windows.Forms.Label();
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.panel13 = new System.Windows.Forms.Panel();
+            this.panel24 = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.panel26 = new System.Windows.Forms.Panel();
+            this.panel27 = new System.Windows.Forms.Panel();
+            this.label22 = new System.Windows.Forms.Label();
+            this.flowMain3 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -104,6 +92,19 @@
             this.panel9 = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel10 = new System.Windows.Forms.FlowLayoutPanel();
+            this.PayInfo3 = new System.Windows.Forms.Label();
+            this.panel18 = new System.Windows.Forms.Panel();
+            this.panel19 = new System.Windows.Forms.Panel();
+            this.label19 = new System.Windows.Forms.Label();
+            this.panel28 = new System.Windows.Forms.Panel();
+            this.panel29 = new System.Windows.Forms.Panel();
+            this.label24 = new System.Windows.Forms.Label();
+            this.panel30 = new System.Windows.Forms.Panel();
+            this.panel31 = new System.Windows.Forms.Panel();
+            this.label25 = new System.Windows.Forms.Label();
+            this.axJVLink1 = new AxJVDTLabLib.AxJVLink();
+            this.statusBar1 = new System.Windows.Forms.StatusBar();
             this.panel1.SuspendLayout();
             this.panel.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -117,6 +118,13 @@
             this.panel25.SuspendLayout();
             this.flowMain1.SuspendLayout();
             this.flowMain2.SuspendLayout();
+            this.flowLayoutPanel11.SuspendLayout();
+            this.flowLayoutPanel12.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel20.SuspendLayout();
+            this.flowLayoutPanel13.SuspendLayout();
+            this.panel21.SuspendLayout();
+            this.panel22.SuspendLayout();
             this.flowLayoutPanel8.SuspendLayout();
             this.panel10.SuspendLayout();
             this.panel11.SuspendLayout();
@@ -125,6 +133,13 @@
             this.panel26.SuspendLayout();
             this.panel27.SuspendLayout();
             this.flowMain3.SuspendLayout();
+            this.flowLayoutPanel6.SuspendLayout();
+            this.flowLayoutPanel7.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.flowLayoutPanel14.SuspendLayout();
+            this.panel8.SuspendLayout();
+            this.panel9.SuspendLayout();
             this.flowLayoutPanel10.SuspendLayout();
             this.panel18.SuspendLayout();
             this.panel19.SuspendLayout();
@@ -133,20 +148,6 @@
             this.panel30.SuspendLayout();
             this.panel31.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axJVLink1)).BeginInit();
-            this.flowLayoutPanel11.SuspendLayout();
-            this.flowLayoutPanel12.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel20.SuspendLayout();
-            this.flowLayoutPanel13.SuspendLayout();
-            this.panel21.SuspendLayout();
-            this.panel22.SuspendLayout();
-            this.flowLayoutPanel6.SuspendLayout();
-            this.flowLayoutPanel7.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.flowLayoutPanel14.SuspendLayout();
-            this.panel8.SuspendLayout();
-            this.panel9.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -424,7 +425,7 @@
             this.flowMain1.Controls.Add(this.label26);
             this.flowMain1.Controls.Add(this.label21);
             this.flowMain1.Controls.Add(this.label28);
-            this.flowMain1.Location = new System.Drawing.Point(18, 213);
+            this.flowMain1.Location = new System.Drawing.Point(18, 214);
             this.flowMain1.Name = "flowMain1";
             this.flowMain1.Size = new System.Drawing.Size(567, 643);
             this.flowMain1.TabIndex = 19;
@@ -435,259 +436,11 @@
             this.flowMain2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.flowMain2.Controls.Add(this.flowLayoutPanel11);
             this.flowMain2.Controls.Add(this.flowLayoutPanel8);
-            this.flowMain2.Location = new System.Drawing.Point(591, 213);
+            this.flowMain2.Location = new System.Drawing.Point(591, 214);
             this.flowMain2.Name = "flowMain2";
             this.flowMain2.Size = new System.Drawing.Size(567, 643);
             this.flowMain2.TabIndex = 21;
             this.flowMain2.Visible = false;
-            // 
-            // flowLayoutPanel8
-            // 
-            this.flowLayoutPanel8.Controls.Add(this.PayInfo2);
-            this.flowLayoutPanel8.Controls.Add(this.panel10);
-            this.flowLayoutPanel8.Controls.Add(this.panel13);
-            this.flowLayoutPanel8.Location = new System.Drawing.Point(3, 144);
-            this.flowLayoutPanel8.Name = "flowLayoutPanel8";
-            this.flowLayoutPanel8.Size = new System.Drawing.Size(548, 386);
-            this.flowLayoutPanel8.TabIndex = 17;
-            this.flowLayoutPanel8.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel8_Paint);
-            // 
-            // PayInfo2
-            // 
-            this.PayInfo2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PayInfo2.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.PayInfo2.ForeColor = System.Drawing.Color.Green;
-            this.PayInfo2.Location = new System.Drawing.Point(3, 0);
-            this.PayInfo2.Name = "PayInfo2";
-            this.PayInfo2.Size = new System.Drawing.Size(533, 100);
-            this.PayInfo2.TabIndex = 20;
-            this.PayInfo2.Text = "京都 5レースまで確定";
-            this.PayInfo2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // panel10
-            // 
-            this.panel10.BackColor = System.Drawing.Color.Khaki;
-            this.panel10.Controls.Add(this.panel11);
-            this.panel10.Location = new System.Drawing.Point(3, 103);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(553, 70);
-            this.panel10.TabIndex = 18;
-            // 
-            // panel11
-            // 
-            this.panel11.BackColor = System.Drawing.Color.White;
-            this.panel11.Controls.Add(this.label11);
-            this.panel11.Location = new System.Drawing.Point(36, 3);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(484, 64);
-            this.panel11.TabIndex = 3;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(61, 6);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(371, 48);
-            this.label11.TabIndex = 1;
-            this.label11.Text = "出走取消・競走除外 1件";
-            // 
-            // panel13
-            // 
-            this.panel13.BackColor = System.Drawing.Color.Khaki;
-            this.panel13.Controls.Add(this.panel24);
-            this.panel13.Location = new System.Drawing.Point(3, 179);
-            this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(553, 70);
-            this.panel13.TabIndex = 19;
-            // 
-            // panel24
-            // 
-            this.panel24.BackColor = System.Drawing.Color.White;
-            this.panel24.Controls.Add(this.label13);
-            this.panel24.Location = new System.Drawing.Point(36, 3);
-            this.panel24.Name = "panel24";
-            this.panel24.Size = new System.Drawing.Size(484, 64);
-            this.panel24.TabIndex = 3;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label13.ForeColor = System.Drawing.Color.Black;
-            this.label13.Location = new System.Drawing.Point(61, 7);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(231, 48);
-            this.label13.TabIndex = 1;
-            this.label13.Text = "騎手変更 10件";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // panel26
-            // 
-            this.panel26.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.panel26.BackColor = System.Drawing.Color.ForestGreen;
-            this.panel26.Controls.Add(this.panel27);
-            this.panel26.Location = new System.Drawing.Point(591, 124);
-            this.panel26.Name = "panel26";
-            this.panel26.Size = new System.Drawing.Size(567, 70);
-            this.panel26.TabIndex = 20;
-            this.panel26.Visible = false;
-            // 
-            // panel27
-            // 
-            this.panel27.BackColor = System.Drawing.Color.White;
-            this.panel27.Controls.Add(this.label22);
-            this.panel27.Location = new System.Drawing.Point(36, 3);
-            this.panel27.Name = "panel27";
-            this.panel27.Size = new System.Drawing.Size(484, 64);
-            this.panel27.TabIndex = 3;
-            // 
-            // label22
-            // 
-            this.label22.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label22.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label22.Location = new System.Drawing.Point(28, 10);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(419, 55);
-            this.label22.TabIndex = 1;
-            this.label22.Text = "第1回 京都競馬 12日目";
-            // 
-            // flowMain3
-            // 
-            this.flowMain3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowMain3.Controls.Add(this.flowLayoutPanel6);
-            this.flowMain3.Controls.Add(this.flowLayoutPanel10);
-            this.flowMain3.Location = new System.Drawing.Point(1164, 213);
-            this.flowMain3.Name = "flowMain3";
-            this.flowMain3.Size = new System.Drawing.Size(567, 643);
-            this.flowMain3.TabIndex = 23;
-            this.flowMain3.Visible = false;
-            // 
-            // flowLayoutPanel10
-            // 
-            this.flowLayoutPanel10.Controls.Add(this.PayInfo3);
-            this.flowLayoutPanel10.Controls.Add(this.panel18);
-            this.flowLayoutPanel10.Controls.Add(this.panel28);
-            this.flowLayoutPanel10.Location = new System.Drawing.Point(3, 144);
-            this.flowLayoutPanel10.Name = "flowLayoutPanel10";
-            this.flowLayoutPanel10.Size = new System.Drawing.Size(548, 386);
-            this.flowLayoutPanel10.TabIndex = 17;
-            this.flowLayoutPanel10.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel10_Paint);
-            // 
-            // PayInfo3
-            // 
-            this.PayInfo3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PayInfo3.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.PayInfo3.ForeColor = System.Drawing.Color.Fuchsia;
-            this.PayInfo3.Location = new System.Drawing.Point(3, 0);
-            this.PayInfo3.Name = "PayInfo3";
-            this.PayInfo3.Size = new System.Drawing.Size(533, 100);
-            this.PayInfo3.TabIndex = 21;
-            this.PayInfo3.Text = "札幌 5レースまで確定";
-            this.PayInfo3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // panel18
-            // 
-            this.panel18.BackColor = System.Drawing.Color.Khaki;
-            this.panel18.Controls.Add(this.panel19);
-            this.panel18.Location = new System.Drawing.Point(3, 103);
-            this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(553, 70);
-            this.panel18.TabIndex = 18;
-            // 
-            // panel19
-            // 
-            this.panel19.BackColor = System.Drawing.Color.White;
-            this.panel19.Controls.Add(this.label19);
-            this.panel19.Location = new System.Drawing.Point(36, 3);
-            this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(484, 64);
-            this.panel19.TabIndex = 3;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label19.ForeColor = System.Drawing.Color.Black;
-            this.label19.Location = new System.Drawing.Point(61, 6);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(371, 48);
-            this.label19.TabIndex = 1;
-            this.label19.Text = "出走取消・競走除外 1件";
-            // 
-            // panel28
-            // 
-            this.panel28.BackColor = System.Drawing.Color.Khaki;
-            this.panel28.Controls.Add(this.panel29);
-            this.panel28.Location = new System.Drawing.Point(3, 179);
-            this.panel28.Name = "panel28";
-            this.panel28.Size = new System.Drawing.Size(553, 70);
-            this.panel28.TabIndex = 19;
-            // 
-            // panel29
-            // 
-            this.panel29.BackColor = System.Drawing.Color.White;
-            this.panel29.Controls.Add(this.label24);
-            this.panel29.Location = new System.Drawing.Point(36, 3);
-            this.panel29.Name = "panel29";
-            this.panel29.Size = new System.Drawing.Size(484, 64);
-            this.panel29.TabIndex = 3;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label24.ForeColor = System.Drawing.Color.Black;
-            this.label24.Location = new System.Drawing.Point(61, 7);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(231, 48);
-            this.label24.TabIndex = 1;
-            this.label24.Text = "騎手変更 10件";
-            this.label24.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // panel30
-            // 
-            this.panel30.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.panel30.BackColor = System.Drawing.Color.Magenta;
-            this.panel30.Controls.Add(this.panel31);
-            this.panel30.Location = new System.Drawing.Point(1164, 124);
-            this.panel30.Name = "panel30";
-            this.panel30.Size = new System.Drawing.Size(567, 70);
-            this.panel30.TabIndex = 22;
-            this.panel30.Visible = false;
-            // 
-            // panel31
-            // 
-            this.panel31.BackColor = System.Drawing.Color.White;
-            this.panel31.Controls.Add(this.label25);
-            this.panel31.Location = new System.Drawing.Point(36, 3);
-            this.panel31.Name = "panel31";
-            this.panel31.Size = new System.Drawing.Size(484, 64);
-            this.panel31.TabIndex = 3;
-            // 
-            // label25
-            // 
-            this.label25.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label25.ForeColor = System.Drawing.Color.Purple;
-            this.label25.Location = new System.Drawing.Point(28, 10);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(419, 55);
-            this.label25.TabIndex = 1;
-            this.label25.Text = "第1回 京都競馬 12日目";
-            // 
-            // axJVLink1
-            // 
-            this.axJVLink1.Enabled = true;
-            this.axJVLink1.Location = new System.Drawing.Point(13, 62);
-            this.axJVLink1.Name = "axJVLink1";
-            this.axJVLink1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axJVLink1.OcxState")));
-            this.axJVLink1.Size = new System.Drawing.Size(79, 56);
-            this.axJVLink1.TabIndex = 24;
-            this.axJVLink1.Visible = false;
-            this.axJVLink1.JVEvtPay += new AxJVDTLabLib._IJVLinkEvents_JVEvtPayEventHandler(this.axJVLink1_JVEvtPay);
-            this.axJVLink1.JVEvtWeather += new AxJVDTLabLib._IJVLinkEvents_JVEvtWeatherEventHandler(this.axJVLink1_JVEvtWeather);
-            this.axJVLink1.JVEvtWeight += new AxJVDTLabLib._IJVLinkEvents_JVEvtWeightEventHandler(this.axJVLink1_JVEvtWeight);
             // 
             // flowLayoutPanel11
             // 
@@ -815,6 +568,129 @@
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label32.UseCompatibleTextRendering = true;
             // 
+            // flowLayoutPanel8
+            // 
+            this.flowLayoutPanel8.Controls.Add(this.PayInfo2);
+            this.flowLayoutPanel8.Controls.Add(this.panel10);
+            this.flowLayoutPanel8.Controls.Add(this.panel13);
+            this.flowLayoutPanel8.Location = new System.Drawing.Point(3, 144);
+            this.flowLayoutPanel8.Name = "flowLayoutPanel8";
+            this.flowLayoutPanel8.Size = new System.Drawing.Size(548, 386);
+            this.flowLayoutPanel8.TabIndex = 17;
+            this.flowLayoutPanel8.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel8_Paint);
+            // 
+            // PayInfo2
+            // 
+            this.PayInfo2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PayInfo2.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PayInfo2.ForeColor = System.Drawing.Color.Green;
+            this.PayInfo2.Location = new System.Drawing.Point(3, 0);
+            this.PayInfo2.Name = "PayInfo2";
+            this.PayInfo2.Size = new System.Drawing.Size(533, 100);
+            this.PayInfo2.TabIndex = 20;
+            this.PayInfo2.Text = "京都 5レースまで確定";
+            this.PayInfo2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panel10
+            // 
+            this.panel10.BackColor = System.Drawing.Color.Khaki;
+            this.panel10.Controls.Add(this.panel11);
+            this.panel10.Location = new System.Drawing.Point(3, 103);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(553, 70);
+            this.panel10.TabIndex = 18;
+            // 
+            // panel11
+            // 
+            this.panel11.BackColor = System.Drawing.Color.White;
+            this.panel11.Controls.Add(this.label11);
+            this.panel11.Location = new System.Drawing.Point(36, 3);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(484, 64);
+            this.panel11.TabIndex = 3;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label11.ForeColor = System.Drawing.Color.Black;
+            this.label11.Location = new System.Drawing.Point(61, 6);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(371, 48);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "出走取消・競走除外 1件";
+            // 
+            // panel13
+            // 
+            this.panel13.BackColor = System.Drawing.Color.Khaki;
+            this.panel13.Controls.Add(this.panel24);
+            this.panel13.Location = new System.Drawing.Point(3, 179);
+            this.panel13.Name = "panel13";
+            this.panel13.Size = new System.Drawing.Size(553, 70);
+            this.panel13.TabIndex = 19;
+            // 
+            // panel24
+            // 
+            this.panel24.BackColor = System.Drawing.Color.White;
+            this.panel24.Controls.Add(this.label13);
+            this.panel24.Location = new System.Drawing.Point(36, 3);
+            this.panel24.Name = "panel24";
+            this.panel24.Size = new System.Drawing.Size(484, 64);
+            this.panel24.TabIndex = 3;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label13.ForeColor = System.Drawing.Color.Black;
+            this.label13.Location = new System.Drawing.Point(61, 7);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(231, 48);
+            this.label13.TabIndex = 1;
+            this.label13.Text = "騎手変更 10件";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // panel26
+            // 
+            this.panel26.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel26.BackColor = System.Drawing.Color.ForestGreen;
+            this.panel26.Controls.Add(this.panel27);
+            this.panel26.Location = new System.Drawing.Point(591, 124);
+            this.panel26.Name = "panel26";
+            this.panel26.Size = new System.Drawing.Size(567, 70);
+            this.panel26.TabIndex = 20;
+            this.panel26.Visible = false;
+            // 
+            // panel27
+            // 
+            this.panel27.BackColor = System.Drawing.Color.White;
+            this.panel27.Controls.Add(this.label22);
+            this.panel27.Location = new System.Drawing.Point(36, 3);
+            this.panel27.Name = "panel27";
+            this.panel27.Size = new System.Drawing.Size(484, 64);
+            this.panel27.TabIndex = 3;
+            // 
+            // label22
+            // 
+            this.label22.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label22.ForeColor = System.Drawing.Color.DarkGreen;
+            this.label22.Location = new System.Drawing.Point(28, 10);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(419, 55);
+            this.label22.TabIndex = 1;
+            this.label22.Text = "第1回 京都競馬 12日目";
+            // 
+            // flowMain3
+            // 
+            this.flowMain3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowMain3.Controls.Add(this.flowLayoutPanel6);
+            this.flowMain3.Controls.Add(this.flowLayoutPanel10);
+            this.flowMain3.Location = new System.Drawing.Point(1164, 214);
+            this.flowMain3.Name = "flowMain3";
+            this.flowMain3.Size = new System.Drawing.Size(567, 643);
+            this.flowMain3.TabIndex = 23;
+            this.flowMain3.Visible = false;
+            // 
             // flowLayoutPanel6
             // 
             this.flowLayoutPanel6.Controls.Add(this.flowLayoutPanel7);
@@ -941,11 +817,145 @@
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label10.UseCompatibleTextRendering = true;
             // 
+            // flowLayoutPanel10
+            // 
+            this.flowLayoutPanel10.Controls.Add(this.PayInfo3);
+            this.flowLayoutPanel10.Controls.Add(this.panel18);
+            this.flowLayoutPanel10.Controls.Add(this.panel28);
+            this.flowLayoutPanel10.Location = new System.Drawing.Point(3, 144);
+            this.flowLayoutPanel10.Name = "flowLayoutPanel10";
+            this.flowLayoutPanel10.Size = new System.Drawing.Size(548, 386);
+            this.flowLayoutPanel10.TabIndex = 17;
+            this.flowLayoutPanel10.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel10_Paint);
+            // 
+            // PayInfo3
+            // 
+            this.PayInfo3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PayInfo3.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PayInfo3.ForeColor = System.Drawing.Color.Fuchsia;
+            this.PayInfo3.Location = new System.Drawing.Point(3, 0);
+            this.PayInfo3.Name = "PayInfo3";
+            this.PayInfo3.Size = new System.Drawing.Size(533, 100);
+            this.PayInfo3.TabIndex = 21;
+            this.PayInfo3.Text = "札幌 5レースまで確定";
+            this.PayInfo3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panel18
+            // 
+            this.panel18.BackColor = System.Drawing.Color.Khaki;
+            this.panel18.Controls.Add(this.panel19);
+            this.panel18.Location = new System.Drawing.Point(3, 103);
+            this.panel18.Name = "panel18";
+            this.panel18.Size = new System.Drawing.Size(553, 70);
+            this.panel18.TabIndex = 18;
+            // 
+            // panel19
+            // 
+            this.panel19.BackColor = System.Drawing.Color.White;
+            this.panel19.Controls.Add(this.label19);
+            this.panel19.Location = new System.Drawing.Point(36, 3);
+            this.panel19.Name = "panel19";
+            this.panel19.Size = new System.Drawing.Size(484, 64);
+            this.panel19.TabIndex = 3;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label19.ForeColor = System.Drawing.Color.Black;
+            this.label19.Location = new System.Drawing.Point(61, 6);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(371, 48);
+            this.label19.TabIndex = 1;
+            this.label19.Text = "出走取消・競走除外 1件";
+            // 
+            // panel28
+            // 
+            this.panel28.BackColor = System.Drawing.Color.Khaki;
+            this.panel28.Controls.Add(this.panel29);
+            this.panel28.Location = new System.Drawing.Point(3, 179);
+            this.panel28.Name = "panel28";
+            this.panel28.Size = new System.Drawing.Size(553, 70);
+            this.panel28.TabIndex = 19;
+            // 
+            // panel29
+            // 
+            this.panel29.BackColor = System.Drawing.Color.White;
+            this.panel29.Controls.Add(this.label24);
+            this.panel29.Location = new System.Drawing.Point(36, 3);
+            this.panel29.Name = "panel29";
+            this.panel29.Size = new System.Drawing.Size(484, 64);
+            this.panel29.TabIndex = 3;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label24.ForeColor = System.Drawing.Color.Black;
+            this.label24.Location = new System.Drawing.Point(61, 7);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(231, 48);
+            this.label24.TabIndex = 1;
+            this.label24.Text = "騎手変更 10件";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // panel30
+            // 
+            this.panel30.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel30.BackColor = System.Drawing.Color.Magenta;
+            this.panel30.Controls.Add(this.panel31);
+            this.panel30.Location = new System.Drawing.Point(1164, 124);
+            this.panel30.Name = "panel30";
+            this.panel30.Size = new System.Drawing.Size(567, 70);
+            this.panel30.TabIndex = 22;
+            this.panel30.Visible = false;
+            // 
+            // panel31
+            // 
+            this.panel31.BackColor = System.Drawing.Color.White;
+            this.panel31.Controls.Add(this.label25);
+            this.panel31.Location = new System.Drawing.Point(36, 3);
+            this.panel31.Name = "panel31";
+            this.panel31.Size = new System.Drawing.Size(484, 64);
+            this.panel31.TabIndex = 3;
+            // 
+            // label25
+            // 
+            this.label25.Font = new System.Drawing.Font("メイリオ", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label25.ForeColor = System.Drawing.Color.Purple;
+            this.label25.Location = new System.Drawing.Point(28, 10);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(419, 55);
+            this.label25.TabIndex = 1;
+            this.label25.Text = "第1回 京都競馬 12日目";
+            // 
+            // axJVLink1
+            // 
+            this.axJVLink1.Enabled = true;
+            this.axJVLink1.Location = new System.Drawing.Point(13, 62);
+            this.axJVLink1.Name = "axJVLink1";
+            this.axJVLink1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axJVLink1.OcxState")));
+            this.axJVLink1.Size = new System.Drawing.Size(79, 56);
+            this.axJVLink1.TabIndex = 24;
+            this.axJVLink1.Visible = false;
+            this.axJVLink1.JVEvtPay += new AxJVDTLabLib._IJVLinkEvents_JVEvtPayEventHandler(this.axJVLink1_JVEvtPay);
+            this.axJVLink1.JVEvtWeather += new AxJVDTLabLib._IJVLinkEvents_JVEvtWeatherEventHandler(this.axJVLink1_JVEvtWeather);
+            this.axJVLink1.JVEvtWeight += new AxJVDTLabLib._IJVLinkEvents_JVEvtWeightEventHandler(this.axJVLink1_JVEvtWeight);
+            // 
+            // statusBar1
+            // 
+            this.statusBar1.Location = new System.Drawing.Point(0, 893);
+            this.statusBar1.Name = "statusBar1";
+            this.statusBar1.Size = new System.Drawing.Size(1751, 29);
+            this.statusBar1.TabIndex = 25;
+            this.statusBar1.Text = "statusBar1";
+            // 
             // InfomationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1751, 920);
+            this.ClientSize = new System.Drawing.Size(1751, 922);
+            this.Controls.Add(this.statusBar1);
             this.Controls.Add(this.axJVLink1);
             this.Controls.Add(this.flowMain3);
             this.Controls.Add(this.panel30);
@@ -972,6 +982,13 @@
             this.panel25.ResumeLayout(false);
             this.flowMain1.ResumeLayout(false);
             this.flowMain2.ResumeLayout(false);
+            this.flowLayoutPanel11.ResumeLayout(false);
+            this.flowLayoutPanel12.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel20.ResumeLayout(false);
+            this.flowLayoutPanel13.ResumeLayout(false);
+            this.panel21.ResumeLayout(false);
+            this.panel22.ResumeLayout(false);
             this.flowLayoutPanel8.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
@@ -982,6 +999,13 @@
             this.panel26.ResumeLayout(false);
             this.panel27.ResumeLayout(false);
             this.flowMain3.ResumeLayout(false);
+            this.flowLayoutPanel6.ResumeLayout(false);
+            this.flowLayoutPanel7.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.flowLayoutPanel14.ResumeLayout(false);
+            this.panel8.ResumeLayout(false);
+            this.panel9.ResumeLayout(false);
             this.flowLayoutPanel10.ResumeLayout(false);
             this.panel18.ResumeLayout(false);
             this.panel19.ResumeLayout(false);
@@ -992,20 +1016,6 @@
             this.panel30.ResumeLayout(false);
             this.panel31.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.axJVLink1)).EndInit();
-            this.flowLayoutPanel11.ResumeLayout(false);
-            this.flowLayoutPanel12.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel20.ResumeLayout(false);
-            this.flowLayoutPanel13.ResumeLayout(false);
-            this.panel21.ResumeLayout(false);
-            this.panel22.ResumeLayout(false);
-            this.flowLayoutPanel6.ResumeLayout(false);
-            this.flowLayoutPanel7.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            this.flowLayoutPanel14.ResumeLayout(false);
-            this.panel8.ResumeLayout(false);
-            this.panel9.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1087,5 +1097,6 @@
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.StatusBar statusBar1;
     }
 }

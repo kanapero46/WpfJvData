@@ -106,13 +106,27 @@ namespace WpfApp1.form.info
 
             }
             JvForm.JvForm_JvClose();
-            return 1;
+
+            //DBに書き込み
+            ret = HR.JvWriteHrData();
+            if(ret == 1)
+            {
+
+            }
+            return ret;
         }
 
         #region 払戻金確定競馬場・場名取得
-        public void BackEndoGetPayCource(ref String Cource, ref int Racenum)
+        public void BackEndoGetPayCource(ref String Key, ref String Cource, ref int Racenum)
         {
-            HR.GetPayInfo(ref Cource, ref Racenum);
+            HR.GetPayInfo(ref Key, ref Cource, ref Racenum);
+        }
+        #endregion
+
+        #region 払戻情報をWindowsへ通知するためのマッピング関数
+        public void BackEndPayInfoNotice()
+        {
+            HR.JvHrNoticeWindows();
         }
         #endregion
 
@@ -183,8 +197,6 @@ namespace WpfApp1.form.info
 
 
             }
-
-
         }
 
 
@@ -282,6 +294,7 @@ namespace WpfApp1.form.info
         }
         #endregion
 
+        #region 変更情報取得
         public int BackEndWeatherCondInfo(String Spec, String Key, ref List<backClass.baclClassInfo> InfoClass)
         {
             int ret = 0;
@@ -378,6 +391,8 @@ namespace WpfApp1.form.info
             JvForm.Close();
             return 1;
         }
+        #endregion
+
 
         unsafe public String BackEndLibMappingFunction(int Code, String Cd)
         {
