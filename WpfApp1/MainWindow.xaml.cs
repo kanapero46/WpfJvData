@@ -1713,7 +1713,13 @@ namespace WpfApp1
             ret = ArrayRet;
 
         }
-        #endregion 
+        #endregion
+
+        private void Button_Click_8(object sender, RoutedEventArgs e)
+        {
+            Class.com.windows.JvComWindowsForm Form = new Class.com.windows.JvComWindowsForm();
+            Form.Show();
+        }
     }
 
     

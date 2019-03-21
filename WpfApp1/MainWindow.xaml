@@ -29,7 +29,7 @@
         <TextBox x:Name="Status" Height="88" Margin="14,260,6.5,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="3" AcceptsReturn="True" RenderTransformOrigin="0.5,0.5" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
         <CheckBox x:Name="MasterFlag" Content="" HorizontalAlignment="Left" Margin="400,121,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="ToWeekFlag" Content="" HorizontalAlignment="Left" Margin="376,121,0,0" VerticalAlignment="Top"/>
-        <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="492,119,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_1"/>
+        <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="492,119,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_8"/>
         <Button Content="Exit" Margin="756,121,20.5,0" VerticalAlignment="Top" Grid.ColumnSpan="3" Click="Button_Click_4" Height="51"/>
         <Button Content="本日" HorizontalAlignment="Left" Height="24" Margin="103,10,0,0" VerticalAlignment="Top" Width="153" Click="Button_Click_5"/>
         <Button Content="▶" HorizontalAlignment="Left" Margin="271,10,0,0" VerticalAlignment="Top" Width="60" Height="24" Click="Button_Click_6"/>
