@@ -40,22 +40,20 @@ namespace WpfApp1.form.info
         const int KYOTO = 2;
         const int HANSHIN = 2;
 
-        private System.Windows.Forms.Label[] InfomationLabel;
-
-        String DateParam;
-
         const int MAX_RACE_CNT = 3;
 
+        private System.Windows.Forms.Label[] InfomationLabel;
+
+        
         RC_STRUCT[] gCacheParamRaceData = new RC_STRUCT[MAX_RACE_CNT];
         int[] gCacheIntCourceArray = new int[MAX_RACE_CNT];  //競馬場コードから表示エリア格納配列（左→中→右）
 
         InfomationFormSettingClass SettingClass = new InfomationFormSettingClass();
         BackEndInfomationForm BackEnd = new BackEndInfomationForm();    //バックエンドクラス   
-       
-
         JvComClass COM = new JvComClass();
-
         backClass.baclClassInfo[] WeatherCond = new backClass.baclClassInfo[MAX_RACE_CNT];
+
+        String DateParam;
 
         public InfomationForm()
         {
@@ -66,7 +64,7 @@ namespace WpfApp1.form.info
         {
             InitializeComponent();
             DateParam = Date;
-            COM.CONSOLE_MODULE("INFO", "InfomatioForm Date = " + Date);
+            COM.CONSOLE_TIME_MD("INFO", "InfomatioForm Date = " + Date);
         }
 
         #region フォーム読み込み処理

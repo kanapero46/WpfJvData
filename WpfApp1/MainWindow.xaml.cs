@@ -42,8 +42,10 @@ namespace WpfApp1
         JvDbRaData mainDataClass = new JvDbRaData();
 
         /* 別スレッドとのメッセージやり取り */
-       
         Object msg;
+
+        /* ログ出力共通クラス */
+        Class.com.JvComClass Log = new Class.com.JvComClass();
 
         /* *******定数定義******* */
         const int RA_RACECOURCE = 2;
@@ -61,6 +63,9 @@ namespace WpfApp1
 
         int ProgressStatusValue = 0;
         int MaxValue = 100;
+
+        /* *******フォームの多重定義防止変数の定義 ********* */
+        public form.info.InfomationForm infomationForm = null;
 
         public MainWindow()
         {
@@ -1659,17 +1664,27 @@ namespace WpfApp1
             DateTime dt = DateTime.Now;
             if (DateText.Text == "")
             {
-                
+
             }
             else
             {
                 dt = DateTime.Parse(DateText.Text);
             }
-            
 
-            form.info.InfomationForm form = new form.info.InfomationForm(dt.ToString("yyyyMMdd"));
-            form.Show();
+            /* 二重起動防止 */
+            if (this.infomationForm == null || this.infomationForm.IsDisposed)
+            { /* ヌル、または破棄されていたら */
+                infomationForm = new form.info.InfomationForm(dt.ToString("yyyyMMdd"));
+                infomationForm.Show();
+            }
+            else
+            {
+                /* すでに起動済みの場合は、多重定義を禁止し、フォームをアクティブにする */
+                Log.CONSOLE_WRITER("InfomationForm Always Active");
+                infomationForm.Activate();
+            }
         }
+
 
         #region DBから開催競馬場を取得
         public void SetKaisaiInfo(String Date, ref List<String> ret)
