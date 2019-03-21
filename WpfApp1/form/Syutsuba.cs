@@ -479,7 +479,7 @@ namespace WpfApp1.form
             this.racename.Text = RaClassData.getRaceNameFukus() + (RaClassData.getRaceNameFukus().Length >= 1 ? " " : "") + RaClassData.getRaceName() + (RaClassData.getRaceNameEnd() == ""? "": "(" + RaClassData.getRaceNameEnd() + ")");
             this.raceNameEng.Text = " "+ RaClassData.getRaceNameEng();
 
-            if(RaClassData.getRaceGradeKai() != 0)
+            if(RaClassData.getRaceGradeKai() != 0 || RaClassData.getRaceGrade() == "Ｌ") //リステッド競走対応
             {
                 racename.Text += " （" + RaClassData.getRaceGrade() + "）";
             }
