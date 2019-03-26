@@ -14,6 +14,7 @@ namespace WpfApp1.JvComDbData
         dbConnect db = new dbConnect();
 
         const int RA_MAX = 25;
+        const int LAP_COUNT_MAX = 25;
 
         /* DBへの書き込み処理を変更した場合はマジックStrを書き換え、初期化を行う */
         const String MAGIC = "A";
@@ -82,6 +83,11 @@ namespace WpfApp1.JvComDbData
             tmp += JV_RACE.RecordUpKubun + ",";
             tmp += JV_RACE.RaceInfo.Ryakusyo6 + ",";
 
+            for(int i=0; i<JV_RACE.LapTime.Length; i++)
+            {
+                tmp += JV_RACE.LapTime[i] + ",";
+            }
+
             if(kind == 0)
             {
                 //マスターデータ
@@ -132,6 +138,21 @@ namespace WpfApp1.JvComDbData
             setRaceStartTime(inParam[22]);
             setTrackStatus(inParam[23]);
             setRaceName6(inParam[26]);
+
+            for (int i = 0; i < LAP_COUNT_MAX; i++)
+            {
+                if(inParam[27 + i].Trim() == "")
+                {
+                    break;
+                }
+                else
+                {
+                    SetLapTime2(inParam[27 + i]);
+                }
+            }
+
+            //ここからは上のラップタイムを考慮した添字にする必要あり
+            
         }
         #endregion
 
