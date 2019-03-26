@@ -131,7 +131,7 @@ namespace WpfApp1.JvComDbData
             setRaceHandCap(inParam[21]);
             setRaceStartTime(inParam[22]);
             setTrackStatus(inParam[23]);
-            setRaceName6(inParam[27]);
+            setRaceName6(inParam[26]);
         }
         #endregion
 

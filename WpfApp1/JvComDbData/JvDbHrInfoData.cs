@@ -11,21 +11,42 @@ namespace WpfApp1.JvComDbData
     {
         struct TAN_PARAM
         {
-            public Boolean SpPayFlag; //特払い
             public String Umaban;
             public String Pay;
             public String Ninki;
         }
 
-        struct MULTI_PARAM
+        public struct MULTI_PARAM
         {
-            Boolean SpPayFlag; //特払い
-            String Kumiban;
-            String Pay;
+            public String Kumiban;
+            public String Pay;
+            public String Ninki;
+        }
+
+        public struct EXT_PARAM
+        {
+            public Boolean ExtFuseirituFlag;
+            public Boolean ExtSpPayFlag;
+            public Boolean ExtHenkanFlag;
+            public MULTI_PARAM PayInfo;
+        }
+
+        public enum PAY_BASE
+        {
+            TANSHO,
+            FUKUSHO,
+            WAKUREN,
+            UMAREN,
+            WIDE,
+            UMATAN,
+            SANRENPUKU,
+            SANRENTAN,
+            MAX
         }
 
         Boolean[] PayFlag;
         Boolean[] FuseirituFlag;
+        Boolean[] SpPayFlag;
         Boolean[] HenaknFlag;
         List<TAN_PARAM> TANSHO = new List<TAN_PARAM>();
         List<TAN_PARAM> FUKUSHO = new List<TAN_PARAM>();
@@ -52,27 +73,166 @@ namespace WpfApp1.JvComDbData
         {
             PayFlag1 = new bool[8];
             FuseirituFlag1 = new bool[8];
+            SpPayFlag = new bool[8];
             HenaknFlag1 = new bool[8];
+            
+        }
+
+        public void InitJvDbHrInfoData()
+        {
+            PayFlag1 = new bool[8];
+            FuseirituFlag1 = new bool[8];
+            SpPayFlag = new bool[8];
+            HenaknFlag1 = new bool[8];
+            TANSHO.Clear();
+            FUKUSHO.Clear();
+            UMAREN.Clear();
+            WAKUREN.Clear();
+            WIDE.Clear();
+            UMATAN.Clear();
+            SANRENPUKU.Clear();
+            SANRENTAN.Clear();
+
         }
 
         public void SetPayInfo(ref List<String> In)
         {
             String[] tmpArray = new string[37];
             InitCsvTopString(ref tmpArray);
+            TAN_PARAM Param = new TAN_PARAM();
+
+            //エラーチェック
+            if(In.Count == 0)
+            {
+                return;
+            }
+
             for (int i = 0; i < tmpArray.Length; i++)
             {
+               
                 if(In[0] == tmpArray[i])
                 {
                     switch(i)
                     {
                         case 0:
                             //単勝
-                            
+                            FuseirituFlag[0] = (In[5] == "1" ? true : false);
+                            SpPayFlag[0] = (In[6] == "1" ? true : false);
+                            HenaknFlag[0] = (In[7] == "1" ? true : false);
+                            Set_TANSHO(ref In);
                             break;
                         case 1:
                         case 2:
                             //単勝
-
+                            if(In[2] == "")
+                            {
+                                break;  //同着なし
+                            }
+                            else
+                            {
+                                Set_TANSHO(ref In);
+                            }                           
+                            break;
+                        case 3:
+                            //複勝
+                            FuseirituFlag[1] = (In[5] == "1" ? true : false);
+                            SpPayFlag[1] = (In[6] == "1" ? true : false);
+                            HenaknFlag[1] = (In[7] == "1" ? true : false);
+                            Set_FUKUSHO(ref In);
+                            break;
+                        case 4:
+                        case 5:
+                        case 6:
+                        case 7:
+                            if (In[2] == "")
+                            {
+                                break;  //的中票なし
+                            }
+                            else
+                            {
+                                Set_FUKUSHO(ref In);
+                            }
+                            break;
+                        case 8:
+                        case 9:
+                        case 10:
+                            //枠連
+                            break;
+                        case 11:
+                            //馬連
+                            FuseirituFlag[3] = (In[5] == "1" ? true : false);
+                            SpPayFlag[3] = (In[6] == "1" ? true : false);
+                            HenaknFlag[3] = (In[7] == "1" ? true : false);
+                            SetMultiPayInfo(3, ref In);
+                            break;
+                        case 12:
+                        case 13:
+                            if (In[2] == "")
+                            {
+                                break;  //的中票なし
+                            }
+                            else
+                            {
+                                SetMultiPayInfo(3, ref In);
+                            }
+                            break;
+                        case 14:
+                            //ワイド
+                            break;
+                        case 15:
+                        case 16:
+                        case 17:
+                        case 18:
+                        case 19:
+                        case 20:
+                            break;
+                        case 21:
+                            //馬単
+                            break;
+                        case 22:
+                        case 23:
+                        case 24:
+                        case 25:
+                        case 26:
+                            break;
+                        case 27:
+                            //3連複
+                            FuseirituFlag[6] = (In[5] == "1" ? true : false);
+                            SpPayFlag[6] = (In[6] == "1" ? true : false);
+                            HenaknFlag[6] = (In[7] == "1" ? true : false);
+                            SetMultiPayInfo(6, ref In);
+                            break;
+                        case 28:
+                        case 29:
+                            if (In[2] == "")
+                            {
+                                break;  //的中票なし
+                            }
+                            else
+                            {
+                                SetMultiPayInfo(6, ref In);
+                            }
+                            break;
+                        case 30:
+                            //3連単
+                            FuseirituFlag[7] = (In[5] == "1" ? true : false);
+                            SpPayFlag[7] = (In[6] == "1" ? true : false);
+                            HenaknFlag[7] = (In[7] == "1" ? true : false);
+                            SetMultiPayInfo(7, ref In);
+                            break;
+                        case 31:
+                        case 32:
+                        case 33:
+                        case 34:
+                        case 35:
+                            if (In[2] == "")
+                            {
+                                break;  //的中票なし
+                            }
+                            else
+                            {
+                                SetMultiPayInfo(7, ref In);
+                            }
                             break;
                     }
                 }
@@ -82,50 +242,210 @@ namespace WpfApp1.JvComDbData
         private void Set_TANSHO(ref List<String> In)
         {
             TAN_PARAM Param = new TAN_PARAM();
-            Param.Umaban = In[5];
-            Param.Pay = In[6];
-            Param.Ninki = In[7];
+            if(In.Count == 0)
+            {
+                return; //エラーチェック
+            }
+
+            Param.Umaban = In[2];
+            Param.Pay = In[3];
+            Param.Ninki = In[4];
+            TANSHO.Add(Param);
         }
-        
+
+        private void Set_FUKUSHO(ref List<String> In)
+        {
+            TAN_PARAM Param = new TAN_PARAM();
+            if (In.Count == 0)
+            {
+                return; //エラーチェック
+            }
+
+            Param.Umaban = In[2];
+            Param.Pay = In[3];
+            Param.Ninki = In[4];
+            FUKUSHO.Add(Param);
+        }
+
+        private void SetMultiPayInfo(int kind, ref List<String> In)
+        {
+            MULTI_PARAM Param = new MULTI_PARAM();
+            if (In.Count == 0)
+            {
+                return; //エラーチェック
+            }
+
+            Param.Kumiban = In[2];
+            Param.Pay = In[3];
+            Param.Ninki = In[4];
+            
+            switch (kind)
+            {
+                case 2:
+                    //枠連
+                    WAKUREN.Add(Param);
+                    break;
+                case 3:
+                    //馬連
+                    UMAREN.Add(Param);
+                    break;
+                case 4:
+                    //ワイド
+                    WIDE.Add(Param);
+                    break;
+                case 5:
+                    //馬単
+                    UMATAN.Add(Param);
+                    break;
+                case 6:
+                    //３連複
+                    SANRENPUKU.Add(Param);
+                    break;
+                case 7:
+                    //３連単
+                    SANRENTAN.Add(Param);
+                    break;
+                    
+            }
+        }
+
+        #region 払戻金情報の取得（複勝・ワイドなどは複数回呼ぶ必要あり）
+        /** 
+         * @param Basenum：取得する払戻金情報（定義はこのファイルにある）
+         * @Param Kind：取得する払戻情報(基本は0、ワイド・複勝など複数個の払戻がある場合は1,2・・・をコールする)
+         * @Param Out：払戻情報セットクラス
+         */
+        protected void GetPayInfo(PAY_BASE BaseNum, int kind, ref EXT_PARAM Out)
+        {
+            MULTI_PARAM Param = new MULTI_PARAM();
+            switch(BaseNum)
+            {
+                case PAY_BASE.TANSHO:
+                    Out.ExtFuseirituFlag = FuseirituFlag[0];
+                    Out.ExtSpPayFlag = SpPayFlag[0];
+                    Out.ExtHenkanFlag = HenaknFlag[0];
+                    //払戻情報
+                    Param.Kumiban = TANSHO[kind].Umaban;
+                    Param.Ninki = TANSHO[kind].Ninki;
+                    Param.Pay = TANSHO[kind].Pay;
+                    break;
+                case PAY_BASE.FUKUSHO:
+                    //複勝
+                    Out.ExtFuseirituFlag = FuseirituFlag[1];
+                    Out.ExtSpPayFlag = SpPayFlag[1];
+                    Out.ExtHenkanFlag = HenaknFlag[1];
+                    //払戻情報
+                    Param.Kumiban = FUKUSHO[kind].Umaban;
+                    Param.Ninki = FUKUSHO[kind].Ninki;
+                    Param.Pay = FUKUSHO[kind].Pay;
+                    break;
+                case PAY_BASE.WAKUREN:
+                    //枠連
+                    Out.ExtFuseirituFlag = FuseirituFlag[2];
+                    Out.ExtSpPayFlag = SpPayFlag[2];
+                    Out.ExtHenkanFlag = HenaknFlag[2];
+                    //払戻情報
+                    Param.Kumiban = WAKUREN[kind].Kumiban;
+                    Param.Ninki = WAKUREN[kind].Ninki;
+                    Param.Pay = WAKUREN[kind].Pay;
+                    break;
+                case PAY_BASE.UMAREN:
+                    //馬連
+                    Out.ExtFuseirituFlag = FuseirituFlag[3];
+                    Out.ExtSpPayFlag = SpPayFlag[3];
+                    Out.ExtHenkanFlag = HenaknFlag[3];
+                    //払戻情報
+                    Param.Kumiban = UMAREN[kind].Kumiban;
+                    Param.Ninki = UMAREN[kind].Ninki;
+                    Param.Pay = UMAREN[kind].Pay;
+                    break;
+                case PAY_BASE.WIDE:
+                    //ワイド
+                    Out.ExtFuseirituFlag = FuseirituFlag[4];
+                    Out.ExtSpPayFlag = SpPayFlag[4];
+                    Out.ExtHenkanFlag = HenaknFlag[4];
+                    //払戻情報
+                    Param.Kumiban = WIDE[kind].Kumiban;
+                    Param.Ninki = WIDE[kind].Ninki;
+                    Param.Pay = WIDE[kind].Pay;
+                    break;
+                case PAY_BASE.UMATAN:
+                    //馬単
+                    Out.ExtFuseirituFlag = FuseirituFlag[5];
+                    Out.ExtSpPayFlag = SpPayFlag[5];
+                    Out.ExtHenkanFlag = HenaknFlag[5];
+                    //払戻情報
+                    Param.Kumiban = UMATAN[kind].Kumiban;
+                    Param.Ninki = UMATAN[kind].Ninki;
+                    Param.Pay = UMATAN[kind].Pay;
+                    break;
+                case PAY_BASE.SANRENPUKU:
+                    //3連複
+                    Out.ExtFuseirituFlag = FuseirituFlag[6];
+                    Out.ExtSpPayFlag = SpPayFlag[6];
+                    Out.ExtHenkanFlag = HenaknFlag[6];
+                    //払戻情報
+                    Param.Kumiban = SANRENPUKU[kind].Kumiban;
+                    Param.Ninki = SANRENPUKU[kind].Ninki;
+                    Param.Pay = SANRENPUKU[kind].Pay;
+                    break;
+                case PAY_BASE.SANRENTAN:
+                    //3連単
+                    Out.ExtFuseirituFlag = FuseirituFlag[7];
+                    Out.ExtSpPayFlag = SpPayFlag[7];
+                    Out.ExtHenkanFlag = HenaknFlag[7];
+                    //払戻情報
+                    Param.Kumiban = SANRENTAN[kind].Kumiban;
+                    Param.Ninki = SANRENTAN[kind].Ninki;
+                    Param.Pay = SANRENTAN[kind].Pay;
+                    break;
+            }
+
+            Out.PayInfo = Param;     
+        }
+        #endregion
+
         protected void InitCsvTopString(ref String[] In)
         {
-            In[0] = "単勝0";
-            In[1] = "単勝1";
-            In[2] = "単勝2";
-            In[3] = "複勝0";
-            In[4] = "複勝1";
-            In[5] = "複勝2";
-            In[6] = "複勝3";
-            In[7] = "複勝4";
-            In[8] = "枠連0";
-            In[9] = "枠連1";
-            In[10] = "枠連2";
-            In[11] = "馬連0";
-            In[12] = "馬連1";
-            In[13] = "馬連2";
-            In[14] = "ワイド0";
-            In[15] = "ワイド1";
-            In[16] = "ワイド2";
-            In[17] = "ワイド3";
-            In[18] = "ワイド4";
-            In[19] = "ワイド5";
-            In[20] = "ワイド6";
-            In[21] = "馬単0";
-            In[22] = "馬単1";
-            In[23] = "馬単2";
-            In[24] = "馬単3";
-            In[25] = "馬単4";
-            In[26] = "馬単5";
-            In[27] = "3連複0";
-            In[28] = "3連複1";
-            In[29] = "3連複2";
-            In[30] = "3連単0";
-            In[31] = "3連単1";
-            In[32] = "3連単2";
-            In[33] = "3連単3";
-            In[34] = "3連単4";
-            In[35] = "3連単5";
+            In[0] = "P10";
+            In[1] = "P11";
+            In[2] = "P12";
+            In[3] = "P20";
+            In[4] = "P21";
+            In[5] = "P22";
+            In[6] = "P23";
+            In[7] = "P24";
+            In[8] = "P30";
+            In[9] = "P31";
+            In[10] = "P32";
+            In[11] = "P40";
+            In[12] = "P41";
+            In[13] = "P42";
+            In[14] = "P50";
+            In[15] = "P51";
+            In[16] = "P52";
+            In[17] = "P53";
+            In[18] = "P54";
+            In[19] = "P55";
+            In[20] = "P56";
+            In[21] = "P60";
+            In[22] = "P61";
+            In[23] = "P62";
+            In[24] = "P63";
+            In[25] = "P64";
+            In[26] = "P65";
+            In[27] = "P70";
+            In[28] = "P71";
+            In[29] = "P72";
+            In[30] = "P80";
+            In[31] = "P81";
+            In[32] = "P82";
+            In[33] = "P83";
+            In[34] = "P84";
+            In[35] = "P85";
         }
+
+
     }
 
 }

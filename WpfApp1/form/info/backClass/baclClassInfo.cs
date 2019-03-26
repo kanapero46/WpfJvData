@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.JvComDbData;
 
 namespace WpfApp1.form.info.backClass
 {
@@ -28,6 +29,8 @@ namespace WpfApp1.form.info.backClass
         INFO_COND TimeChange;   //発走時刻
         INFO_COND CourceChange; //コース変更
         INFO_COND DNSInfo;      //出走取消・除外
+        JvComDbData.JvDbW5Data W5;
+
 
         public string TurfStatus { get => WeatherCourceCond.TurfStatus; set => WeatherCourceCond.TurfStatus = value; }
         public string DirtStatus { get => WeatherCourceCond.DirtStatus; set => WeatherCourceCond.DirtStatus = value; }
@@ -38,6 +41,7 @@ namespace WpfApp1.form.info.backClass
         internal INFO_COND DNSInfo1 { get => DNSInfo; set => DNSInfo = value; }
         public bool WeatherFlag1 { get => WeatherCourceCond.WeatherInfoFlag; set => WeatherCourceCond.WeatherInfoFlag = value; }
         public string Key1 { get => Key; set => Key = value; }
+        public JvDbW5Data W51 { get => W5; set => W5 = value; }
 
         public void SetJockeyInfo()
         {
