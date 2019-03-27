@@ -12,16 +12,29 @@ namespace WpfApp1.JvComDbData
     public class JvDbRaData : MainDataClass
     {
         dbConnect db = new dbConnect();
-
+        
         const int RA_MAX = 25;
         const int LAP_COUNT_MAX = 25;
 
         /* DBへの書き込み処理を変更した場合はマジックStrを書き換え、初期化を行う */
         const String MAGIC = "A";
+        const String SPEC = "RA";
+
+        struct RA_DB_WRITE_STRUCT
+        {
+            public String Date;
+            public String WriteStr;
+        }
+
+        RA_DB_WRITE_STRUCT RaStruct = new RA_DB_WRITE_STRUCT();
+
+        String WriteStr = "";
 
         public JvDbRaData()
         {
-            //引数なしのインスタンス生成はなにもしない
+            //引数なしのインスタンス生成時はDB書き込み用の文字列を初期化
+            RaStruct.Date = "";
+            RaStruct.WriteStr = "";
         }
 
         #region RAデータDB書き込み共通処理
@@ -88,7 +101,15 @@ namespace WpfApp1.JvComDbData
                 tmp += JV_RACE.LapTime[i] + ",";
             }
 
-            if(kind == 0)
+            /* ここでは書き込まないように変更する、そのため別途書き込み処理をコールする必要あり。 */
+            if(RaStruct.Date == "")
+            {
+                RaStruct.Date = JV_RACE.id.Year + JV_RACE.id.MonthDay;
+            }
+            
+            RaStruct.WriteStr = tmp + "\r\n";
+         
+         /*    if(kind == 0)
             {
                 //マスターデータ
                 db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
@@ -96,7 +117,33 @@ namespace WpfApp1.JvComDbData
             else
             {
                 db = new dbConnect(JV_RACE.id.Year + JV_RACE.id.MonthDay, JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
+            } */
+        }
+        #endregion
+
+        #region RAデータをDBに書き込み処理
+        public int ExecRADataWriteDb(int kind)
+        {
+            int DbReturn = 0;
+
+            /* エラーチェック */
+            if(RaStruct.Date == "" || RaStruct.WriteStr.Length == 0)
+            {
+                return 0;
             }
+
+            if(kind == 0)
+            {
+                //マスターデータ
+                db.DeleteCsv("RA_MST");
+                db = new dbConnect("0", SPEC, ref RaStruct.WriteStr, ref DbReturn);
+            }
+            else
+            {
+                db.DeleteCsv("RA");
+                db = new dbConnect(RaStruct.Date, SPEC, ref RaStruct.WriteStr, ref DbReturn);
+            }
+            return DbReturn;
         }
         #endregion
 

@@ -162,6 +162,9 @@ namespace WpfApp1
             int CODE;
             int DbReturn = 1;
 
+            /* 書き込みフラグ */
+            Boolean RaFlag = false;
+
             /* DB初期化 */
             db = new dbConnect();
             db.DeleteCsv("RA");
@@ -187,6 +190,7 @@ namespace WpfApp1
                     {
                         case "RA":
                             JvDbRaData raData = new JvDbRaData(1, ref buff);   //#15 DB処理の共通化
+                            RaFlag = true;                                     //DB処理を後回し
                             //StatusInfo += "*";
                             //JV_RACE = new JVData_Struct.JV_RA_RACE();
                             //tmp = "";
@@ -301,9 +305,19 @@ namespace WpfApp1
             }
 
             ThreadFlag = false;     //スレッドの終了を通知
+
+            ret = 0;
+            /* 後から書き込み場合、ここで書き込み */
+            if(RaFlag)
+            {
+                ret = ExecRADataWriteDb(1);
+                Console.WriteLine(ret);
+            }
+
             Thread.Sleep(50);
             thread.Abort();
             thread.Join();
+
             return 1;
         }
 
@@ -1093,7 +1107,9 @@ namespace WpfApp1
 
             /* DB初期化 */
             db = new dbConnect();
-            db.DeleteCsv("RA_MST");
+            //db.DeleteCsv("RA_MST");   //RAは別途処理追加
+            JvDbRaData RaData = new JvDbRaData();
+            Boolean RaFlag = false;
             db.DeleteCsv("SE_MST");
             db.DeleteCsv("UM_MST");
 
@@ -1122,7 +1138,8 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "RA":
-                            JvDbRaData RaData = new JvDbRaData(0, ref buff);
+                            RaData.setData(0, ref buff);
+                            RaFlag = true;
                             //db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             ProgressStatusValue++;
                             break;
@@ -1211,6 +1228,13 @@ namespace WpfApp1
 
             }
             JVForm.JvForm_JvClose();
+
+            if(RaFlag)
+            {
+                ExecRADataWriteDb(0);
+            }
+
+
                 return 1;
         }
 
