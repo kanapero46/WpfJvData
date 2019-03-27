@@ -129,7 +129,7 @@ namespace WpfApp1.Class
         public void setRaceName6(String inParam) { this.RaceName6 = inParam; }
 
         //ラップタイム
-        private List<String> LapTime;
+        protected List<String> LapTime;
 
         public void SetLapTime1(String[] In)
         {

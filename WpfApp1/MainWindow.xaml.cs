@@ -44,6 +44,9 @@ namespace WpfApp1
         /* 別スレッドとのメッセージやり取り */
         Object msg;
 
+        /* ログ */
+        Class.com.JvComClass LOG = new Class.com.JvComClass();
+
         /* ログ出力共通クラス */
         Class.com.JvComClass Log = new Class.com.JvComClass();
 
@@ -143,11 +146,8 @@ namespace WpfApp1
             ret = 1;
 
             /* ロギング */
-            LogingText("JvRead・・・OK\n");
+            LOG.CONSOLE_TIME_MD("MAIN", "<< JvRead Start!! >>" );
 
-            /* ロギングを別スレッドでスタートする */
-            msg = "JVRead Start\n";
-            
             ret = 1;
             String buff = "";
             int size = 80000;
@@ -164,10 +164,11 @@ namespace WpfApp1
 
             /* 書き込みフラグ */
             Boolean RaFlag = false;
+            JvDbRaData raData =  new JvDbRaData();
 
             /* DB初期化 */
             db = new dbConnect();
-            //db.DeleteCsv("RA");
+            db.DeleteCsv("RA");
             db.DeleteCsv("SE");
             db.DeleteCsv("DT");
 
@@ -189,55 +190,8 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "RA":
-                            JvDbRaData raData = new JvDbRaData(1, ref buff);   //#15 DB処理の共通化
+                            raData.JvDbRaWriteData(0, ref buff);  //#15 DB処理の共通化
                             RaFlag = true;                                     //DB処理を後回し
-                            //StatusInfo += "*";
-                            //JV_RACE = new JVData_Struct.JV_RA_RACE();
-                            //tmp = "";
-                            //JV_RACE.SetDataB(ref buff);
-                            //tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + JV_RACE.id.JyoCD + JV_RACE.id.Kaiji + JV_RACE.id.Nichiji +
-                            //    JV_RACE.id.RaceNum + ",";
-                            //tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + ",";
-                            //tmp += JV_RACE.id.JyoCD + ",";
-                            //tmp += JV_RACE.id.Kaiji + "," + JV_RACE.id.Nichiji + "," + JV_RACE.id.RaceNum + ",";
-                            //tmp += JV_RACE.RaceInfo.YoubiCD + ",";
-                            //CODE = LibJvConvFuncClass.RACE_NAME;
-                            ////レース名
-                            //if (JV_RACE.RaceInfo.Hondai.Trim() == "")
-                            //{
-                            //    LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.JyokenInfo.SyubetuCD + JV_RACE.JyokenInfo.JyokenCD[4], ref LibTmp);
-                            //    if(JV_RACE.JyokenInfo.JyokenCD[4] == "701")
-                            //    {
-                            //        CODE = LibJvConvFuncClass.COURCE_CODE;
-                            //        LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.id.JyoCD, ref LibTmp);
-                            //        LibTmp = "メイクデビュー" + LibTmp;
-                            //    }
-
-                            //    tmp += LibTmp;
-                            //}
-                            //else
-                            //{
-                            //    tmp += JV_RACE.RaceInfo.Hondai.Trim();
-                            //}
-                            //tmp += ",";
-                            //tmp += JV_RACE.RaceInfo.Ryakusyo10.Trim() + ",";
-                            //tmp += JV_RACE.RaceInfo.Fukudai.Trim() + ",";
-                            //tmp += JV_RACE.RaceInfo.Kakko.Trim() + ",";
-                            //tmp += JV_RACE.RaceInfo.HondaiEng.Trim() + ",";
-                            //tmp += JV_RACE.RaceInfo.FukudaiEng.Trim() + ",";
-                            //tmp += JV_RACE.JyokenInfo.SyubetuCD + ",";
-                            //tmp += JV_RACE.JyokenInfo.JyokenCD[4] + ",";
-                            //tmp += JV_RACE.RaceInfo.Nkai + ",";
-                            //CODE = LibJvConvFuncClass.GRACE_CODE;
-                            //LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref LibTmp);
-                            //tmp += LibTmp + ",";
-                            //tmp += JV_RACE.TrackCD + ",";
-                            //tmp += JV_RACE.Kyori + ",";
-                            //tmp += JV_RACE.TorokuTosu + ",";
-                            //tmp += JV_RACE.JyokenInfo.KigoCD + ",";
-                            //tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
-                            //tmp += JV_RACE.HassoTime + ",";
-                            //db = new dbConnect((JV_RACE.id.Year + JV_RACE.id.MonthDay), JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             break;
                         case "SE":
                             JvDbSEData sEData = new JvDbSEData(ref buff);
@@ -296,6 +250,16 @@ namespace WpfApp1
                 {
                     /* ファイル切り替わり */
                     ret = 1;
+
+                    //書き込んで初期化する
+                    if (RaFlag)
+                    {
+                        ret = raData.ExecRADataWriteDb(1);
+                        raData = new JvDbRaData();  //初期化する。
+                        Console.WriteLine("!" + ret);
+                        RaFlag = false;
+                    }
+                    
                     continue;
                 }
                 else
@@ -310,7 +274,8 @@ namespace WpfApp1
             /* 後から書き込み場合、ここで書き込み */
             if(RaFlag)
             {
-                ret = ExecRADataWriteDb(1);
+                ret = raData.ExecRADataWriteDb(1);
+                RaFlag = false;
                 Console.WriteLine(ret);
             }
 
@@ -1082,6 +1047,7 @@ namespace WpfApp1
             ret = 1;
 
             /* ロギング */
+            LOG.CONSOLE_TIME_MD("MAIN", "<< JvRead RCOV >>");
             LogingText("JvRead・・・OK\n");
 
             /* ロギングを別スレッドでスタートする */
@@ -1138,7 +1104,7 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "RA":
-                            RaData.setData(0, ref buff);
+                            RaData.JvDbRaWriteData(0, ref buff);
                             RaFlag = true;
                             //db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             ProgressStatusValue++;
@@ -1231,7 +1197,7 @@ namespace WpfApp1
 
             if(RaFlag)
             {
-                ExecRADataWriteDb(0);
+                RaData.ExecRADataWriteDb(0);
             }
 
 

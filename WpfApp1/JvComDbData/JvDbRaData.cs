@@ -27,6 +27,7 @@ namespace WpfApp1.JvComDbData
         }
 
         RA_DB_WRITE_STRUCT RaStruct = new RA_DB_WRITE_STRUCT();
+        Class.com.JvComClass LOG = new Class.com.JvComClass();
 
         String WriteStr = "";
 
@@ -35,10 +36,18 @@ namespace WpfApp1.JvComDbData
             //引数なしのインスタンス生成時はDB書き込み用の文字列を初期化
             RaStruct.Date = "";
             RaStruct.WriteStr = "";
+
+            //クラスの初期化が必要なものはここで初期化
+            LapTime = new List<string>();
+        }
+
+        public JvDbRaData(int kind, ref String buff)
+        {
+            JvDbRaWriteData(kind, ref buff);
         }
 
         #region RAデータDB書き込み共通処理
-        unsafe public JvDbRaData(int kind, ref String buff)
+        unsafe public void JvDbRaWriteData(int kind, ref String buff)
         {
             JVData_Struct.JV_RA_RACE JV_RACE = new JVData_Struct.JV_RA_RACE();
             String tmp = "";
@@ -107,7 +116,7 @@ namespace WpfApp1.JvComDbData
                 RaStruct.Date = JV_RACE.id.Year + JV_RACE.id.MonthDay;
             }
             
-            RaStruct.WriteStr = tmp + "\r\n";
+            RaStruct.WriteStr += tmp + "\n";
          
          /*    if(kind == 0)
             {
@@ -140,9 +149,14 @@ namespace WpfApp1.JvComDbData
             }
             else
             {
-                db.DeleteCsv("RA");
+               // db.DeleteCsv("RA");
                 db = new dbConnect(RaStruct.Date, SPEC, ref RaStruct.WriteStr, ref DbReturn);
             }
+
+            LOG.CONSOLE_TIME_MD("RA", "JvDbRaData DB Write -> " + RaStruct.Date +" ret(" + DbReturn + ")");
+            RaStruct.Date = "";
+            RaStruct.WriteStr = "";
+            
             return DbReturn;
         }
         #endregion
