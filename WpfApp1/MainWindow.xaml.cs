@@ -167,7 +167,7 @@ namespace WpfApp1
 
             /* DB初期化 */
             db = new dbConnect();
-            db.DeleteCsv("RA");
+            //db.DeleteCsv("RA");
             db.DeleteCsv("SE");
             db.DeleteCsv("DT");
 
