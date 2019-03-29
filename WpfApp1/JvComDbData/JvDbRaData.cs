@@ -285,5 +285,70 @@ namespace WpfApp1.JvComDbData
         }
         #endregion
 
+        #region 前半タイム計測（ref ALL）
+        public String JvDbRaConvInTimer(int Distance, ref List<String> In)
+        {
+            long ret = 0;
+            const int StartPosition = 56;
+
+            if (In.Count == 0)
+            {
+                return "00.0";
+            }
+            try
+            {
+                if (Distance <= 1600 && (Distance % 200) == 0)
+                {
+                    //200mで割り切れる距離：前半600mタイムを返す
+                    for (int i = 0; i < 3; i++)
+                    {
+                        ret += long.Parse(In[StartPosition + i]);
+                    }
+                }
+                else if (Distance <= 1700)
+                {
+                    //200mで割り切れない1700m以下(1300m、1150m)：最初の半端な距離＋前半600mタイムを返す
+                    for (int i = 0; i < 4; i++)
+                    {
+                        ret += long.Parse(In[StartPosition + i]);
+                    }
+                }
+                else if ((Distance % 200) == 0)
+                {
+                    //200mで割り切れる距離1800m～：前半1000mタイムを返す
+                    for (int i = 0; i < 5; i++)
+                    {
+                        ret += long.Parse(In[StartPosition + i]);
+                    }
+                }
+                else
+                {
+                    //200mで割り切れる距離1800m～：前半1000mタイムを返す
+                    for (int i = 0; i < 6; i++)
+                    {
+                        ret += long.Parse(In[StartPosition + i]);
+                    }
+                }
+            }
+            catch(Exception)
+            {
+                LOG.CONSOLE_MODULE("RA", "JvDbRaConvInTimer Error!!");
+                return "00.0";
+            }
+
+            if(ret == 0)
+            {
+                //海外・地方競馬ではラップタイムがないため
+                return "00.0";
+            }
+            else
+            {
+                return ret.ToString().Substring(0, 2) + "." + ret.ToString().Substring(2, 1);
+            }
+            
+        }
+        #endregion
+
+
     }
 }

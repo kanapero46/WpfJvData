@@ -1125,7 +1125,7 @@ namespace WpfApp1
                             break;
                         case "SE":
                             // !!!ここに追加した場合はMainDataHorceClass.csの定義を追加すること！！！ 
-                            JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
+                          //  JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             JV_SE_UMA.SetDataB(ref buff);
 
                             if(horse == JV_SE_UMA.Bamei.Trim())

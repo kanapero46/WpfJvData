@@ -109,6 +109,12 @@ namespace WpfApp1.form.info
             {
                 for(int i=1; i<=12; i++)
                 {
+                    if(ArrayStr.Count <= j)
+                    {
+                        //第２場開催の場合はエラー
+                        continue;
+                    }
+
                     ret = BackEnd.BackEndGetOddsInfo(DateParam + ArrayStr[j] + String.Format("{0:00}", i));
                     //ret = getOdds.GetOddsCom("0B31", DateParam + ArrayStr[j] + String.Format("{0:00}", i)); //単勝オッズ
                     if(ret == -1)
@@ -196,7 +202,12 @@ namespace WpfApp1.form.info
             int OutParamLevel = -1;
             for(int i=0; i<MAX_RACE_CNT; i++)
             {
-                for(OutParamLevel = 0; OutParamLevel < gCacheParamRaceData.Length; OutParamLevel++)
+                if (WeatherCond[i] == null)
+                {
+                    continue;
+                }
+
+                for (OutParamLevel = 0; OutParamLevel < gCacheParamRaceData.Length; OutParamLevel++)
                 {
                     if (Int32.Parse(WeatherCond[i].Key1.Substring(8, 2)) == gCacheIntCourceArray[OutParamLevel])
                     {
@@ -405,7 +416,7 @@ namespace WpfApp1.form.info
                     KaisaiCource3 = gCacheParamRaceData[i].CourceCd;
                     label25.Text = tmp;
                     gCacheParamRaceData[i].OutputLebel = 3;
-                    EnablePanelFunction(3);
+                    
                 }
 
             }
@@ -432,10 +443,18 @@ namespace WpfApp1.form.info
 
             if (Flag3)
             {
-                gCacheIntCourceArray[2] = KaisaiCource3;
-                BackEndReturnStr = BackEnd.BackEndGetKaijiNichi(DateParam, KaisaiCource3);
-                label25.Text = "第" + Int32.Parse(BackEndReturnStr.Substring(10, 2)) + "回 " + label25.Text + "競馬 " + Int32.Parse(BackEndReturnStr.Substring(12, 2)) + "日目";
-                OutPutPayRaceLabel(KaisaiCource3, 3);  //確定レース表示
+                if(KaisaiCource3 == 0)
+                {
+                    
+                }
+                else
+                {
+                    EnablePanelFunction(3);
+                    gCacheIntCourceArray[2] = KaisaiCource3;
+                    BackEndReturnStr = BackEnd.BackEndGetKaijiNichi(DateParam, KaisaiCource3);
+                    label25.Text = "第" + Int32.Parse(BackEndReturnStr.Substring(10, 2)) + "回 " + label25.Text + "競馬 " + Int32.Parse(BackEndReturnStr.Substring(12, 2)) + "日目";
+                    OutPutPayRaceLabel(KaisaiCource3, 3);  //確定レース表示
+                }
             }
 
             //GetRealTimeInfo();

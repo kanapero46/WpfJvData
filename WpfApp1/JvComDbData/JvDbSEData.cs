@@ -56,7 +56,11 @@ namespace WpfApp1.JvComDbData
         #region SEデータに書き込みデータ有り無し取得関数
         public Boolean JvDbSeComDataEnable()
         {
-            if(SeStruct.Date.Length == 0 || SeStruct.WriteStr.Length == 0)
+            if(SeStruct.Date == null || SeStruct.WriteStr == null)
+            {
+                return false;
+            }
+            else if(SeStruct.Date.Length == 0 || SeStruct.WriteStr.Length == 0)
             {
                 return false;
             }
@@ -65,6 +69,7 @@ namespace WpfApp1.JvComDbData
                 return true;
             }
         }
+        #endregion
 
         #region 共通
         private void JvDbSeComFunction(int Master, ref String buff)
@@ -123,28 +128,30 @@ namespace WpfApp1.JvComDbData
             tmp += JV_SE_UMA.Ninki + ",";        //25
             tmp += JV_SE_UMA.Jyuni1c + JV_SE_UMA.Jyuni2c + JV_SE_UMA.Jyuni3c + JV_SE_UMA.Jyuni4c + ",";
             tmp += JV_SE_UMA.HaronTimeL3 + ",";
-            tmp += "\n";
+            tmp += "\r\n";
 
-            SeStruct.WriteStr = tmp;
+            SeStruct.WriteStr += tmp;
             
             /* ここでは書き込まないように変更する、そのため別途書き込み処理をコールする必要あり。 */
-            if(SeStruct.Date == "")
+            if(SeStruct.Date == "" || SeStruct.Date == null)
             {
                 SeStruct.Date = JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay;
             }
+            while(false)
+            {
+                if (Master == -1)
+                {
 
-#if 0
-            if (Master == -1)
-            {
-                
-                dbConnect db = new dbConnect(JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay, JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                    dbConnect db = new dbConnect(JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay, JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                }
+                else
+                {
+                    /* マスターデータ */
+                    dbConnect db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                }
             }
-            else
-            {
-                /* マスターデータ */
-                dbConnect db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
-            }
-#endif
+
+
         }
         #endregion
 
@@ -155,6 +162,7 @@ namespace WpfApp1.JvComDbData
 
             if(SeStruct.Date == "" || SeStruct.WriteStr.Length == 0)
             {
+                LOG.CONSOLE_MODULE("SE", "DataSetERror!");
                 return 0;
             }
             
