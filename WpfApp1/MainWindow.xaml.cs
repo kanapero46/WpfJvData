@@ -164,7 +164,10 @@ namespace WpfApp1
 
             /* 書き込みフラグ */
             Boolean RaFlag = false;
+            Boolean SeFlag = false;
+
             JvDbRaData raData =  new JvDbRaData();
+            JvDbSEData sEData = new JvDbSEData();
 
             /* DB初期化 */
             db = new dbConnect();
@@ -194,7 +197,7 @@ namespace WpfApp1
                             RaFlag = true;                                     //DB処理を後回し
                             break;
                         case "SE":
-                            JvDbSEData sEData = new JvDbSEData(ref buff);
+                            sEData.JvDbSeComMappingFunction(-1, ref buff);  //当回のデータ時は-1をセット
                             //LogingText("@");
                             //JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             //tmp = "";
@@ -259,6 +262,12 @@ namespace WpfApp1
                         Console.WriteLine("!" + ret);
                         RaFlag = false;
                     }
+
+                    if(sEData.JvDbSeComDataEnable())
+                    {
+                        sEData.ExecSEDataWriteDb(1);
+                        sEData = new JvDbSEData();  //ファイル切り替わり時は初期化する。
+                    }
                     
                     continue;
                 }
@@ -276,7 +285,11 @@ namespace WpfApp1
             {
                 ret = raData.ExecRADataWriteDb(1);
                 RaFlag = false;
-                Console.WriteLine(ret);
+            }
+
+            if(sEData.JvDbSeComDataEnable())
+            {
+                ret = sEData.ExecSEDataWriteDb(1);
             }
 
             Thread.Sleep(50);
@@ -1075,6 +1088,7 @@ namespace WpfApp1
             db = new dbConnect();
             //db.DeleteCsv("RA_MST");   //RAは別途処理追加
             JvDbRaData RaData = new JvDbRaData();
+            JvDbSEData SeData = new JvDbSEData();
             Boolean RaFlag = false;
             db.DeleteCsv("SE_MST");
             db.DeleteCsv("UM_MST");
@@ -1117,15 +1131,14 @@ namespace WpfApp1
                             if(horse == JV_SE_UMA.Bamei.Trim())
                             {
                                 OldRaceCounter++;
-                                JvDbSEData SeData = new JvDbSEData(OldRaceCounter, ref buff, 0);
                             }
                             else
                             {
                                 OldRaceCounter = 1;
-                                JvDbSEData SeData = new JvDbSEData(OldRaceCounter, ref buff, 1);
                                 horse = JV_SE_UMA.Bamei.Trim();
                             }
-                            
+
+                            SeData.JvDbSeComMappingFunction(OldRaceCounter, ref buff);
                             //db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
                             ProgressStatusValue++;
                             break;
@@ -1185,6 +1198,19 @@ namespace WpfApp1
                 {
                     /* ファイル切り替わり */
                     ret = 1;
+
+                    if(RaFlag)
+                    {
+                        RaData.ExecRADataWriteDb(0);
+                        RaData = new JvDbRaData();
+                    }
+
+                    if(SeData.JvDbSeComDataEnable())
+                    {
+                        SeData.ExecSEDataWriteDb(0);
+                        SeData = new JvDbSEData();  //ファイル切り替わり時に初期化する
+                    }
+
                     continue;
                 }
                 else
@@ -1198,6 +1224,11 @@ namespace WpfApp1
             if(RaFlag)
             {
                 RaData.ExecRADataWriteDb(0);
+            }
+
+            if(SeData.JvDbSeComDataEnable())
+            {
+                SeData.ExecSEDataWriteDb(0);
             }
 
 

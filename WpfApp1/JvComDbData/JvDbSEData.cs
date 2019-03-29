@@ -14,15 +14,22 @@ namespace WpfApp1.JvComDbData
         const int RA_MAX = 29;
         dbConnect db = new dbConnect();
         private const String MAGIC_STR = "A";
+        private const String SPEC = "SE";
         String statHorce = "";
 
-        /* MainDataHorceClassのつづき */
+        struct SE_DB_WRITE_STRUCT
+        {
+            public String Date;
+            public String WriteStr;
+        }
 
-
-
+        SE_DB_WRITE_STRUCT SeStruct = new SE_DB_WRITE_STRUCT();
+        Class.com.JvComClass LOG = new Class.com.JvComClass();
+       
         public JvDbSEData()
         {
-            //クラス宣言はなにもしない
+            //引数なしのインスタンス生成時はDB書き込み用の文字列を初期化
+            SeStruct = new SE_DB_WRITE_STRUCT();
         }
 
         #region 当回SEデータ保存用マッピング関数
@@ -38,6 +45,26 @@ namespace WpfApp1.JvComDbData
             JvDbSeComFunction(Master, ref buff);
         }
         #endregion
+
+        #region SEデータ用マッピング関数
+        public void JvDbSeComMappingFunction(int ret, ref String buff)
+        {
+            JvDbSeComFunction(ret, ref buff);
+        }
+        #endregion
+
+        #region SEデータに書き込みデータ有り無し取得関数
+        public Boolean JvDbSeComDataEnable()
+        {
+            if(SeStruct.Date.Length == 0 || SeStruct.WriteStr.Length == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         #region 共通
         private void JvDbSeComFunction(int Master, ref String buff)
@@ -96,10 +123,20 @@ namespace WpfApp1.JvComDbData
             tmp += JV_SE_UMA.Ninki + ",";        //25
             tmp += JV_SE_UMA.Jyuni1c + JV_SE_UMA.Jyuni2c + JV_SE_UMA.Jyuni3c + JV_SE_UMA.Jyuni4c + ",";
             tmp += JV_SE_UMA.HaronTimeL3 + ",";
+            tmp += "\n";
 
+            SeStruct.WriteStr = tmp;
+            
+            /* ここでは書き込まないように変更する、そのため別途書き込み処理をコールする必要あり。 */
+            if(SeStruct.Date == "")
+            {
+                SeStruct.Date = JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay;
+            }
+
+#if 0
             if (Master == -1)
             {
-                /* 当回データ */
+                
                 dbConnect db = new dbConnect(JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay, JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
             }
             else
@@ -107,9 +144,40 @@ namespace WpfApp1.JvComDbData
                 /* マスターデータ */
                 dbConnect db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
             }
+#endif
         }
         #endregion
 
+        #region SEデータのDB書き込み指示
+        public int ExecSEDataWriteDb(int kind)
+        {
+            int DbReturn = 0;
+
+            if(SeStruct.Date == "" || SeStruct.WriteStr.Length == 0)
+            {
+                return 0;
+            }
+            
+            if(kind == 0)
+            {
+                //マスターデータ
+                db.DeleteCsv("SE_MST");
+                db = new dbConnect("0", SPEC, ref SeStruct.WriteStr, ref DbReturn);
+            }
+            else
+            {
+               // db.DeleteCsv("RA");
+                db = new dbConnect(SeStruct.Date, SPEC, ref SeStruct.WriteStr, ref DbReturn);
+            }
+
+            LOG.CONSOLE_TIME_MD("SE", "JvDbSeData DB Write -> " + SeStruct.Date +" ret(" + DbReturn + ")");
+            SeStruct.Date = "";
+            SeStruct.WriteStr = "";
+            
+            return DbReturn;
+        }
+        #endregion
+        
         #region SEデータとRAデータを組み合わせ
         public void SetSEMSTData(List<String> inParam)
         {
