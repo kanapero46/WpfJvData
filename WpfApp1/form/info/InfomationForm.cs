@@ -1045,5 +1045,15 @@ namespace WpfApp1.form.info
             WriteTaskBar("準備完了");
         }
         #endregion
+
+        #region 騎手変更情報ハンドラー
+        private void axJVLink1_JVEvtJockeyChange(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtJockeyChangeEvent e)
+        {
+            int ret = 0;
+
+
+            COM.CONSOLE_MODULE("INFO_HDL", "JC EventHandler:" + e.bstr + "(" + ret + ")");
+        }
+        #endregion
     }
 }

@@ -105,6 +105,9 @@ namespace WpfApp1.form.info
                             TC.SetJvTcData(ref buff);
                             TCWriteFlag = true;
                             break;
+                        case "JC":
+                            
+                            break;
 
                     }
                 }

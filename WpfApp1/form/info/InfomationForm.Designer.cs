@@ -793,6 +793,7 @@
             this.axJVLink1.TabIndex = 24;
             this.axJVLink1.Visible = false;
             this.axJVLink1.JVEvtPay += new AxJVDTLabLib._IJVLinkEvents_JVEvtPayEventHandler(this.aaxJVLink1_JVEvtPay);
+            this.axJVLink1.JVEvtJockeyChange += new AxJVDTLabLib._IJVLinkEvents_JVEvtJockeyChangeEventHandler(this.axJVLink1_JVEvtJockeyChange);
             this.axJVLink1.JVEvtWeather += new AxJVDTLabLib._IJVLinkEvents_JVEvtWeatherEventHandler(this.axJVLink1_JVEvtWeather);
             this.axJVLink1.JVEvtTimeChange += new AxJVDTLabLib._IJVLinkEvents_JVEvtTimeChangeEventHandler(this.axJVLink1_JVEvtTimeChange);
             this.axJVLink1.JVEvtWeight += new AxJVDTLabLib._IJVLinkEvents_JVEvtWeightEventHandler(this.axJVLink1_JVEvtWeight);

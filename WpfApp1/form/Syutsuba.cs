@@ -352,7 +352,7 @@ namespace WpfApp1.form
                         dataGridView1[0, i-1].Style.ForeColor = Color.White;
                         dataGridView1[0, i-1].Style.BackColor = Color.Red;
                         break;            
-                    case "F":             
+                    case "4":             
                         dataGridView1[0, i-1].Style.ForeColor = Color.White;
                         dataGridView1[0, i-1].Style.BackColor = Color.Blue;
                         break;           

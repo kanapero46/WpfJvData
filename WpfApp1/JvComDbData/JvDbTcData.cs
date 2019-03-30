@@ -45,6 +45,11 @@ namespace WpfApp1.JvComDbData
             int i = Key.Count;
             Count1++;
 
+            if(Date == "")
+            {
+                Date = Tc.id.Year + Tc.id.MonthDay;
+            }
+                       
             String tmpStr = Tc.id.Year + Tc.id.MonthDay + Tc.id.JyoCD + Tc.id.Kaiji + Tc.id.Nichiji + Tc.id.RaceNum;
             Key.Add(tmpStr);
 
@@ -99,7 +104,20 @@ namespace WpfApp1.JvComDbData
             }
             else
             {
-                ret = -1;
+                String WriteStr = "";
+                //最終発表時刻をキーとして拾えるようにスペックと発表時刻を１行目に書き込み
+                WriteStr += "TC," + HappyoTime[Count - 1];
+                for (int i = 0; i < Count; i++)
+                {
+                    WriteStr += (i + 1) + ",";
+                    WriteStr += Key[i] + ",";
+                    WriteStr += HappyoTime[i] + ",";
+                    WriteStr += OldTime[i] + ",";
+                    WriteStr += AfterTime[i] + ",";
+                    WriteStr += "\r\n";
+                }
+
+                db = new dbAccess.dbConnect(Date, "TC", ref WriteStr, ref ret);
             }
             
             return ret;

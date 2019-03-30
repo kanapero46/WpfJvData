@@ -1089,6 +1089,7 @@ namespace WpfApp1
             //db.DeleteCsv("RA_MST");   //RAは別途処理追加
             JvDbRaData RaData = new JvDbRaData();
             JvDbSEData SeData = new JvDbSEData();
+            JvDbUmData UmData = new JvDbUmData();
             Boolean RaFlag = false;
             db.DeleteCsv("SE_MST");
             db.DeleteCsv("UM_MST");
@@ -1144,31 +1145,7 @@ namespace WpfApp1
                             break;
 
                         case "UM": //競走馬マスタ
-                            JV_UMA = new JVData_Struct.JV_UM_UMA();
-                            JV_UMA.SetDataB(ref buff);
-                            tmp = "";
-                            tmp += JV_UMA.KettoNum + ","; //血統登録番号キー
-                            tmp += JV_UMA.Bamei.Trim() + ",";
-                            tmp += JV_UMA.BameiEng.Trim()+ ",";
-                            tmp += JV_UMA.UmaKigoCD+ ",";
-                            tmp += JV_UMA.SexCD + ",";
-                            tmp += JV_UMA.KeiroCD + ",";
-                            tmp += JV_UMA.Ketto3Info[0].Bamei.Trim() + ","; //父
-                            tmp += JV_UMA.Ketto3Info[1].Bamei.Trim() + ","; //母
-                            tmp += JV_UMA.Ketto3Info[2].Bamei.Trim() + ","; //父父
-                            tmp += JV_UMA.Ketto3Info[4].Bamei.Trim() + ","; //母父
-                            tmp += JV_UMA.Ketto3Info[12].Bamei.Trim() + ","; //母母父
-                            tmp += JV_UMA.Kyakusitu[0] + ",";
-                            tmp += JV_UMA.Kyakusitu[1] + ",";
-                            tmp += JV_UMA.Kyakusitu[2] + ",";
-                            tmp += JV_UMA.Kyakusitu[3] + ",";
-                            tmp += JV_UMA.Ketto3Info[0].HansyokuNum + ",";  //父の系統
-                            tmp += JV_UMA.Ketto3Info[4].HansyokuNum + ",";  //母父の系統
-                            tmp += JV_UMA.Ketto3Info[12].HansyokuNum + ",";  //母母父の系統
-                            tmp += JV_UMA.Ketto3Info[2].HansyokuNum + ",";  //父父の系統
-                            tmp += JV_UMA.Ketto3Info[6].HansyokuNum + ",";  //父父父の系統
-                            tmp += JV_UMA.Ketto3Info[10].HansyokuNum + ","; //母父父の血統
-                            db = new dbConnect("0", JV_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                            UmData.JvDbUmDataRead(ref buff);
                             ProgressStatusValue++;
                             break;
 
@@ -1211,6 +1188,12 @@ namespace WpfApp1
                         SeData = new JvDbSEData();  //ファイル切り替わり時に初期化する
                     }
 
+                    if(UmData.JvDbUmEnable())
+                    {
+                        UmData.ExecUmData();
+                        UmData = new JvDbUmData();
+                    }
+
                     continue;
                 }
                 else
@@ -1231,8 +1214,12 @@ namespace WpfApp1
                 SeData.ExecSEDataWriteDb(0);
             }
 
+            if (UmData.JvDbUmEnable())
+            {
+                UmData.ExecUmData();
+            }
 
-                return 1;
+            return 1;
         }
 
         /* データマイニング情報取得(リアルタイム) */
