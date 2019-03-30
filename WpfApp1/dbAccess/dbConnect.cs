@@ -270,6 +270,13 @@ namespace WpfApp1.dbAccess
                     {
                         // ファイルを指定行から１行読み込む
                         var line = sr.ReadLine();
+
+                        //空文字の場合はスキップ
+                        if(line.Length == 0)
+                        {
+                            continue;
+                        }
+
                         // 読み込んだ一行をカンマ毎に分けて配列に格納する
                         var values = line.Split(',');
 

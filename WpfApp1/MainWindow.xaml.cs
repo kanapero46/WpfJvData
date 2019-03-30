@@ -42,8 +42,13 @@ namespace WpfApp1
         JvDbRaData mainDataClass = new JvDbRaData();
 
         /* 別スレッドとのメッセージやり取り */
-       
         Object msg;
+
+        /* ログ */
+        Class.com.JvComClass LOG = new Class.com.JvComClass();
+
+        /* ログ出力共通クラス */
+        Class.com.JvComClass Log = new Class.com.JvComClass();
 
         /* *******定数定義******* */
         const int RA_RACECOURCE = 2;
@@ -61,6 +66,9 @@ namespace WpfApp1
 
         int ProgressStatusValue = 0;
         int MaxValue = 100;
+
+        /* *******フォームの多重定義防止変数の定義 ********* */
+        public form.info.InfomationForm infomationForm = null;
 
         public MainWindow()
         {
@@ -138,11 +146,8 @@ namespace WpfApp1
             ret = 1;
 
             /* ロギング */
-            LogingText("JvRead・・・OK\n");
+            LOG.CONSOLE_TIME_MD("MAIN", "<< JvRead Start!! >>" );
 
-            /* ロギングを別スレッドでスタートする */
-            msg = "JVRead Start\n";
-            
             ret = 1;
             String buff = "";
             int size = 80000;
@@ -156,6 +161,13 @@ namespace WpfApp1
             String LibTmp = "";
             int CODE;
             int DbReturn = 1;
+
+            /* 書き込みフラグ */
+            Boolean RaFlag = false;
+            Boolean SeFlag = false;
+
+            JvDbRaData raData =  new JvDbRaData();
+            JvDbSEData sEData = new JvDbSEData();
 
             /* DB初期化 */
             db = new dbConnect();
@@ -181,57 +193,11 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "RA":
-                            JvDbRaData raData = new JvDbRaData(1, ref buff);   //#15 DB処理の共通化
-                            //StatusInfo += "*";
-                            //JV_RACE = new JVData_Struct.JV_RA_RACE();
-                            //tmp = "";
-                            //JV_RACE.SetDataB(ref buff);
-                            //tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + JV_RACE.id.JyoCD + JV_RACE.id.Kaiji + JV_RACE.id.Nichiji +
-                            //    JV_RACE.id.RaceNum + ",";
-                            //tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + ",";
-                            //tmp += JV_RACE.id.JyoCD + ",";
-                            //tmp += JV_RACE.id.Kaiji + "," + JV_RACE.id.Nichiji + "," + JV_RACE.id.RaceNum + ",";
-                            //tmp += JV_RACE.RaceInfo.YoubiCD + ",";
-                            //CODE = LibJvConvFuncClass.RACE_NAME;
-                            ////レース名
-                            //if (JV_RACE.RaceInfo.Hondai.Trim() == "")
-                            //{
-                            //    LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.JyokenInfo.SyubetuCD + JV_RACE.JyokenInfo.JyokenCD[4], ref LibTmp);
-                            //    if(JV_RACE.JyokenInfo.JyokenCD[4] == "701")
-                            //    {
-                            //        CODE = LibJvConvFuncClass.COURCE_CODE;
-                            //        LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.id.JyoCD, ref LibTmp);
-                            //        LibTmp = "メイクデビュー" + LibTmp;
-                            //    }
-
-                            //    tmp += LibTmp;
-                            //}
-                            //else
-                            //{
-                            //    tmp += JV_RACE.RaceInfo.Hondai.Trim();
-                            //}
-                            //tmp += ",";
-                            //tmp += JV_RACE.RaceInfo.Ryakusyo10.Trim() + ",";
-                            //tmp += JV_RACE.RaceInfo.Fukudai.Trim() + ",";
-                            //tmp += JV_RACE.RaceInfo.Kakko.Trim() + ",";
-                            //tmp += JV_RACE.RaceInfo.HondaiEng.Trim() + ",";
-                            //tmp += JV_RACE.RaceInfo.FukudaiEng.Trim() + ",";
-                            //tmp += JV_RACE.JyokenInfo.SyubetuCD + ",";
-                            //tmp += JV_RACE.JyokenInfo.JyokenCD[4] + ",";
-                            //tmp += JV_RACE.RaceInfo.Nkai + ",";
-                            //CODE = LibJvConvFuncClass.GRACE_CODE;
-                            //LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref LibTmp);
-                            //tmp += LibTmp + ",";
-                            //tmp += JV_RACE.TrackCD + ",";
-                            //tmp += JV_RACE.Kyori + ",";
-                            //tmp += JV_RACE.TorokuTosu + ",";
-                            //tmp += JV_RACE.JyokenInfo.KigoCD + ",";
-                            //tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
-                            //tmp += JV_RACE.HassoTime + ",";
-                            //db = new dbConnect((JV_RACE.id.Year + JV_RACE.id.MonthDay), JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
+                            raData.JvDbRaWriteData(0, ref buff);  //#15 DB処理の共通化
+                            RaFlag = true;                                     //DB処理を後回し
                             break;
                         case "SE":
-                            JvDbSEData sEData = new JvDbSEData(ref buff);
+                            sEData.JvDbSeComMappingFunction(-1, ref buff);  //当回のデータ時は-1をセット
                             //LogingText("@");
                             //JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             //tmp = "";
@@ -287,6 +253,22 @@ namespace WpfApp1
                 {
                     /* ファイル切り替わり */
                     ret = 1;
+
+                    //書き込んで初期化する
+                    if (RaFlag)
+                    {
+                        ret = raData.ExecRADataWriteDb(1);
+                        raData = new JvDbRaData();  //初期化する。
+                        Console.WriteLine("!" + ret);
+                        RaFlag = false;
+                    }
+
+                    if(sEData.JvDbSeComDataEnable())
+                    {
+                        sEData.ExecSEDataWriteDb(1);
+                        sEData = new JvDbSEData();  //ファイル切り替わり時は初期化する。
+                    }
+                    
                     continue;
                 }
                 else
@@ -296,9 +278,24 @@ namespace WpfApp1
             }
 
             ThreadFlag = false;     //スレッドの終了を通知
+
+            ret = 0;
+            /* 後から書き込み場合、ここで書き込み */
+            if(RaFlag)
+            {
+                ret = raData.ExecRADataWriteDb(1);
+                RaFlag = false;
+            }
+
+            if(sEData.JvDbSeComDataEnable())
+            {
+                ret = sEData.ExecSEDataWriteDb(1);
+            }
+
             Thread.Sleep(50);
             thread.Abort();
             thread.Join();
+
             return 1;
         }
 
@@ -1063,6 +1060,7 @@ namespace WpfApp1
             ret = 1;
 
             /* ロギング */
+            LOG.CONSOLE_TIME_MD("MAIN", "<< JvRead RCOV >>");
             LogingText("JvRead・・・OK\n");
 
             /* ロギングを別スレッドでスタートする */
@@ -1088,7 +1086,11 @@ namespace WpfApp1
 
             /* DB初期化 */
             db = new dbConnect();
-            db.DeleteCsv("RA_MST");
+            //db.DeleteCsv("RA_MST");   //RAは別途処理追加
+            JvDbRaData RaData = new JvDbRaData();
+            JvDbSEData SeData = new JvDbSEData();
+            JvDbUmData UmData = new JvDbUmData();
+            Boolean RaFlag = false;
             db.DeleteCsv("SE_MST");
             db.DeleteCsv("UM_MST");
 
@@ -1117,57 +1119,33 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "RA":
-                            JvDbRaData RaData = new JvDbRaData(0, ref buff);
+                            RaData.JvDbRaWriteData(0, ref buff);
+                            RaFlag = true;
                             //db = new dbConnect("0", JV_RACE.head.RecordSpec, ref tmp, ref DbReturn);
                             ProgressStatusValue++;
                             break;
                         case "SE":
                             // !!!ここに追加した場合はMainDataHorceClass.csの定義を追加すること！！！ 
-                            JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
+                          //  JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             JV_SE_UMA.SetDataB(ref buff);
 
                             if(horse == JV_SE_UMA.Bamei.Trim())
                             {
                                 OldRaceCounter++;
-                                JvDbSEData SeData = new JvDbSEData(OldRaceCounter, ref buff, 0);
                             }
                             else
                             {
                                 OldRaceCounter = 1;
-                                JvDbSEData SeData = new JvDbSEData(OldRaceCounter, ref buff, 1);
                                 horse = JV_SE_UMA.Bamei.Trim();
                             }
-                            
+
+                            SeData.JvDbSeComMappingFunction(OldRaceCounter, ref buff);
                             //db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
                             ProgressStatusValue++;
                             break;
 
                         case "UM": //競走馬マスタ
-                            JV_UMA = new JVData_Struct.JV_UM_UMA();
-                            JV_UMA.SetDataB(ref buff);
-                            tmp = "";
-                            tmp += JV_UMA.KettoNum + ","; //血統登録番号キー
-                            tmp += JV_UMA.Bamei.Trim() + ",";
-                            tmp += JV_UMA.BameiEng.Trim()+ ",";
-                            tmp += JV_UMA.UmaKigoCD+ ",";
-                            tmp += JV_UMA.SexCD + ",";
-                            tmp += JV_UMA.KeiroCD + ",";
-                            tmp += JV_UMA.Ketto3Info[0].Bamei.Trim() + ","; //父
-                            tmp += JV_UMA.Ketto3Info[1].Bamei.Trim() + ","; //母
-                            tmp += JV_UMA.Ketto3Info[2].Bamei.Trim() + ","; //父父
-                            tmp += JV_UMA.Ketto3Info[4].Bamei.Trim() + ","; //母父
-                            tmp += JV_UMA.Ketto3Info[12].Bamei.Trim() + ","; //母母父
-                            tmp += JV_UMA.Kyakusitu[0] + ",";
-                            tmp += JV_UMA.Kyakusitu[1] + ",";
-                            tmp += JV_UMA.Kyakusitu[2] + ",";
-                            tmp += JV_UMA.Kyakusitu[3] + ",";
-                            tmp += JV_UMA.Ketto3Info[0].HansyokuNum + ",";  //父の系統
-                            tmp += JV_UMA.Ketto3Info[4].HansyokuNum + ",";  //母父の系統
-                            tmp += JV_UMA.Ketto3Info[12].HansyokuNum + ",";  //母母父の系統
-                            tmp += JV_UMA.Ketto3Info[2].HansyokuNum + ",";  //父父の系統
-                            tmp += JV_UMA.Ketto3Info[6].HansyokuNum + ",";  //父父父の系統
-                            tmp += JV_UMA.Ketto3Info[10].HansyokuNum + ","; //母父父の血統
-                            db = new dbConnect("0", JV_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                            UmData.JvDbUmDataRead(ref buff);
                             ProgressStatusValue++;
                             break;
 
@@ -1197,6 +1175,25 @@ namespace WpfApp1
                 {
                     /* ファイル切り替わり */
                     ret = 1;
+
+                    if(RaFlag)
+                    {
+                        RaData.ExecRADataWriteDb(0);
+                        RaData = new JvDbRaData();
+                    }
+
+                    if(SeData.JvDbSeComDataEnable())
+                    {
+                        SeData.ExecSEDataWriteDb(0);
+                        SeData = new JvDbSEData();  //ファイル切り替わり時に初期化する
+                    }
+
+                    if(UmData.JvDbUmEnable())
+                    {
+                        UmData.ExecUmData();
+                        UmData = new JvDbUmData();
+                    }
+
                     continue;
                 }
                 else
@@ -1206,7 +1203,23 @@ namespace WpfApp1
 
             }
             JVForm.JvForm_JvClose();
-                return 1;
+
+            if(RaFlag)
+            {
+                RaData.ExecRADataWriteDb(0);
+            }
+
+            if(SeData.JvDbSeComDataEnable())
+            {
+                SeData.ExecSEDataWriteDb(0);
+            }
+
+            if (UmData.JvDbUmEnable())
+            {
+                UmData.ExecUmData();
+            }
+
+            return 1;
         }
 
         /* データマイニング情報取得(リアルタイム) */
@@ -1659,17 +1672,27 @@ namespace WpfApp1
             DateTime dt = DateTime.Now;
             if (DateText.Text == "")
             {
-                
+
             }
             else
             {
                 dt = DateTime.Parse(DateText.Text);
             }
-            
 
-            form.info.InfomationForm form = new form.info.InfomationForm(dt.ToString("yyyyMMdd"));
-            form.Show();
+            /* 二重起動防止 */
+            if (this.infomationForm == null || this.infomationForm.IsDisposed)
+            { /* ヌル、または破棄されていたら */
+                infomationForm = new form.info.InfomationForm(dt.ToString("yyyyMMdd"));
+                infomationForm.Show();
+            }
+            else
+            {
+                /* すでに起動済みの場合は、多重定義を禁止し、フォームをアクティブにする */
+                Log.CONSOLE_WRITER("InfomationForm Always Active");
+                infomationForm.Activate();
+            }
         }
+
 
         #region DBから開催競馬場を取得
         public void SetKaisaiInfo(String Date, ref List<String> ret)

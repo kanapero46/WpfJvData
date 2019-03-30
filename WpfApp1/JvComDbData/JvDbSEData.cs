@@ -14,15 +14,22 @@ namespace WpfApp1.JvComDbData
         const int RA_MAX = 29;
         dbConnect db = new dbConnect();
         private const String MAGIC_STR = "A";
+        private const String SPEC = "SE";
         String statHorce = "";
 
-        /* MainDataHorceClassのつづき */
+        struct SE_DB_WRITE_STRUCT
+        {
+            public String Date;
+            public String WriteStr;
+        }
 
-
-
+        SE_DB_WRITE_STRUCT SeStruct = new SE_DB_WRITE_STRUCT();
+        Class.com.JvComClass LOG = new Class.com.JvComClass();
+       
         public JvDbSEData()
         {
-            //クラス宣言はなにもしない
+            //引数なしのインスタンス生成時はDB書き込み用の文字列を初期化
+            SeStruct = new SE_DB_WRITE_STRUCT();
         }
 
         #region 当回SEデータ保存用マッピング関数
@@ -36,6 +43,31 @@ namespace WpfApp1.JvComDbData
         public JvDbSEData(int Master, ref String buff, int DiffName)
         {
             JvDbSeComFunction(Master, ref buff);
+        }
+        #endregion
+
+        #region SEデータ用マッピング関数
+        public void JvDbSeComMappingFunction(int ret, ref String buff)
+        {
+            JvDbSeComFunction(ret, ref buff);
+        }
+        #endregion
+
+        #region SEデータに書き込みデータ有り無し取得関数
+        public Boolean JvDbSeComDataEnable()
+        {
+            if(SeStruct.Date == null || SeStruct.WriteStr == null)
+            {
+                return false;
+            }
+            else if(SeStruct.Date.Length == 0 || SeStruct.WriteStr.Length == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         #endregion
 
@@ -96,20 +128,64 @@ namespace WpfApp1.JvComDbData
             tmp += JV_SE_UMA.Ninki + ",";        //25
             tmp += JV_SE_UMA.Jyuni1c + JV_SE_UMA.Jyuni2c + JV_SE_UMA.Jyuni3c + JV_SE_UMA.Jyuni4c + ",";
             tmp += JV_SE_UMA.HaronTimeL3 + ",";
+            tmp += "\r\n";
 
-            if (Master == -1)
+            SeStruct.WriteStr += tmp;
+            
+            /* ここでは書き込まないように変更する、そのため別途書き込み処理をコールする必要あり。 */
+            if(SeStruct.Date == "" || SeStruct.Date == null)
             {
-                /* 当回データ */
-                dbConnect db = new dbConnect(JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay, JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                SeStruct.Date = JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay;
             }
-            else
+            while(false)
             {
-                /* マスターデータ */
-                dbConnect db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                if (Master == -1)
+                {
+
+                    dbConnect db = new dbConnect(JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay, JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                }
+                else
+                {
+                    /* マスターデータ */
+                    dbConnect db = new dbConnect("0", JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
+                }
             }
+
+
         }
         #endregion
 
+        #region SEデータのDB書き込み指示
+        public int ExecSEDataWriteDb(int kind)
+        {
+            int DbReturn = 0;
+
+            if(SeStruct.Date == "" || SeStruct.WriteStr.Length == 0)
+            {
+                LOG.CONSOLE_MODULE("SE", "DataSetERror!");
+                return 0;
+            }
+            
+            if(kind == 0)
+            {
+                //マスターデータ
+                db.DeleteCsv("SE_MST");
+                db = new dbConnect("0", SPEC, ref SeStruct.WriteStr, ref DbReturn);
+            }
+            else
+            {
+               // db.DeleteCsv("RA");
+                db = new dbConnect(SeStruct.Date, SPEC, ref SeStruct.WriteStr, ref DbReturn);
+            }
+
+            LOG.CONSOLE_TIME_MD("SE", "JvDbSeData DB Write -> " + SeStruct.Date +" ret(" + DbReturn + ")");
+            SeStruct.Date = "";
+            SeStruct.WriteStr = "";
+            
+            return DbReturn;
+        }
+        #endregion
+        
         #region SEデータとRAデータを組み合わせ
         public void SetSEMSTData(List<String> inParam)
         {

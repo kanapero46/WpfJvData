@@ -407,6 +407,8 @@ namespace WpfApp1.form
             int tmpRank = 0;
             Color RankColor = new Color();
 
+            JvDbRaData tmpRadata = new JvDbRaData();
+
             for (int i = 0; i < 3; i++)
             {
                 switch(i)
@@ -587,7 +589,8 @@ namespace WpfApp1.form
                     this.Time2Array[k].Name = "Time2" + k.ToString() + i.ToString();
                     this.Time2Array[k].Size = new Size(90, 30);
                     this.Time2Array[k].Font = new Font("Meiryo UI", 8);
-                    this.Time2Array[k].Text = "47.2 →";
+
+                    this.Time2Array[k].Text = raceData.JvDbRaConvInTimer(Int32.Parse(SEdata.RaceHist1.distance),ref strArray) + " →";
 
                     if (i < Heaf)
                     {

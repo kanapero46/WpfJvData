@@ -128,6 +128,25 @@ namespace WpfApp1.Class
         public String getRaceName6() { return RaceName6; }
         public void setRaceName6(String inParam) { this.RaceName6 = inParam; }
 
+        //ラップタイム
+        protected List<String> LapTime;
+
+        public void SetLapTime1(String[] In)
+        {
+            for(int i=0; i<In.Length; i++)
+            {
+                LapTime.Add(In[i]);
+            }
+        }
+
+        public void SetLapTime2(String In)
+        {
+            LapTime.Add(In);
+        }
+
+
+        public List<string> LapTime1 { get => LapTime; set => LapTime = value; }
+
         public String ConvertDateToDate(String Date)
         {
             return Date.Substring(0, 4) + "年" + Int32.Parse(Date.Substring(4, 2)) + "月" + Int32.Parse(Date.Substring(6, 2)) + "日";
@@ -149,5 +168,7 @@ namespace WpfApp1.Class
                 return "";
             }
         }
+
+
     }
 }
