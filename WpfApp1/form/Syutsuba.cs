@@ -461,7 +461,7 @@ namespace WpfApp1.form
             String tmp = RaClassData.getRaceCource();
             LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref LibTmp);
             Cource = LibTmp;
-
+           
             /* DataGridViewの高さの変更を出来ないようにする */
             dataGridView1.AllowUserToResizeRows = false;
 
@@ -474,7 +474,7 @@ namespace WpfApp1.form
             this.Kaisai.Text = "第" + Int32.Parse(RaClassData.getRaceKaiji()) + "回" + Cource + Int32.Parse(RaClassData.getRaceNichiji()) + "日目"; //開催
             this.label4.Text = RaClassData.ConvertTimeToString(RaClassData.getRaceStartTime());
 
-            this.RaceNum.Text = Int32.Parse(RaClassData.getRaceNum()) + "Ｒ";
+            this.RaceNum.Text = Cource + Int32.Parse(RaClassData.getRaceNum()) + "Ｒ";
             this.kaiji.Text = (RaClassData.getRaceGradeKai() == 0 ? "" : "第" + RaClassData.getRaceGradeKai() + "回");
             this.racename.Text = RaClassData.getRaceNameFukus() + (RaClassData.getRaceNameFukus().Length >= 1 ? " " : "") + RaClassData.getRaceName() + (RaClassData.getRaceNameEnd() == ""? "": "(" + RaClassData.getRaceNameEnd() + ")");
             this.raceNameEng.Text = " "+ RaClassData.getRaceNameEng();

@@ -159,7 +159,7 @@
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 108F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 136F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 137F));
             this.tableLayoutPanel3.Controls.Add(this.TrackDistance, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.TrackLabel, 0, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(1903, 23);
@@ -260,7 +260,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.22481F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.77519F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 494F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 182F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 183F));
             this.tableLayoutPanel2.Controls.Add(this.label16, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.KigoLabel, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.OldYear, 0, 0);
@@ -279,7 +279,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label16.Location = new System.Drawing.Point(1098, 0);
+            this.label16.Location = new System.Drawing.Point(1097, 0);
             this.label16.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(115, 38);
@@ -290,7 +290,7 @@
             // 
             this.KigoLabel.AutoSize = true;
             this.KigoLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.KigoLabel.Location = new System.Drawing.Point(604, 0);
+            this.KigoLabel.Location = new System.Drawing.Point(603, 0);
             this.KigoLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.KigoLabel.Name = "KigoLabel";
             this.KigoLabel.Size = new System.Drawing.Size(317, 38);
@@ -312,7 +312,7 @@
             // 
             this.ClassLabel.AutoSize = true;
             this.ClassLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.ClassLabel.Location = new System.Drawing.Point(301, 0);
+            this.ClassLabel.Location = new System.Drawing.Point(300, 0);
             this.ClassLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.ClassLabel.Name = "ClassLabel";
             this.ClassLabel.Size = new System.Drawing.Size(109, 38);
@@ -325,10 +325,10 @@
             this.panel1.BackColor = System.Drawing.Color.Green;
             this.panel1.Controls.Add(this.RaceNum);
             this.panel1.Controls.Add(this.label10);
-            this.panel1.Location = new System.Drawing.Point(326, 101);
+            this.panel1.Location = new System.Drawing.Point(61, 112);
             this.panel1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(106, 74);
+            this.panel1.Size = new System.Drawing.Size(257, 74);
             this.panel1.TabIndex = 45;
             // 
             // RaceNum
@@ -336,10 +336,10 @@
             this.RaceNum.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.RaceNum.ForeColor = System.Drawing.Color.White;
             this.RaceNum.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.RaceNum.Location = new System.Drawing.Point(-9, 10);
+            this.RaceNum.Location = new System.Drawing.Point(7, 2);
             this.RaceNum.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.RaceNum.Name = "RaceNum";
-            this.RaceNum.Size = new System.Drawing.Size(129, 63);
+            this.RaceNum.Size = new System.Drawing.Size(243, 63);
             this.RaceNum.TabIndex = 10;
             this.RaceNum.Text = "10Ｒ";
             this.RaceNum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -360,10 +360,10 @@
             this.flowLayoutPanel6.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.flowLayoutPanel6.Controls.Add(this.kaiji);
             this.flowLayoutPanel6.Controls.Add(this.racename);
-            this.flowLayoutPanel6.Location = new System.Drawing.Point(451, 93);
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(337, 104);
             this.flowLayoutPanel6.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
-            this.flowLayoutPanel6.Size = new System.Drawing.Size(1710, 70);
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(1996, 70);
             this.flowLayoutPanel6.TabIndex = 44;
             // 
             // kaiji
@@ -380,12 +380,13 @@
             // racename
             // 
             this.racename.AutoSize = true;
-            this.racename.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.racename.Font = new System.Drawing.Font("メイリオ", 16.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.racename.Location = new System.Drawing.Point(128, 0);
             this.racename.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.racename.Name = "racename";
-            this.racename.Size = new System.Drawing.Size(0, 72);
+            this.racename.Size = new System.Drawing.Size(1805, 65);
             this.racename.TabIndex = 8;
+            this.racename.Text = "ウオッカ追悼競走 ニュージーランドトロフィー（ＧⅡ）（ＮＨＫマイルカップトライアル）";
             // 
             // tableLayoutPanel1
             // 
@@ -394,7 +395,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 141F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
             this.tableLayoutPanel1.Controls.Add(this.weLabel, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1695, 23);
@@ -480,7 +481,7 @@
             // 
             this.raceNameEng.AutoSize = true;
             this.raceNameEng.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.raceNameEng.Location = new System.Drawing.Point(586, 159);
+            this.raceNameEng.Location = new System.Drawing.Point(472, 170);
             this.raceNameEng.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.raceNameEng.Name = "raceNameEng";
             this.raceNameEng.Size = new System.Drawing.Size(0, 30);
