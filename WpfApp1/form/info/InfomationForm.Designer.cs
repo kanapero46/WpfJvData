@@ -800,7 +800,7 @@
             // 
             // statusBar1
             // 
-            this.statusBar1.Location = new System.Drawing.Point(0, 1188);
+            this.statusBar1.Location = new System.Drawing.Point(0, 1143);
             this.statusBar1.Name = "statusBar1";
             this.statusBar1.Size = new System.Drawing.Size(1806, 29);
             this.statusBar1.TabIndex = 25;
@@ -1165,7 +1165,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1806, 1217);
+            this.ClientSize = new System.Drawing.Size(1806, 1172);
             this.Controls.Add(this.flowLayoutPanel15);
             this.Controls.Add(this.statusBar1);
             this.Controls.Add(this.axJVLink1);

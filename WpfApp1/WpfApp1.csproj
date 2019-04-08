@@ -117,6 +117,12 @@
     <Compile Include="form\info\InfomationForm.Designer.cs">
       <DependentUpon>InfomationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\info\RaceResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\info\RaceResult.Designer.cs">
+      <DependentUpon>RaceResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\Kettou.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -193,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\info\InfomationForm.resx">
       <DependentUpon>InfomationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\info\RaceResult.resx">
+      <DependentUpon>RaceResult.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\Kettou.resx">
       <DependentUpon>Kettou.cs</DependentUpon>

@@ -57,7 +57,7 @@ namespace WpfApp1.Class
                     switch (buff.Substring(0, 2))
                     {
                         case "O1":
-                            if(InitO1Flag)
+                            if (InitO1Flag)
                             {
                                 db.DeleteCsv("O1", Key.Substring(0, 8) + ".csv", false);
                                 db.DeleteCsv("O15", Key.Substring(0, 8) + ".csv", false);
@@ -70,17 +70,17 @@ namespace WpfApp1.Class
                             {
                                 O1.SetJvDbO1Data(ref buff);
                             }
-                            
+
                             break;
                     }
 
-            
+
                 }
-                else if(ret == 0)
+                else if (ret == 0)
                 {
 
                 }
-                else if(ret == -1)
+                else if (ret == -1)
                 {
                     //ファイル切り替わり
                     ret = 1;
@@ -92,9 +92,7 @@ namespace WpfApp1.Class
                 }
 
             }
-
-
-
+            O1.ExecO1DbWriter();
             Jv.JvForm_JVWatchEventClose();
             Jv.JvForm_JvClose();
 
