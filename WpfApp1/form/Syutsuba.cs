@@ -898,6 +898,22 @@ namespace WpfApp1.form
 
             Console.WriteLine(ret);
         }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            String key = "";
+            RaClassData.GET_AUTO_RA_KEY(ref key);
+            form.info.RaceResult result = new form.info.RaceResult(key);
+            if (result.SetData() != 0)
+            {
+                result.Show();
+            }
+            else
+            {
+                MessageBox.Show("当該レースは確定していません。");
+                return;
+            }
+        }
     }
 
 

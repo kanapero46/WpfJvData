@@ -47,7 +47,7 @@ namespace WpfApp1.JvComDbData
         }
 
         #region RAデータDB書き込み共通処理
-        unsafe public void JvDbRaWriteData(int kind, ref String buff)
+        unsafe public int JvDbRaWriteData(int kind, ref String buff)
         {
             JVData_Struct.JV_RA_RACE JV_RACE = new JVData_Struct.JV_RA_RACE();
             String tmp = "";
@@ -57,66 +57,69 @@ namespace WpfApp1.JvComDbData
 
             JV_RACE.SetDataB(ref buff);
 
-            tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + JV_RACE.id.JyoCD + JV_RACE.id.Kaiji + JV_RACE.id.Nichiji +
-                JV_RACE.id.RaceNum + ",";
-            tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + ",";
-            tmp += JV_RACE.id.JyoCD + ",";
-            tmp += JV_RACE.id.Kaiji + "," + JV_RACE.id.Nichiji + "," + JV_RACE.id.RaceNum + ",";
-            tmp += JV_RACE.RaceInfo.YoubiCD + ",";
+            //tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + JV_RACE.id.JyoCD + JV_RACE.id.Kaiji + JV_RACE.id.Nichiji +
+            //    JV_RACE.id.RaceNum + ",";
+            //tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + ",";
+            //tmp += JV_RACE.id.JyoCD + ",";
+            //tmp += JV_RACE.id.Kaiji + "," + JV_RACE.id.Nichiji + "," + JV_RACE.id.RaceNum + ",";
+            //tmp += JV_RACE.RaceInfo.YoubiCD + ",";
 
-            int CODE = LibJvConvFuncClass.RACE_NAME;
-            //レース名
-            if (JV_RACE.RaceInfo.Hondai.Trim() == "")
-            {
-                LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.JyokenInfo.SyubetuCD + JV_RACE.JyokenInfo.JyokenCD[4], ref Libtmp);
-                if (JV_RACE.JyokenInfo.JyokenCD[4] == "701")
-                {
-                    CODE = LibJvConvFuncClass.COURCE_CODE;
-                    LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.id.JyoCD, ref Libtmp);
-                    Libtmp = "メイクデビュー" + Libtmp;
-                }
+            //int CODE = LibJvConvFuncClass.RACE_NAME;
+            ////レース名
+            //if (JV_RACE.RaceInfo.Hondai.Trim() == "")
+            //{
+            //    LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.JyokenInfo.SyubetuCD + JV_RACE.JyokenInfo.JyokenCD[4], ref Libtmp);
+            //    if (JV_RACE.JyokenInfo.JyokenCD[4] == "701")
+            //    {
+            //        CODE = LibJvConvFuncClass.COURCE_CODE;
+            //        LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.id.JyoCD, ref Libtmp);
+            //        Libtmp = "メイクデビュー" + Libtmp;
+            //    }
 
-                tmp += Libtmp;
-            }
-            else
-            {
-                tmp += JV_RACE.RaceInfo.Hondai.Trim();
-            }
-            tmp += ",";
-            tmp += JV_RACE.RaceInfo.Ryakusyo10.Trim() + ",";
-            tmp += JV_RACE.RaceInfo.Fukudai.Trim() + ",";
-            tmp += JV_RACE.RaceInfo.Kakko.Trim() + ",";
-            tmp += JV_RACE.RaceInfo.HondaiEng.Trim() + ",";
-            tmp += JV_RACE.RaceInfo.FukudaiEng.Trim() + ",";
-            tmp += JV_RACE.JyokenInfo.SyubetuCD + ",";
-            tmp += JV_RACE.JyokenInfo.JyokenCD[4] + ",";
-            tmp += JV_RACE.RaceInfo.Nkai + ",";
-            CODE = LibJvConvFuncClass.GRACE_CODE;
-            LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref Libtmp);
-            tmp += Libtmp + ",";
-            tmp += JV_RACE.TrackCD + ",";
-            tmp += JV_RACE.Kyori + ",";
-            tmp += JV_RACE.TorokuTosu + ",";
-            tmp += JV_RACE.JyokenInfo.KigoCD + ",";
-            tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
-            tmp += JV_RACE.HassoTime + ",";
-            tmp += JV_RACE.TenkoBaba.TenkoCD + ",";
-            tmp += JV_RACE.TenkoBaba.SibaBabaCD + JV_RACE.TenkoBaba.DirtBabaCD + ",";
-            tmp += JV_RACE.RecordUpKubun + ",";
-            tmp += JV_RACE.RaceInfo.Ryakusyo6 + ",";
+            //    tmp += Libtmp;
+            //}
+            //else
+            //{
+            //    tmp += JV_RACE.RaceInfo.Hondai.Trim();
+            //}
+            //tmp += ",";
+            //tmp += JV_RACE.RaceInfo.Ryakusyo10.Trim() + ",";
+            //tmp += JV_RACE.RaceInfo.Fukudai.Trim() + ",";
+            //tmp += JV_RACE.RaceInfo.Kakko.Trim() + ",";
+            //tmp += JV_RACE.RaceInfo.HondaiEng.Trim() + ",";
+            //tmp += JV_RACE.RaceInfo.FukudaiEng.Trim() + ",";
+            //tmp += JV_RACE.JyokenInfo.SyubetuCD + ",";
+            //tmp += JV_RACE.JyokenInfo.JyokenCD[4] + ",";
+            //tmp += JV_RACE.RaceInfo.Nkai + ",";
+            //CODE = LibJvConvFuncClass.GRACE_CODE;
+            //LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref Libtmp);
+            //tmp += Libtmp + ",";
+            //tmp += JV_RACE.TrackCD + ",";
+            //tmp += JV_RACE.Kyori + ",";
+            //tmp += JV_RACE.TorokuTosu + ",";
+            //tmp += JV_RACE.JyokenInfo.KigoCD + ",";
+            //tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
+            //tmp += JV_RACE.HassoTime + ",";
+            //tmp += JV_RACE.TenkoBaba.TenkoCD + ",";
+            //tmp += JV_RACE.TenkoBaba.SibaBabaCD + JV_RACE.TenkoBaba.DirtBabaCD + ",";
+            //tmp += JV_RACE.RecordUpKubun + ",";
+            //tmp += JV_RACE.RaceInfo.Ryakusyo6 + ",";
 
-            for(int i=0; i<JV_RACE.LapTime.Length; i++)
-            {
-                tmp += JV_RACE.LapTime[i] + ",";
-            }
+            //for(int i=0; i<JV_RACE.LapTime.Length; i++)
+            //{
+            //    tmp += JV_RACE.LapTime[i] + ",";
+            //}
+
+            tmp = ConvRaData(ref buff);
 
             /* ここでは書き込まないように変更する、そのため別途書き込み処理をコールする必要あり。 */
-            if(RaStruct.Date == "")
+            if (RaStruct.Date == "")
             {
                 RaStruct.Date = JV_RACE.id.Year + JV_RACE.id.MonthDay;
             }
             
             RaStruct.WriteStr += tmp + "\n";
+            return Int32.Parse(JV_RACE.head.DataKubun);
          
          /*    if(kind == 0)
             {
@@ -197,7 +200,8 @@ namespace WpfApp1.JvComDbData
             setRaceKindKigo(inParam[20]);
             setRaceHandCap(inParam[21]);
             setRaceStartTime(inParam[22]);
-            setTrackStatus(inParam[23]);
+            setWeather(inParam[23]);
+            setTrackStatus(inParam[24]);
             setRaceName6(inParam[26]);
 
             for (int i = 0; i < LAP_COUNT_MAX; i++)
@@ -212,8 +216,10 @@ namespace WpfApp1.JvComDbData
                 }
             }
 
+            DataKubun1 = Int32.Parse(inParam[27 + LAP_COUNT_MAX]);
+
             //ここからは上のラップタイムを考慮した添字にする必要あり
-            
+
         }
         #endregion
 
@@ -256,6 +262,7 @@ namespace WpfApp1.JvComDbData
             String fname = "";
 
             String retBuff = "";
+            String tmp = "";
 
             while (ret >= 1)
             {
@@ -272,10 +279,24 @@ namespace WpfApp1.JvComDbData
                     {
                         case "RA":
                             RaData.SetDataB(ref buff);
+                            tmp = ConvRaData(ref buff);
                             refBuff = RaData.head.DataKubun;
-                            break;
+                            break;                            
                     }
                 }
+            }
+
+
+            List<String> tmpArray = new List<string>();
+            if(tmp != "")
+            {
+                var raRtData = tmp.Split(',');
+               foreach(String value in raRtData)
+                {
+                    tmpArray.Add(value);
+                }
+                setData(ref tmpArray);
+
             }
 
             jVForm.JvForm_JVWatchEventClose();
@@ -349,6 +370,104 @@ namespace WpfApp1.JvComDbData
         }
         #endregion
 
+        #region RAデータのDB書き込みデータ生成
+        private unsafe String ConvRaData(ref String buff)
+        {
+            JVData_Struct.JV_RA_RACE JV_RACE = new JVData_Struct.JV_RA_RACE();
+            String tmp = "";
+            String Libtmp = "";
+
+            JV_RACE.SetDataB(ref buff);
+
+            tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + JV_RACE.id.JyoCD + JV_RACE.id.Kaiji + JV_RACE.id.Nichiji +
+                JV_RACE.id.RaceNum + ",";
+            tmp += JV_RACE.id.Year + JV_RACE.id.MonthDay + ",";
+            tmp += JV_RACE.id.JyoCD + ",";
+            tmp += JV_RACE.id.Kaiji + "," + JV_RACE.id.Nichiji + "," + JV_RACE.id.RaceNum + ",";
+            tmp += JV_RACE.RaceInfo.YoubiCD + ",";
+
+            int CODE = LibJvConvFuncClass.RACE_NAME;
+            //レース名
+            if (JV_RACE.RaceInfo.Hondai.Trim() == "")
+            {
+                LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.JyokenInfo.SyubetuCD + JV_RACE.JyokenInfo.JyokenCD[4], ref Libtmp);
+                if (JV_RACE.JyokenInfo.JyokenCD[4] == "701")
+                {
+                    CODE = LibJvConvFuncClass.COURCE_CODE;
+                    LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.id.JyoCD, ref Libtmp);
+                    Libtmp = "メイクデビュー" + Libtmp;
+                }
+
+                tmp += Libtmp;
+            }
+            else
+            {
+                tmp += JV_RACE.RaceInfo.Hondai.Trim();
+            }
+            tmp += ",";
+            tmp += JV_RACE.RaceInfo.Ryakusyo10.Trim() + ",";
+            tmp += JV_RACE.RaceInfo.Fukudai.Trim() + ",";
+            tmp += JV_RACE.RaceInfo.Kakko.Trim() + ",";
+            tmp += JV_RACE.RaceInfo.HondaiEng.Trim() + ",";
+            tmp += JV_RACE.RaceInfo.FukudaiEng.Trim() + ",";
+            tmp += JV_RACE.JyokenInfo.SyubetuCD + ",";
+            tmp += JV_RACE.JyokenInfo.JyokenCD[4] + ",";
+            tmp += JV_RACE.RaceInfo.Nkai + ",";
+            CODE = LibJvConvFuncClass.GRACE_CODE;
+            LibJvConvFuncClass.jvSysConvFunction(&CODE, JV_RACE.GradeCD, ref Libtmp);
+            tmp += Libtmp + ",";
+            tmp += JV_RACE.TrackCD + ",";
+            tmp += JV_RACE.Kyori + ",";
+            tmp += JV_RACE.TorokuTosu + ",";
+            tmp += JV_RACE.JyokenInfo.KigoCD + ",";
+            tmp += JV_RACE.JyokenInfo.JyuryoCD + ",";
+            tmp += JV_RACE.HassoTime + ",";
+            tmp += JV_RACE.TenkoBaba.TenkoCD + ",";
+            tmp += JV_RACE.TenkoBaba.SibaBabaCD + JV_RACE.TenkoBaba.DirtBabaCD + ",";
+            tmp += JV_RACE.RecordUpKubun + ",";
+            tmp += JV_RACE.RaceInfo.Ryakusyo6 + ",";
+
+            for (int i = 0; i < JV_RACE.LapTime.Length; i++)
+            {
+                tmp += JV_RACE.LapTime[i] + ",";
+            }
+            tmp += JV_RACE.head.DataKubun + ",";
+
+            return tmp;
+        }
+        #endregion
+
+        #region サーバから取得したものをList<String>型で返す。
+        public List<String> JvRaDataList()
+        {
+            List<String> retArray = new List<string>();
+
+            if(WriteStr == "")
+            {
+                return retArray;
+            }
+
+            if (WriteStr != "")
+            {
+                var raRtData = WriteStr.Split(',');
+                foreach (String value in raRtData)
+                {
+                    retArray.Add(value);
+                }
+                setData(ref retArray);
+
+            }
+
+            return retArray;
+        }
+        #endregion
+
+        #region サーバから取得したものをList<String>型で返す。
+        public String JvRaDataStr()
+        {
+            return RaStruct.WriteStr;
+        }
+        #endregion
 
     }
 }

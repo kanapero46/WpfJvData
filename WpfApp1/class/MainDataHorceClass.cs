@@ -81,6 +81,12 @@ namespace WpfApp1.Class
         private String UmaKigou;
         private JV_DATA_RACE_HIST RaceHist;
         private String EngName;
+        private int Rank;
+        private String Time;
+        private String Diff;
+        private String Ninki;
+        private String NinkiRank;
+        private String TorikeshiCd;
 
 
 
@@ -107,6 +113,12 @@ namespace WpfApp1.Class
         public string FMM_NUM1 { get => FMM_NUM; set => FMM_NUM = value; }
         public string UmaKigou1 { get => UmaKigou; set => UmaKigou = value; }
         public string EngName1 { get => EngName; set => EngName = value; }
+        public int Rank1 { get => Rank; set => Rank = value; }
+        public string Time1 { get => Time; set => Time = value; }
+        public string Diff1 { get => Diff; set => Diff = value; }
+        public string Ninki1 { get => Ninki; set => Ninki = value; }
+        public string NinkiRank1 { get => NinkiRank; set => NinkiRank = value; }
+        public string TorikeshiCd1 { get => TorikeshiCd; set => TorikeshiCd = value; }
 
         public void SetSEData(List<String> inParam)
         {
@@ -119,6 +131,12 @@ namespace WpfApp1.Class
             Futan = inParam[13];
             MinaraiCd = inParam[17];
             UmaKigou = inParam[9];
+            //ここからは確定成績に入っている
+            Rank = Int32.Parse(inParam[18]);
+            Time = inParam[23];
+            Diff = inParam[24];
+            Ninki = inParam[25];
+            TorikeshiCd = inParam[21];
         }
 
         public void SetUMData(List<String> inParam)

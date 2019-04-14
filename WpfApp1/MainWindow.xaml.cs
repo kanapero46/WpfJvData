@@ -1743,8 +1743,19 @@ namespace WpfApp1
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
         {
-            Class.com.windows.JvComWindowsForm Form = new Class.com.windows.JvComWindowsForm();
-            Form.Show();
+            String key = "";
+            mainDataClass.GET_AUTO_RA_KEY(ref key);
+            form.info.RaceResult result = new form.info.RaceResult(key);
+            if(result.SetData() != 0)
+            {
+                result.Show();
+            }
+            else
+            {
+                MessageBox.Show("当該レースは確定していません。");
+                return;
+            }
+            
         }
     }
 

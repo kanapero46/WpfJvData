@@ -233,6 +233,19 @@ namespace WpfApp1.JvComDbData
         }
         #endregion
 
+        #region サーバから取得したデータを返す
+        public String JvSeDataStr()
+        {
+            try
+            {
+                return SeStruct.WriteStr;
+            }
+            catch(Exception)
+            {
+                return "";
+            }
+        }
+        #endregion
 
     }
 }

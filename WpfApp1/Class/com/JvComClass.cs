@@ -40,5 +40,19 @@ namespace WpfApp1.Class.com
                 Console.WriteLine("(" + md + ") [" + time + "]\t" + msg);
             }          
         }
+
+        public unsafe void JvSysMappingFunction(int kind, ref String In, ref String Out)
+        {
+            int lib = kind;
+            LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&lib, In, ref Out);
+        }
+
+        public unsafe String JvSysMappingFunction(int kind, ref String In)
+        {
+            int lib = kind;
+            String Out = "";
+            LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&lib, In, ref Out);
+            return Out;
+        }
     }
 }
