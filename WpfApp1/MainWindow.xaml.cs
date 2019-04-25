@@ -80,6 +80,9 @@ namespace WpfApp1
         {
             DateText.DisplayDate = DateTime.Today.ToLocalTime();
             DateText.Focus();
+
+            String LibVer = "";
+            LOG.CONSOLE_TIME_MD("MAIN", "library Verion [" + LOG.JvSysMappingFunction(LibJvConv.LibJvConvFuncClass.GET_VERSION, ref LibVer) + "]");
         }
 
         private void MainWindow_Activated(object sender, EventArgs e)
@@ -658,7 +661,7 @@ namespace WpfApp1
             {
                 RaceCource = RaceListBox.SelectedItem.ToString().Substring(0, 2);
             }
-            catch (NullReferenceException ex) { }
+            catch (NullReferenceException) { }
             
             String fromtime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
             List<String> TextArray = new List<string>();
@@ -1746,7 +1749,7 @@ namespace WpfApp1
             String key = "";
             mainDataClass.GET_AUTO_RA_KEY(ref key);
             form.info.RaceResult result = new form.info.RaceResult(key);
-            if(result.SetData() != 0)
+            if(result.SetData() == 1)
             {
                 result.Show();
             }

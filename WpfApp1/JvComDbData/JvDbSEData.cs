@@ -11,7 +11,7 @@ namespace WpfApp1.JvComDbData
 
     public class JvDbSEData : MainDataHorceClass
     {
-        const int RA_MAX = 29;
+        const int RA_MAX = 31;
         dbConnect db = new dbConnect();
         private const String MAGIC_STR = "A";
         private const String SPEC = "SE";
@@ -128,6 +128,8 @@ namespace WpfApp1.JvComDbData
             tmp += JV_SE_UMA.Ninki + ",";        //25
             tmp += JV_SE_UMA.Jyuni1c + JV_SE_UMA.Jyuni2c + JV_SE_UMA.Jyuni3c + JV_SE_UMA.Jyuni4c + ",";
             tmp += JV_SE_UMA.HaronTimeL3 + ",";
+            tmp += JV_SE_UMA.ChakusaCD + ",";
+            tmp += JV_SE_UMA.ChakusaCDP + ",";
             tmp += "\r\n";
 
             SeStruct.WriteStr += tmp;
@@ -244,6 +246,24 @@ namespace WpfApp1.JvComDbData
             {
                 return "";
             }
+        }
+        #endregion
+
+        #region 着差コード1・着差コード2から最終的な着差を取得
+        public String JvDbSeChakusaCdToFix(String In1, String In2)
+        {
+            String ret = "";
+            String tmp = "";
+
+            if(In2 != "   ")
+            {
+                ret = LOG.JvSysMappingFunction(2102, ref In1);
+            }
+
+            
+            
+
+            return "";
         }
         #endregion
 

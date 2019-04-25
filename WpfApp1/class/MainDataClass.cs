@@ -151,9 +151,14 @@ namespace WpfApp1.Class
         public String getRaceName6() { return RaceName6; }
         public void setRaceName6(String inParam) { this.RaceName6 = inParam; }
 
+        //レコード更新区分
+        private Boolean RecordUp;
+        public Boolean getRecordFlag() { return RecordUp; }
+        public void setRecordFlag(String inParam) { this.RecordUp = (inParam == "0" ? false : true); }
+
         //データ区分
-        private int DataKubun;
-        public int DataKubun1 { get => DataKubun; set => DataKubun = value; }
+        private String DataKubun;
+        public String DataKubun1 { get => DataKubun; set => DataKubun = value; }
 
         //ラップタイム
         protected List<String> LapTime;

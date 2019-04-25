@@ -39,18 +39,20 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 18);
+            this.label1.Location = new System.Drawing.Point(26, 36);
+            this.label1.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(207, 12);
+            this.label1.Size = new System.Drawing.Size(417, 24);
             this.label1.TabIndex = 0;
             this.label1.Text = "取得・更新したいデータを選択してください。";
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(27, 43);
+            this.checkBox1.Location = new System.Drawing.Point(59, 86);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(126, 16);
+            this.checkBox1.Size = new System.Drawing.Size(245, 28);
             this.checkBox1.TabIndex = 1;
             this.checkBox1.Text = "開催スケジュール(YS)";
             this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -59,9 +61,10 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(27, 65);
+            this.checkBox2.Location = new System.Drawing.Point(59, 130);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(95, 16);
+            this.checkBox2.Size = new System.Drawing.Size(181, 28);
             this.checkBox2.TabIndex = 2;
             this.checkBox2.Text = "血統情報(BT)";
             this.checkBox2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -69,17 +72,19 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(22, 87);
+            this.progressBar1.Location = new System.Drawing.Point(48, 174);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(316, 23);
+            this.progressBar1.Size = new System.Drawing.Size(685, 46);
             this.progressBar1.TabIndex = 3;
             this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(253, 43);
+            this.button1.Location = new System.Drawing.Point(548, 86);
+            this.button1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(163, 46);
             this.button1.TabIndex = 4;
             this.button1.Text = "実行";
             this.button1.UseVisualStyleBackColor = true;
@@ -87,25 +92,28 @@
             // 
             // statusBar1
             // 
-            this.statusBar1.Location = new System.Drawing.Point(0, 118);
+            this.statusBar1.Location = new System.Drawing.Point(0, 236);
+            this.statusBar1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.statusBar1.Name = "statusBar1";
-            this.statusBar1.Size = new System.Drawing.Size(364, 22);
+            this.statusBar1.Size = new System.Drawing.Size(789, 44);
             this.statusBar1.TabIndex = 5;
             this.statusBar1.Text = "statusBar1";
             // 
-            // Form1
+            // InitSettingForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 140);
+            this.ClientSize = new System.Drawing.Size(789, 280);
             this.Controls.Add(this.statusBar1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
+            this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.Name = "InitSettingForm";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.InitSettingForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

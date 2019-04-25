@@ -39,10 +39,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibJvConv, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\JvApp\LibJvConv\bin\Debug\LibJvConv.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -76,6 +72,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Class\com\JvComClass.cs" />
+    <Compile Include="Class\com\JvComMain.cs" />
     <Compile Include="Class\com\windows\JvComWindowsClass.cs" />
     <Compile Include="Class\com\windows\JvComWindowsForm.cs">
       <SubType>Form</SubType>
@@ -296,6 +293,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="all.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\JvApp\LibJvConv\LibJvConv.csproj">
+      <Project>{4769ecc8-0e04-48e3-868e-7442310bba50}</Project>
+      <Name>LibJvConv</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

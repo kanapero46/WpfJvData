@@ -47,7 +47,7 @@ namespace WpfApp1.JvComDbData
         }
 
         #region RAデータDB書き込み共通処理
-        unsafe public int JvDbRaWriteData(int kind, ref String buff)
+        unsafe public String JvDbRaWriteData(int kind, ref String buff)
         {
             JVData_Struct.JV_RA_RACE JV_RACE = new JVData_Struct.JV_RA_RACE();
             String tmp = "";
@@ -119,7 +119,7 @@ namespace WpfApp1.JvComDbData
             }
             
             RaStruct.WriteStr += tmp + "\n";
-            return Int32.Parse(JV_RACE.head.DataKubun);
+            return JV_RACE.head.DataKubun;
          
          /*    if(kind == 0)
             {
@@ -202,6 +202,7 @@ namespace WpfApp1.JvComDbData
             setRaceStartTime(inParam[22]);
             setWeather(inParam[23]);
             setTrackStatus(inParam[24]);
+            setRecordFlag(inParam[25]);
             setRaceName6(inParam[26]);
 
             for (int i = 0; i < LAP_COUNT_MAX; i++)
@@ -216,7 +217,7 @@ namespace WpfApp1.JvComDbData
                 }
             }
 
-            DataKubun1 = Int32.Parse(inParam[27 + LAP_COUNT_MAX]);
+            DataKubun1 = inParam[27 + LAP_COUNT_MAX];
 
             //ここからは上のラップタイムを考慮した添字にする必要あり
 
