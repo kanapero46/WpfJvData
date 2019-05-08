@@ -73,6 +73,7 @@
     </Compile>
     <Compile Include="Class\com\JvComClass.cs" />
     <Compile Include="Class\com\JvComMain.cs" />
+    <Compile Include="Class\com\JvRcInfo.cs" />
     <Compile Include="Class\com\windows\JvComWindowsClass.cs" />
     <Compile Include="Class\com\windows\JvComWindowsForm.cs">
       <SubType>Form</SubType>

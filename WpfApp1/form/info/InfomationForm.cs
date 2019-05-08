@@ -147,6 +147,11 @@ namespace WpfApp1.form.info
             //デバッグ時はここをtrueにする
             if(gCacheParamRaceData[0].KaisaiFlag || gCacheParamRaceData[1].KaisaiFlag|| gCacheParamRaceData[2].KaisaiFlag)
             {
+                //フォーム開始時の処理
+                SetPanelEnable();
+                SetWeatherInfo();
+                //SetJockeyInfo();
+                Win5KaisaiInfo();   //WIN5
 
             }
             else
@@ -154,12 +159,7 @@ namespace WpfApp1.form.info
                 ShowErrorMessage("発売中のレースはありませんでした。");
             }
 
-            //フォーム開始時の処理
-            SetPanelEnable();
-            SetWeatherInfo();
-            //SetJockeyInfo();
-            Win5KaisaiInfo();   //WIN5
-
+          
             //起動完了
             InitFuncEnable = true;
             WriteTaskBar("準備完了");
@@ -319,8 +319,55 @@ namespace WpfApp1.form.info
             
             Boolean EAST = false;
             Boolean WEST = false;
-            
-            for(int i=0; i< MAX_RACE_CNT; i++)
+
+            JvRcInfo RC_INFO = new JvRcInfo();
+            JvComRcInfo RcFunc = new JvComRcInfo();
+
+            RcFunc.JvComGetRcInfo(DateParam, ref RC_INFO);
+
+            String BackEndReturnStr = "";
+            String tmp = "";
+
+            if (RC_INFO.EAST1)
+            {
+                LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&LibCode, String.Format("{0:00}", RC_INFO.EastRcNum1), ref tmp);
+                KaisaiCource1 = RC_INFO.EastRcNum1;
+                gCacheIntCourceArray[0] = KaisaiCource1;
+                BackEndReturnStr = BackEnd.BackEndGetKaijiNichi(DateParam, KaisaiCource1);　//開催回次取得
+                label2.Text = "第" + Int32.Parse(BackEndReturnStr.Substring(10, 2)) + "回 " + tmp + "競馬 " + Int32.Parse(BackEndReturnStr.Substring(12, 2)) + "日目";
+                EnablePanelFunction(1);
+                OutPutPayRaceLabel(KaisaiCource1, 1);  //確定レース表示
+            }
+
+            if (RC_INFO.WEST1)
+            {
+                LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&LibCode, String.Format("{0:00}", RC_INFO.WestRcNum1), ref tmp);
+                KaisaiCource2 = RC_INFO.WestRcNum1;
+                gCacheIntCourceArray[1] = KaisaiCource2;
+                BackEndReturnStr = BackEnd.BackEndGetKaijiNichi(DateParam, KaisaiCource2);　//開催回次取得
+                label22.Text = "第" + Int32.Parse(BackEndReturnStr.Substring(10, 2)) + "回 " + tmp + "競馬 " + Int32.Parse(BackEndReturnStr.Substring(12, 2)) + "日目";
+                EnablePanelFunction(2);
+                OutPutPayRaceLabel(KaisaiCource2, 2);  //確定レース表示
+            }
+
+            if (RC_INFO.LOCAL1)
+            {
+                LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&LibCode, String.Format("{0:00}", RC_INFO.LocalRcNum1), ref tmp);
+                KaisaiCource3 = RC_INFO.LocalRcNum1;
+                gCacheIntCourceArray[2] = KaisaiCource3;
+                BackEndReturnStr = BackEnd.BackEndGetKaijiNichi(DateParam, KaisaiCource3);　//開催回次取得
+                label25.Text = "第" + Int32.Parse(BackEndReturnStr.Substring(10, 2)) + "回 " + tmp + "競馬 " + Int32.Parse(BackEndReturnStr.Substring(12, 2)) + "日目";
+                EnablePanelFunction(3);
+                OutPutPayRaceLabel(KaisaiCource3, 3);  //確定レース表示
+            }
+
+
+
+
+#if false
+
+
+            for (int i=0; i< MAX_RACE_CNT; i++)
             {
                 if (gCacheParamRaceData[i].KaisaiFlag)
                 {
@@ -458,12 +505,12 @@ namespace WpfApp1.form.info
             }
 
             //GetRealTimeInfo();
-            
+#endif
         }
-        #endregion
+#endregion
 
 
-        #region 確定レース数の表示
+#region 確定レース数の表示
         private void OutPutPayRaceLabel(int RcCode,int Kind)
         {
 
@@ -511,7 +558,7 @@ namespace WpfApp1.form.info
                 }
             }         
         }
-        #endregion  
+#endregion
 
         private void EnablePanelFunction(int num)
         {
@@ -542,7 +589,7 @@ namespace WpfApp1.form.info
 
         }
 
-        #region エラー時のメッセージ表示
+#region エラー時のメッセージ表示
         private void ShowErrorMessage(String msg)
         {
             InfomationLabel = new Label[1];
@@ -555,7 +602,7 @@ namespace WpfApp1.form.info
             InfomationLabel[0].TextAlign = ContentAlignment.MiddleCenter;
             this.Controls.AddRange(this.InfomationLabel);
         }
-        #endregion
+#endregion
 
         private void label9_Click(object sender, EventArgs e)
         {
@@ -589,21 +636,21 @@ namespace WpfApp1.form.info
 
         }
 
-        #region フォームを閉じたときのイベントハンドラー
+#region フォームを閉じたときのイベントハンドラー
         private void InfomationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             axJVLink1.JVWatchEventClose();
             axJVLink1.JVClose();
         }
-        #endregion
+#endregion
 
-        #region 馬体重発表情報ハンドラー
+#region 馬体重発表情報ハンドラー
         private void axJVLink1_JVEvtWeight(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtWeightEvent e)
         {
             COM.CONSOLE_MODULE("INFO_HDL", e.bstr);  //201902170511の形で入ってくる
             dbAccess.dbConnect db = new dbAccess.dbConnect("RT", ref e.bstr, ref ret);
         }
-        #endregion
+#endregion
 
         private void CallBackEndSyncFunction(object obj)
         {
@@ -618,6 +665,9 @@ namespace WpfApp1.form.info
             int DiffCource = 0;
             for(int i=0; i<WeatherCond.Length; i++)
             {
+
+                if(WeatherCond[i] == null ) { break; }
+
                 switch(i)
                 {
                     case 0:
@@ -732,7 +782,7 @@ namespace WpfApp1.form.info
             statusBar1.Text = msg;
         }
 
-        #region WIN5情報取得関数
+#region WIN5情報取得関数
         private void Win5KaisaiInfo()
         {
             JvComDbData.JvDbW5Data W5data = new JvComDbData.JvDbW5Data();
@@ -744,9 +794,9 @@ namespace WpfApp1.form.info
 
             label46.Text = DateTime.Now.ToShortDateString() + " " +  DateTime.Now.ToShortTimeString() + "現在";
         }
-        #endregion
+#endregion
 
-        #region WIN5データ取得
+#region WIN5データ取得
         private void GetWin5Data()
         {
             JvComDbData.JvDbW5Data W5 = new JvComDbData.JvDbW5Data();
@@ -929,7 +979,7 @@ namespace WpfApp1.form.info
             }
 
         }
-        #endregion
+#endregion
 
         private void statusBar1_PanelClick(object sender, StatusBarPanelClickEventArgs e)
         {
@@ -966,7 +1016,7 @@ namespace WpfApp1.form.info
 
         }
 
-        #region 払戻金確定ハンドラー
+#region 払戻金確定ハンドラー
         private void aaxJVLink1_JVEvtPay(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtPayEvent e)
         {
             String Cource = "";
@@ -984,7 +1034,7 @@ namespace WpfApp1.form.info
             }
             WriteTaskBar("準備完了");
         }
-        #endregion
+#endregion
 
         private void axJvLink1_JvComHenader(object sender, object e)
         {
@@ -1001,7 +1051,7 @@ namespace WpfApp1.form.info
 
         }
 
-        #region Labelのレベルによるカラー判定
+#region Labelのレベルによるカラー判定
         private Color OutputLebelToColor(int Lebel)
         {
             switch(Lebel)
@@ -1016,9 +1066,9 @@ namespace WpfApp1.form.info
                     return Color.White;
             }
         }
-        #endregion
+#endregion
 
-        #region 発走時刻変更通知イベントハンドラー
+#region 発走時刻変更通知イベントハンドラー
         private void axJVLink1_JVEvtTimeChange(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtTimeChangeEvent e)
         {
             String Cource = "";
@@ -1044,9 +1094,9 @@ namespace WpfApp1.form.info
             }
             WriteTaskBar("準備完了");
         }
-        #endregion
+#endregion
 
-        #region 騎手変更情報ハンドラー
+#region 騎手変更情報ハンドラー
         private void axJVLink1_JVEvtJockeyChange(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtJockeyChangeEvent e)
         {
             int ret = 0;
@@ -1054,6 +1104,6 @@ namespace WpfApp1.form.info
 
             COM.CONSOLE_MODULE("INFO_HDL", "JC EventHandler:" + e.bstr + "(" + ret + ")");
         }
-        #endregion
+#endregion
     }
 }

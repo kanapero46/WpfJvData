@@ -502,6 +502,10 @@ namespace WpfApp1.form
             LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getRaceKindKigo(), ref LibTmp);
             KigoLabel.Text = LibTmp;
 
+            CODE = 2008;
+            LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getRaceHandCap(), ref LibTmp);
+            KigoLabel.Text += LibTmp;
+
             DistanceLabel.Text = RaClassData.getDistance();
 
             CODE = LibJvConvFuncClass.TRACK_CODE;
