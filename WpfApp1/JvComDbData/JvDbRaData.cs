@@ -470,5 +470,33 @@ namespace WpfApp1.JvComDbData
         }
         #endregion
 
+        #region データ区分をレース確定情報として取得する。
+        public String JvRaDataKubun()
+        {
+            switch(DataKubun1)
+            {
+                case "0":
+                case "A":
+                case "B":
+                    return "";
+                case "1":
+                case "2":
+                    return "未確定";
+                case "3":
+                    return "3着まで確定";
+                case "4":
+                    return "5着まで確定";
+                case "5":
+                case "6":
+                case "7":
+                    return "確定";
+                case "9":
+                    return "レース中止";
+                default:
+                    return "";
+
+            }
+        }
+        #endregion
     }
 }

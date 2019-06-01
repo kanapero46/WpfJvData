@@ -157,6 +157,7 @@
     <Compile Include="JvComDbData\JvDbAVData.cs" />
     <Compile Include="JvComDbData\JvDbO1Data.cs" />
     <Compile Include="JvComDbData\JvDbRaData.cs" />
+    <Compile Include="JvComDbData\JvDbRcData.cs" />
     <Compile Include="JvComDbData\JvDbSEData.cs" />
     <Compile Include="JvComDbData\JvDbTcData.cs" />
     <Compile Include="JvComDbData\JvDbUmData.cs" />

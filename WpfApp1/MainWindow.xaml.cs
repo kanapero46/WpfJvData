@@ -1086,6 +1086,7 @@ namespace WpfApp1
             JVData_Struct.JV_RA_RACE JV_RACE = new JVData_Struct.JV_RA_RACE();
             JVData_Struct.JV_SE_RACE_UMA JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
             JVData_Struct.JV_UM_UMA JV_UMA = new JVData_Struct.JV_UM_UMA();
+            JVData_Struct.JV_RC_RECORD JV_RCTM = new JVData_Struct.JV_RC_RECORD();
 
             /* DB初期化 */
             db = new dbConnect();
