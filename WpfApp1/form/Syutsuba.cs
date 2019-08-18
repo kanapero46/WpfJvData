@@ -200,9 +200,18 @@ namespace WpfApp1.form
             TrackLabel.Text = (GetKind == 2 ? "芝" : "ダート");
             TrackLabel.BackColor = (GetKind == 2 ? Color.LightGreen : Color.Tan);
 
-            LibCode = 2007;
+            LibCode = 20071;
             LibJvConvFuncClass.jvSysConvFunction(&LibCode, RaClassData.getRaceClass(), ref tmp);
             ClassLabel.Text = tmp;
+
+            //2019年6月～クラス名称変更対応
+            if (RaClassData.getRaceClass() == "005" || RaClassData.getRaceClass() == "010" || RaClassData.getRaceClass() == "016")
+            {
+                LibCode = 20071;
+                LibJvConvFuncClass.jvSysConvFunction(&LibCode, RaClassData.getRaceClass(), ref tmp);
+                racename.Text += "（" + tmp + "）";
+            }
+
 
             LibCode = 2006;
             LibJvConvFuncClass.jvSysConvFunction(&LibCode, RaClassData.getRaceKindKigo(), ref tmp);
@@ -479,11 +488,20 @@ namespace WpfApp1.form
             this.racename.Text = RaClassData.getRaceNameFukus() + (RaClassData.getRaceNameFukus().Length >= 1 ? " " : "") + RaClassData.getRaceName() + (RaClassData.getRaceNameEnd() == ""? "": "(" + RaClassData.getRaceNameEnd() + ")");
             this.raceNameEng.Text = " "+ RaClassData.getRaceNameEng();
 
-            if(RaClassData.getRaceGradeKai() != 0 || RaClassData.getRaceGrade() == "Ｌ") //リステッド競走対応
+            //2019年6月～クラス名称変更対応
+            if (RaClassData.getRaceGrade() == "一般" &&
+                (RaClassData.getRaceClass() == "005" || RaClassData.getRaceClass() == "010" || RaClassData.getRaceClass() == "016"))
+            {
+                CODE = 20071;
+                LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getRaceClass(), ref LibTmp);
+                racename.Text += "（" + LibTmp + "）";
+            }
+
+            if (RaClassData.getRaceGradeKai() != 0 || RaClassData.getRaceGrade() == "Ｌ") //リステッド競走対応
             {
                 racename.Text += " （" + RaClassData.getRaceGrade() + "）";
             }
-            
+
             CODE = LibJvConvFuncClass.RACE_SHUBETSU_LONG_CODE;
             LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getOldYear(), ref LibTmp);
             this.OldYear.Text = LibTmp;
@@ -495,8 +513,9 @@ namespace WpfApp1.form
             TrackLabel.BackColor = (GetKind == 2 ? Color.LightGreen : Color.Tan);
 
             CODE = 2007;
-            LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getRaceClass() , ref LibTmp);
+            LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getRaceClass(), ref LibTmp);
             ClassLabel.Text = LibTmp;
+
 
             CODE = 2006;
             LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getRaceKindKigo(), ref LibTmp);
@@ -917,6 +936,11 @@ namespace WpfApp1.form
                 MessageBox.Show("当該レースは確定していません。");
                 return;
             }
+        }
+
+        private void Label16_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

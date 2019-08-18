@@ -1761,6 +1761,17 @@ namespace WpfApp1
             }
             
         }
+
+        private void Button_Click_9(object sender, RoutedEventArgs e)
+        {
+            String strParam = "";
+            mainDataClass.GET_AUTO_RA_KEY(ref strParam);
+            form.odds.O1_Form O1 = new form.odds.O1_Form(strParam);
+
+
+
+            O1.Show();
+        }
     }
 
     

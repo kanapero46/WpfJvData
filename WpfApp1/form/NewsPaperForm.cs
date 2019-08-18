@@ -405,6 +405,7 @@ namespace WpfApp1.form
 
             this.labelArray = new System.Windows.Forms.Label[MAX_TOSU];
             int tmpRank = 0;
+            int raceDate = 0;
             Color RankColor = new Color();
 
             JvDbRaData tmpRadata = new JvDbRaData();
@@ -474,9 +475,29 @@ namespace WpfApp1.form
                     this.labelArray[k].Font = new Font("Meiryo UI", 10, FontStyle.Bold);
                     if(SEdata.RaceHist1.raceName6 == "")
                     {
-                        libNum = 2007;
-                        LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.JyokenName.ToString(), ref libstr);
-                        this.labelArray[k].Text = libstr;                     //TODO 10文字→6文字に変更予定
+                        //2019/06/01～新クラス名称対応
+                        if(Int32.TryParse(SEdata.RaceHist1.RaceDate, out raceDate))
+                        {
+                            if(20190531 < raceDate)
+                            {
+                                libNum = 2007;
+                                LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.JyokenName.ToString(), ref libstr);
+                                this.labelArray[k].Text = libstr;
+                            }
+                            else
+                            {
+                                libNum = 20071;
+                                LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.JyokenName.ToString(), ref libstr);
+                                this.labelArray[k].Text = libstr;
+                            }
+                        }
+                        else
+                        {
+                            //日付の処理に失敗したら旧クラス名で判定
+                            libNum = 20071;
+                            LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.JyokenName.ToString(), ref libstr);
+                            this.labelArray[k].Text = libstr;
+                        }
                     }
                     else
                     {
