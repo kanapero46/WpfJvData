@@ -113,6 +113,7 @@ namespace WpfApp1.JvComDbData
                             break;
                         }
                         tmp2 = "";
+                        tmp2 += o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum + o1.OddsWakurenInfo[j].Kumi + ",";
                         tmp2 += o1.OddsWakurenInfo[j].Kumi + ",";
                         tmp2 += o1.OddsWakurenInfo[j].Odds + ",";
                         tmp2 += o1.OddsWakurenInfo[j].Ninki + ",";

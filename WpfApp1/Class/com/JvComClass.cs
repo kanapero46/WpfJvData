@@ -55,6 +55,21 @@ namespace WpfApp1.Class.com
             LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&lib, In, ref Out);
             return Out;
         }
+
+        public Color JvSysJomeiNumtoColor(int color)
+        {
+            switch(color)
+            {
+                case 1:
+                    return Color.Blue;
+                case 2:
+                    return Color.Green;
+                case 3:
+                    return Color.Purple;
+                default:
+                    return Color.White;
+            }
+        }
     }
 
 }

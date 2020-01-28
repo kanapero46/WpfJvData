@@ -61,65 +61,52 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button4 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button39 = new System.Windows.Forms.Button();
-            this.button40 = new System.Windows.Forms.Button();
-            this.button41 = new System.Windows.Forms.Button();
-            this.button42 = new System.Windows.Forms.Button();
-            this.button43 = new System.Windows.Forms.Button();
-            this.button44 = new System.Windows.Forms.Button();
-            this.button45 = new System.Windows.Forms.Button();
-            this.button46 = new System.Windows.Forms.Button();
-            this.button47 = new System.Windows.Forms.Button();
-            this.button48 = new System.Windows.Forms.Button();
-            this.button49 = new System.Windows.Forms.Button();
-            this.button50 = new System.Windows.Forms.Button();
-            this.button51 = new System.Windows.Forms.Button();
-            this.button52 = new System.Windows.Forms.Button();
-            this.button53 = new System.Windows.Forms.Button();
-            this.button54 = new System.Windows.Forms.Button();
-            this.button55 = new System.Windows.Forms.Button();
-            this.button56 = new System.Windows.Forms.Button();
-            this.button21 = new System.Windows.Forms.Button();
-            this.button22 = new System.Windows.Forms.Button();
-            this.button23 = new System.Windows.Forms.Button();
-            this.button24 = new System.Windows.Forms.Button();
-            this.button25 = new System.Windows.Forms.Button();
-            this.button26 = new System.Windows.Forms.Button();
-            this.button27 = new System.Windows.Forms.Button();
-            this.button28 = new System.Windows.Forms.Button();
-            this.button29 = new System.Windows.Forms.Button();
-            this.button30 = new System.Windows.Forms.Button();
-            this.button31 = new System.Windows.Forms.Button();
-            this.button32 = new System.Windows.Forms.Button();
-            this.button33 = new System.Windows.Forms.Button();
-            this.button34 = new System.Windows.Forms.Button();
-            this.button35 = new System.Windows.Forms.Button();
-            this.button36 = new System.Windows.Forms.Button();
-            this.button37 = new System.Windows.Forms.Button();
-            this.button38 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button17 = new System.Windows.Forms.Button();
-            this.button18 = new System.Windows.Forms.Button();
-            this.button19 = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button20 = new System.Windows.Forms.Button();
-            this.button13 = new System.Windows.Forms.Button();
-            this.button14 = new System.Windows.Forms.Button();
-            this.button15 = new System.Windows.Forms.Button();
-            this.button16 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            this.button11 = new System.Windows.Forms.Button();
-            this.button12 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.panel13 = new System.Windows.Forms.Panel();
+            this.label48 = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
+            this.panel12 = new System.Windows.Forms.Panel();
+            this.label45 = new System.Windows.Forms.Label();
+            this.label46 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.label42 = new System.Windows.Forms.Label();
+            this.label43 = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.label39 = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
+            this.label41 = new System.Windows.Forms.Label();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -128,7 +115,6 @@
             this.textSecond = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.textFirst = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Waku = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Umaban = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -147,9 +133,15 @@
             this.flowLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.panel13.SuspendLayout();
+            this.panel12.SuspendLayout();
+            this.panel11.SuspendLayout();
+            this.panel10.SuspendLayout();
+            this.panel9.SuspendLayout();
+            this.panel8.SuspendLayout();
+            this.panel7.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel5.SuspendLayout();
@@ -174,7 +166,7 @@
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 108F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 149F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
             this.tableLayoutPanel3.Controls.Add(this.TrackDistance, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.TrackLabel, 0, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(1901, 25);
@@ -285,7 +277,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.22481F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.77519F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 494F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 195F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 198F));
             this.tableLayoutPanel2.Controls.Add(this.label16, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.KigoLabel, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.OldYear, 0, 0);
@@ -304,7 +296,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label16.Location = new System.Drawing.Point(1085, 0);
+            this.label16.Location = new System.Drawing.Point(1082, 0);
             this.label16.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(115, 38);
@@ -315,7 +307,7 @@
             // 
             this.KigoLabel.AutoSize = true;
             this.KigoLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.KigoLabel.Location = new System.Drawing.Point(591, 0);
+            this.KigoLabel.Location = new System.Drawing.Point(588, 0);
             this.KigoLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.KigoLabel.Name = "KigoLabel";
             this.KigoLabel.Size = new System.Drawing.Size(317, 38);
@@ -337,7 +329,7 @@
             // 
             this.ClassLabel.AutoSize = true;
             this.ClassLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.ClassLabel.Location = new System.Drawing.Point(294, 0);
+            this.ClassLabel.Location = new System.Drawing.Point(293, 0);
             this.ClassLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.ClassLabel.Name = "ClassLabel";
             this.ClassLabel.Size = new System.Drawing.Size(109, 38);
@@ -431,7 +423,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 154F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 157F));
             this.tableLayoutPanel1.Controls.Add(this.weLabel, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1693, 25);
@@ -553,602 +545,25 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(4, 336);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(2455, 1055);
+            this.tabControl1.Size = new System.Drawing.Size(2455, 1147);
             this.tabControl1.TabIndex = 74;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.textBox1);
-            this.tabPage1.Controls.Add(this.button39);
-            this.tabPage1.Controls.Add(this.button40);
-            this.tabPage1.Controls.Add(this.button41);
-            this.tabPage1.Controls.Add(this.button42);
-            this.tabPage1.Controls.Add(this.button43);
-            this.tabPage1.Controls.Add(this.button44);
-            this.tabPage1.Controls.Add(this.button45);
-            this.tabPage1.Controls.Add(this.button46);
-            this.tabPage1.Controls.Add(this.button47);
-            this.tabPage1.Controls.Add(this.button48);
-            this.tabPage1.Controls.Add(this.button49);
-            this.tabPage1.Controls.Add(this.button50);
-            this.tabPage1.Controls.Add(this.button51);
-            this.tabPage1.Controls.Add(this.button52);
-            this.tabPage1.Controls.Add(this.button53);
-            this.tabPage1.Controls.Add(this.button54);
-            this.tabPage1.Controls.Add(this.button55);
-            this.tabPage1.Controls.Add(this.button56);
-            this.tabPage1.Controls.Add(this.button21);
-            this.tabPage1.Controls.Add(this.button22);
-            this.tabPage1.Controls.Add(this.button23);
-            this.tabPage1.Controls.Add(this.button24);
-            this.tabPage1.Controls.Add(this.button25);
-            this.tabPage1.Controls.Add(this.button26);
-            this.tabPage1.Controls.Add(this.button27);
-            this.tabPage1.Controls.Add(this.button28);
-            this.tabPage1.Controls.Add(this.button29);
-            this.tabPage1.Controls.Add(this.button30);
-            this.tabPage1.Controls.Add(this.button31);
-            this.tabPage1.Controls.Add(this.button32);
-            this.tabPage1.Controls.Add(this.button33);
-            this.tabPage1.Controls.Add(this.button34);
-            this.tabPage1.Controls.Add(this.button35);
-            this.tabPage1.Controls.Add(this.button36);
-            this.tabPage1.Controls.Add(this.button37);
-            this.tabPage1.Controls.Add(this.button38);
-            this.tabPage1.Controls.Add(this.button2);
-            this.tabPage1.Controls.Add(this.button3);
-            this.tabPage1.Controls.Add(this.button17);
-            this.tabPage1.Controls.Add(this.button18);
-            this.tabPage1.Controls.Add(this.button19);
-            this.tabPage1.Controls.Add(this.panel2);
-            this.tabPage1.Controls.Add(this.button20);
-            this.tabPage1.Controls.Add(this.button13);
-            this.tabPage1.Controls.Add(this.button14);
-            this.tabPage1.Controls.Add(this.button15);
-            this.tabPage1.Controls.Add(this.button16);
-            this.tabPage1.Controls.Add(this.button9);
-            this.tabPage1.Controls.Add(this.button10);
-            this.tabPage1.Controls.Add(this.button11);
-            this.tabPage1.Controls.Add(this.button12);
-            this.tabPage1.Controls.Add(this.button7);
-            this.tabPage1.Controls.Add(this.button8);
-            this.tabPage1.Controls.Add(this.button6);
-            this.tabPage1.Controls.Add(this.button5);
-            this.tabPage1.Location = new System.Drawing.Point(8, 39);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(2439, 1008);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(1148, 86);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(1171, 969);
-            this.textBox1.TabIndex = 106;
-            // 
-            // button39
-            // 
-            this.button39.Location = new System.Drawing.Point(1020, 987);
-            this.button39.Name = "button39";
-            this.button39.Size = new System.Drawing.Size(72, 53);
-            this.button39.TabIndex = 105;
-            this.button39.Text = "1";
-            this.button39.UseVisualStyleBackColor = true;
-            // 
-            // button40
-            // 
-            this.button40.Location = new System.Drawing.Point(1020, 934);
-            this.button40.Name = "button40";
-            this.button40.Size = new System.Drawing.Size(72, 53);
-            this.button40.TabIndex = 104;
-            this.button40.Text = "1";
-            this.button40.UseVisualStyleBackColor = true;
-            // 
-            // button41
-            // 
-            this.button41.Location = new System.Drawing.Point(1020, 881);
-            this.button41.Name = "button41";
-            this.button41.Size = new System.Drawing.Size(72, 53);
-            this.button41.TabIndex = 103;
-            this.button41.Text = "1";
-            this.button41.UseVisualStyleBackColor = true;
-            // 
-            // button42
-            // 
-            this.button42.Location = new System.Drawing.Point(1020, 828);
-            this.button42.Name = "button42";
-            this.button42.Size = new System.Drawing.Size(72, 53);
-            this.button42.TabIndex = 102;
-            this.button42.Text = "1";
-            this.button42.UseVisualStyleBackColor = true;
-            // 
-            // button43
-            // 
-            this.button43.Location = new System.Drawing.Point(1020, 775);
-            this.button43.Name = "button43";
-            this.button43.Size = new System.Drawing.Size(72, 53);
-            this.button43.TabIndex = 101;
-            this.button43.Text = "1";
-            this.button43.UseVisualStyleBackColor = true;
-            // 
-            // button44
-            // 
-            this.button44.Location = new System.Drawing.Point(1020, 722);
-            this.button44.Name = "button44";
-            this.button44.Size = new System.Drawing.Size(72, 53);
-            this.button44.TabIndex = 100;
-            this.button44.Text = "1";
-            this.button44.UseVisualStyleBackColor = true;
-            // 
-            // button45
-            // 
-            this.button45.Location = new System.Drawing.Point(1020, 669);
-            this.button45.Name = "button45";
-            this.button45.Size = new System.Drawing.Size(72, 53);
-            this.button45.TabIndex = 99;
-            this.button45.Text = "1";
-            this.button45.UseVisualStyleBackColor = true;
-            // 
-            // button46
-            // 
-            this.button46.Location = new System.Drawing.Point(1020, 616);
-            this.button46.Name = "button46";
-            this.button46.Size = new System.Drawing.Size(72, 53);
-            this.button46.TabIndex = 98;
-            this.button46.Text = "1";
-            this.button46.UseVisualStyleBackColor = true;
-            // 
-            // button47
-            // 
-            this.button47.Location = new System.Drawing.Point(1020, 563);
-            this.button47.Name = "button47";
-            this.button47.Size = new System.Drawing.Size(72, 53);
-            this.button47.TabIndex = 97;
-            this.button47.Text = "1";
-            this.button47.UseVisualStyleBackColor = true;
-            // 
-            // button48
-            // 
-            this.button48.Location = new System.Drawing.Point(1020, 510);
-            this.button48.Name = "button48";
-            this.button48.Size = new System.Drawing.Size(72, 53);
-            this.button48.TabIndex = 96;
-            this.button48.Text = "1";
-            this.button48.UseVisualStyleBackColor = true;
-            // 
-            // button49
-            // 
-            this.button49.Location = new System.Drawing.Point(1020, 457);
-            this.button49.Name = "button49";
-            this.button49.Size = new System.Drawing.Size(72, 53);
-            this.button49.TabIndex = 95;
-            this.button49.Text = "1";
-            this.button49.UseVisualStyleBackColor = true;
-            // 
-            // button50
-            // 
-            this.button50.Location = new System.Drawing.Point(1020, 404);
-            this.button50.Name = "button50";
-            this.button50.Size = new System.Drawing.Size(72, 53);
-            this.button50.TabIndex = 94;
-            this.button50.Text = "1";
-            this.button50.UseVisualStyleBackColor = true;
-            // 
-            // button51
-            // 
-            this.button51.Location = new System.Drawing.Point(1020, 351);
-            this.button51.Name = "button51";
-            this.button51.Size = new System.Drawing.Size(72, 53);
-            this.button51.TabIndex = 93;
-            this.button51.Text = "1";
-            this.button51.UseVisualStyleBackColor = true;
-            // 
-            // button52
-            // 
-            this.button52.Location = new System.Drawing.Point(1020, 298);
-            this.button52.Name = "button52";
-            this.button52.Size = new System.Drawing.Size(72, 53);
-            this.button52.TabIndex = 92;
-            this.button52.Text = "1";
-            this.button52.UseVisualStyleBackColor = true;
-            // 
-            // button53
-            // 
-            this.button53.Location = new System.Drawing.Point(1020, 245);
-            this.button53.Name = "button53";
-            this.button53.Size = new System.Drawing.Size(72, 53);
-            this.button53.TabIndex = 91;
-            this.button53.Text = "1";
-            this.button53.UseVisualStyleBackColor = true;
-            // 
-            // button54
-            // 
-            this.button54.Location = new System.Drawing.Point(1020, 192);
-            this.button54.Name = "button54";
-            this.button54.Size = new System.Drawing.Size(72, 53);
-            this.button54.TabIndex = 90;
-            this.button54.Text = "1";
-            this.button54.UseVisualStyleBackColor = true;
-            // 
-            // button55
-            // 
-            this.button55.Location = new System.Drawing.Point(1020, 139);
-            this.button55.Name = "button55";
-            this.button55.Size = new System.Drawing.Size(72, 53);
-            this.button55.TabIndex = 89;
-            this.button55.Text = "1";
-            this.button55.UseVisualStyleBackColor = true;
-            // 
-            // button56
-            // 
-            this.button56.Location = new System.Drawing.Point(1020, 86);
-            this.button56.Name = "button56";
-            this.button56.Size = new System.Drawing.Size(72, 53);
-            this.button56.TabIndex = 88;
-            this.button56.Text = "1";
-            this.button56.UseVisualStyleBackColor = true;
-            // 
-            // button21
-            // 
-            this.button21.Location = new System.Drawing.Point(791, 987);
-            this.button21.Name = "button21";
-            this.button21.Size = new System.Drawing.Size(72, 53);
-            this.button21.TabIndex = 87;
-            this.button21.Text = "1";
-            this.button21.UseVisualStyleBackColor = true;
-            // 
-            // button22
-            // 
-            this.button22.Location = new System.Drawing.Point(791, 934);
-            this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(72, 53);
-            this.button22.TabIndex = 86;
-            this.button22.Text = "1";
-            this.button22.UseVisualStyleBackColor = true;
-            // 
-            // button23
-            // 
-            this.button23.Location = new System.Drawing.Point(791, 881);
-            this.button23.Name = "button23";
-            this.button23.Size = new System.Drawing.Size(72, 53);
-            this.button23.TabIndex = 85;
-            this.button23.Text = "1";
-            this.button23.UseVisualStyleBackColor = true;
-            // 
-            // button24
-            // 
-            this.button24.Location = new System.Drawing.Point(791, 828);
-            this.button24.Name = "button24";
-            this.button24.Size = new System.Drawing.Size(72, 53);
-            this.button24.TabIndex = 84;
-            this.button24.Text = "1";
-            this.button24.UseVisualStyleBackColor = true;
-            // 
-            // button25
-            // 
-            this.button25.Location = new System.Drawing.Point(791, 775);
-            this.button25.Name = "button25";
-            this.button25.Size = new System.Drawing.Size(72, 53);
-            this.button25.TabIndex = 83;
-            this.button25.Text = "1";
-            this.button25.UseVisualStyleBackColor = true;
-            // 
-            // button26
-            // 
-            this.button26.Location = new System.Drawing.Point(791, 722);
-            this.button26.Name = "button26";
-            this.button26.Size = new System.Drawing.Size(72, 53);
-            this.button26.TabIndex = 82;
-            this.button26.Text = "1";
-            this.button26.UseVisualStyleBackColor = true;
-            // 
-            // button27
-            // 
-            this.button27.Location = new System.Drawing.Point(791, 669);
-            this.button27.Name = "button27";
-            this.button27.Size = new System.Drawing.Size(72, 53);
-            this.button27.TabIndex = 81;
-            this.button27.Text = "1";
-            this.button27.UseVisualStyleBackColor = true;
-            // 
-            // button28
-            // 
-            this.button28.Location = new System.Drawing.Point(791, 616);
-            this.button28.Name = "button28";
-            this.button28.Size = new System.Drawing.Size(72, 53);
-            this.button28.TabIndex = 80;
-            this.button28.Text = "1";
-            this.button28.UseVisualStyleBackColor = true;
-            // 
-            // button29
-            // 
-            this.button29.Location = new System.Drawing.Point(791, 563);
-            this.button29.Name = "button29";
-            this.button29.Size = new System.Drawing.Size(72, 53);
-            this.button29.TabIndex = 79;
-            this.button29.Text = "1";
-            this.button29.UseVisualStyleBackColor = true;
-            // 
-            // button30
-            // 
-            this.button30.Location = new System.Drawing.Point(791, 510);
-            this.button30.Name = "button30";
-            this.button30.Size = new System.Drawing.Size(72, 53);
-            this.button30.TabIndex = 78;
-            this.button30.Text = "1";
-            this.button30.UseVisualStyleBackColor = true;
-            // 
-            // button31
-            // 
-            this.button31.Location = new System.Drawing.Point(791, 457);
-            this.button31.Name = "button31";
-            this.button31.Size = new System.Drawing.Size(72, 53);
-            this.button31.TabIndex = 77;
-            this.button31.Text = "1";
-            this.button31.UseVisualStyleBackColor = true;
-            // 
-            // button32
-            // 
-            this.button32.Location = new System.Drawing.Point(791, 404);
-            this.button32.Name = "button32";
-            this.button32.Size = new System.Drawing.Size(72, 53);
-            this.button32.TabIndex = 76;
-            this.button32.Text = "1";
-            this.button32.UseVisualStyleBackColor = true;
-            // 
-            // button33
-            // 
-            this.button33.Location = new System.Drawing.Point(791, 351);
-            this.button33.Name = "button33";
-            this.button33.Size = new System.Drawing.Size(72, 53);
-            this.button33.TabIndex = 75;
-            this.button33.Text = "1";
-            this.button33.UseVisualStyleBackColor = true;
-            // 
-            // button34
-            // 
-            this.button34.Location = new System.Drawing.Point(791, 298);
-            this.button34.Name = "button34";
-            this.button34.Size = new System.Drawing.Size(72, 53);
-            this.button34.TabIndex = 74;
-            this.button34.Text = "1";
-            this.button34.UseVisualStyleBackColor = true;
-            // 
-            // button35
-            // 
-            this.button35.Location = new System.Drawing.Point(791, 245);
-            this.button35.Name = "button35";
-            this.button35.Size = new System.Drawing.Size(72, 53);
-            this.button35.TabIndex = 73;
-            this.button35.Text = "1";
-            this.button35.UseVisualStyleBackColor = true;
-            // 
-            // button36
-            // 
-            this.button36.Location = new System.Drawing.Point(791, 192);
-            this.button36.Name = "button36";
-            this.button36.Size = new System.Drawing.Size(72, 53);
-            this.button36.TabIndex = 72;
-            this.button36.Text = "1";
-            this.button36.UseVisualStyleBackColor = true;
-            // 
-            // button37
-            // 
-            this.button37.Location = new System.Drawing.Point(791, 139);
-            this.button37.Name = "button37";
-            this.button37.Size = new System.Drawing.Size(72, 53);
-            this.button37.TabIndex = 71;
-            this.button37.Text = "1";
-            this.button37.UseVisualStyleBackColor = true;
-            // 
-            // button38
-            // 
-            this.button38.Location = new System.Drawing.Point(791, 86);
-            this.button38.Name = "button38";
-            this.button38.Size = new System.Drawing.Size(72, 53);
-            this.button38.TabIndex = 70;
-            this.button38.Text = "1";
-            this.button38.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(573, 987);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(72, 53);
-            this.button2.TabIndex = 69;
-            this.button2.Text = "18";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(573, 934);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(72, 53);
-            this.button3.TabIndex = 68;
-            this.button3.Text = "17";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button17
-            // 
-            this.button17.Location = new System.Drawing.Point(573, 881);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(72, 53);
-            this.button17.TabIndex = 15;
-            this.button17.Text = "16";
-            this.button17.UseVisualStyleBackColor = true;
-            // 
-            // button18
-            // 
-            this.button18.Location = new System.Drawing.Point(573, 828);
-            this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(72, 53);
-            this.button18.TabIndex = 14;
-            this.button18.Text = "15";
-            this.button18.UseVisualStyleBackColor = true;
-            // 
-            // button19
-            // 
-            this.button19.Location = new System.Drawing.Point(573, 775);
-            this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(72, 53);
-            this.button19.TabIndex = 13;
-            this.button19.Text = "14";
-            this.button19.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            this.panel2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.panel2.BackColor = System.Drawing.Color.DarkBlue;
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Location = new System.Drawing.Point(7, 9);
-            this.panel2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(466, 55);
-            this.panel2.TabIndex = 67;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel2_Paint);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label1.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(14, 5);
-            this.label1.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(438, 38);
-            this.label1.TabIndex = 68;
-            this.label1.Text = "単勝・複勝・枠連";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label1.UseCompatibleTextRendering = true;
-            // 
-            // button20
-            // 
-            this.button20.Location = new System.Drawing.Point(573, 722);
-            this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(72, 53);
-            this.button20.TabIndex = 12;
-            this.button20.Text = "13";
-            this.button20.UseVisualStyleBackColor = true;
-            // 
-            // button13
-            // 
-            this.button13.Location = new System.Drawing.Point(573, 669);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(72, 53);
-            this.button13.TabIndex = 11;
-            this.button13.Text = "12";
-            this.button13.UseVisualStyleBackColor = true;
-            // 
-            // button14
-            // 
-            this.button14.Location = new System.Drawing.Point(573, 616);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(72, 53);
-            this.button14.TabIndex = 10;
-            this.button14.Text = "11";
-            this.button14.UseVisualStyleBackColor = true;
-            // 
-            // button15
-            // 
-            this.button15.Location = new System.Drawing.Point(573, 563);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(72, 53);
-            this.button15.TabIndex = 9;
-            this.button15.Text = "10";
-            this.button15.UseVisualStyleBackColor = true;
-            // 
-            // button16
-            // 
-            this.button16.Location = new System.Drawing.Point(573, 510);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(72, 53);
-            this.button16.TabIndex = 8;
-            this.button16.Text = "9";
-            this.button16.UseVisualStyleBackColor = true;
-            // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(573, 457);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(72, 53);
-            this.button9.TabIndex = 7;
-            this.button9.Text = "8";
-            this.button9.UseVisualStyleBackColor = true;
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(573, 404);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(72, 53);
-            this.button10.TabIndex = 6;
-            this.button10.Text = "7";
-            this.button10.UseVisualStyleBackColor = true;
-            // 
-            // button11
-            // 
-            this.button11.Location = new System.Drawing.Point(573, 351);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(72, 53);
-            this.button11.TabIndex = 5;
-            this.button11.Text = "6";
-            this.button11.UseVisualStyleBackColor = true;
-            // 
-            // button12
-            // 
-            this.button12.Location = new System.Drawing.Point(573, 298);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(72, 53);
-            this.button12.TabIndex = 4;
-            this.button12.Text = "5";
-            this.button12.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(573, 245);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(72, 53);
-            this.button7.TabIndex = 3;
-            this.button7.Text = "4";
-            this.button7.UseVisualStyleBackColor = true;
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(573, 192);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(72, 53);
-            this.button8.TabIndex = 2;
-            this.button8.Text = "3";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(573, 139);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(72, 53);
-            this.button6.TabIndex = 1;
-            this.button6.Text = "2";
-            this.button6.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(573, 86);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(72, 53);
-            this.button5.TabIndex = 0;
-            this.button5.Text = "1";
-            this.button5.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.radioButton2);
+            this.tabPage2.Controls.Add(this.radioButton1);
+            this.tabPage2.Controls.Add(this.panel13);
+            this.tabPage2.Controls.Add(this.panel12);
+            this.tabPage2.Controls.Add(this.panel11);
+            this.tabPage2.Controls.Add(this.panel10);
+            this.tabPage2.Controls.Add(this.panel9);
+            this.tabPage2.Controls.Add(this.panel8);
+            this.tabPage2.Controls.Add(this.panel7);
+            this.tabPage2.Controls.Add(this.panel6);
             this.tabPage2.Controls.Add(this.panel4);
             this.tabPage2.Controls.Add(this.label8);
             this.tabPage2.Controls.Add(this.textThaad);
@@ -1156,15 +571,641 @@
             this.tabPage2.Controls.Add(this.textSecond);
             this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.textFirst);
-            this.tabPage2.Controls.Add(this.textBox2);
             this.tabPage2.Controls.Add(this.dataGridView1);
             this.tabPage2.Location = new System.Drawing.Point(8, 39);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(2439, 1008);
+            this.tabPage2.Size = new System.Drawing.Size(2439, 1100);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Checked = true;
+            this.radioButton2.Location = new System.Drawing.Point(2087, 41);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(89, 28);
+            this.radioButton2.TabIndex = 79;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "倍率";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(2216, 41);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(65, 28);
+            this.radioButton1.TabIndex = 78;
+            this.radioButton1.Text = "円";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // panel13
+            // 
+            this.panel13.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel13.BackColor = System.Drawing.Color.DarkOrange;
+            this.panel13.Controls.Add(this.label48);
+            this.panel13.Controls.Add(this.label49);
+            this.panel13.Controls.Add(this.label50);
+            this.panel13.Location = new System.Drawing.Point(1236, 962);
+            this.panel13.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel13.Name = "panel13";
+            this.panel13.Size = new System.Drawing.Size(1098, 83);
+            this.panel13.TabIndex = 77;
+            // 
+            // label48
+            // 
+            this.label48.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label48.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label48.ForeColor = System.Drawing.Color.White;
+            this.label48.Location = new System.Drawing.Point(796, 9);
+            this.label48.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(295, 38);
+            this.label48.TabIndex = 72;
+            this.label48.Text = "9,999,999,999円";
+            this.label48.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label48.UseCompatibleTextRendering = true;
+            // 
+            // label49
+            // 
+            this.label49.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label49.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label49.ForeColor = System.Drawing.Color.White;
+            this.label49.Location = new System.Drawing.Point(333, 5);
+            this.label49.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(303, 38);
+            this.label49.TabIndex = 71;
+            this.label49.Text = "18 → 17 → 16";
+            this.label49.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label49.UseCompatibleTextRendering = true;
+            // 
+            // label50
+            // 
+            this.label50.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label50.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label50.ForeColor = System.Drawing.Color.White;
+            this.label50.Location = new System.Drawing.Point(8, 9);
+            this.label50.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(160, 38);
+            this.label50.TabIndex = 68;
+            this.label50.Text = "３連単";
+            this.label50.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label50.UseCompatibleTextRendering = true;
+            // 
+            // panel12
+            // 
+            this.panel12.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel12.BackColor = System.Drawing.Color.Blue;
+            this.panel12.Controls.Add(this.label45);
+            this.panel12.Controls.Add(this.label46);
+            this.panel12.Controls.Add(this.label47);
+            this.panel12.Location = new System.Drawing.Point(1236, 879);
+            this.panel12.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel12.Name = "panel12";
+            this.panel12.Size = new System.Drawing.Size(1098, 83);
+            this.panel12.TabIndex = 76;
+            // 
+            // label45
+            // 
+            this.label45.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label45.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label45.ForeColor = System.Drawing.Color.White;
+            this.label45.Location = new System.Drawing.Point(796, 9);
+            this.label45.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(295, 38);
+            this.label45.TabIndex = 72;
+            this.label45.Text = "9,999,999,999円";
+            this.label45.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label45.UseCompatibleTextRendering = true;
+            // 
+            // label46
+            // 
+            this.label46.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label46.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label46.ForeColor = System.Drawing.Color.White;
+            this.label46.Location = new System.Drawing.Point(333, 5);
+            this.label46.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(303, 38);
+            this.label46.TabIndex = 71;
+            this.label46.Text = "18";
+            this.label46.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label46.UseCompatibleTextRendering = true;
+            // 
+            // label47
+            // 
+            this.label47.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label47.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label47.ForeColor = System.Drawing.Color.White;
+            this.label47.Location = new System.Drawing.Point(8, 9);
+            this.label47.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(160, 38);
+            this.label47.TabIndex = 68;
+            this.label47.Text = "３連複";
+            this.label47.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label47.UseCompatibleTextRendering = true;
+            // 
+            // panel11
+            // 
+            this.panel11.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel11.BackColor = System.Drawing.Color.Yellow;
+            this.panel11.Controls.Add(this.label42);
+            this.panel11.Controls.Add(this.label43);
+            this.panel11.Controls.Add(this.label44);
+            this.panel11.Location = new System.Drawing.Point(1236, 796);
+            this.panel11.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(1098, 83);
+            this.panel11.TabIndex = 75;
+            // 
+            // label42
+            // 
+            this.label42.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label42.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label42.ForeColor = System.Drawing.Color.Black;
+            this.label42.Location = new System.Drawing.Point(796, 9);
+            this.label42.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(295, 38);
+            this.label42.TabIndex = 72;
+            this.label42.Text = "9,999,999,999円";
+            this.label42.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label42.UseCompatibleTextRendering = true;
+            // 
+            // label43
+            // 
+            this.label43.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label43.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label43.ForeColor = System.Drawing.Color.Black;
+            this.label43.Location = new System.Drawing.Point(333, 5);
+            this.label43.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(303, 38);
+            this.label43.TabIndex = 71;
+            this.label43.Text = "18";
+            this.label43.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label43.UseCompatibleTextRendering = true;
+            // 
+            // label44
+            // 
+            this.label44.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label44.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label44.ForeColor = System.Drawing.Color.Black;
+            this.label44.Location = new System.Drawing.Point(8, 9);
+            this.label44.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(160, 38);
+            this.label44.TabIndex = 68;
+            this.label44.Text = "馬単";
+            this.label44.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label44.UseCompatibleTextRendering = true;
+            // 
+            // panel10
+            // 
+            this.panel10.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel10.BackColor = System.Drawing.Color.Purple;
+            this.panel10.Controls.Add(this.label39);
+            this.panel10.Controls.Add(this.label40);
+            this.panel10.Controls.Add(this.label41);
+            this.panel10.Location = new System.Drawing.Point(1236, 715);
+            this.panel10.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(1098, 83);
+            this.panel10.TabIndex = 74;
+            // 
+            // label39
+            // 
+            this.label39.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label39.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label39.ForeColor = System.Drawing.Color.White;
+            this.label39.Location = new System.Drawing.Point(796, 9);
+            this.label39.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(295, 38);
+            this.label39.TabIndex = 72;
+            this.label39.Text = "9,999,999,999円";
+            this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label39.UseCompatibleTextRendering = true;
+            // 
+            // label40
+            // 
+            this.label40.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label40.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label40.ForeColor = System.Drawing.Color.White;
+            this.label40.Location = new System.Drawing.Point(333, 5);
+            this.label40.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(303, 38);
+            this.label40.TabIndex = 71;
+            this.label40.Text = "18";
+            this.label40.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label40.UseCompatibleTextRendering = true;
+            // 
+            // label41
+            // 
+            this.label41.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label41.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label41.ForeColor = System.Drawing.Color.White;
+            this.label41.Location = new System.Drawing.Point(8, 9);
+            this.label41.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(160, 38);
+            this.label41.TabIndex = 68;
+            this.label41.Text = "馬連";
+            this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label41.UseCompatibleTextRendering = true;
+            // 
+            // panel9
+            // 
+            this.panel9.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel9.BackColor = System.Drawing.Color.Green;
+            this.panel9.Controls.Add(this.label36);
+            this.panel9.Controls.Add(this.label37);
+            this.panel9.Controls.Add(this.label38);
+            this.panel9.Location = new System.Drawing.Point(1236, 632);
+            this.panel9.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(1098, 83);
+            this.panel9.TabIndex = 73;
+            // 
+            // label36
+            // 
+            this.label36.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label36.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label36.ForeColor = System.Drawing.Color.White;
+            this.label36.Location = new System.Drawing.Point(796, 9);
+            this.label36.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(295, 38);
+            this.label36.TabIndex = 72;
+            this.label36.Text = "9,999,999,999円";
+            this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label36.UseCompatibleTextRendering = true;
+            // 
+            // label37
+            // 
+            this.label37.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label37.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label37.ForeColor = System.Drawing.Color.White;
+            this.label37.Location = new System.Drawing.Point(333, 5);
+            this.label37.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(303, 38);
+            this.label37.TabIndex = 71;
+            this.label37.Text = "18";
+            this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label37.UseCompatibleTextRendering = true;
+            // 
+            // label38
+            // 
+            this.label38.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label38.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label38.ForeColor = System.Drawing.Color.White;
+            this.label38.Location = new System.Drawing.Point(8, 9);
+            this.label38.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(160, 38);
+            this.label38.TabIndex = 68;
+            this.label38.Text = "枠連";
+            this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label38.UseCompatibleTextRendering = true;
+            // 
+            // panel8
+            // 
+            this.panel8.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel8.BackColor = System.Drawing.Color.SteelBlue;
+            this.panel8.Controls.Add(this.label27);
+            this.panel8.Controls.Add(this.label28);
+            this.panel8.Controls.Add(this.label30);
+            this.panel8.Controls.Add(this.label31);
+            this.panel8.Controls.Add(this.label33);
+            this.panel8.Controls.Add(this.label34);
+            this.panel8.Controls.Add(this.label35);
+            this.panel8.Location = new System.Drawing.Point(1236, 460);
+            this.panel8.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(1098, 173);
+            this.panel8.TabIndex = 72;
+            // 
+            // label27
+            // 
+            this.label27.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label27.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label27.ForeColor = System.Drawing.Color.White;
+            this.label27.Location = new System.Drawing.Point(796, 98);
+            this.label27.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(295, 38);
+            this.label27.TabIndex = 78;
+            this.label27.Text = "9,999,999,999円";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label27.UseCompatibleTextRendering = true;
+            // 
+            // label28
+            // 
+            this.label28.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label28.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label28.ForeColor = System.Drawing.Color.White;
+            this.label28.Location = new System.Drawing.Point(405, 94);
+            this.label28.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(160, 38);
+            this.label28.TabIndex = 77;
+            this.label28.Text = "18";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label28.UseCompatibleTextRendering = true;
+            // 
+            // label30
+            // 
+            this.label30.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label30.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label30.ForeColor = System.Drawing.Color.White;
+            this.label30.Location = new System.Drawing.Point(796, 54);
+            this.label30.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(295, 38);
+            this.label30.TabIndex = 75;
+            this.label30.Text = "9,999,999,999円";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label30.UseCompatibleTextRendering = true;
+            // 
+            // label31
+            // 
+            this.label31.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label31.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label31.ForeColor = System.Drawing.Color.White;
+            this.label31.Location = new System.Drawing.Point(405, 50);
+            this.label31.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(160, 38);
+            this.label31.TabIndex = 74;
+            this.label31.Text = "18";
+            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label31.UseCompatibleTextRendering = true;
+            // 
+            // label33
+            // 
+            this.label33.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label33.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label33.ForeColor = System.Drawing.Color.White;
+            this.label33.Location = new System.Drawing.Point(796, 9);
+            this.label33.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(295, 38);
+            this.label33.TabIndex = 72;
+            this.label33.Text = "9,999,999,999円";
+            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label33.UseCompatibleTextRendering = true;
+            // 
+            // label34
+            // 
+            this.label34.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label34.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label34.ForeColor = System.Drawing.Color.White;
+            this.label34.Location = new System.Drawing.Point(405, 5);
+            this.label34.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(160, 38);
+            this.label34.TabIndex = 71;
+            this.label34.Text = "18";
+            this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label34.UseCompatibleTextRendering = true;
+            // 
+            // label35
+            // 
+            this.label35.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label35.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label35.ForeColor = System.Drawing.Color.White;
+            this.label35.Location = new System.Drawing.Point(8, 9);
+            this.label35.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(160, 38);
+            this.label35.TabIndex = 68;
+            this.label35.Text = "ワイド";
+            this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label35.UseCompatibleTextRendering = true;
+            // 
+            // panel7
+            // 
+            this.panel7.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel7.BackColor = System.Drawing.Color.Red;
+            this.panel7.Controls.Add(this.label23);
+            this.panel7.Controls.Add(this.label24);
+            this.panel7.Controls.Add(this.label25);
+            this.panel7.Controls.Add(this.label20);
+            this.panel7.Controls.Add(this.label21);
+            this.panel7.Controls.Add(this.label22);
+            this.panel7.Controls.Add(this.label19);
+            this.panel7.Controls.Add(this.label11);
+            this.panel7.Controls.Add(this.label15);
+            this.panel7.Controls.Add(this.label17);
+            this.panel7.Location = new System.Drawing.Point(1236, 287);
+            this.panel7.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(1098, 173);
+            this.panel7.TabIndex = 71;
+            // 
+            // label23
+            // 
+            this.label23.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label23.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label23.ForeColor = System.Drawing.Color.White;
+            this.label23.Location = new System.Drawing.Point(291, 93);
+            this.label23.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(114, 38);
+            this.label23.TabIndex = 79;
+            this.label23.Text = "Ⅲ";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label23.UseCompatibleTextRendering = true;
+            // 
+            // label24
+            // 
+            this.label24.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label24.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label24.ForeColor = System.Drawing.Color.White;
+            this.label24.Location = new System.Drawing.Point(796, 98);
+            this.label24.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(295, 38);
+            this.label24.TabIndex = 78;
+            this.label24.Text = "9,999,999,999円";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label24.UseCompatibleTextRendering = true;
+            // 
+            // label25
+            // 
+            this.label25.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label25.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label25.ForeColor = System.Drawing.Color.White;
+            this.label25.Location = new System.Drawing.Point(405, 94);
+            this.label25.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(160, 38);
+            this.label25.TabIndex = 77;
+            this.label25.Text = "18";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label25.UseCompatibleTextRendering = true;
+            // 
+            // label20
+            // 
+            this.label20.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label20.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label20.ForeColor = System.Drawing.Color.White;
+            this.label20.Location = new System.Drawing.Point(291, 49);
+            this.label20.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(114, 38);
+            this.label20.TabIndex = 76;
+            this.label20.Text = "Ⅱ";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label20.UseCompatibleTextRendering = true;
+            // 
+            // label21
+            // 
+            this.label21.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label21.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label21.ForeColor = System.Drawing.Color.White;
+            this.label21.Location = new System.Drawing.Point(796, 54);
+            this.label21.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(295, 38);
+            this.label21.TabIndex = 75;
+            this.label21.Text = "9,999,999,999円";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label21.UseCompatibleTextRendering = true;
+            // 
+            // label22
+            // 
+            this.label22.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label22.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label22.ForeColor = System.Drawing.Color.White;
+            this.label22.Location = new System.Drawing.Point(405, 50);
+            this.label22.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(160, 38);
+            this.label22.TabIndex = 74;
+            this.label22.Text = "18";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label22.UseCompatibleTextRendering = true;
+            // 
+            // label19
+            // 
+            this.label19.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label19.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label19.ForeColor = System.Drawing.Color.White;
+            this.label19.Location = new System.Drawing.Point(291, 4);
+            this.label19.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(114, 38);
+            this.label19.TabIndex = 73;
+            this.label19.Text = "Ⅰ";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label19.UseCompatibleTextRendering = true;
+            // 
+            // label11
+            // 
+            this.label11.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label11.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label11.ForeColor = System.Drawing.Color.White;
+            this.label11.Location = new System.Drawing.Point(796, 9);
+            this.label11.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(295, 38);
+            this.label11.TabIndex = 72;
+            this.label11.Text = "9,999,999,999円";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label11.UseCompatibleTextRendering = true;
+            // 
+            // label15
+            // 
+            this.label15.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label15.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label15.ForeColor = System.Drawing.Color.White;
+            this.label15.Location = new System.Drawing.Point(405, 5);
+            this.label15.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(160, 38);
+            this.label15.TabIndex = 71;
+            this.label15.Text = "18";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label15.UseCompatibleTextRendering = true;
+            // 
+            // label17
+            // 
+            this.label17.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label17.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label17.ForeColor = System.Drawing.Color.White;
+            this.label17.Location = new System.Drawing.Point(8, 9);
+            this.label17.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(160, 38);
+            this.label17.TabIndex = 68;
+            this.label17.Text = "複勝";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label17.UseCompatibleTextRendering = true;
+            // 
+            // panel6
+            // 
+            this.panel6.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel6.BackColor = System.Drawing.Color.DarkBlue;
+            this.panel6.Controls.Add(this.label14);
+            this.panel6.Controls.Add(this.label13);
+            this.panel6.Controls.Add(this.label12);
+            this.panel6.Location = new System.Drawing.Point(1236, 206);
+            this.panel6.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(1098, 83);
+            this.panel6.TabIndex = 70;
+            // 
+            // label14
+            // 
+            this.label14.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label14.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label14.ForeColor = System.Drawing.Color.White;
+            this.label14.Location = new System.Drawing.Point(796, 9);
+            this.label14.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(295, 38);
+            this.label14.TabIndex = 72;
+            this.label14.Text = "9,999,999,999円";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label14.UseCompatibleTextRendering = true;
+            // 
+            // label13
+            // 
+            this.label13.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label13.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label13.ForeColor = System.Drawing.Color.White;
+            this.label13.Location = new System.Drawing.Point(405, 5);
+            this.label13.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(160, 38);
+            this.label13.TabIndex = 71;
+            this.label13.Text = "18";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label13.UseCompatibleTextRendering = true;
+            // 
+            // label12
+            // 
+            this.label12.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label12.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label12.ForeColor = System.Drawing.Color.White;
+            this.label12.Location = new System.Drawing.Point(8, 9);
+            this.label12.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(160, 38);
+            this.label12.TabIndex = 68;
+            this.label12.Text = "単勝";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label12.UseCompatibleTextRendering = true;
             // 
             // panel4
             // 
@@ -1248,14 +1289,6 @@
             this.textFirst.TabIndex = 2;
             this.textFirst.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(1202, 222);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(1211, 817);
-            this.textBox2.TabIndex = 1;
-            // 
             // dataGridView1
             // 
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1270,26 +1303,32 @@
             this.Thard});
             this.dataGridView1.Location = new System.Drawing.Point(14, 32);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 82;
             this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.Size = new System.Drawing.Size(1169, 945);
+            this.dataGridView1.Size = new System.Drawing.Size(1169, 1037);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellContentClick);
             // 
             // Waku
             // 
             this.Waku.HeaderText = "枠";
+            this.Waku.MinimumWidth = 10;
             this.Waku.Name = "Waku";
             this.Waku.ReadOnly = true;
+            this.Waku.Width = 200;
             // 
             // Umaban
             // 
             this.Umaban.HeaderText = "馬番";
+            this.Umaban.MinimumWidth = 10;
             this.Umaban.Name = "Umaban";
             this.Umaban.ReadOnly = true;
+            this.Umaban.Width = 200;
             // 
             // Bamei
             // 
             this.Bamei.HeaderText = "馬名";
+            this.Bamei.MinimumWidth = 10;
             this.Bamei.Name = "Bamei";
             this.Bamei.ReadOnly = true;
             this.Bamei.Width = 250;
@@ -1297,22 +1336,28 @@
             // First
             // 
             this.First.HeaderText = "1着";
+            this.First.MinimumWidth = 10;
             this.First.Name = "First";
             this.First.ReadOnly = true;
+            this.First.Width = 200;
             // 
             // Second
             // 
             this.Second.HeaderText = "2着";
+            this.Second.MinimumWidth = 10;
             this.Second.Name = "Second";
             this.Second.ReadOnly = true;
+            this.Second.Width = 200;
             // 
             // Thard
             // 
             this.Thard.HeaderText = "3着";
+            this.Thard.MinimumWidth = 10;
             this.Thard.Name = "Thard";
             this.Thard.ReadOnly = true;
             this.Thard.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Thard.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Thard.Width = 200;
             // 
             // oddzTimeStatus
             // 
@@ -1352,7 +1397,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(2471, 1387);
+            this.ClientSize = new System.Drawing.Size(2471, 1479);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.oddzTimeStatus);
             this.Controls.Add(this.button4);
@@ -1388,11 +1433,16 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.panel2.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.panel13.ResumeLayout(false);
+            this.panel12.ResumeLayout(false);
+            this.panel11.ResumeLayout(false);
+            this.panel10.ResumeLayout(false);
+            this.panel9.ResumeLayout(false);
+            this.panel8.ResumeLayout(false);
+            this.panel7.ResumeLayout(false);
+            this.panel6.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel5.ResumeLayout(false);
@@ -1436,64 +1486,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Button button39;
-        private System.Windows.Forms.Button button40;
-        private System.Windows.Forms.Button button41;
-        private System.Windows.Forms.Button button42;
-        private System.Windows.Forms.Button button43;
-        private System.Windows.Forms.Button button44;
-        private System.Windows.Forms.Button button45;
-        private System.Windows.Forms.Button button46;
-        private System.Windows.Forms.Button button47;
-        private System.Windows.Forms.Button button48;
-        private System.Windows.Forms.Button button49;
-        private System.Windows.Forms.Button button50;
-        private System.Windows.Forms.Button button51;
-        private System.Windows.Forms.Button button52;
-        private System.Windows.Forms.Button button53;
-        private System.Windows.Forms.Button button54;
-        private System.Windows.Forms.Button button55;
-        private System.Windows.Forms.Button button56;
-        private System.Windows.Forms.Button button21;
-        private System.Windows.Forms.Button button22;
-        private System.Windows.Forms.Button button23;
-        private System.Windows.Forms.Button button24;
-        private System.Windows.Forms.Button button25;
-        private System.Windows.Forms.Button button26;
-        private System.Windows.Forms.Button button27;
-        private System.Windows.Forms.Button button28;
-        private System.Windows.Forms.Button button29;
-        private System.Windows.Forms.Button button30;
-        private System.Windows.Forms.Button button31;
-        private System.Windows.Forms.Button button32;
-        private System.Windows.Forms.Button button33;
-        private System.Windows.Forms.Button button34;
-        private System.Windows.Forms.Button button35;
-        private System.Windows.Forms.Button button36;
-        private System.Windows.Forms.Button button37;
-        private System.Windows.Forms.Button button38;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button17;
-        private System.Windows.Forms.Button button18;
-        private System.Windows.Forms.Button button19;
-        private System.Windows.Forms.Button button20;
-        private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.Button button15;
-        private System.Windows.Forms.Button button16;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Waku;
         private System.Windows.Forms.DataGridViewTextBoxColumn Umaban;
@@ -1507,12 +1500,55 @@
         private System.Windows.Forms.TextBox textSecond;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textFirst;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label oddzTimeStatus;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Panel panel13;
+        protected internal System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.Panel panel12;
+        protected internal System.Windows.Forms.Label label45;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Panel panel11;
+        protected internal System.Windows.Forms.Label label42;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Panel panel10;
+        protected internal System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.Panel panel9;
+        protected internal System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Panel panel8;
+        protected internal System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        protected internal System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        protected internal System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Label label23;
+        protected internal System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label20;
+        protected internal System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label19;
+        protected internal System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Panel panel6;
+        protected internal System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
     }
 }

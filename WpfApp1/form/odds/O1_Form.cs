@@ -17,12 +17,17 @@ namespace WpfApp1.form.odds
         private String Key;
         dbAccess.dbConnect db = new dbAccess.dbConnect();
         Class.com.JvComClass LOG = new Class.com.JvComClass();
+        JvComDbData.JvDbOzAllClass PayAllData = new JvDbOzAllClass();
+        int JomeiColor = 0;
+
 
         O1Param Param = new O1Param();
 
         const String MD = "OF";
 
-        const int JV_OF_PAY_CLOSE_PRETIME = 2;  //締め切り前分数
+        const int JV_OF_PAY_CLOSE_PRETIME = 1;  //締め切り前分数
+
+        int MaxTosu = 0;    //最大頭数
 
         public O1_Form()
         {
@@ -33,6 +38,13 @@ namespace WpfApp1.form.odds
         {
             InitializeComponent();
             Key = RaKey;
+        }
+
+        public O1_Form(string RaKey, int color)
+        {
+            InitializeComponent();
+            Key = RaKey;
+            JomeiColor = color;
         }
 
         private void O1_Form_Load(object sender, EventArgs e)
@@ -46,9 +58,39 @@ namespace WpfApp1.form.odds
             }
 
             InitDataGridView();
-            GetRaceData();
-            GetHorceData();
-            //GetOddzData(Key);
+            int ret = GetRaceData();
+
+            //カラー処理
+            panel1.BackColor = LOG.JvSysJomeiNumtoColor(JomeiColor);
+            flowLayoutPanel4.BackColor = LOG.JvSysJomeiNumtoColor(JomeiColor);
+
+            if (ret == 0)
+            {
+                MessageBox.Show("パラメーターエラー", "RAデータエラー");
+                this.Close();
+                return;
+            }
+
+            if(!GetHorceData())
+            {
+                MessageBox.Show("パラメーターエラー", "SEデータエラー");
+                this.Close();
+                return;
+            }
+
+            long key = 0;
+            if (long.TryParse(Key, out key))
+            {
+                GetAllOddzData(key);
+            }
+            else
+            {
+                MessageBox.Show("パラメーターエラーのため、処理を終了します。", "Keyエラー");
+            }
+
+            //全オッズデータ取得
+            PayAllData = new JvDbOzAllClass(Key);
+            PayAllData.JvDbAllSetALLOddzData();
         }
 
         private void Panel2_Paint(object sender, PaintEventArgs e)
@@ -66,7 +108,7 @@ namespace WpfApp1.form.odds
             this.Close();
         }
 
-        private void GetRaceData()
+        private int GetRaceData()
         {
             List<String> tmpArray = new List<string>();
 
@@ -74,7 +116,7 @@ namespace WpfApp1.form.odds
 
             if(tmpArray.Count == 0)
             {
-                return;
+                return 0;
             }
 
             //レースデータセット
@@ -96,7 +138,16 @@ namespace WpfApp1.form.odds
                 kaiji.Text = "第" + RA.getRaceGradeKai() + "回";
             }
 
-            this.racename.Text = RA.getRaceNameFukus() + (RA.getRaceNameFukus().Length >= 1 ? " " : "") + RA.getRaceName() + (RA.getRaceNameEnd() == "" ? "" : "(" + RA.getRaceNameEnd() + ")");
+            //レース開催中止
+            if (RA.DataKubun1 == "9")
+            {
+                this.racename.Text = "【中止】 " + RA.getRaceNameFukus() + (RA.getRaceNameFukus().Length >= 1 ? " " : "") + RA.getRaceName() + (RA.getRaceNameEnd() == "" ? "" : "(" + RA.getRaceNameEnd() + ")");
+            }
+            else
+            {
+                this.racename.Text = RA.getRaceNameFukus() + (RA.getRaceNameFukus().Length >= 1 ? " " : "") + RA.getRaceName() + (RA.getRaceNameEnd() == "" ? "" : "(" + RA.getRaceNameEnd() + ")");
+            }
+
             this.raceNameEng.Text = " " + RA.getRaceNameEng();
 
 
@@ -137,28 +188,38 @@ namespace WpfApp1.form.odds
 
             //別メソッドで必要なパラメーターを設定
             Param.RaceStartTime1 = RA.getRaceDate() + RA.getRaceStartTime();
+
+            //レース開催中止
+            if (RA.DataKubun1 == "9")
+            {
+                return -1;
+            }
+
+            return 1;
         }
 
-        private void GetHorceData()
+        private Boolean GetHorceData()
         {
             List<String> tmpArray = new List<string>();
             int idx = 0;
             const int MAX_FOR_COUNT = 18;
             JvComDbData.JvDbSEData Se = new JvComDbData.JvDbSEData();
+            Boolean ret = false;
 
             for(idx=1; idx <= MAX_FOR_COUNT; idx++)
             {
                 tmpArray.Clear();
                 db.TextReader_Col(Key.Substring(0, 8), "SE", 0, ref tmpArray, Key + String.Format("{0:00}", idx));
 
-
                 if (tmpArray.Count == 0)
                 {
-                    return;
+                    return ret;
                 }
+                ret = true;
 
                 Se.SetSEData(tmpArray);
 
+                MaxTosu++;  //最大頭数をインクリメント
                 dataGridView1.Rows.Add
                     (
                         Se.Waku1,
@@ -168,7 +229,8 @@ namespace WpfApp1.form.odds
                         idx,
                         idx
                     );
-            }            
+            }
+            return ret;
         }
 
         private void InitDataGridView()
@@ -255,6 +317,7 @@ namespace WpfApp1.form.odds
 
             //設定した順位を表示
             ReLoadRank();
+            ReLoadOddzData();
         }
         #endregion
 
@@ -287,6 +350,125 @@ namespace WpfApp1.form.odds
             {
                 textThaad.Text = "";
             }
+
+        }
+
+        private void ReLoadOddzData()
+        {
+            //単勝
+            String[,] tmpOddz = new string[4896, 2];
+            double oddz1 = 0;
+            double Oddz2 = 0;
+
+            if (textFirst.Text != "")
+            {
+                PayAllData.JvOzAllGetData(ref tmpOddz, 1);
+                if(radioButton2.Checked)
+                {
+                    label14.Text = PayAllData.JvOzAllConvOddzText(tmpOddz[Int32.Parse(textFirst.Text) -1, 0]).ToString();
+                }
+                else
+                {
+                    label14.Text = PayAllData.JvOzAllConvOddzText(tmpOddz[Int32.Parse(textFirst.Text) - 1, 0]) * 100 + "円";
+                }
+
+                tmpOddz = new string[4896, 2];
+                PayAllData.JvOzAllGetData(ref tmpOddz, 2);
+
+                //複勝
+                if (radioButton2.Checked)
+                {
+                    label11.Text =
+                        (PayAllData.JvOzWideOddzData(tmpOddz[Int32.Parse(textFirst.Text) - 1, 0], ref oddz1, ref Oddz2) == 1 ?
+                         oddz1 + " - " + Oddz2
+                    : "***.* - ***.*"
+                    );
+                }
+                else
+                {
+                    label11.Text =
+                    (PayAllData.JvOzWideOddzData(tmpOddz[Int32.Parse(textFirst.Text) - 1, 0], ref oddz1, ref Oddz2) == 1 ?
+                     (oddz1 * 100) + "円"
+                    : "---円"
+                    );
+                }
+
+            }
+
+            //複勝：１着の処理がされていない場合は複勝データ取得処理を呼ぶ
+            if(textFirst.Text == "" && MaxTosu > 4)
+            {
+                tmpOddz = new string[4896, 2];
+                PayAllData.JvOzAllGetData(ref tmpOddz, 2);
+            }
+
+            if (textSecond.Text != "" && MaxTosu > 4)
+            {
+                if (radioButton2.Checked)
+                {
+                    label21.Text =
+                        (PayAllData.JvOzWideOddzData(tmpOddz[Int32.Parse(textSecond.Text) - 1, 0], ref oddz1, ref Oddz2) == 1 ?
+                         oddz1 + " - " + Oddz2
+                    : "***.* - ***.*"
+                    );
+                }
+                else
+                {
+                    label21.Text =
+                    (PayAllData.JvOzWideOddzData(tmpOddz[Int32.Parse(textSecond.Text) - 1, 0], ref oddz1, ref Oddz2) == 1 ?
+                     (oddz1 * 100) + "円"
+                    : "---円"
+                    );
+                }
+            }
+
+            //複勝：１着の処理がされていない場合/３着払いがある場合 は複勝データ取得処理を呼ぶ
+            if (textFirst.Text == "" && MaxTosu > 7)
+            {
+                tmpOddz = new string[4896, 2];
+                PayAllData.JvOzAllGetData(ref tmpOddz, 2);
+            }
+
+            if (textSecond.Text != "" && MaxTosu > 7)
+            {
+                if (radioButton2.Checked)
+                {
+                    label21.Text =
+                        (PayAllData.JvOzWideOddzData(tmpOddz[Int32.Parse(textSecond.Text) - 1, 0], ref oddz1, ref Oddz2) == 1 ?
+                         oddz1 + " - " + Oddz2
+                    : "***.* - ***.*"
+                    );
+                }
+                else
+                {
+                    label21.Text =
+                    (PayAllData.JvOzWideOddzData(tmpOddz[Int32.Parse(textSecond.Text) - 1, 0], ref oddz1, ref Oddz2) == 1 ?
+                     (oddz1 * 100) + "円"
+                    : "---円"
+                    );
+                }
+            }
+
+            //馬連
+            if(textFirst.Text != "" && textSecond.Text != "" && textFirst.Text != textSecond.Text)
+            {
+                tmpOddz = new string[4896, 2];
+                PayAllData.JvOzAllGetData(ref tmpOddz, 4);
+
+                label40.Text = ConvMinMax(tmpOddz[CalcUmarenIndex(Int32.Parse(textFirst.Text), Int32.Parse(textSecond.Text)), 0]);
+                if (radioButton2.Checked)
+                {
+                    label39.Text = PayAllData.JvOzAllConvOddzText(tmpOddz[CalcUmarenIndex(Int32.Parse(textFirst.Text), Int32.Parse(textSecond.Text)), 1]).ToString();
+                }
+                else
+                {
+                    label39.Text = PayAllData.JvOzAllConvOddzText(tmpOddz[CalcUmarenIndex(Int32.Parse(textFirst.Text), Int32.Parse(textSecond.Text)), 1]) * 100 + "円";
+
+                }
+            } 
+
+
+
 
         }
 
@@ -390,7 +572,7 @@ namespace WpfApp1.form.odds
                     clr = Color.Red;
                     break;
                 case 4:
-                    PayStatusInfoText = "";
+                    PayStatusInfoText = "最終";
                     clr = Color.Silver;
                     break;
                 case 5:
@@ -483,10 +665,75 @@ namespace WpfApp1.form.odds
         private void WritePayCloseTimeText()
         {
             oddzTimeStatus.Visible = true;
-            oddzTimeStatus.Text = Param.OddzTime1.ToString(0, 2) + "月" +
-                                  Param.OddzTime1.ToString(2, 2) + "日 " +
-                                  Param.OddzTime1.ToString(4, 2) + "時 " +
-                                  Param.OddzTime1.ToString(5, 2) + "分現在";
+            oddzTimeStatus.Text = "オッズ発表時間：" +
+                                  Param.OddzTime1.Substring(0, 2) + "月" +
+                                  Param.OddzTime1.Substring(2, 2) + "日 " +
+                                  Param.OddzTime1.Substring(4, 2) + "時 " +
+                                  Param.OddzTime1.Substring(5, 2) + "分現在";
+        }
+
+        private void Label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private int CalcUmarenIndex(int min, int max)
+        {
+            //minの-1まではスキップする　14縦　5-7 14 * 4
+            int Min = 0;
+            Min = JudgeMinNumber(min, max);
+            if(Min == 0)
+            {
+                return 0;
+            }
+
+
+            int tmpMinUnderNum = (MaxTosu - 2) * (Min - 1);
+
+            //配列添字分(+1)/同番配慮分(+1)
+            tmpMinUnderNum = (tmpMinUnderNum) + ((Min == min ? max : min) - 2);
+            LOG.CONSOLW_DEBUG(tmpMinUnderNum.ToString());
+            //tmpMinUnderNum + 1からが軸馬の配列添字
+            return tmpMinUnderNum; 
+        }
+
+        private String ConvMinMax(String Param)
+        {
+            return ConvMinMax(Param.Substring(0, 2), Param.Substring(2, 2));
+        }
+
+        private String ConvMinMax(String Param1, String Param2)
+        {
+            int Num1 = 0;
+            int Num2 = 0;
+            int ret = 0;
+
+            if (Int32.TryParse(Param1, out Num1) && Int32.TryParse(Param2, out Num2))
+            {
+                ret = Math.Min(Num1, Num2);
+                if (ret == Num1)
+                {
+                    return (Int32.Parse(Param1) + " - " + Int32.Parse(Param2)).ToString();
+                }
+                else
+                {
+                    return (Int32.Parse(Param2) + " - " + Int32.Parse(Param1)).ToString();
+                }
+            }
+            return "";
+        }
+
+        //小さい値を返す
+        private int JudgeMinNumber(int num1, int num2)
+        {
+            try
+            {
+                return Math.Min(num1, num2);
+            }
+            catch
+            {
+                return 0;
+            }
         }
     }
 
