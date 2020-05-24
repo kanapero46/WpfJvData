@@ -40,12 +40,19 @@ namespace WpfApp1.Class.com.windows
         #region Windowsへ通知を出す(秒数指定デフォルト)
         public int JvComNoticeShow(int kind, String title, String msg)
         {
-            return JvComNoticeShow(kind, title, msg, 3000);    //デフォルトで3病指定
+            return JvComNoticeShow(kind, title, msg, 3000, "notifyIcon1");    //デフォルトで3病指定
+        }
+
+        public int JvComNoticeShow(int kind, String title, String msg, String text)
+        {
+            return JvComNoticeShow(kind, title, msg, 3000, text);
         }
         #endregion
 
+
+
         #region Windowsへ通知を出す(秒数指定あり)
-        public int JvComNoticeShow(int kind, String title, String msg, int ShowTime)
+        public int JvComNoticeShow(int kind, String title, String msg, int ShowTime, String text)
         {
             Boolean setEnable = true;
            // notifyIcon1 = new NotifyIcon();
@@ -80,6 +87,7 @@ namespace WpfApp1.Class.com.windows
                     //0秒以下を指定した場合はデフォルト3mSecを指定する。
                     notifyIcon1.BalloonTipTitle = title;
                     notifyIcon1.BalloonTipText = msg;
+                    notifyIcon1.Text = text;
                     notifyIcon1.ShowBalloonTip
                         (
                         (ShowTime >= 1 ? ShowTime : 3000)
@@ -102,5 +110,16 @@ namespace WpfApp1.Class.com.windows
         }
         #endregion
 
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
+        {
+            Console.WriteLine("Sender!!");
+
+
+        }
     }
 }

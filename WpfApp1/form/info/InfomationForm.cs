@@ -26,6 +26,7 @@ namespace WpfApp1.form.info
             public int CourceCd;        //競馬場コード
             public String CourceStr;    //競馬場名（日本語）
             public int PayEndRaceNum;   //発売締切レース番号
+            public Boolean RaceCanceldFlg;//開催中止情報
         }
 
         //表示レベル
@@ -55,6 +56,12 @@ namespace WpfApp1.form.info
         backClass.baclClassInfo[] WeatherCond = new backClass.baclClassInfo[MAX_RACE_CNT];
 
         String DateParam;
+
+        //文字列定義
+        const String IF_TEXT_ID_CAN_1 = "レース以降は開催取り止めとなりました。";
+        const String IF_TEXT_ID_CAN_2_1 = "本日の";
+        const String IF_TEXT_ID_CAN_2_2 = "競馬は開催中止となりました。";
+
 
         public InfomationForm()
         {
@@ -132,6 +139,13 @@ namespace WpfApp1.form.info
                         gCacheParamRaceData[j].KaisaiFlag = true;
                         break;
                     }
+                    else if(ret == 3)
+                    {
+                        //開催中止
+                        gCacheParamRaceData[j].KaisaiFlag = true;
+                        gCacheParamRaceData[j].RaceCanceldFlg = true;
+                        break;
+                    }
                     else
                     {   //締切
                         gCacheParamRaceData[j].KaisaiFlag = false;
@@ -152,6 +166,7 @@ namespace WpfApp1.form.info
                 SetWeatherInfo();
                 //SetJockeyInfo();
                 Win5KaisaiInfo();   //WIN5
+                SetKaisaiCanceld();//開催中止のチェック
 
             }
             else
@@ -609,7 +624,7 @@ namespace WpfApp1.form.info
 
         }
 
-        private void label20_Click(object sender, EventArgs e)
+           private void label20_Click(object sender, EventArgs e)
         {
 
         }
@@ -800,11 +815,15 @@ namespace WpfApp1.form.info
         private void GetWin5Data()
         {
             JvComDbData.JvDbW5Data W5 = new JvComDbData.JvDbW5Data();
+            int w5BoteCount = 0;
             if(W5.Win5Status == 0|| W5.Win5Status == 1 || W5.Win5Status == 2|| W5.Win5Status == 3 || W5.Win5Status == 7 )
             {
                 BackEnd.BackEndGetWin5(ref W5);
                 textBox6.Text = W5.JvDbW5Satus(W5.Win5Status.ToString());
-                label33.Text = W5.BoteCount + "票";
+                if(Int32.TryParse(W5.BoteCount, out w5BoteCount))
+                {
+                    label33.Text = w5BoteCount + "票";
+                }
                 //if(W5.CaleeOver.Trim() == "" || W5.CaleeOver.Trim() == "0" || Int32.Parse(W5.CaleeOver) == 0)
                 //{
                 //    //キャリーオーバーがない場合は、「前回からのキャリーオーバー」は表示しない
@@ -1104,6 +1123,48 @@ namespace WpfApp1.form.info
 
             COM.CONSOLE_MODULE("INFO_HDL", "JC EventHandler:" + e.bstr + "(" + ret + ")");
         }
+        #endregion
+
+#region 開催中止情報
+        private void SetKaisaiCanceld()
+        {
+            if(gCacheParamRaceData.Length == 0)
+            {
+                return;
+            }
+
+            int idx = 0;
+            String RaceStr = "";
+            for(idx = 0; idx<gCacheParamRaceData.Length; idx++)
+            {
+                //開催中止情報の取得
+                if(gCacheParamRaceData[idx].KaisaiFlag && gCacheParamRaceData[idx].RaceCanceldFlg)
+                {
+                    assertPanel.Visible = true;
+                    RaceStr = BackEnd.BackendMappingCourceName(gCacheParamRaceData[idx].CourceCd.ToString());
+
+                    if (gCacheParamRaceData[idx].PayEndRaceNum == 0)
+                    {
+                        //1レースを開催せずに中止
+                        cancelLabel.Text = "【" + RaceStr + "競馬】 ";
+                        cancelLabel.Text += RaceStr + IF_TEXT_ID_CAN_2_2;
+                    }
+                    else
+                    {
+                        //1レース以降で中止
+                        cancelLabel.Text = "【" + RaceStr + "競馬】 ";
+                        cancelLabel.Text += (gCacheParamRaceData[idx].PayEndRaceNum+1) + IF_TEXT_ID_CAN_1;
+                    }
+
+                    COM.CONSOLE_MODULE("INFO", "RaceCanceld -> true!!");
+                    COM.CONSOLE_MODULE("INFO", "Cource->" + gCacheParamRaceData[idx].CourceCd);
+                }
+            }
+
+
+        }
 #endregion
+
+
     }
 }

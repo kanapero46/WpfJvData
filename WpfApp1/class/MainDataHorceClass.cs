@@ -89,6 +89,7 @@ namespace WpfApp1.Class
         private String TorikeshiCd;
         private String Chakusa;
         private String Chakusa2;    //同着の場合＋着差分が入る
+        
 
 
 
@@ -122,6 +123,15 @@ namespace WpfApp1.Class
         public string TorikeshiCd1 { get => TorikeshiCd; set => TorikeshiCd = value; }
         public string Chakusa1 { get => Chakusa; set => Chakusa = value; }
         public string Chakusa21 { get => Chakusa2; set => Chakusa2 = value; }
+
+        /* 馬体重 */
+        private int Bataiju;
+        private String Fugo;
+        private String Zongensa;
+
+        public int Bataiju1 { get => Bataiju; set => Bataiju = value; }
+        public string Fugo1 { get => Fugo; set => Fugo = value; }
+        public string Zongensa1 { get => Zongensa; set => Zongensa = value; }
 
         public void SetSEData(List<String> inParam)
         {

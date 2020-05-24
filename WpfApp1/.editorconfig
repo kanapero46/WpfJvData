@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# UWP003: UWP-only
+dotnet_diagnostic.UWP003.severity = none

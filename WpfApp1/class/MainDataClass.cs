@@ -180,6 +180,7 @@ namespace WpfApp1.Class
         public List<string> LapTime1 { get => LapTime; set => LapTime = value; }
 
 
+
         public String ConvertDateToDate(String Date)
         {
             return Date.Substring(0, 4) + "年" + Int32.Parse(Date.Substring(4, 2)) + "月" + Int32.Parse(Date.Substring(6, 2)) + "日";
@@ -213,6 +214,5 @@ namespace WpfApp1.Class
                 return "0:00.0";
             }
         }
-
     }
 }

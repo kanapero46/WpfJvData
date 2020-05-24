@@ -78,6 +78,7 @@ namespace WpfApp1
 
         public void WpfApp1_Load()
         {
+            LOG.CONSOLE_TIME(">>>MAIN START!!!");
             DateText.DisplayDate = DateTime.Today.ToLocalTime();
             DateText.Focus();
 
@@ -1094,6 +1095,7 @@ namespace WpfApp1
             JvDbRaData RaData = new JvDbRaData();
             JvDbSEData SeData = new JvDbSEData();
             JvDbUmData UmData = new JvDbUmData();
+            JvDbRcData RcData = new JvDbRcData();
             Boolean RaFlag = false;
             db.DeleteCsv("SE_MST");
             db.DeleteCsv("UM_MST");
@@ -1111,6 +1113,7 @@ namespace WpfApp1
                 {
                     if (buff == "")
                     {
+                        LOG.CONSOLE_TIME_MD("MAIN", ">>file end");
                         continue;
                     }
                     else if(strBuff == buff.Substring(0, 2))
@@ -1130,7 +1133,7 @@ namespace WpfApp1
                             break;
                         case "SE":
                             // !!!ここに追加した場合はMainDataHorceClass.csの定義を追加すること！！！ 
-                          //  JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
+                            //  JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             JV_SE_UMA.SetDataB(ref buff);
 
                             if(horse == JV_SE_UMA.Bamei.Trim())
@@ -1152,7 +1155,9 @@ namespace WpfApp1
                             UmData.JvDbUmDataRead(ref buff);
                             ProgressStatusValue++;
                             break;
-
+                        case "RC": //レコードマスタ
+                            RcData.JvDbRcSetData(ref buff);
+                            break;
                         default:
                             JVForm.JvForm_JvSkip();
                             break;
@@ -1218,9 +1223,16 @@ namespace WpfApp1
                 SeData.ExecSEDataWriteDb(0);
             }
 
+            //競走馬マスタ
             if (UmData.JvDbUmEnable())
             {
                 UmData.ExecUmData();
+            }
+
+            //レコード
+            if (RcData.JvDbRcEnable())
+            {
+                RcData.JvDbRcWriteData();
             }
 
             return 1;
@@ -1788,6 +1800,13 @@ namespace WpfApp1
 
 
             O1.Show();
+        }
+
+        private void Button_Click_10(object sender, RoutedEventArgs e)
+        {
+            form.qr.qrCodeMain main = new form.qr.qrCodeMain();
+            main.Show();
+
         }
     }
 

@@ -21,7 +21,7 @@ namespace WpfApp1.Class.com
 
         public void CONSOLE_MODULE(String Md, String msg)
         {
-            Console.WriteLine("(" + Md + ")\t" + msg);
+            Console.WriteLine("[" + Md + "]\t" + msg);
         }
 
         public void CONSOLE_TIME(String msg)
@@ -40,6 +40,16 @@ namespace WpfApp1.Class.com
             {
                 Console.WriteLine("(" + md + ") [" + time + "]\t" + msg);
             }          
+        }
+
+        //故障・エラー・ソフトエラー
+        public void ASSERT(String md)
+        {
+            if(md != "")
+            {
+                Console.WriteLine("■■■■■■ ASSERT!!! ■■■■■■");
+                Console.WriteLine("■ ASSERT MODULE [" + md + "] ■");
+            }
         }
 
         public unsafe void JvSysMappingFunction(int kind, ref String In, ref String Out)

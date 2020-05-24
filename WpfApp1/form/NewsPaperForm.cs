@@ -121,7 +121,7 @@ namespace WpfApp1.form
             libCode = LibJvConvFuncClass.COURCE_CODE;
             LibJvConvFuncClass.jvSysConvFunction(&libCode, raceData.getRaceCource(), ref libStr);
             this.Kaisai.Text = "第" + raceData.getRaceKaiji() + "回" + libStr + raceData.getRaceNichiji() + "日目";
-            this.RaceNum.Text = libStr;
+            this.Jomei.Text = libStr;
 
             this.label4.Text = raceData.getRaceStartTime().Substring(0, 2) + "時" + raceData.getRaceStartTime().Substring(2, 2) + "分";
             this.DistanceLabel.Text = raceData.getDistance();
@@ -149,13 +149,17 @@ namespace WpfApp1.form
             else
             {
                 this.racename.Text = libStr + "（" + raceData.getRaceGrade() + "）";
-            }
-
-            
+            }        
 
             this.kaiji.Text = (raceData.getRaceGradeKai() == 0 ? "" : "第" + raceData.getRaceGradeKai() + "回");
             this.raceNameEng.Text = raceData.getRaceNameEng();
-            this.RaceNum.Text += Int32.Parse(raceData.getRaceNum()) + "R";
+            this.RaceNum.Text = Int32.Parse(raceData.getRaceNum()) + "R";
+
+            //Windowsタイトル
+            libCode = LibJvConvFuncClass.COURCE_CODE;
+            LibJvConvFuncClass.jvSysConvFunction(&libCode, raceData.getRaceCource(), ref libStr);
+            this.Text = "【詳細出馬表】" + Int32.Parse(raceData.getRaceKaiji()) + libStr + Int32.Parse(raceData.getRaceNichiji()) + " " +Int32.Parse(raceData.getRaceNum()) + "R:" + this.racename.Text;
+            this.Update();
          }
 
 
@@ -236,8 +240,8 @@ namespace WpfApp1.form
 
             /* DB処理用のインスタンス宣言 */
             JvComDbData.JvDbSEData SEdata = new JvComDbData.JvDbSEData();
-            
 
+            this.Update();
             for (int k = 0; k < MAX_TOSU; k++)
             {
                 //DB読み込み
@@ -740,11 +744,7 @@ namespace WpfApp1.form
                 this.Controls.AddRange(this.PanelArray);
             }
             this.SuspendLayout();
-
-
-
             this.ResumeLayout(false);
-
 
         }
         

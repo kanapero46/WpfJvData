@@ -55,8 +55,7 @@
             this.OldYear = new System.Windows.Forms.Label();
             this.ClassLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.RaceNum = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.Jomei = new System.Windows.Forms.Label();
             this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
             this.kaiji = new System.Windows.Forms.Label();
             this.racename = new System.Windows.Forms.Label();
@@ -67,12 +66,15 @@
             this.button1 = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.RaceNum = new System.Windows.Forms.Label();
             this.flowLayoutPanel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel6.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // raceNameEng
@@ -372,37 +374,26 @@
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panel1.BackColor = System.Drawing.Color.Green;
-            this.panel1.Controls.Add(this.RaceNum);
-            this.panel1.Controls.Add(this.label10);
-            this.panel1.Location = new System.Drawing.Point(16, 33);
+            this.panel1.Controls.Add(this.Jomei);
+            this.panel1.Controls.Add(this.panel3);
+            this.panel1.Location = new System.Drawing.Point(7, 15);
             this.panel1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(179, 74);
+            this.panel1.Size = new System.Drawing.Size(170, 153);
             this.panel1.TabIndex = 59;
             // 
-            // RaceNum
+            // Jomei
             // 
-            this.RaceNum.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.RaceNum.ForeColor = System.Drawing.Color.White;
-            this.RaceNum.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.RaceNum.Location = new System.Drawing.Point(-13, 9);
-            this.RaceNum.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.RaceNum.Name = "RaceNum";
-            this.RaceNum.Size = new System.Drawing.Size(211, 63);
-            this.RaceNum.TabIndex = 10;
-            this.RaceNum.Text = "京都10Ｒ";
-            this.RaceNum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(82, 86);
-            this.label10.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(93, 44);
-            this.label10.TabIndex = 6;
-            this.label10.Text = "11R";
+            this.Jomei.Font = new System.Drawing.Font("メイリオ", 19.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Jomei.ForeColor = System.Drawing.Color.White;
+            this.Jomei.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Jomei.Location = new System.Drawing.Point(5, 9);
+            this.Jomei.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.Jomei.Name = "Jomei";
+            this.Jomei.Size = new System.Drawing.Size(164, 61);
+            this.Jomei.TabIndex = 10;
+            this.Jomei.Text = "京都";
+            this.Jomei.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // flowLayoutPanel6
             // 
@@ -526,6 +517,30 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(2270, 51);
             this.flowLayoutPanel2.TabIndex = 71;
             // 
+            // panel3
+            // 
+            this.panel3.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.Controls.Add(this.RaceNum);
+            this.panel3.Location = new System.Drawing.Point(7, 76);
+            this.panel3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(156, 72);
+            this.panel3.TabIndex = 72;
+            // 
+            // RaceNum
+            // 
+            this.RaceNum.Font = new System.Drawing.Font("メイリオ", 19.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.RaceNum.ForeColor = System.Drawing.Color.Black;
+            this.RaceNum.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.RaceNum.Location = new System.Drawing.Point(5, 3);
+            this.RaceNum.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.RaceNum.Name = "RaceNum";
+            this.RaceNum.Size = new System.Drawing.Size(151, 72);
+            this.RaceNum.TabIndex = 72;
+            this.RaceNum.Text = "12R";
+            this.RaceNum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // NewsPaperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
@@ -545,13 +560,13 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.flowLayoutPanel6.ResumeLayout(false);
             this.flowLayoutPanel6.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -568,8 +583,7 @@
         private System.Windows.Forms.Label OldYear;
         private System.Windows.Forms.Label ClassLabel;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label RaceNum;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label Jomei;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel6;
         private System.Windows.Forms.Label kaiji;
         private System.Windows.Forms.Label racename;
@@ -597,5 +611,7 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label RaceNum;
     }
 }

@@ -311,7 +311,7 @@ namespace WpfApp1.JvComDbData
         public String JvDbRaConvInTimer(int Distance, ref List<String> In)
         {
             long ret = 0;
-            const int StartPosition = 56;
+            const int StartPosition = 58;
 
             if (In.Count == 0)
             {

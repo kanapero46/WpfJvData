@@ -101,7 +101,7 @@ namespace WpfApp1.JvComDbData
                 case "7":
                     return "確定";
                 case "9":
-                    return "発売中止";
+                    return "中止";
                 case "0":
                     return "";
                 default:

@@ -272,7 +272,7 @@ namespace WpfApp1.form.info
 
 
         #region 単勝オッズ読み込み（DB書き込みなし）
-        /* @return -1：エラー（取得に失敗）　0：未発売　1:発売中 2:締切 */
+        /* @return -1：エラー（取得に失敗）　0：未発売　1:発売中 2:締切 3：レース中止 */
         public int BackEndGetOddsInfo(String Key)
         {
             JVForm JVForm = new JVForm();
@@ -332,7 +332,10 @@ namespace WpfApp1.form.info
                 {
                     case "O1":
                         O1.SetDataB(ref buff);
-                        res = (O1.head.DataKubun == "1" || O1.head.DataKubun == "3" ? 1 : 2);
+                        //レース中止情報を追加するため、if文に変更
+                        if (O1.head.DataKubun == "1" || O1.head.DataKubun == "3") res = 1;  //発売中
+                        else if (O1.head.DataKubun == "9") res = 3;                         //レース中止
+                        else res = 2;                                                       //発売締切
                         break;
                 }
       

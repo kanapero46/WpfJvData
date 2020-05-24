@@ -162,7 +162,11 @@ namespace WpfApp1.JvComDbData
         {
             int DbReturn = 0;
 
-            if(SeStruct.Date == "" || SeStruct.WriteStr.Length == 0)
+#if DEBUG
+            LOG.CONSOLE_TIME_MD("SE", "JvDbSeData Write Start!!");
+#endif
+
+            if (SeStruct.Date == "" || SeStruct.WriteStr.Length == 0)
             {
                 LOG.CONSOLE_MODULE("SE", "DataSetERror!");
                 return 0;

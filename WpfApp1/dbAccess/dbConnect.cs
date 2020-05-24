@@ -361,6 +361,7 @@ namespace WpfApp1.dbAccess
                 case 8:
                     /* レース開催日 */
                     return @"" + dtSpec + "/" + Date + "/" + dtSpec + Date + ".csv";
+                case 14:
                 case 16:
                 case 18:
                     /* レース毎 */
@@ -390,6 +391,7 @@ namespace WpfApp1.dbAccess
         public int DeleteCsv(String dtSpec, String filename, Boolean DirectoryFlag)
         {
             String file = @"" + dtSpec + "/" + filename;
+
             int ret = 0;
 
             try
@@ -406,6 +408,7 @@ namespace WpfApp1.dbAccess
                     else
                     {
                         /* ファイル削除 */
+                        //file = ReadCsvComFileName(dtSpec, Date);
                         FileInfo delFile = new FileInfo(file);
                         delFile.Delete();
                         ret = 1;
@@ -429,7 +432,7 @@ namespace WpfApp1.dbAccess
             catch (IOException e)
             {
                 Console.WriteLine("IOException ERROR file:" + file);
-                Console.WriteLine(e.Message);
+                //Console.WriteLine(e.Message);
                 ret = 0;
             }
             catch(UnauthorizedAccessException e)
