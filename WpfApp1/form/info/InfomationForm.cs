@@ -665,6 +665,11 @@ namespace WpfApp1.form.info
             COM.CONSOLE_MODULE("INFO_HDL", e.bstr);  //201902170511の形で入ってくる
             dbAccess.dbConnect db = new dbAccess.dbConnect("RT", ref e.bstr, ref ret);
         }
+
+        private void JvWhInfoHdler( String key )
+        {
+
+        }
 #endregion
 
         private void CallBackEndSyncFunction(object obj)

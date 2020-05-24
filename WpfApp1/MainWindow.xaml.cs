@@ -178,7 +178,15 @@ namespace WpfApp1
             db.DeleteCsv("RA");
             db.DeleteCsv("SE");
             db.DeleteCsv("DT");
-
+            db.DeleteCsv("SL");
+            db.DeleteCsv("O1");
+            db.DeleteCsv("O15");
+            db.DeleteCsv("DM");
+            db.DeleteCsv("TM");
+            db.DeleteCsv("WH");
+            db.DeleteCsv("HR");
+            db.DeleteCsv("JC");
+            db.DeleteCsv("RS");
 
             /* データリード */
             while (ret >= 1)
