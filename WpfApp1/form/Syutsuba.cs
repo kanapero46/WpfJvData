@@ -488,6 +488,12 @@ namespace WpfApp1.form
                 }
             }
 
+            //レコード情報
+            SetRecordData(RaClassData.GET_RA_KEY());
+            if(RaClassData.getRaceGrade() == "ＧⅠ" || RaClassData.getRaceGrade() == "Ｊ・ＧⅠ")
+            {
+                SetRaceRecordData(RaClassData.GET_RA_KEY());
+            }
 
             main.LogMainCancelFlagChanger(false);        //スレッド開始処理
            // t.Join();
@@ -1122,6 +1128,7 @@ namespace WpfApp1.form
             return true;
         }
 
+        //コースレコード処理
         private void SetRecordData( String Key )
         {
             if(Key == "")
@@ -1131,48 +1138,105 @@ namespace WpfApp1.form
 
             List<String> tmpArrayData = new List<string>();
             String tmpKey = "";
-            if(RaClassData.getRaceGrade() == "A" || RaClassData.getRaceGrade() == "F")
+
+            switch (RaClassData.getOldYear())
             {
-                tmpKey = "G";
+                case "11":
+                    tmpKey = "A";
+                    break;
+                case "12":
+                case "13":
+                case "14":
+                    tmpKey = "B";
+                    break;
+                case "18":
+                case "19":
+                    tmpKey = "C";
+                    break;
+                default:
+                    return;
             }
-            else
-            {
-                switch (RaClassData.getOldYear())
-                {
-                    case "11":
-                        tmpKey = "A";
-                        break;
-                    case "12":
-                    case "13":
-                    case "14":
-                        tmpKey = "B";
-                        break;
-                    case "18":
-                    case "19":
-                        tmpKey = "C";
-                        break;
-                    default:
-                        return;
-                }
-            }
-            
-            tmpKey += Key;
-            db.TextReader_Row(tmpKey, "RC", 0, ref tmpArrayData);
+
+            tmpKey += RaClassData.getRaceCource() + RaClassData.getCourceTrack() + RaClassData.getDistance();
+            db.TextReader_Col("0", "RC", 0, ref tmpArrayData, tmpKey);
             if(tmpArrayData.Count == 0 )
             {
                 return;
             }
 
-            OutComRecordData(tmpArrayData.ToArray());
+            OutComRecordData(0, tmpArrayData.ToArray());
 
         }
 
-        private void OutComRecordData( String[] inParam )
+
+        //コースレコード処理
+        private void SetRaceRecordData(String Key)
+        {
+            if (Key == "")
+            {
+                return;
+            }
+
+            List<String> tmpArrayData = new List<string>();
+            String tmpKey = "";
+
+            tmpKey = "G" + RaClassData.getRaceCource() + RaClassData.getCourceTrack() + RaClassData.getDistance();
+            db.TextReader_Col("0", "RC", 0, ref tmpArrayData, tmpKey);
+            if (tmpArrayData.Count == 0)
+            {
+                return;
+            }
+
+            OutComRecordData(1, tmpArrayData.ToArray());
+
+        }
+
+        private void OutComRecordData( int kind, String[] inParam )
+        {
+            String tmp = "";
+            switch(kind)
+            {
+                case 0: //コースレコード
+                    rcRecordPanel.Visible = true;
+                    tmp = inParam[0].Substring(1, 2);
+                    rcCource.Text = LOG.JvSysMappingFunction(2001, ref tmp);
+                    tmp = inParam[2];
+                    rcCource.Text += LOG.JvSysMappingFunction(20091, ref tmp);
+                    rcTime.Text = (inParam[10].Substring(0, 1) == "0" ? "" : inParam[10].Substring(0, 1) + ":") + inParam[10].Substring(1, 2) + "." + inParam[10].Substring(3, 1);
+                    rcCource.Text += RaClassData.getDistance() + "m";
+                    rcName.Text = inParam[11].Trim();
+                    rcJockey.Text = inParam[15].Trim();
+                    rcJockey.Text += " (" + inParam[14].Substring(0, 2) + "." + inParam[14].Substring(2, 1) + "kg)";
+                    rcCond.Text = inParam[1].Substring(0, 4) + "/" + inParam[1].Substring(4, 2) + "/" + inParam[1].Substring(6, 2);
+                    tmp = inParam[7];
+                    rcCond.Text += " " + LOG.JvSysMappingFunction(2011, ref tmp);
+                    tmp = inParam[8];
+                    rcCond.Text += "・" + LOG.JvSysMappingFunction(2010, ref tmp);
+                    rcRaceName.Text = inParam[3].Trim();
+                    break;
+                case 1: //G1レースレコード
+                    rrRecordPanel.Visible = true;
+                    tmp = inParam[0].Substring(1, 2);
+                    rrRaceName.Text = RaClassData.getRaceName6();
+                    rrTime.Text = (inParam[10].Substring(0, 1) == "0" ? "" : inParam[10].Substring(0, 1) + ":") + inParam[10].Substring(1, 2) + "." + inParam[10].Substring(3, 1);
+                    rrName.Text = inParam[11].Trim();
+                    rrJockey.Text = inParam[15].Trim();
+                    rrJockey.Text += " (" + inParam[14].Substring(0, 2) + "." + inParam[14].Substring(2, 1) + "kg)";
+                    rrCond.Text = inParam[1].Substring(0, 4) + "/" + inParam[1].Substring(4, 2) + "/" + inParam[1].Substring(6, 2);
+                    tmp = inParam[7];
+                    rrCond.Text += " " + LOG.JvSysMappingFunction(2011, ref tmp);
+                    tmp = inParam[8];
+                    rrCond.Text += "・" + LOG.JvSysMappingFunction(2010, ref tmp);
+                    break;
+            }
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        private void label12_Click(object sender, EventArgs e)
         {
 
         }
