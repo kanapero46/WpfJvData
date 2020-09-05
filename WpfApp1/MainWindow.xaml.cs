@@ -1113,6 +1113,7 @@ namespace WpfApp1
             t.SetApartmentState(ApartmentState.STA);
             t.Start("100"); //仮で100を設定
 
+            read_start:
             while (ret >= 1)
             {
                 ret = JVForm.JvForm_JvRead(ref buff, out size, out fname);
@@ -1187,6 +1188,22 @@ namespace WpfApp1
 
                     break;
 
+                }
+                else if(ret == -3)
+                {
+                    /* ファイルダウンロード中 */
+                    while(ret >= 0)
+                    {
+                        ret = JVForm.JvForm_JvStatus();
+                        if(ret == -201 || ret == -203 || ret == -502)
+                        {
+                            LOG.CONSOLE_MODULE("MAIN", "JvStatusCheckError! ret->" + ret);
+                            return ret;
+                        }
+                    }
+
+                    ret = 1;
+                    goto read_start;
                 }
                 else if (ret == -1)
                 {
@@ -1769,7 +1786,24 @@ namespace WpfApp1
         {
             String key = "";
             mainDataClass.GET_AUTO_RA_KEY(ref key);
-            form.info.RaceResult result = new form.info.RaceResult(key);
+
+            System.Windows.Media.Brush brush = MainBack.Fill;
+            String Color = brush.ToString();
+            int JomeiColor = 0;
+            switch (Color)
+            {
+                case "#FF0000FF":
+                    JomeiColor = 1;
+                    break;
+                case "#FF006400":
+                    JomeiColor = 2;
+                    break;
+                case "#FF800080":
+                    JomeiColor = 3;
+                    break;
+            }
+
+            form.info.RaceResult result = new form.info.RaceResult(key, JomeiColor);
             if(result.SetData() == 1)
             {
                 result.Show();

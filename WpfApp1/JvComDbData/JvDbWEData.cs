@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Class;
+using WpfApp1.Class.com;
 
 namespace WpfApp1.JvComDbData
 {
@@ -12,6 +13,7 @@ namespace WpfApp1.JvComDbData
         dbAccess.dbConnect db = new dbAccess.dbConnect();
         JVData_Struct.JV_WE_WEATHER JV_WEATHER = new JVData_Struct.JV_WE_WEATHER();
         List<Class.WeatherCourceStatus> WCstatus = new List<WeatherCourceStatus>();
+        JvComClass LOG = new JvComClass();
 
         public void JvDbInitData()
         {
@@ -24,6 +26,53 @@ namespace WpfApp1.JvComDbData
         public JvDbWEData()
         {
             WCstatus = new List<WeatherCourceStatus>();
+        }
+
+        //リアルタイム系オッズを取得する。(DB書き込みなし) 
+        public int JvDbWeInitData(String buff, ref WeatherCourceStatus outParam)
+        {
+
+            JVForm JvForm = new JVForm();
+            JvForm.JvForm_JvInit();
+            
+            int ret = JvForm.JvForm_JvRTOpen("0B16", buff);
+
+            if(ret != 0)
+            {
+                LOG.CONSOLE_TIME_MD("WE", "JvRtOpenError! ret->" + ret);
+                JvForm.JvForm_JvClose();
+                return ret;
+            }
+
+            ret = 1;
+            String param = "";
+            String fname = "";
+            int size = 2000;
+
+            JVData_Struct.JV_WE_WEATHER Wedata = new JVData_Struct.JV_WE_WEATHER();
+
+            while(ret >= 1)
+            {
+                ret = JvForm.JvForm_JvRead(ref param, out size, out fname);
+
+                if (ret == -1) break;
+                if (param.Length == 0) continue;
+
+                switch(param.Substring(0,2))
+                {
+                    case "WE":
+                        Wedata.SetDataB(ref param);
+                        outParam.Key = Wedata.id.Year + Wedata.id.MonthDay + Wedata.id.JyoCD + Wedata.id.Kaiji + Wedata.id.Nichiji;
+                        outParam.Weather = Wedata.TenkoBaba.TenkoCD;
+                        outParam.Turf = Wedata.TenkoBaba.SibaBabaCD;
+                        outParam.Dirt = Wedata.TenkoBaba.DirtBabaCD;
+                        outParam.LatestTime = Wedata.HappyoTime.Month + Wedata.HappyoTime.Day + Wedata.HappyoTime.Hour + Wedata.HappyoTime.Minute;
+                        break;
+                }
+            }
+
+            JvForm.JvForm_JvClose();
+            return 1;
         }
 
         public void JvDbWeSetData(ref String buff)

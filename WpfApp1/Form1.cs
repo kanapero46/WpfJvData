@@ -66,5 +66,10 @@ namespace WpfApp1
         {
             this.Close();
         }
+
+        public int JvForm_JvStatus()
+        {
+            return (JvLinkClass.JVStatus());
+        }
     }
 }

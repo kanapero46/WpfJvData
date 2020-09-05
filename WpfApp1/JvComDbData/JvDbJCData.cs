@@ -63,6 +63,17 @@ namespace WpfApp1.JvComDbData
             }
         }
 
+        public JvDbJcData(ref String buff, String Date, Boolean Init)
+        {
+            //インデックスがわからない場合の処理(ただし処理はおそそう)
+            int idx = 0;
+            List<String> tmpArray = new List<string>();
+
+            //DBから全データを読み込む
+        //    db.TextReader_Col(Date, "JC", 0, ref tmpAqrray, buff.Substring(2, 12));
+
+        }
+
         private void SetDataAV(ref String buff, int idx)
         {
             

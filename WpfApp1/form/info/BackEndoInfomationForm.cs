@@ -35,6 +35,7 @@ namespace WpfApp1.form.info
         JvDbWEData WE = new JvDbWEData();
         JvDbW5Data W5 = new JvDbW5Data();
         JvDbTcData TC = new JvDbTcData();
+        JvDbWhData WH = new JvDbWhData();
 
         public int JvInfoBackMain(int kind, String Key)
         {
@@ -50,6 +51,9 @@ namespace WpfApp1.form.info
                 case JV_RT_EVENT_TIME_CHANGE:
                     ret = JvInfoBackJvRead("0B16", Key);
                     break;
+                case JV_RT_EVENT_WEIGHT:
+                    ret = WH.JvDbWhLinkData(Key);
+                    break;
             }
 
 
@@ -57,6 +61,7 @@ namespace WpfApp1.form.info
         }
 
 
+        //速報系バックエンド処理
         private int JvInfoBackJvRead(String Spec, String Key)
         {
             JVData_Struct.JV_HR_PAY Pay = new JVData_Struct.JV_HR_PAY();
@@ -126,6 +131,11 @@ namespace WpfApp1.form.info
 
                 }
 
+                if(TCWriteFlag)
+                {
+                    TC.ExecJvTcData();
+                }
+
             }
             JvForm.JvForm_JvClose();
 
@@ -188,6 +198,7 @@ namespace WpfApp1.form.info
             dbAccess.dbConnect db = new dbAccess.dbConnect();
             List<String> tmp = new List<string>();
             int ret = 0;
+
             for(int i=1; ;i++)
             {
                 if(db.TextReader_Col(Date, "TC", 0, ref tmp, i.ToString()) >= 1 )
@@ -439,16 +450,17 @@ namespace WpfApp1.form.info
                         we.SetDataB(ref buff);
                         //InfoClass.SetDNSInfo();
                         break;
-                    case "JC":
+                    case "JC":  //騎手変更
                         //InfoClass.SetJockeyInfo();
+                        // JcData = new JvDbJcData( ref buff, false,  )
                         break;
-                    case "TC":
+                    case "TC":  //発走時刻変更
                       //  InfoClass.SetTimeInfo();
                         break;
-                    case "CC":
+                    case "CC":  //コース変更情報
                      //   InfoClass.SetCourceInfo();
                         break;
-                    case "WF":
+                    case "WF":  //WIN5データ
                         W5.SetW5Data(ref buff);
                         break;
                     default:

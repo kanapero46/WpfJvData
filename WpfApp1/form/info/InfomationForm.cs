@@ -201,13 +201,36 @@ namespace WpfApp1.form.info
             if(backInfo.Count != 0)
             {
                 //Windowsへ通知は起動時には行わない
-                if(InitFuncEnable)
-                {
-                    CallWeatherCondInfoReq();
-                }
                 WriteWeatherInfo(); //書き込み 
             }
             
+        }
+
+        private void InfoWeatherInfo(String msg)
+        {
+            List<backClass.baclClassInfo> backInfo = new List<backClass.baclClassInfo>();
+            if (BackEnd.BackEndWeatherCondInfo("0B14", DateParam, ref backInfo) != 1)
+            {
+                return;
+            }
+
+            for (int i = 0; i < backInfo.Count; i++)
+            {
+                WeatherCond[i] = backInfo[i];
+
+            }
+
+            if (backInfo.Count != 0)
+            {
+
+                //Windowsへ通知する
+                if (InitFuncEnable)
+                {
+                    CallWeatherCondInfoReq(msg);
+                }
+                WriteWeatherInfo(); //書き込み 
+
+            }
         }
         #endregion
 
@@ -642,7 +665,7 @@ namespace WpfApp1.form.info
             Console.WriteLine(e.bstr);
             COM.CONSOLE_MODULE("INFO_HDL", e.bstr);
             //int ret = BackEnd.JvInfoBackMain(BackEndInfomationForm.JV_RT_EVENT_WEATHER, e.bstr);
-            SetWeatherInfo();
+            InfoWeatherInfo(e.bstr);
             // dbAccess.dbConnect db = new dbAccess.dbConnect("RT", ref e.bstr, ref ret);
         }
 
@@ -663,12 +686,27 @@ namespace WpfApp1.form.info
         private void axJVLink1_JVEvtWeight(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtWeightEvent e)
         {
             COM.CONSOLE_MODULE("INFO_HDL", e.bstr);  //201902170511の形で入ってくる
-            dbAccess.dbConnect db = new dbAccess.dbConnect("RT", ref e.bstr, ref ret);
+            JvWhInfoHdler(e.bstr);
         }
 
-        private void JvWhInfoHdler( String key )
+        private void JvWhInfoHdler( String inParam )
         {
+            Class.com.windows.JvComWindowsForm WinNoice = new Class.com.windows.JvComWindowsForm();
+            String title = "【馬体重発表：";
+            String msg = "";
+            JVData_Struct.JV_WH_BATAIJYU Wh = new JVData_Struct.JV_WH_BATAIJYU();
+            int ret = BackEnd.JvInfoBackMain(7, inParam);
 
+            if(ret == 1)
+            {
+                String tmp = inParam.Substring(8,2);
+                title += COM.JvSysMappingFunction(2001, ref tmp);
+                title += Int32.Parse(inParam.Substring(10,2)) + "R】";
+
+                msg += COM.JvSysMappingFunction(2001, ref tmp) + Int32.Parse(inParam.Substring(10, 2)) + "R";
+
+                WinNoice.JvComNoticeShow(1, title, msg);
+            }
         }
 #endregion
 
@@ -677,13 +715,123 @@ namespace WpfApp1.form.info
             
         }
 
-        private void CallWeatherCondInfoReq()
+        private void CallWeatherCondInfoReq(String inParam)
         {
             Class.com.windows.JvComWindowsForm WinNoice = new Class.com.windows.JvComWindowsForm();
             String title = "";
             String msg = "";
-            int DiffCource = 0;
-            for(int i=0; i<WeatherCond.Length; i++)
+            //            int DiffCource = 0;
+            String Cource = inParam.Substring(10, 2);
+            String DiffCource = COM.JvSysMappingFunction(2001, ref Cource);
+            int CourceIndex = 0;
+
+
+
+            JvRcInfo RC_INFO = new JvRcInfo();
+            JvComRcInfo RcFunc = new JvComRcInfo();
+
+            RcFunc.JvComGetRcInfo(DateParam, ref RC_INFO);
+            int i = 0;
+
+            for (i = 0; i < gCacheParamRaceData.Length; i++)
+            {
+                if (Int32.Parse(Cource) == gCacheParamRaceData[i].CourceCd)
+                {
+                    CourceIndex = gCacheParamRaceData[i].OutputLebel;
+                    
+                    title = "【天候・馬場状態変更：" + DiffCource + "】";
+                    if(gCacheParamRaceData[i].CourceCd == RC_INFO.EastRcNum1)
+                    {
+                        CourceIndex = 0;
+                        break;
+                    }
+                    else if (gCacheParamRaceData[i].CourceCd == RC_INFO.WestRcNum1)
+                    {
+                        CourceIndex = 1;
+                        break;
+                    }
+                    else if(gCacheParamRaceData[i].CourceCd == RC_INFO.LocalRcNum1)
+                    {
+                        CourceIndex = 2;
+                        break;
+                    }
+                    else
+                    {
+                        COM.CONSOLE_TIME_MD("IF", "UnDefined CourceIndex");
+                        return;
+                    }
+                }
+            }
+
+            dbAccess.dbConnect db = new dbAccess.dbConnect();
+            List<String> tmpArrayParam = new List<string>();
+            db.TextReader_Col(inParam.Substring(2, 8), "WE", 0, ref tmpArrayParam, gCacheParamRaceData[i].Key);
+           
+            JvComDbData.JvDbWEData WeData = new JvComDbData.JvDbWEData();
+            WeatherCourceStatus weData = new WeatherCourceStatus();
+            int ret = WeData.JvDbWeInitData(inParam, ref weData);
+            
+            if(ret < 0)
+            {
+                COM.CONSOLE_TIME_MD("IF", "CallWeatherCondInfoReq() RTError!");
+                return;
+            }
+
+
+            switch (CourceIndex)
+            {
+                case 0:
+                    if (label5.Text != ConvWeatherString(weData.Weather) && weData.Weather != "0")
+                    {
+                        msg += "【天候】 " + label5.Text + "→" + ConvWeatherString(weData.Weather) + "\r\n";
+                    }
+
+                    if (label12.Text != BackEnd.BackEndLibMappingFunction(2010, weData.Turf) && weData.Turf != "0")
+                    {
+                        msg += "【芝】 " + label12.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, weData.Turf) + "\r\n";
+                    }
+
+                    if (label23.Text != BackEnd.BackEndLibMappingFunction(2010, weData.Dirt) && weData.Dirt != "0")
+                    {
+                        msg += "【ダート】 " + label23.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, weData.Dirt) + "\r\n";
+                    }
+                    break;
+                case 1:
+                    if (label32.Text != ConvWeatherString(weData.Weather) && weData.Weather != "0")
+                    {
+                        msg += "【天候】 " + label32.Text + "→" + ConvWeatherString(weData.Weather) + "\r\n";
+                    }
+
+                    if (label29.Text != BackEnd.BackEndLibMappingFunction(2010, weData.Turf) && weData.Turf != "0")
+                    {
+                        msg += "【芝】 " + label29.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, weData.Turf) + "\r\n";
+                    }
+
+                    if (label31.Text != BackEnd.BackEndLibMappingFunction(2010, weData.Dirt) && weData.Dirt != "0")
+                    {
+                        msg += "【ダート】 " + label31.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, weData.Dirt) + "\r\n";
+                    }
+                    break;
+                case 2:
+                    if (label10.Text != ConvWeatherString(weData.Weather) && weData.Weather != "0")
+                    {
+                        msg += "【天候】 " + label10.Text + "→" + ConvWeatherString(weData.Weather) + "\r\n";
+                    }
+
+                    if (label6.Text != BackEnd.BackEndLibMappingFunction(2010, weData.Turf) && weData.Turf != "0")
+                    {
+                        msg += "【芝】 " + label6.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, weData.Turf) + "\r\n";
+                    }
+
+                    if (label9.Text != BackEnd.BackEndLibMappingFunction(2010, weData.Dirt) && weData.Dirt != "0")
+                    {
+                        msg += "【ダート】 " + label9.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, weData.Dirt) + "\r\n";
+                    }
+                    break;
+            }
+
+#if false
+            for (int i=0; i<WeatherCond.Length; i++)
             {
 
                 if(WeatherCond[i] == null ) { break; }
@@ -691,7 +839,7 @@ namespace WpfApp1.form.info
                 switch(i)
                 {
                     case 0:
-                        if(label5.Text != ConvWeatherString(WeatherCond[i].Weather))
+                        if (label5.Text != ConvWeatherString(WeatherCond[i].Weather))
                         {
                             DiffCource = i;
                             msg += "【天候】 " + label5.Text + "→" + ConvWeatherString(WeatherCond[i].Weather) + "\r\n";
@@ -746,11 +894,11 @@ namespace WpfApp1.form.info
                             DiffCource = i;
                             msg += "【ダート】 " + label9.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, WeatherCond[i].DirtStatus) + "\r\n";
                         }
-                        break;
+
                 }
             }
-        
-            if(DiffCource == 0)
+
+            if(DiffCource == "0")
             {
                 COM.CONSOLE_MODULE("INFO", "WeatherCond NotDiff!!");
                 return;
@@ -765,7 +913,7 @@ namespace WpfApp1.form.info
                     }
                 }                
             }
-
+#endif
 
             WinNoice.JvComNoticeShow(1, title, msg);
 
@@ -774,13 +922,48 @@ namespace WpfApp1.form.info
 
         private int SearchOutPutLebel(int JyoCd, String name)
         {
+            Boolean fLocal = false;
+            Boolean East = false;
+            Boolean West = false;
+
+                        /* 夏競馬開催判定 */
             for (int i = 0; i < gCacheParamRaceData.Length; i++)
             {
-                if (JyoCd == gCacheParamRaceData[i].CourceCd || name == gCacheParamRaceData[i].CourceStr)
+                switch (gCacheParamRaceData[i].CourceCd)
                 {
-                    return gCacheParamRaceData[i].OutputLebel;
+                    case 5:
+                    case 6:
+                        East = true;
+                        break;
+                    case 8:
+                    case 9:
+                        West = true;
+                        break;
                 }
+
             }
+
+            switch (JyoCd)
+            {
+                case 5: //東京
+                case 6: //中山
+                    return 1;
+                case 8: //京都
+                case 9: //阪神
+                    return 2;
+                case 7: //中京
+                case 10://小倉
+                    if (West) { return 3; }
+                    else { return 2; }
+                case 3: //福島
+                case 4: //新潟
+                    if (East) { return 3; }
+                    else { return 1; }
+                case 1:
+                case 2:
+                    return 3;
+            }
+
             return 0;
 
         }
@@ -825,9 +1008,12 @@ namespace WpfApp1.form.info
             {
                 BackEnd.BackEndGetWin5(ref W5);
                 textBox6.Text = W5.JvDbW5Satus(W5.Win5Status.ToString());
-                if(Int32.TryParse(W5.BoteCount, out w5BoteCount))
+                if(Int32.TryParse(W5.BoteCount, out w5BoteCount) && w5BoteCount != 0)
                 {
-                    label33.Text = w5BoteCount + "票";
+                    //発売票数は全レース確定時に出てくるため、発売中・レース中は非表示とする。
+                    HatubaiHyosuLabel.Visible = true;
+                    label52.Visible = true;
+                    label52.Text = w5BoteCount + "票";
                 }
                 //if(W5.CaleeOver.Trim() == "" || W5.CaleeOver.Trim() == "0" || Int32.Parse(W5.CaleeOver) == 0)
                 //{

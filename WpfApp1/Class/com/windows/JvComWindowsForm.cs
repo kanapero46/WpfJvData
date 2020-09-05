@@ -20,6 +20,10 @@ namespace WpfApp1.Class.com.windows
 
         const String IconImgFilePath = "icon.ico";
 
+        /* 通知したテキストの内容を保持しておく。    */
+        /* トースト通知クリック後のイベントに使用する */
+        String MessageText = "";
+
         #region WindowsForm自動生成
         public JvComWindowsForm()
         {
@@ -88,6 +92,7 @@ namespace WpfApp1.Class.com.windows
                     notifyIcon1.BalloonTipTitle = title;
                     notifyIcon1.BalloonTipText = msg;
                     notifyIcon1.Text = text;
+                    MessageText = text;
                     notifyIcon1.ShowBalloonTip
                         (
                         (ShowTime >= 1 ? ShowTime : 3000)
@@ -117,9 +122,15 @@ namespace WpfApp1.Class.com.windows
 
         private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
         {
-            Console.WriteLine("Sender!!");
+            Console.WriteLine("Receive!!");
+            Console.WriteLine(MessageText);
 
 
+        }
+
+        private void notifyIcon1_BalloonTipShown(object sender, EventArgs e)
+        {
+            Console.WriteLine("Sender Complete!!");
         }
     }
 }

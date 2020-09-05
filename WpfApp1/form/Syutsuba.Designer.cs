@@ -213,7 +213,7 @@
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 74F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 78F));
             this.tableLayoutPanel3.Controls.Add(this.TrackDistance, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.TrackLabel, 0, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(1000, 12);
@@ -306,7 +306,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.36913F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.63087F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 228F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 91F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
             this.tableLayoutPanel2.Controls.Add(this.label16, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.KigoLabel, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.OldYear, 0, 0);
@@ -324,7 +324,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label16.Location = new System.Drawing.Point(563, 0);
+            this.label16.Location = new System.Drawing.Point(559, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(57, 19);
             this.label16.TabIndex = 12;
@@ -335,7 +335,7 @@
             // 
             this.KigoLabel.AutoSize = true;
             this.KigoLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.KigoLabel.Location = new System.Drawing.Point(335, 0);
+            this.KigoLabel.Location = new System.Drawing.Point(331, 0);
             this.KigoLabel.Name = "KigoLabel";
             this.KigoLabel.Size = new System.Drawing.Size(159, 19);
             this.KigoLabel.TabIndex = 12;
@@ -355,7 +355,7 @@
             // 
             this.ClassLabel.AutoSize = true;
             this.ClassLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.ClassLabel.Location = new System.Drawing.Point(187, 0);
+            this.ClassLabel.Location = new System.Drawing.Point(185, 0);
             this.ClassLabel.Name = "ClassLabel";
             this.ClassLabel.Size = new System.Drawing.Size(54, 19);
             this.ClassLabel.TabIndex = 10;
@@ -384,7 +384,7 @@
             // rNum
             // 
             this.rNum.Font = new System.Drawing.Font("メイリオ", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.rNum.Location = new System.Drawing.Point(-2, -1);
+            this.rNum.Location = new System.Drawing.Point(-2, 0);
             this.rNum.Name = "rNum";
             this.rNum.Size = new System.Drawing.Size(91, 38);
             this.rNum.TabIndex = 6;
@@ -441,7 +441,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 46F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.Controls.Add(this.weLabel, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(904, 12);
@@ -521,7 +521,7 @@
             this.raceNameEng.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.raceNameEng.AutoSize = true;
             this.raceNameEng.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.raceNameEng.Location = new System.Drawing.Point(225, 86);
+            this.raceNameEng.Location = new System.Drawing.Point(225, 84);
             this.raceNameEng.Name = "raceNameEng";
             this.raceNameEng.Size = new System.Drawing.Size(0, 15);
             this.raceNameEng.TabIndex = 51;
@@ -597,7 +597,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 21;
-            this.dataGridView1.Size = new System.Drawing.Size(1374, 456);
+            this.dataGridView1.Size = new System.Drawing.Size(1374, 508);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -781,7 +781,7 @@
             this.footer.Controls.Add(this.buttonStatePanel);
             this.footer.Controls.Add(this.rcRecordPanel);
             this.footer.Controls.Add(this.rrRecordPanel);
-            this.footer.Location = new System.Drawing.Point(7, 602);
+            this.footer.Location = new System.Drawing.Point(7, 651);
             this.footer.Name = "footer";
             this.footer.Size = new System.Drawing.Size(1373, 145);
             this.footer.TabIndex = 56;
@@ -949,7 +949,7 @@
             this.flowLayoutPanel9.Controls.Add(this.rrRaceName);
             this.flowLayoutPanel9.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel9.Name = "flowLayoutPanel9";
-            this.flowLayoutPanel9.Size = new System.Drawing.Size(141, 58);
+            this.flowLayoutPanel9.Size = new System.Drawing.Size(136, 61);
             this.flowLayoutPanel9.TabIndex = 60;
             // 
             // label12
@@ -970,7 +970,7 @@
             this.rrRaceName.ForeColor = System.Drawing.Color.White;
             this.rrRaceName.Location = new System.Drawing.Point(3, 29);
             this.rrRaceName.Name = "rrRaceName";
-            this.rrRaceName.Size = new System.Drawing.Size(138, 29);
+            this.rrRaceName.Size = new System.Drawing.Size(133, 29);
             this.rrRaceName.TabIndex = 61;
             this.rrRaceName.Text = "ヴィクトリア";
             this.rrRaceName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -978,7 +978,7 @@
             // rrTime
             // 
             this.rrTime.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.rrTime.Location = new System.Drawing.Point(150, 0);
+            this.rrTime.Location = new System.Drawing.Point(145, 0);
             this.rrTime.Name = "rrTime";
             this.rrTime.Size = new System.Drawing.Size(99, 62);
             this.rrTime.TabIndex = 62;
@@ -988,7 +988,7 @@
             // flowLayoutPanel10
             // 
             this.flowLayoutPanel10.Controls.Add(this.rrName);
-            this.flowLayoutPanel10.Location = new System.Drawing.Point(255, 3);
+            this.flowLayoutPanel10.Location = new System.Drawing.Point(250, 3);
             this.flowLayoutPanel10.Name = "flowLayoutPanel10";
             this.flowLayoutPanel10.Size = new System.Drawing.Size(225, 58);
             this.flowLayoutPanel10.TabIndex = 61;
@@ -1007,7 +1007,7 @@
             // 
             this.flowLayoutPanel11.Controls.Add(this.rrJockey);
             this.flowLayoutPanel11.Controls.Add(this.rrCond);
-            this.flowLayoutPanel11.Location = new System.Drawing.Point(486, 3);
+            this.flowLayoutPanel11.Location = new System.Drawing.Point(481, 3);
             this.flowLayoutPanel11.Name = "flowLayoutPanel11";
             this.flowLayoutPanel11.Size = new System.Drawing.Size(167, 58);
             this.flowLayoutPanel11.TabIndex = 63;
@@ -1033,7 +1033,7 @@
             // label21
             // 
             this.label21.Font = new System.Drawing.Font("メイリオ", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label21.Location = new System.Drawing.Point(3, 64);
+            this.label21.Location = new System.Drawing.Point(3, 67);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(153, 38);
             this.label21.TabIndex = 61;

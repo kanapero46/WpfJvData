@@ -38,7 +38,7 @@ namespace WpfApp1.Class.com
             }
             else
             {
-                Console.WriteLine("(" + md + ") [" + time + "]\t" + msg);
+                Console.WriteLine("[" + md + "] [" + time + "]\t" + msg);
             }          
         }
 
@@ -80,6 +80,23 @@ namespace WpfApp1.Class.com
                     return Color.White;
             }
         }
+
+        //MAX関数
+        public int MAX(params int[] nums)
+        {
+            // 引数が渡されない場合
+            if (nums.Length == 0) return 0;
+
+            int max = nums[0];
+            for (int i = 1; i < nums.Length; i++)
+            {
+                max = max > nums[i] ? max : nums[i];
+                // Minの場合は不等号を逆にすればOK
+            }
+            return max;
+        }
+
+
     }
 
 }

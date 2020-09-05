@@ -64,6 +64,26 @@ namespace WpfApp1.JvComDbData
             
         }
 
+        public void ExecJvTcData()
+        {
+            dbAccess.dbConnect db;
+            String tmpDbStr = "";
+            int ret = 0;
+
+
+
+
+            if(Key.Count != 0 || HappyoTime.Count != 0 || OldTime.Count != 0 || AfterTime.Count != 0)
+            {
+                for (int i = 0; i < Key.Count; i++)
+                {
+                    tmpDbStr += Key[i] + "," + HappyoTime[i] + "," + OldTime[i] + "," + AfterTime[i] + "\r\n";
+                }
+
+                  db = new dbAccess.dbConnect("TC", ref tmpDbStr, ref ret);
+            }
+        }
+
         /** 発走時間変更をDB[に書き込み　[返り値] 1：書き込み完了　０：書き込み変更なし　－１：エラー */
         public int WriteJvDbData()
         {
@@ -76,7 +96,7 @@ namespace WpfApp1.JvComDbData
                 return -1;
             }
 
-            if(db.TextReader_Col(Date, "TC", 0, ref libArray, "TC") != 0)
+            if(db.TextReader_Col(Date, "TC", 0, ref libArray, "TC") != 0 && libArray.Count != 0)
             {
 
                 if(libArray[1] == HappyoTime[Count - 1])
@@ -88,11 +108,9 @@ namespace WpfApp1.JvComDbData
                 {
                     String WriteStr = "";
                     //最終発表時刻をキーとして拾えるようにスペックと発表時刻を１行目に書き込み
-                    WriteStr += "TC," + HappyoTime[Count - 1];
                     for (int i = 0; i < Count; i++)
                     {
-                        WriteStr += (i+1) + ",";
-                        WriteStr += Key[i] + ",";
+                         WriteStr += Key[i] + ",";
                         WriteStr += HappyoTime[i] + ",";
                         WriteStr += OldTime[i] + ",";
                         WriteStr += AfterTime[i] + ",";
@@ -106,10 +124,8 @@ namespace WpfApp1.JvComDbData
             {
                 String WriteStr = "";
                 //最終発表時刻をキーとして拾えるようにスペックと発表時刻を１行目に書き込み
-                WriteStr += "TC," + HappyoTime[Count - 1];
                 for (int i = 0; i < Count; i++)
                 {
-                    WriteStr += (i + 1) + ",";
                     WriteStr += Key[i] + ",";
                     WriteStr += HappyoTime[i] + ",";
                     WriteStr += OldTime[i] + ",";

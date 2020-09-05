@@ -69,6 +69,8 @@ namespace WpfApp1.JvComDbData
         private List<MULTI_PARAM> SANRENPUKU1 { get => SANRENPUKU; set => SANRENPUKU = value; }
         private List<MULTI_PARAM> SANRENTAN1 { get => SANRENTAN; set => SANRENTAN = value; }
 
+        readonly public int MAX_HR_DATA = 40;
+
         public JvDbHRInfoData()
         {
             PayFlag1 = new bool[8];
@@ -97,7 +99,7 @@ namespace WpfApp1.JvComDbData
 
         public void SetPayInfo(ref List<String> In)
         {
-            String[] tmpArray = new string[37];
+            String[] tmpArray = new string[MAX_HR_DATA];
             InitCsvTopString(ref tmpArray);
             TAN_PARAM Param = new TAN_PARAM();
 
@@ -405,6 +407,8 @@ namespace WpfApp1.JvComDbData
         }
         #endregion
 
+
+        //InitCsvTopStringを追加した場合はMAX_HR_DATAの数を増やすこと
         protected void InitCsvTopString(ref String[] In)
         {
             In[0] = "P10";
@@ -443,6 +447,9 @@ namespace WpfApp1.JvComDbData
             In[33] = "P83";
             In[34] = "P84";
             In[35] = "P85";
+            In[36] = "P100"; //返還馬番
+            In[37] = "P101"; //返還枠番
+            In[38] = "P102"; //返還同枠
         }
 
 

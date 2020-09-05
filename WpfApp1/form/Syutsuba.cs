@@ -1020,7 +1020,7 @@ namespace WpfApp1.form
         {
             String key = "";
             RaClassData.GET_AUTO_RA_KEY(ref key);
-            form.info.RaceResult result = new form.info.RaceResult(key);
+            form.info.RaceResult result = new form.info.RaceResult(key, CourceColor);
             if (result.SetData() != 0)
             {
                 result.Show();
@@ -1048,7 +1048,7 @@ namespace WpfApp1.form
 
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.ColumnIndex == (int)DT.DT_BUTTON && e.RowIndex >= 1)
+            if (e.ColumnIndex == (int)DT.DT_BUTTON && e.RowIndex >= 0)
             {
                 ShirushiWriteFlg = true;
 
@@ -1072,10 +1072,21 @@ namespace WpfApp1.form
 
         private void shirushiMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
+            String tmp = "";
             LOG.CONSOLW_DEBUG("ShirushiItemChiked");
             if(tmpShirushiParam != 0 )
             {
-                dataGridView1.Rows[tmpShirushiParam - 1].Cells[(int)DT.DT_BUTTON].Value = e.ClickedItem.ToString();
+                //無印は空文字に変換する。
+                if(e.ClickedItem.ToString() == "(無印)")
+                {
+                    tmp = "";
+                }
+                else
+                {
+                    tmp = e.ClickedItem.ToString();
+                }
+
+                dataGridView1.Rows[tmpShirushiParam - 1].Cells[(int)DT.DT_BUTTON].Value = tmp;
                 tmpShirushiParam = 0;
             }
         }
@@ -1103,7 +1114,7 @@ namespace WpfApp1.form
         {
             String tmp = "";
             tmp = DataClass.GET_RA_KEY() + "\r\n";
-            for (int i=1; i<19; i++)
+            for (int i=1; i<dataGridView1.Rows.Count; i++)
             {
                 tmp += DataClass.GET_RA_KEY() + String.Format("{0:00}", i) + "," + dataGridView1.Rows[i-1].Cells[(int)DT.DT_BUTTON].Value + "\r\n";
             }
@@ -1121,7 +1132,7 @@ namespace WpfApp1.form
                 return false;
             }
             
-            for(int i = 1; i< 19; i++)
+            for(int i = 1; i< tmpData.Count; i++)
             {
                 inParam[i - 1] = tmpData[i - 1]; 
             }
