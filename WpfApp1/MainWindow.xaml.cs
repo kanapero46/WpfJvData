@@ -189,6 +189,7 @@ namespace WpfApp1
             db.DeleteCsv("RS");
 
             /* データリード */
+            read_start:
             while (ret >= 1)
             {
                 /* JvReadする */
@@ -260,6 +261,22 @@ namespace WpfApp1
 
                     break;
 
+                }
+                else if (ret == -3)
+                {
+                    /* ファイルダウンロード中 */
+                    while (ret >= 0)
+                    {
+                        ret = JVForm.JvForm_JvStatus();
+                        if (ret == -201 || ret == -203 || ret == -502)
+                        {
+                            LOG.CONSOLE_MODULE("MAIN", "JvStatusCheckError! ret->" + ret);
+                            return ret;
+                        }
+                    }
+
+                    ret = 1;
+                    goto read_start;
                 }
                 else if (ret == -1)
                 {
