@@ -128,10 +128,12 @@ namespace WpfApp1.Class
         private int Bataiju;
         private String Fugo;
         private String Zongensa;
+        private String Oddz;
 
         public int Bataiju1 { get => Bataiju; set => Bataiju = value; }
         public string Fugo1 { get => Fugo; set => Fugo = value; }
         public string Zongensa1 { get => Zongensa; set => Zongensa = value; }
+        public string Oddz1 { get => Oddz; set => Oddz = value; }
 
         public void SetSEData(List<String> inParam)
         {
@@ -154,6 +156,7 @@ namespace WpfApp1.Class
                 TorikeshiCd = inParam[21];
                 Chakusa = inParam[28];
                 Chakusa21 = inParam[29];
+                Oddz = inParam[30];
             }
             catch(Exception)
             {

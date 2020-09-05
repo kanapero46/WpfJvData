@@ -398,7 +398,7 @@ namespace WpfApp1.JvComDbData
             else
             {
                 //Windowsのポップアップ通知を出力する
-                WindowsNotice.JvComNoticeShow(kind, title, msg, DbWriteKey);
+                WindowsNotice.JvComNoticeShow(kind, title, msg, "HR" + DbWriteKey);
             }
             
         }

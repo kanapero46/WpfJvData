@@ -125,6 +125,21 @@ namespace WpfApp1.Class.com.windows
             Console.WriteLine("Receive!!");
             Console.WriteLine(MessageText);
 
+            try
+            {
+                form.info.RaceResult Result;
+                switch(MessageText.Substring(0,2))
+                {
+                    case "HR":
+                        Result = new form.info.RaceResult(MessageText.Substring(2, 16));
+                        Result.Show();
+                        break;
+                }
+            }
+            catch(Exception)
+            {
+
+            }
 
         }
 

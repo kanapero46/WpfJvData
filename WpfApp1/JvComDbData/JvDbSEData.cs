@@ -130,6 +130,7 @@ namespace WpfApp1.JvComDbData
             tmp += JV_SE_UMA.HaronTimeL3 + ",";
             tmp += JV_SE_UMA.ChakusaCD + ",";
             tmp += JV_SE_UMA.ChakusaCDP + ",";
+            tmp += JV_SE_UMA.Odds + ","; //30
             tmp += "\r\n";
 
             SeStruct.WriteStr += tmp;
