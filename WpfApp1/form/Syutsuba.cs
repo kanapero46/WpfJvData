@@ -1211,7 +1211,7 @@ namespace WpfApp1.form
                     rcRecordPanel.Visible = true;
                     tmp = inParam[0].Substring(1, 2);
                     rcCource.Text = LOG.JvSysMappingFunction(2001, ref tmp);
-                    tmp = inParam[2];
+                    tmp = inParam[0].Substring(3, 2);
                     rcCource.Text += LOG.JvSysMappingFunction(20091, ref tmp);
                     rcTime.Text = (inParam[10].Substring(0, 1) == "0" ? "" : inParam[10].Substring(0, 1) + ":") + inParam[10].Substring(1, 2) + "." + inParam[10].Substring(3, 1);
                     rcCource.Text += RaClassData.getDistance() + "m";
