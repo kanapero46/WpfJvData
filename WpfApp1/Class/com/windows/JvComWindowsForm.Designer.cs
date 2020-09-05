@@ -37,12 +37,16 @@
             // 
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
+            this.notifyIcon1.BalloonTipClicked += new System.EventHandler(this.notifyIcon1_BalloonTipClicked);
+            this.notifyIcon1.BalloonTipShown += new System.EventHandler(this.notifyIcon1_BalloonTipShown);
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(71, 42);
+            this.button1.Location = new System.Drawing.Point(33, 21);
+            this.button1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(275, 62);
+            this.button1.Size = new System.Drawing.Size(127, 31);
             this.button1.TabIndex = 0;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
@@ -50,10 +54,11 @@
             // 
             // JvComWindowsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(369, 225);
             this.Controls.Add(this.button1);
+            this.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.Name = "JvComWindowsForm";
             this.ShowInTaskbar = false;
             this.Text = "JvComWindowsForm";

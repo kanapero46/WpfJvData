@@ -96,12 +96,12 @@ namespace WpfApp1.JvComDbData
                 case "1":
                     return "発売中";
                 case "2":
-                    return "レース中";
+                    return "締切";
                 case "3":
                 case "7":
                     return "確定";
                 case "9":
-                    return "発売中止";
+                    return "中止";
                 case "0":
                     return "";
                 default:

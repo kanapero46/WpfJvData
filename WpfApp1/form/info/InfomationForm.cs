@@ -26,6 +26,7 @@ namespace WpfApp1.form.info
             public int CourceCd;        //競馬場コード
             public String CourceStr;    //競馬場名（日本語）
             public int PayEndRaceNum;   //発売締切レース番号
+            public Boolean RaceCanceldFlg;//開催中止情報
         }
 
         //表示レベル
@@ -55,6 +56,12 @@ namespace WpfApp1.form.info
         backClass.baclClassInfo[] WeatherCond = new backClass.baclClassInfo[MAX_RACE_CNT];
 
         String DateParam;
+
+        //文字列定義
+        const String IF_TEXT_ID_CAN_1 = "レース以降は開催取り止めとなりました。";
+        const String IF_TEXT_ID_CAN_2_1 = "本日の";
+        const String IF_TEXT_ID_CAN_2_2 = "競馬は開催中止となりました。";
+
 
         public InfomationForm()
         {
@@ -132,6 +139,13 @@ namespace WpfApp1.form.info
                         gCacheParamRaceData[j].KaisaiFlag = true;
                         break;
                     }
+                    else if(ret == 3)
+                    {
+                        //開催中止
+                        gCacheParamRaceData[j].KaisaiFlag = true;
+                        gCacheParamRaceData[j].RaceCanceldFlg = true;
+                        break;
+                    }
                     else
                     {   //締切
                         gCacheParamRaceData[j].KaisaiFlag = false;
@@ -147,6 +161,12 @@ namespace WpfApp1.form.info
             //デバッグ時はここをtrueにする
             if(gCacheParamRaceData[0].KaisaiFlag || gCacheParamRaceData[1].KaisaiFlag|| gCacheParamRaceData[2].KaisaiFlag)
             {
+                //フォーム開始時の処理
+                SetPanelEnable();
+                SetWeatherInfo();
+                //SetJockeyInfo();
+                Win5KaisaiInfo();   //WIN5
+                SetKaisaiCanceld();//開催中止のチェック
 
             }
             else
@@ -154,12 +174,7 @@ namespace WpfApp1.form.info
                 ShowErrorMessage("発売中のレースはありませんでした。");
             }
 
-            //フォーム開始時の処理
-            SetPanelEnable();
-            SetWeatherInfo();
-            //SetJockeyInfo();
-            Win5KaisaiInfo();   //WIN5
-
+          
             //起動完了
             InitFuncEnable = true;
             WriteTaskBar("準備完了");
@@ -186,13 +201,36 @@ namespace WpfApp1.form.info
             if(backInfo.Count != 0)
             {
                 //Windowsへ通知は起動時には行わない
-                if(InitFuncEnable)
-                {
-                    CallWeatherCondInfoReq();
-                }
                 WriteWeatherInfo(); //書き込み 
             }
             
+        }
+
+        private void InfoWeatherInfo(String msg)
+        {
+            List<backClass.baclClassInfo> backInfo = new List<backClass.baclClassInfo>();
+            if (BackEnd.BackEndWeatherCondInfo("0B14", DateParam, ref backInfo) != 1)
+            {
+                return;
+            }
+
+            for (int i = 0; i < backInfo.Count; i++)
+            {
+                WeatherCond[i] = backInfo[i];
+
+            }
+
+            if (backInfo.Count != 0)
+            {
+
+                //Windowsへ通知する
+                if (InitFuncEnable)
+                {
+                    CallWeatherCondInfoReq(msg);
+                }
+                WriteWeatherInfo(); //書き込み 
+
+            }
         }
         #endregion
 
@@ -319,8 +357,55 @@ namespace WpfApp1.form.info
             
             Boolean EAST = false;
             Boolean WEST = false;
-            
-            for(int i=0; i< MAX_RACE_CNT; i++)
+
+            JvRcInfo RC_INFO = new JvRcInfo();
+            JvComRcInfo RcFunc = new JvComRcInfo();
+
+            RcFunc.JvComGetRcInfo(DateParam, ref RC_INFO);
+
+            String BackEndReturnStr = "";
+            String tmp = "";
+
+            if (RC_INFO.EAST1)
+            {
+                LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&LibCode, String.Format("{0:00}", RC_INFO.EastRcNum1), ref tmp);
+                KaisaiCource1 = RC_INFO.EastRcNum1;
+                gCacheIntCourceArray[0] = KaisaiCource1;
+                BackEndReturnStr = BackEnd.BackEndGetKaijiNichi(DateParam, KaisaiCource1);　//開催回次取得
+                label2.Text = "第" + Int32.Parse(BackEndReturnStr.Substring(10, 2)) + "回 " + tmp + "競馬 " + Int32.Parse(BackEndReturnStr.Substring(12, 2)) + "日目";
+                EnablePanelFunction(1);
+                OutPutPayRaceLabel(KaisaiCource1, 1);  //確定レース表示
+            }
+
+            if (RC_INFO.WEST1)
+            {
+                LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&LibCode, String.Format("{0:00}", RC_INFO.WestRcNum1), ref tmp);
+                KaisaiCource2 = RC_INFO.WestRcNum1;
+                gCacheIntCourceArray[1] = KaisaiCource2;
+                BackEndReturnStr = BackEnd.BackEndGetKaijiNichi(DateParam, KaisaiCource2);　//開催回次取得
+                label22.Text = "第" + Int32.Parse(BackEndReturnStr.Substring(10, 2)) + "回 " + tmp + "競馬 " + Int32.Parse(BackEndReturnStr.Substring(12, 2)) + "日目";
+                EnablePanelFunction(2);
+                OutPutPayRaceLabel(KaisaiCource2, 2);  //確定レース表示
+            }
+
+            if (RC_INFO.LOCAL1)
+            {
+                LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&LibCode, String.Format("{0:00}", RC_INFO.LocalRcNum1), ref tmp);
+                KaisaiCource3 = RC_INFO.LocalRcNum1;
+                gCacheIntCourceArray[2] = KaisaiCource3;
+                BackEndReturnStr = BackEnd.BackEndGetKaijiNichi(DateParam, KaisaiCource3);　//開催回次取得
+                label25.Text = "第" + Int32.Parse(BackEndReturnStr.Substring(10, 2)) + "回 " + tmp + "競馬 " + Int32.Parse(BackEndReturnStr.Substring(12, 2)) + "日目";
+                EnablePanelFunction(3);
+                OutPutPayRaceLabel(KaisaiCource3, 3);  //確定レース表示
+            }
+
+
+
+
+#if false
+
+
+            for (int i=0; i< MAX_RACE_CNT; i++)
             {
                 if (gCacheParamRaceData[i].KaisaiFlag)
                 {
@@ -458,12 +543,12 @@ namespace WpfApp1.form.info
             }
 
             //GetRealTimeInfo();
-            
+#endif
         }
-        #endregion
+#endregion
 
 
-        #region 確定レース数の表示
+#region 確定レース数の表示
         private void OutPutPayRaceLabel(int RcCode,int Kind)
         {
 
@@ -511,7 +596,7 @@ namespace WpfApp1.form.info
                 }
             }         
         }
-        #endregion  
+#endregion
 
         private void EnablePanelFunction(int num)
         {
@@ -542,7 +627,7 @@ namespace WpfApp1.form.info
 
         }
 
-        #region エラー時のメッセージ表示
+#region エラー時のメッセージ表示
         private void ShowErrorMessage(String msg)
         {
             InfomationLabel = new Label[1];
@@ -555,14 +640,14 @@ namespace WpfApp1.form.info
             InfomationLabel[0].TextAlign = ContentAlignment.MiddleCenter;
             this.Controls.AddRange(this.InfomationLabel);
         }
-        #endregion
+#endregion
 
         private void label9_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void label20_Click(object sender, EventArgs e)
+           private void label20_Click(object sender, EventArgs e)
         {
 
         }
@@ -580,7 +665,7 @@ namespace WpfApp1.form.info
             Console.WriteLine(e.bstr);
             COM.CONSOLE_MODULE("INFO_HDL", e.bstr);
             //int ret = BackEnd.JvInfoBackMain(BackEndInfomationForm.JV_RT_EVENT_WEATHER, e.bstr);
-            SetWeatherInfo();
+            InfoWeatherInfo(e.bstr);
             // dbAccess.dbConnect db = new dbAccess.dbConnect("RT", ref e.bstr, ref ret);
         }
 
@@ -589,39 +674,172 @@ namespace WpfApp1.form.info
 
         }
 
-        #region フォームを閉じたときのイベントハンドラー
+#region フォームを閉じたときのイベントハンドラー
         private void InfomationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             axJVLink1.JVWatchEventClose();
             axJVLink1.JVClose();
         }
-        #endregion
+#endregion
 
-        #region 馬体重発表情報ハンドラー
+#region 馬体重発表情報ハンドラー
         private void axJVLink1_JVEvtWeight(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtWeightEvent e)
         {
             COM.CONSOLE_MODULE("INFO_HDL", e.bstr);  //201902170511の形で入ってくる
-            dbAccess.dbConnect db = new dbAccess.dbConnect("RT", ref e.bstr, ref ret);
+            JvWhInfoHdler(e.bstr);
         }
-        #endregion
+
+        private void JvWhInfoHdler( String inParam )
+        {
+            Class.com.windows.JvComWindowsForm WinNoice = new Class.com.windows.JvComWindowsForm();
+            String title = "【馬体重発表：";
+            String msg = "";
+            JVData_Struct.JV_WH_BATAIJYU Wh = new JVData_Struct.JV_WH_BATAIJYU();
+            int ret = BackEnd.JvInfoBackMain(7, inParam);
+
+            if(ret == 1)
+            {
+                String tmp = inParam.Substring(8,2);
+                title += COM.JvSysMappingFunction(2001, ref tmp);
+                title += Int32.Parse(inParam.Substring(10,2)) + "R】";
+
+                msg += COM.JvSysMappingFunction(2001, ref tmp) + Int32.Parse(inParam.Substring(10, 2)) + "R";
+
+                WinNoice.JvComNoticeShow(1, title, msg);
+            }
+        }
+#endregion
 
         private void CallBackEndSyncFunction(object obj)
         {
             
         }
 
-        private void CallWeatherCondInfoReq()
+        private void CallWeatherCondInfoReq(String inParam)
         {
             Class.com.windows.JvComWindowsForm WinNoice = new Class.com.windows.JvComWindowsForm();
             String title = "";
             String msg = "";
-            int DiffCource = 0;
-            for(int i=0; i<WeatherCond.Length; i++)
+            //            int DiffCource = 0;
+            String Cource = inParam.Substring(10, 2);
+            String DiffCource = COM.JvSysMappingFunction(2001, ref Cource);
+            int CourceIndex = 0;
+
+
+
+            JvRcInfo RC_INFO = new JvRcInfo();
+            JvComRcInfo RcFunc = new JvComRcInfo();
+
+            RcFunc.JvComGetRcInfo(DateParam, ref RC_INFO);
+            int i = 0;
+
+            for (i = 0; i < gCacheParamRaceData.Length; i++)
             {
+                if (Int32.Parse(Cource) == gCacheParamRaceData[i].CourceCd)
+                {
+                    CourceIndex = gCacheParamRaceData[i].OutputLebel;
+                    
+                    title = "【天候・馬場状態変更：" + DiffCource + "】";
+                    if(gCacheParamRaceData[i].CourceCd == RC_INFO.EastRcNum1)
+                    {
+                        CourceIndex = 0;
+                        break;
+                    }
+                    else if (gCacheParamRaceData[i].CourceCd == RC_INFO.WestRcNum1)
+                    {
+                        CourceIndex = 1;
+                        break;
+                    }
+                    else if(gCacheParamRaceData[i].CourceCd == RC_INFO.LocalRcNum1)
+                    {
+                        CourceIndex = 2;
+                        break;
+                    }
+                    else
+                    {
+                        COM.CONSOLE_TIME_MD("IF", "UnDefined CourceIndex");
+                        return;
+                    }
+                }
+            }
+
+            dbAccess.dbConnect db = new dbAccess.dbConnect();
+            List<String> tmpArrayParam = new List<string>();
+            db.TextReader_Col(inParam.Substring(2, 8), "WE", 0, ref tmpArrayParam, gCacheParamRaceData[i].Key);
+           
+            JvComDbData.JvDbWEData WeData = new JvComDbData.JvDbWEData();
+            WeatherCourceStatus weData = new WeatherCourceStatus();
+            int ret = WeData.JvDbWeInitData(inParam, ref weData);
+            
+            if(ret < 0)
+            {
+                COM.CONSOLE_TIME_MD("IF", "CallWeatherCondInfoReq() RTError!");
+                return;
+            }
+
+
+            switch (CourceIndex)
+            {
+                case 0:
+                    if (label5.Text != ConvWeatherString(weData.Weather) && weData.Weather != "0")
+                    {
+                        msg += "【天候】 " + label5.Text + "→" + ConvWeatherString(weData.Weather) + "\r\n";
+                    }
+
+                    if (label12.Text != BackEnd.BackEndLibMappingFunction(2010, weData.Turf) && weData.Turf != "0")
+                    {
+                        msg += "【芝】 " + label12.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, weData.Turf) + "\r\n";
+                    }
+
+                    if (label23.Text != BackEnd.BackEndLibMappingFunction(2010, weData.Dirt) && weData.Dirt != "0")
+                    {
+                        msg += "【ダート】 " + label23.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, weData.Dirt) + "\r\n";
+                    }
+                    break;
+                case 1:
+                    if (label32.Text != ConvWeatherString(weData.Weather) && weData.Weather != "0")
+                    {
+                        msg += "【天候】 " + label32.Text + "→" + ConvWeatherString(weData.Weather) + "\r\n";
+                    }
+
+                    if (label29.Text != BackEnd.BackEndLibMappingFunction(2010, weData.Turf) && weData.Turf != "0")
+                    {
+                        msg += "【芝】 " + label29.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, weData.Turf) + "\r\n";
+                    }
+
+                    if (label31.Text != BackEnd.BackEndLibMappingFunction(2010, weData.Dirt) && weData.Dirt != "0")
+                    {
+                        msg += "【ダート】 " + label31.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, weData.Dirt) + "\r\n";
+                    }
+                    break;
+                case 2:
+                    if (label10.Text != ConvWeatherString(weData.Weather) && weData.Weather != "0")
+                    {
+                        msg += "【天候】 " + label10.Text + "→" + ConvWeatherString(weData.Weather) + "\r\n";
+                    }
+
+                    if (label6.Text != BackEnd.BackEndLibMappingFunction(2010, weData.Turf) && weData.Turf != "0")
+                    {
+                        msg += "【芝】 " + label6.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, weData.Turf) + "\r\n";
+                    }
+
+                    if (label9.Text != BackEnd.BackEndLibMappingFunction(2010, weData.Dirt) && weData.Dirt != "0")
+                    {
+                        msg += "【ダート】 " + label9.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, weData.Dirt) + "\r\n";
+                    }
+                    break;
+            }
+
+#if false
+            for (int i=0; i<WeatherCond.Length; i++)
+            {
+
+                if(WeatherCond[i] == null ) { break; }
+
                 switch(i)
                 {
                     case 0:
-                        if(label5.Text != ConvWeatherString(WeatherCond[i].Weather))
+                        if (label5.Text != ConvWeatherString(WeatherCond[i].Weather))
                         {
                             DiffCource = i;
                             msg += "【天候】 " + label5.Text + "→" + ConvWeatherString(WeatherCond[i].Weather) + "\r\n";
@@ -676,11 +894,11 @@ namespace WpfApp1.form.info
                             DiffCource = i;
                             msg += "【ダート】 " + label9.Text + "→" + BackEnd.BackEndLibMappingFunction(2010, WeatherCond[i].DirtStatus) + "\r\n";
                         }
-                        break;
+
                 }
             }
-        
-            if(DiffCource == 0)
+
+            if(DiffCource == "0")
             {
                 COM.CONSOLE_MODULE("INFO", "WeatherCond NotDiff!!");
                 return;
@@ -695,7 +913,7 @@ namespace WpfApp1.form.info
                     }
                 }                
             }
-
+#endif
 
             WinNoice.JvComNoticeShow(1, title, msg);
 
@@ -704,13 +922,48 @@ namespace WpfApp1.form.info
 
         private int SearchOutPutLebel(int JyoCd, String name)
         {
+            Boolean fLocal = false;
+            Boolean East = false;
+            Boolean West = false;
+
+                        /* 夏競馬開催判定 */
             for (int i = 0; i < gCacheParamRaceData.Length; i++)
             {
-                if (JyoCd == gCacheParamRaceData[i].CourceCd || name == gCacheParamRaceData[i].CourceStr)
+                switch (gCacheParamRaceData[i].CourceCd)
                 {
-                    return gCacheParamRaceData[i].OutputLebel;
+                    case 5:
+                    case 6:
+                        East = true;
+                        break;
+                    case 8:
+                    case 9:
+                        West = true;
+                        break;
                 }
+
             }
+
+            switch (JyoCd)
+            {
+                case 5: //東京
+                case 6: //中山
+                    return 1;
+                case 8: //京都
+                case 9: //阪神
+                    return 2;
+                case 7: //中京
+                case 10://小倉
+                    if (West) { return 3; }
+                    else { return 2; }
+                case 3: //福島
+                case 4: //新潟
+                    if (East) { return 3; }
+                    else { return 1; }
+                case 1:
+                case 2:
+                    return 3;
+            }
+
             return 0;
 
         }
@@ -732,7 +985,7 @@ namespace WpfApp1.form.info
             statusBar1.Text = msg;
         }
 
-        #region WIN5情報取得関数
+#region WIN5情報取得関数
         private void Win5KaisaiInfo()
         {
             JvComDbData.JvDbW5Data W5data = new JvComDbData.JvDbW5Data();
@@ -744,17 +997,24 @@ namespace WpfApp1.form.info
 
             label46.Text = DateTime.Now.ToShortDateString() + " " +  DateTime.Now.ToShortTimeString() + "現在";
         }
-        #endregion
+#endregion
 
-        #region WIN5データ取得
+#region WIN5データ取得
         private void GetWin5Data()
         {
             JvComDbData.JvDbW5Data W5 = new JvComDbData.JvDbW5Data();
+            int w5BoteCount = 0;
             if(W5.Win5Status == 0|| W5.Win5Status == 1 || W5.Win5Status == 2|| W5.Win5Status == 3 || W5.Win5Status == 7 )
             {
                 BackEnd.BackEndGetWin5(ref W5);
                 textBox6.Text = W5.JvDbW5Satus(W5.Win5Status.ToString());
-                label33.Text = W5.BoteCount + "票";
+                if(Int32.TryParse(W5.BoteCount, out w5BoteCount) && w5BoteCount != 0)
+                {
+                    //発売票数は全レース確定時に出てくるため、発売中・レース中は非表示とする。
+                    HatubaiHyosuLabel.Visible = true;
+                    label52.Visible = true;
+                    label52.Text = w5BoteCount + "票";
+                }
                 //if(W5.CaleeOver.Trim() == "" || W5.CaleeOver.Trim() == "0" || Int32.Parse(W5.CaleeOver) == 0)
                 //{
                 //    //キャリーオーバーがない場合は、「前回からのキャリーオーバー」は表示しない
@@ -929,7 +1189,7 @@ namespace WpfApp1.form.info
             }
 
         }
-        #endregion
+#endregion
 
         private void statusBar1_PanelClick(object sender, StatusBarPanelClickEventArgs e)
         {
@@ -966,7 +1226,7 @@ namespace WpfApp1.form.info
 
         }
 
-        #region 払戻金確定ハンドラー
+#region 払戻金確定ハンドラー
         private void aaxJVLink1_JVEvtPay(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtPayEvent e)
         {
             String Cource = "";
@@ -984,7 +1244,7 @@ namespace WpfApp1.form.info
             }
             WriteTaskBar("準備完了");
         }
-        #endregion
+#endregion
 
         private void axJvLink1_JvComHenader(object sender, object e)
         {
@@ -1001,7 +1261,7 @@ namespace WpfApp1.form.info
 
         }
 
-        #region Labelのレベルによるカラー判定
+#region Labelのレベルによるカラー判定
         private Color OutputLebelToColor(int Lebel)
         {
             switch(Lebel)
@@ -1016,9 +1276,9 @@ namespace WpfApp1.form.info
                     return Color.White;
             }
         }
-        #endregion
+#endregion
 
-        #region 発走時刻変更通知イベントハンドラー
+#region 発走時刻変更通知イベントハンドラー
         private void axJVLink1_JVEvtTimeChange(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtTimeChangeEvent e)
         {
             String Cource = "";
@@ -1044,9 +1304,9 @@ namespace WpfApp1.form.info
             }
             WriteTaskBar("準備完了");
         }
-        #endregion
+#endregion
 
-        #region 騎手変更情報ハンドラー
+#region 騎手変更情報ハンドラー
         private void axJVLink1_JVEvtJockeyChange(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtJockeyChangeEvent e)
         {
             int ret = 0;
@@ -1055,5 +1315,47 @@ namespace WpfApp1.form.info
             COM.CONSOLE_MODULE("INFO_HDL", "JC EventHandler:" + e.bstr + "(" + ret + ")");
         }
         #endregion
+
+#region 開催中止情報
+        private void SetKaisaiCanceld()
+        {
+            if(gCacheParamRaceData.Length == 0)
+            {
+                return;
+            }
+
+            int idx = 0;
+            String RaceStr = "";
+            for(idx = 0; idx<gCacheParamRaceData.Length; idx++)
+            {
+                //開催中止情報の取得
+                if(gCacheParamRaceData[idx].KaisaiFlag && gCacheParamRaceData[idx].RaceCanceldFlg)
+                {
+                    assertPanel.Visible = true;
+                    RaceStr = BackEnd.BackendMappingCourceName(gCacheParamRaceData[idx].CourceCd.ToString());
+
+                    if (gCacheParamRaceData[idx].PayEndRaceNum == 0)
+                    {
+                        //1レースを開催せずに中止
+                        cancelLabel.Text = "【" + RaceStr + "競馬】 ";
+                        cancelLabel.Text += RaceStr + IF_TEXT_ID_CAN_2_2;
+                    }
+                    else
+                    {
+                        //1レース以降で中止
+                        cancelLabel.Text = "【" + RaceStr + "競馬】 ";
+                        cancelLabel.Text += (gCacheParamRaceData[idx].PayEndRaceNum+1) + IF_TEXT_ID_CAN_1;
+                    }
+
+                    COM.CONSOLE_MODULE("INFO", "RaceCanceld -> true!!");
+                    COM.CONSOLE_MODULE("INFO", "Cource->" + gCacheParamRaceData[idx].CourceCd);
+                }
+            }
+
+
+        }
+#endregion
+
+
     }
 }

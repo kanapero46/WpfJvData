@@ -238,6 +238,13 @@ namespace WpfApp1.form
             return 1;
         }
 
+        private void InitSettingForm_Load(object sender, EventArgs e)
+        {
+            String LibVer = "";
+            WpfApp1.Class.com.JvComClass LOG = new Class.com.JvComClass();
 
+
+            statusBar1.Text = "library Version [" + LOG.JvSysMappingFunction(LibJvConv.LibJvConvFuncClass.GET_VERSION, ref LibVer) + "]";
+        }
     }
 }

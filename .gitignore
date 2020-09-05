@@ -262,3 +262,5 @@ __pycache__/
 /WpfApp1/dbAccess/dbConnect.BAK
 /WpfApp1/form/Kettou.BAK
 *.bak
+*.cs
+*.resx

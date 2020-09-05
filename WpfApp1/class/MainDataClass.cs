@@ -109,9 +109,32 @@ namespace WpfApp1.Class
         public void setRaceStartTime(String inParam) { this.RaceStartTime = inParam; }
 
         //馬場状態
+        private String Weather;
+        public String getWeather() { return Weather; }
+        public void setWeather(String inParam) { this.Weather = inParam; }
+
+        //馬場状態
         private String TrackStatus;
         public String getTrackStatus() { return TrackStatus; }
-        public void setTrackStatus(String inParam) { this.TrackStatus = inParam; }
+        public void setTrackStatus(String inParam)
+        {
+            String tmp = "";
+            try
+            {
+                if (inParam.Substring(0, 1) == "0")
+                {
+                    this.TrackStatus = inParam.Substring(1, 1);
+                }
+                else
+                {
+                    this.TrackStatus = inParam.Substring(0, 1);
+                }
+            }
+            catch (Exception)
+            {
+                this.TrackStatus = inParam;
+            }
+        }
 
         //レース名副題
         private String RaceNameFuku;
@@ -127,6 +150,15 @@ namespace WpfApp1.Class
         private String RaceName6;
         public String getRaceName6() { return RaceName6; }
         public void setRaceName6(String inParam) { this.RaceName6 = inParam; }
+
+        //レコード更新区分
+        private Boolean RecordUp;
+        public Boolean getRecordFlag() { return RecordUp; }
+        public void setRecordFlag(String inParam) { this.RecordUp = (inParam == "0" ? false : true); }
+
+        //データ区分
+        private String DataKubun;
+        public String DataKubun1 { get => DataKubun; set => DataKubun = value; }
 
         //ラップタイム
         protected List<String> LapTime;
@@ -146,6 +178,8 @@ namespace WpfApp1.Class
 
 
         public List<string> LapTime1 { get => LapTime; set => LapTime = value; }
+
+
 
         public String ConvertDateToDate(String Date)
         {
@@ -169,6 +203,16 @@ namespace WpfApp1.Class
             }
         }
 
-
+        public String ConvertRunTimeToString(String time)
+        {
+            try
+            {
+                return time.Substring(0, 1) + ":" + time.Substring(1, 2) + "." + time.Substring(3, 1);
+            }
+            catch(Exception)
+            {
+                return "0:00.0";
+            }
+        }
     }
 }

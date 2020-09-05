@@ -37,17 +37,19 @@
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.progressBar1.Location = new System.Drawing.Point(12, 12);
+            this.progressBar1.Location = new System.Drawing.Point(26, 24);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(436, 23);
+            this.progressBar1.Size = new System.Drawing.Size(945, 46);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.TabIndex = 0;
             // 
             // Cancel
             // 
-            this.Cancel.Location = new System.Drawing.Point(458, 12);
+            this.Cancel.Location = new System.Drawing.Point(992, 24);
+            this.Cancel.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.Cancel.Name = "Cancel";
-            this.Cancel.Size = new System.Drawing.Size(75, 23);
+            this.Cancel.Size = new System.Drawing.Size(163, 46);
             this.Cancel.TabIndex = 1;
             this.Cancel.Text = "キャンセル";
             this.Cancel.UseVisualStyleBackColor = true;
@@ -55,13 +57,14 @@
             // 
             // Log
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(545, 52);
+            this.ClientSize = new System.Drawing.Size(1181, 104);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.progressBar1);
+            this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.Name = "Log";
-            this.Text = "Log";
+            this.Text = "処理中です。。。";
             this.ResumeLayout(false);
 
         }

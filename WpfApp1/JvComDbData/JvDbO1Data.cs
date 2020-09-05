@@ -9,6 +9,17 @@ namespace WpfApp1.JvComDbData
     class JvDbO1Data
     {
         dbAccess.dbConnect db;
+        private const String SPEC1 = "O1";
+        private const String SPEC2 = "O15";
+
+        struct RA_DB_WRITE_STRUCT
+        {
+            public String Date;
+            public String WriteStr;
+        }
+
+        RA_DB_WRITE_STRUCT O1Struct = new RA_DB_WRITE_STRUCT();
+        RA_DB_WRITE_STRUCT O15Struct = new RA_DB_WRITE_STRUCT();
 
         public Boolean PayFlag = false;
         public String RacceNum = "";
@@ -22,7 +33,7 @@ namespace WpfApp1.JvComDbData
         {
             int ret = 0;
 
-                String tmp = "#単勝オッズ：" + Date;
+            String tmp = "#単勝オッズ：" + Date;
             db = new dbAccess.dbConnect("O1", ref tmp, ref ret);
         }
 
@@ -30,8 +41,8 @@ namespace WpfApp1.JvComDbData
         {
             int ret = 0;
 
-            String tmp = "#単勝オッズ：" + Date;
-            db = new dbAccess.dbConnect("O1", ref tmp, ref ret);
+            //String tmp = "#単勝オッズ：" + Date;
+            //db = new dbAccess.dbConnect("O1", ref tmp, ref ret);
         }
 
         public void SetJvDbO1Data(ref String buff)
@@ -56,8 +67,9 @@ namespace WpfApp1.JvComDbData
 
                 RacceNum = o1.id.JyoCD;                              //競馬場コード
                 PayFlag = (o1.head.DataKubun == "1" ? true : false); //発売フラグをセット
-
-                db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum, "O1", ref tmp, ref ret);
+                O1Struct.Date = o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum;
+                O1Struct.WriteStr += tmp + "\r\n";
+                //db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum, "O1", ref tmp, ref ret);
 
                 //単勝・複勝（複勝は未発売でもロギングする）
                 if (o1.TansyoFlag == "7")
@@ -77,9 +89,7 @@ namespace WpfApp1.JvComDbData
                         tmp += o1.OddsFukusyoInfo[i - 1].OddsLow + ",";
                         tmp += o1.OddsFukusyoInfo[i - 1].OddsHigh + ",";
                         tmp += o1.OddsFukusyoInfo[i - 1].Ninki + ",";
-                        db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum, "O1", ref tmp, ref ret);
-                        if (ret == 0) { break; }
-
+                        O1Struct.WriteStr += tmp + "\r\n";
                     }
                 }
 
@@ -88,7 +98,10 @@ namespace WpfApp1.JvComDbData
                 tmp2 += o1.TorokuTosu + ",";
                 tmp2 += o1.WakurenFlag + ",";
                 tmp2 += o1.TotalHyosuWakuren + ",";
-                db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum, "O15", ref tmp2, ref ret);
+                tmp2 += "\r\n";
+                O15Struct.Date = o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum;
+                O15Struct.WriteStr += tmp2;
+                //db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum, "O15", ref tmp2, ref ret);
 
                 if (o1.WakurenFlag == "7")
                 {
@@ -100,11 +113,12 @@ namespace WpfApp1.JvComDbData
                             break;
                         }
                         tmp2 = "";
+                        tmp2 += o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum + o1.OddsWakurenInfo[j].Kumi + ",";
                         tmp2 += o1.OddsWakurenInfo[j].Kumi + ",";
                         tmp2 += o1.OddsWakurenInfo[j].Odds + ",";
                         tmp2 += o1.OddsWakurenInfo[j].Ninki + ",";
-                        db = new dbAccess.dbConnect(o1.id.Year + o1.id.MonthDay + o1.id.JyoCD + o1.id.Kaiji + o1.id.Nichiji + o1.id.RaceNum, "O15", ref tmp2, ref ret);
-                        if (ret == 0) { break; }
+                        tmp2 += "\r\n";
+                        O15Struct.WriteStr += tmp2;
                     }
 
                 }
@@ -128,6 +142,38 @@ namespace WpfApp1.JvComDbData
         {
             // true 発売中
             return RacceNum;
+        }
+        #endregion
+
+        #region オッズデータ書き込み処理
+        public int ExecO1DbWriter()
+        {
+            int DbRetrurn = 0;
+            int ret = 0;
+
+            Class.com.JvComClass LOG = new Class.com.JvComClass();
+            LOG.CONSOLE_TIME_MD("O1", "JvDbExecO1DbWriter!!");
+
+            if(O1Struct.Date == "" || O15Struct.Date == "")
+            {
+                return -1;
+            }
+            O1Struct.WriteStr = "#単勝オッズ："+ O1Struct.Date +"\r\n" + O1Struct.WriteStr;
+            db = new dbAccess.dbConnect(O1Struct.Date, SPEC1, ref O1Struct.WriteStr, ref DbRetrurn);
+            if(DbRetrurn != 0)
+            {
+                ret++;
+            }
+
+            O15Struct.WriteStr = "#枠連オッズ：" + O15Struct.Date + "\r\n" + O15Struct.WriteStr;
+            db = new dbAccess.dbConnect(O15Struct.Date, SPEC2, ref O15Struct.WriteStr, ref DbRetrurn);
+
+            if (DbRetrurn != 0)
+            {
+                ret++;
+            }
+
+            return ret;
         }
         #endregion
     }

@@ -58,12 +58,21 @@ namespace WpfApp1.JvComDbData
             String tmp = "";
             int ret = 0;
             JvData.SetDataB(ref buff);
-            Key = JvData.id.Year + JvData.id.MonthDay + JvData.id.JyoCD + JvData.id.Kaiji + JvData.id.Nichiji + JvData.id.RaceNum;
+            Key = JvData.id.Year + JvData.id.MonthDay + JvData.id.JyoCD + JvData.id.Kaiji + JvData.id.Nichiji + JvData.id.RaceNum + JvData.Umaban;
             RaceNum = Int32.Parse(JvData.id.RaceNum);
             Kubun = Int32.Parse(JvData.head.DataKubun);
             Umaban = Int32.Parse(JvData.Umaban);
             Bamei = JvData.Bamei.Trim();
-            Riyuu = Int32.Parse(JvData.JiyuKubun);
+
+            //事由が入らないパターンがある？
+            try
+            {
+                Riyuu = Int32.Parse(JvData.JiyuKubun);
+            }
+            catch(Exception)
+            {
+                Riyuu = 3;
+            }
 
             /* DB書き込み */
             tmp = "";

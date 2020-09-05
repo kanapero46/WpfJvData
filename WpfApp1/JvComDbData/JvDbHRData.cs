@@ -27,7 +27,7 @@ namespace WpfApp1.JvComDbData
             int tmpInteger = 0;
             int i = 0;
 
-            String[] PayNameArray = new string[36];
+            String[] PayNameArray = new string[MAX_HR_DATA];
             InitCsvTopString(ref PayNameArray);
             int ArrayIdx = 0;   //配列の添字
 
@@ -186,6 +186,43 @@ namespace WpfApp1.JvComDbData
                     tmp += EnterCode;
                     ArrayIdx++;
                 }
+
+                List<int> tmpArray = new List<int>();
+                PickUpHenkan(JvPay.HenkanUma, ref tmpArray);
+                //返還情報(馬番)
+                for (i = 0; tmpArray.Count != 0 && i < tmpArray.Count; i++)
+                {
+#if true
+                    tmp += PayNameArray[ArrayIdx] + ",";
+                    tmp += tmpArray[i] + ",";
+                    tmp += "\r\n";
+#endif
+                }
+                ArrayIdx++;
+                tmpArray.Clear();
+
+                PickUpHenkan(JvPay.HenkanWaku, ref tmpArray);
+                //返還情報(枠番)
+                for (i = 0; tmpArray.Count != 0 && i < tmpArray.Count; i++)
+                {
+#if true
+                    tmp += PayNameArray[ArrayIdx] + ",";
+                    tmp += tmpArray[i] + ",";
+                    tmp += "\r\n";
+#endif
+                }
+                ArrayIdx++; 
+                tmpArray.Clear();
+
+                PickUpHenkan(JvPay.HenkanDoWaku, ref tmpArray);
+                //返還情報(枠番)
+                for (i = 0; tmpArray.Count != 0 && i < tmpArray.Count; i++)
+                {
+                    tmp += PayNameArray[ArrayIdx] + ",";
+                    tmp += tmpArray[i] + ",";
+                    tmp += "\r\n";
+                }
+                ArrayIdx++;
             }
             Cource = JvPay.id.JyoCD;
             RaceNum = Int32.Parse(JvPay.id.RaceNum);
@@ -195,21 +232,53 @@ namespace WpfApp1.JvComDbData
                
         }
 
+        //返還馬番情報をセットする
+        private void PickUpHenkan(String[] inParam, ref List<int> outParam)
+        {
+            List<int> tmp = new List<int>();
+            for(int i=0; i<inParam.Length; i++)
+            {
+#if true
+                if(inParam[i] == "1")
+                {
+                    //返還票
+                    tmp.Add(i + 1);
+                }
+#endif
+            }
+            outParam = tmp;
+        }
+
         public int JvWriteHrData()
         {
             int tmpInteger = 0;
+            int lDataKubun = 0;
             dbAccess.dbConnect db = new dbAccess.dbConnect();
             List<String> tmpArray = new List<string>();
-            if(db.TextReader_Col(DbWriteKey, "HR", 0, ref tmpArray, DbWriteKey) ==0)
+            if(db.TextReader_Col(DbWriteKey, "HR", 0, ref tmpArray, DbWriteKey) != 0)
+            {
+                if(tmpArray.Count != 0)
+                {
+                    //すでにBデータあり
+                    lDataKubun = Int32.Parse(tmpArray[1]);
+                }
+            }           
+            
+            if(DateSpec == lDataKubun)
+            {
+                //データが変更ない場合は書き込みを行わない
+                LOG.CONSOLE_MODULE("HR", "PayOutInfo Not Update");
+            }
+            else
             {
                 db.DeleteCsv("HR", DbWriteKey);
-            }           
-                
-            db = new dbAccess.dbConnect(DbWriteKey, "HR", ref DbWriteStr, ref tmpInteger);
+                db = new dbAccess.dbConnect(DbWriteKey, "HR", ref DbWriteStr, ref tmpInteger);
+            }
+
             return tmpInteger;
         }
 
-        #region 払戻通知を読み込みWindowsへ通知する
+#region 払戻通知を読み込みWindowsへ通知する
         public void JvHrNoticeWindows()
         {
             Class.com.windows.JvComWindowsForm WindowsNotice = new Class.com.windows.JvComWindowsForm();
@@ -217,7 +286,7 @@ namespace WpfApp1.JvComDbData
             String msg = "";
             int kind = Class.com.windows.JvComWindowsForm.INFO_STATUS;
             List<String> tmpArray = new List<string>();
-            String[] CsvTopString = new string[37];
+            String[] CsvTopString = new string[MAX_HR_DATA];
             JvDbHRInfoData Info = new JvDbHRInfoData();
 
             Boolean SameFlag = false;   //同着フラグ
@@ -329,11 +398,11 @@ namespace WpfApp1.JvComDbData
             else
             {
                 //Windowsのポップアップ通知を出力する
-                WindowsNotice.JvComNoticeShow(kind, title, msg);
+                WindowsNotice.JvComNoticeShow(kind, title, msg, DbWriteKey);
             }
             
         }
-        #endregion
+#endregion
 
         public void GetPayInfo(ref String inKey, ref String inCource, ref int inRacenNum)
         {
@@ -342,7 +411,7 @@ namespace WpfApp1.JvComDbData
             inRacenNum = this.RaceNum;
         }
 
-        #region ３連単払戻情報から着順を生成
+#region ３連単払戻情報から着順を生成
         private int ConvToRankStrToNumber(int rank, String Str)
         {
             int ret = 0;
@@ -371,9 +440,9 @@ namespace WpfApp1.JvComDbData
             
             return 0;
         }
-        #endregion
+#endregion
 
-        #region Jｖライブラリマッピング関数
+#region Jｖライブラリマッピング関数
         unsafe private String JvDbHRLibRaceCource(String JyoCd)
         {
             int Code = LibJvConv.LibJvConvFuncClass.COURCE_CODE;
@@ -382,7 +451,12 @@ namespace WpfApp1.JvComDbData
             LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&Code, JyoCd, ref ret);
             return ret;
         }
-        #endregion
+#endregion
 
+    }
+
+    class JvDbHrDefineData
+    {
+        
     }
 }

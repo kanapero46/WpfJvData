@@ -81,7 +81,15 @@ namespace WpfApp1.Class
         private String UmaKigou;
         private JV_DATA_RACE_HIST RaceHist;
         private String EngName;
-
+        private int Rank;
+        private String Time;
+        private String Diff;
+        private String Ninki;
+        private String NinkiRank;
+        private String TorikeshiCd;
+        private String Chakusa;
+        private String Chakusa2;    //同着の場合＋着差分が入る
+        
 
 
 
@@ -107,18 +115,50 @@ namespace WpfApp1.Class
         public string FMM_NUM1 { get => FMM_NUM; set => FMM_NUM = value; }
         public string UmaKigou1 { get => UmaKigou; set => UmaKigou = value; }
         public string EngName1 { get => EngName; set => EngName = value; }
+        public int Rank1 { get => Rank; set => Rank = value; }
+        public string Time1 { get => Time; set => Time = value; }
+        public string Diff1 { get => Diff; set => Diff = value; }
+        public string Ninki1 { get => Ninki; set => Ninki = value; }
+        public string NinkiRank1 { get => NinkiRank; set => NinkiRank = value; }
+        public string TorikeshiCd1 { get => TorikeshiCd; set => TorikeshiCd = value; }
+        public string Chakusa1 { get => Chakusa; set => Chakusa = value; }
+        public string Chakusa21 { get => Chakusa2; set => Chakusa2 = value; }
+
+        /* 馬体重 */
+        private int Bataiju;
+        private String Fugo;
+        private String Zongensa;
+
+        public int Bataiju1 { get => Bataiju; set => Bataiju = value; }
+        public string Fugo1 { get => Fugo; set => Fugo = value; }
+        public string Zongensa1 { get => Zongensa; set => Zongensa = value; }
 
         public void SetSEData(List<String> inParam)
         {
-            KEY = inParam[0];
-            Waku = inParam[5];
-            Umaban = inParam[6];
-            KettoNum = Int32.Parse(inParam[7]);
-            Name = inParam[8];
-            Jockey = inParam[16];
-            Futan = inParam[13];
-            MinaraiCd = inParam[17];
-            UmaKigou = inParam[9];
+            try
+            {
+                KEY = inParam[0];
+                Waku = inParam[5];
+                Umaban = inParam[6];
+                KettoNum = Int32.Parse(inParam[7]);
+                Name = inParam[8];
+                Jockey = inParam[16];
+                Futan = inParam[13];
+                MinaraiCd = inParam[17];
+                UmaKigou = inParam[9];
+                //ここからは確定成績に入っている
+                Rank = Int32.Parse(inParam[18]);
+                Time = inParam[23];
+                Diff = inParam[24];
+                Ninki = inParam[25];
+                TorikeshiCd = inParam[21];
+                Chakusa = inParam[28];
+                Chakusa21 = inParam[29];
+            }
+            catch(Exception)
+            {
+
+            }
         }
 
         public void SetUMData(List<String> inParam)

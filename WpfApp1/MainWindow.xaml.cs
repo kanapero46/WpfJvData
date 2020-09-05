@@ -78,8 +78,12 @@ namespace WpfApp1
 
         public void WpfApp1_Load()
         {
+            LOG.CONSOLE_TIME(">>>MAIN START!!!");
             DateText.DisplayDate = DateTime.Today.ToLocalTime();
             DateText.Focus();
+
+            String LibVer = "";
+            LOG.CONSOLE_TIME_MD("MAIN", "library Verion [" + LOG.JvSysMappingFunction(LibJvConv.LibJvConvFuncClass.GET_VERSION, ref LibVer) + "]");
         }
 
         private void MainWindow_Activated(object sender, EventArgs e)
@@ -174,9 +178,18 @@ namespace WpfApp1
             db.DeleteCsv("RA");
             db.DeleteCsv("SE");
             db.DeleteCsv("DT");
-
+            db.DeleteCsv("SL");
+            db.DeleteCsv("O1");
+            db.DeleteCsv("O15");
+            db.DeleteCsv("DM");
+            db.DeleteCsv("TM");
+            db.DeleteCsv("WH");
+            db.DeleteCsv("HR");
+            db.DeleteCsv("JC");
+            db.DeleteCsv("RS");
 
             /* データリード */
+            read_start:
             while (ret >= 1)
             {
                 /* JvReadする */
@@ -248,6 +261,22 @@ namespace WpfApp1
 
                     break;
 
+                }
+                else if (ret == -3)
+                {
+                    /* ファイルダウンロード中 */
+                    while (ret >= 0)
+                    {
+                        ret = JVForm.JvForm_JvStatus();
+                        if (ret == -201 || ret == -203 || ret == -502)
+                        {
+                            LOG.CONSOLE_MODULE("MAIN", "JvStatusCheckError! ret->" + ret);
+                            return ret;
+                        }
+                    }
+
+                    ret = 1;
+                    goto read_start;
                 }
                 else if (ret == -1)
                 {
@@ -658,7 +687,7 @@ namespace WpfApp1
             {
                 RaceCource = RaceListBox.SelectedItem.ToString().Substring(0, 2);
             }
-            catch (NullReferenceException ex) { }
+            catch (NullReferenceException) { }
             
             String fromtime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
             List<String> TextArray = new List<string>();
@@ -1083,6 +1112,7 @@ namespace WpfApp1
             JVData_Struct.JV_RA_RACE JV_RACE = new JVData_Struct.JV_RA_RACE();
             JVData_Struct.JV_SE_RACE_UMA JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
             JVData_Struct.JV_UM_UMA JV_UMA = new JVData_Struct.JV_UM_UMA();
+            JVData_Struct.JV_RC_RECORD JV_RCTM = new JVData_Struct.JV_RC_RECORD();
 
             /* DB初期化 */
             db = new dbConnect();
@@ -1090,6 +1120,7 @@ namespace WpfApp1
             JvDbRaData RaData = new JvDbRaData();
             JvDbSEData SeData = new JvDbSEData();
             JvDbUmData UmData = new JvDbUmData();
+            JvDbRcData RcData = new JvDbRcData();
             Boolean RaFlag = false;
             db.DeleteCsv("SE_MST");
             db.DeleteCsv("UM_MST");
@@ -1099,6 +1130,7 @@ namespace WpfApp1
             t.SetApartmentState(ApartmentState.STA);
             t.Start("100"); //仮で100を設定
 
+            read_start:
             while (ret >= 1)
             {
                 ret = JVForm.JvForm_JvRead(ref buff, out size, out fname);
@@ -1107,6 +1139,7 @@ namespace WpfApp1
                 {
                     if (buff == "")
                     {
+                        LOG.CONSOLE_TIME_MD("MAIN", ">>file end");
                         continue;
                     }
                     else if(strBuff == buff.Substring(0, 2))
@@ -1126,7 +1159,7 @@ namespace WpfApp1
                             break;
                         case "SE":
                             // !!!ここに追加した場合はMainDataHorceClass.csの定義を追加すること！！！ 
-                          //  JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
+                            //  JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             JV_SE_UMA.SetDataB(ref buff);
 
                             if(horse == JV_SE_UMA.Bamei.Trim())
@@ -1148,7 +1181,9 @@ namespace WpfApp1
                             UmData.JvDbUmDataRead(ref buff);
                             ProgressStatusValue++;
                             break;
-
+                        case "RC": //レコードマスタ
+                            RcData.JvDbRcSetData(ref buff);
+                            break;
                         default:
                             JVForm.JvForm_JvSkip();
                             break;
@@ -1170,6 +1205,22 @@ namespace WpfApp1
 
                     break;
 
+                }
+                else if(ret == -3)
+                {
+                    /* ファイルダウンロード中 */
+                    while(ret >= 0)
+                    {
+                        ret = JVForm.JvForm_JvStatus();
+                        if(ret == -201 || ret == -203 || ret == -502)
+                        {
+                            LOG.CONSOLE_MODULE("MAIN", "JvStatusCheckError! ret->" + ret);
+                            return ret;
+                        }
+                    }
+
+                    ret = 1;
+                    goto read_start;
                 }
                 else if (ret == -1)
                 {
@@ -1214,9 +1265,16 @@ namespace WpfApp1
                 SeData.ExecSEDataWriteDb(0);
             }
 
+            //競走馬マスタ
             if (UmData.JvDbUmEnable())
             {
                 UmData.ExecUmData();
+            }
+
+            //レコード
+            if (RcData.JvDbRcEnable())
+            {
+                RcData.JvDbRcWriteData();
             }
 
             return 1;
@@ -1621,6 +1679,9 @@ namespace WpfApp1
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
+            LOG.CONSOLE_TIME_MD("MAIN", "Rcv_ShutDown!!");
+            form.CloseInfo CloseForm = new CloseInfo();
+            CloseForm.Show();
             JVForm.JVForm_Exit();
             Environment.Exit(0);
             System.Windows.Forms.Application.Exit();
@@ -1740,8 +1801,71 @@ namespace WpfApp1
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
         {
-            Class.com.windows.JvComWindowsForm Form = new Class.com.windows.JvComWindowsForm();
-            Form.Show();
+            String key = "";
+            mainDataClass.GET_AUTO_RA_KEY(ref key);
+
+            System.Windows.Media.Brush brush = MainBack.Fill;
+            String Color = brush.ToString();
+            int JomeiColor = 0;
+            switch (Color)
+            {
+                case "#FF0000FF":
+                    JomeiColor = 1;
+                    break;
+                case "#FF006400":
+                    JomeiColor = 2;
+                    break;
+                case "#FF800080":
+                    JomeiColor = 3;
+                    break;
+            }
+
+            form.info.RaceResult result = new form.info.RaceResult(key, JomeiColor);
+            if(result.SetData() == 1)
+            {
+                result.Show();
+            }
+            else
+            {
+                MessageBox.Show("当該レースは確定していません。");
+                return;
+            }
+            
+        }
+
+        private void Button_Click_9(object sender, RoutedEventArgs e)
+        {
+            String strParam = "";
+            mainDataClass.GET_AUTO_RA_KEY(ref strParam);
+
+            System.Windows.Media.Brush brush = MainBack.Fill;
+            String Color = brush.ToString();
+            int JomeiColor = 0;
+            switch (Color)
+            {
+                case "#FF0000FF":
+                    JomeiColor = 1;
+                    break;
+                case "#FF006400":
+                    JomeiColor = 2;
+                    break;
+                case "#FF800080":
+                    JomeiColor = 3;
+                    break;
+            }
+
+            form.odds.O1_Form O1 = new form.odds.O1_Form(strParam, JomeiColor);
+
+
+
+            O1.Show();
+        }
+
+        private void Button_Click_10(object sender, RoutedEventArgs e)
+        {
+            form.qr.qrCodeMain main = new form.qr.qrCodeMain();
+            main.Show();
+
         }
     }
 

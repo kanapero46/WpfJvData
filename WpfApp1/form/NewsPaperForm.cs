@@ -121,7 +121,7 @@ namespace WpfApp1.form
             libCode = LibJvConvFuncClass.COURCE_CODE;
             LibJvConvFuncClass.jvSysConvFunction(&libCode, raceData.getRaceCource(), ref libStr);
             this.Kaisai.Text = "第" + raceData.getRaceKaiji() + "回" + libStr + raceData.getRaceNichiji() + "日目";
-            this.RaceNum.Text = libStr;
+            this.Jomei.Text = libStr;
 
             this.label4.Text = raceData.getRaceStartTime().Substring(0, 2) + "時" + raceData.getRaceStartTime().Substring(2, 2) + "分";
             this.DistanceLabel.Text = raceData.getDistance();
@@ -149,13 +149,17 @@ namespace WpfApp1.form
             else
             {
                 this.racename.Text = libStr + "（" + raceData.getRaceGrade() + "）";
-            }
-
-            
+            }        
 
             this.kaiji.Text = (raceData.getRaceGradeKai() == 0 ? "" : "第" + raceData.getRaceGradeKai() + "回");
             this.raceNameEng.Text = raceData.getRaceNameEng();
-            this.RaceNum.Text += Int32.Parse(raceData.getRaceNum()) + "R";
+            this.RaceNum.Text = Int32.Parse(raceData.getRaceNum()) + "R";
+
+            //Windowsタイトル
+            libCode = LibJvConvFuncClass.COURCE_CODE;
+            LibJvConvFuncClass.jvSysConvFunction(&libCode, raceData.getRaceCource(), ref libStr);
+            this.Text = "【詳細出馬表】" + Int32.Parse(raceData.getRaceKaiji()) + libStr + Int32.Parse(raceData.getRaceNichiji()) + " " +Int32.Parse(raceData.getRaceNum()) + "R:" + this.racename.Text;
+            this.Update();
          }
 
 
@@ -236,8 +240,8 @@ namespace WpfApp1.form
 
             /* DB処理用のインスタンス宣言 */
             JvComDbData.JvDbSEData SEdata = new JvComDbData.JvDbSEData();
-            
 
+            this.Update();
             for (int k = 0; k < MAX_TOSU; k++)
             {
                 //DB読み込み
@@ -405,6 +409,7 @@ namespace WpfApp1.form
 
             this.labelArray = new System.Windows.Forms.Label[MAX_TOSU];
             int tmpRank = 0;
+            int raceDate = 0;
             Color RankColor = new Color();
 
             JvDbRaData tmpRadata = new JvDbRaData();
@@ -474,9 +479,29 @@ namespace WpfApp1.form
                     this.labelArray[k].Font = new Font("Meiryo UI", 10, FontStyle.Bold);
                     if(SEdata.RaceHist1.raceName6 == "")
                     {
-                        libNum = 2007;
-                        LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.JyokenName.ToString(), ref libstr);
-                        this.labelArray[k].Text = libstr;                     //TODO 10文字→6文字に変更予定
+                        //2019/06/01～新クラス名称対応
+                        if(Int32.TryParse(SEdata.RaceHist1.RaceDate, out raceDate))
+                        {
+                            if(20190531 < raceDate)
+                            {
+                                libNum = 2007;
+                                LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.JyokenName.ToString(), ref libstr);
+                                this.labelArray[k].Text = libstr;
+                            }
+                            else
+                            {
+                                libNum = 20071;
+                                LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.JyokenName.ToString(), ref libstr);
+                                this.labelArray[k].Text = libstr;
+                            }
+                        }
+                        else
+                        {
+                            //日付の処理に失敗したら旧クラス名で判定
+                            libNum = 20071;
+                            LibJvConvFuncClass.jvSysConvFunction(&libNum, SEdata.RaceHist1.JyokenName.ToString(), ref libstr);
+                            this.labelArray[k].Text = libstr;
+                        }
                     }
                     else
                     {
@@ -719,11 +744,7 @@ namespace WpfApp1.form
                 this.Controls.AddRange(this.PanelArray);
             }
             this.SuspendLayout();
-
-
-
             this.ResumeLayout(false);
-
 
         }
         
