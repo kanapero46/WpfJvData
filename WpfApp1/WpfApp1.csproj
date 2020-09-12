@@ -115,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="form\payBalance\payBalanceWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -203,6 +207,15 @@
     <Compile Include="form\odds\O1_Form.Designer.cs">
       <DependentUpon>O1_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\payBalance\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\payBalance\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\payBalance\payBalanceWpf.xaml.cs">
+      <DependentUpon>payBalanceWpf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="form\qr\qrCameraClass.cs" />
     <Compile Include="form\qr\qrCodeMain.cs">
       <SubType>Form</SubType>
@@ -285,6 +298,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\odds\O1_Form.resx">
       <DependentUpon>O1_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\payBalance\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\qr\qrCodeMain.resx">
       <DependentUpon>qrCodeMain.cs</DependentUpon>

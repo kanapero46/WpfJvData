@@ -1,0 +1,143 @@
+﻿<Window x:Class="WpfApp1.form.payBalance.payBalanceWpf"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.form.payBalance"
+        mc:Ignorable="d"
+        Title="payBalanceWpf" Height="1080" Width="1980">
+    <!-- フル画面に合わせて解像度(やることによって表示エリアを増やす -->
+    <Grid>
+        <Grid HorizontalAlignment="Left" Height="75" Margin="27,10,0,0" VerticalAlignment="Top" Width="741">
+            <Button Content="Button" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="176" Height="65"/>
+            <Button Content="Button" HorizontalAlignment="Left" Margin="274,10,0,0" VerticalAlignment="Top" Width="176" Height="65"/>
+        </Grid>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="592,20,0,0" VerticalAlignment="Top" Width="176" Height="65"/>
+        <Grid HorizontalAlignment="Left" Height="284" VerticalAlignment="Top" Width="741" Margin="27,154,0,0">
+            <Button Content="Button" HorizontalAlignment="Left" Height="49" VerticalAlignment="Top" Width="212"/>
+            <Button Content="Button" HorizontalAlignment="Center" Height="49" Margin="262,0,267,0" VerticalAlignment="Top" Width="212"/>
+            <Button Content="Button" HorizontalAlignment="Right" Height="49" Margin="529,0,0,0" VerticalAlignment="Top" Width="212"/>
+            <Button Content="Button" HorizontalAlignment="Left" Height="49" VerticalAlignment="Top" Width="212" Margin="0,75,0,0"/>
+            <Button Content="Button" HorizontalAlignment="Center" Height="49" Margin="262,75,267,0" VerticalAlignment="Top" Width="212"/>
+            <Button Content="Button" HorizontalAlignment="Right" Height="49" Margin="529,75,0,0" VerticalAlignment="Top" Width="212"/>
+            <Button Content="Button" HorizontalAlignment="Left" Height="49" VerticalAlignment="Top" Width="212" Margin="0,150,0,0"/>
+            <Button Content="Button" HorizontalAlignment="Center" Height="49" Margin="262,150,267,0" VerticalAlignment="Top" Width="212"/>
+            <Button Content="Button" HorizontalAlignment="Right" Height="49" Margin="529,150,0,0" VerticalAlignment="Top" Width="212"/>
+            <Button Content="Button" HorizontalAlignment="Left" Height="49" VerticalAlignment="Top" Width="212" Margin="0,225,0,0"/>
+            <Button Content="Button" HorizontalAlignment="Center" Height="49" Margin="262,225,267,0" VerticalAlignment="Top" Width="212"/>
+            <Button Content="Button" HorizontalAlignment="Right" Height="49" Margin="529,225,0,0" VerticalAlignment="Top" Width="212"/>
+        </Grid>
+        <Label Content="レース番号" HorizontalAlignment="Left" Margin="27,123,0,0" VerticalAlignment="Top"/>
+        <Grid HorizontalAlignment="Left" Height="47" Margin="1094,20,0,0" VerticalAlignment="Top" Width="683">
+            <Label Content="札幌10R：札幌記念(GⅡ)" Margin="0,10,10,0" Height="45" VerticalAlignment="Top"/>
+        </Grid>
+        <!--式別-->
+        <Grid HorizontalAlignment="Left" Height="40" Margin="1094,72,0,0" VerticalAlignment="Top" Width="846">
+            <Button Content="単勝" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40"/>
+            <Button Content="複勝" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="80,0,0,0"/>
+            <Button Content="応援馬券" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="160,0,0,0"/>
+            <Button Content="枠連" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="240,0,0,0"/>
+            <Button Content="馬連" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="320,0,0,0"/>
+            <Button Content="ワイド" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="400,0,0,0"/>
+            <Button Content="馬単" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="480,0,0,0"/>
+            <Button Content="3連複" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="560,0,0,0"/>
+            <Button Content="3連単" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="640,0,0,0"/>
+        </Grid>
+        <!--買い方-->
+        <Grid HorizontalAlignment="Left" Height="40" Margin="1094,117,0,0" VerticalAlignment="Top" Width="846">
+            <Button Content="通常" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40"/>
+            <Button Content="フォーメーション" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="80,0,0,0"/>
+            <Button Content="ボックス" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="160,0,0,0"/>
+            <Button Content="軸1頭ながし" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="240,0,0,0"/>
+            <Button Content="軸2頭ながし" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="320,0,0,0"/>
+            <Button Content="1/2着ながし" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="400,0,0,0"/>
+            <Button Content="1/3着ながし" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="480,0,0,0"/>
+            <Button Content="2/3着ながし" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="560,0,0,0"/>
+            <Button Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="40" Margin="640,0,0,0"/>
+        </Grid>
+        <Label Content="1" HorizontalAlignment="Left" Margin="1094,185,0,0" VerticalAlignment="Top"/>
+        <Grid HorizontalAlignment="Left" Height="369" Margin="1113,214,0,0" VerticalAlignment="Top" Width="70">
+            <RadioButton Content="1" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="2" HorizontalAlignment="Left" Margin="3,24,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="3" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="4" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="5" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="6" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="7" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="8" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="9" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="10" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="11" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="12" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="13" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="14" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="15" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="16" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="17" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="18" HorizontalAlignment="Left" Margin="3,344,0,-259" VerticalAlignment="Top"/>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="369" Margin="1239,214,0,0" VerticalAlignment="Top" Width="70">
+            <RadioButton Content="1" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="2" HorizontalAlignment="Left" Margin="3,24,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="3" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="4" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="5" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="6" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="7" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="8" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="9" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="10" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="11" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="12" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="13" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="14" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="15" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="16" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="17" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="18" HorizontalAlignment="Left" Margin="3,344,0,-259" VerticalAlignment="Top"/>
+        </Grid>
+        <Label Content="2" HorizontalAlignment="Left" Margin="1239,186,0,0" VerticalAlignment="Top"/>
+        <Grid HorizontalAlignment="Left" Height="369" Margin="1349,214,0,0" VerticalAlignment="Top" Width="70">
+            <RadioButton Content="1" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="2" HorizontalAlignment="Left" Margin="3,24,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="3" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="4" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="5" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="6" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="7" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="8" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="9" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="10" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="11" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="12" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="13" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="14" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="15" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="16" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="17" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="18" HorizontalAlignment="Left" Margin="3,344,0,-259" VerticalAlignment="Top"/>
+        </Grid>
+        <Label Content="3" HorizontalAlignment="Left" Margin="1349,186,0,0" VerticalAlignment="Top"/>
+        <Grid HorizontalAlignment="Left" Height="369" Margin="1500,214,0,0" VerticalAlignment="Top" Width="70">
+            <RadioButton Content="1" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="2" HorizontalAlignment="Left" Margin="3,24,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="3" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="4" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="5" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="6" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="7" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="8" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="9" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="10" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="11" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="12" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="13" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="14" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="15" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="16" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="17" HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top"/>
+            <RadioButton Content="18" HorizontalAlignment="Left" Margin="3,344,0,-259" VerticalAlignment="Top"/>
+        </Grid>
+        <Label Content="4" HorizontalAlignment="Left" Margin="1480,186,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
