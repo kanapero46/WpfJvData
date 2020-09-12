@@ -22,20 +22,20 @@
         <Label x:Name="LabelCource" Content="" HorizontalAlignment="Left" Margin="28,75,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>
         <Label x:Name="LabelRaceNum" Content="" HorizontalAlignment="Left" Margin="83,75,0,0" VerticalAlignment="Top" FontSize="22" Height="42" FontFamily="Meiryo UI" FontWeight="Bold" Foreground="White"/>
         <Label x:Name="LabelRaceName" Content="" HorizontalAlignment="Left" Margin="157,75,0,0" VerticalAlignment="Top" FontSize="22" Height="42" Foreground="White" FontFamily="Meiryo"/>
-        <Button Content="初期データ取得" HorizontalAlignment="Left" Height="24" Margin="14,231,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_InitData"/>
+        <Button Content="初期データ取得" HorizontalAlignment="Left" Height="24" Margin="14,269,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_InitData"/>
         <ProgressBar x:Name="ProgressStatus" HorizontalAlignment="Left" Height="33" Margin="10,79,0,0" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" Visibility="Hidden"/>
         <TextBox x:Name="LogText" HorizontalAlignment="Left" Height="60" Margin="10,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="772" Grid.ColumnSpan="2" UndoLimit="102" Visibility="Hidden"/>
         <CheckBox x:Name="OffLineFlag" Content="" HorizontalAlignment="Left" Margin="478,15,0,0" VerticalAlignment="Top" IsChecked="True" Height="29" Width="30"/>
-        <TextBox x:Name="Status" Height="88" Margin="14,260,6.5,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="3" AcceptsReturn="True" RenderTransformOrigin="0.5,0.5" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+        <TextBox x:Name="Status" Height="88" Margin="14,298,6,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="3" AcceptsReturn="True" RenderTransformOrigin="0.5,0.5" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
         <CheckBox x:Name="MasterFlag" Content="" HorizontalAlignment="Left" Margin="400,121,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="ToWeekFlag" Content="" HorizontalAlignment="Left" Margin="376,121,0,0" VerticalAlignment="Top"/>
-        <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="492,119,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_8"/>
+        <Button Content="レース結果" HorizontalAlignment="Left" Height="60" Margin="132,184,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click_8"/>
         <Button Content="Exit" Margin="756,121,20.5,0" VerticalAlignment="Top" Grid.ColumnSpan="3" Click="Button_Click_4" Height="51"/>
         <Button Content="本日" HorizontalAlignment="Left" Height="24" Margin="103,10,0,0" VerticalAlignment="Top" Width="153" Click="Button_Click_5"/>
         <Button Content="▶" HorizontalAlignment="Left" Margin="271,10,0,0" VerticalAlignment="Top" Width="60" Height="24" Click="Button_Click_6"/>
         <Button Content="◀" HorizontalAlignment="Left" Margin="25,10,0,0" VerticalAlignment="Top" Width="60" Height="24" Click="Button_Click_7"/>
         <Button Content="開催情報" HorizontalAlignment="Left" Height="59" Margin="248,185,0,0" VerticalAlignment="Top" Width="102" Click="InfomationEventForm"/>
-        <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="492,148,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_9"/>
-        <Button Content="＜＜9＞＞" HorizontalAlignment="Left" Height="24" Margin="492,177,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_10"/>
+        <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="497,155,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_9"/>
+        <Button Content="＜＜9＞＞" HorizontalAlignment="Left" Height="24" Margin="497,184,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_10"/>
     </Grid>
 </Window>
