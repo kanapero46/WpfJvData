@@ -156,7 +156,7 @@ namespace WpfApp1.dbAccess
                 File.AppendAllText(file, buff + "\r\n", enc);
                 ret = 1;
             }
-            catch(IOException ex)
+            catch(Exception ex) //IOException→Exception
             {
                 ret = 0;
                 MessageBox.Show("ファイルの書き込みに失敗しました。");
