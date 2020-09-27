@@ -197,6 +197,12 @@
     <Compile Include="form\NewsPaperForm.Designer.cs">
       <DependentUpon>NewsPaperForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\odds\MainOddz.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\odds\MainOddz.Designer.cs">
+      <DependentUpon>MainOddz.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\odds\O1_Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -282,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\NewsPaperForm.resx">
       <DependentUpon>NewsPaperForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\odds\MainOddz.resx">
+      <DependentUpon>MainOddz.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\odds\O1_Form.resx">
       <DependentUpon>O1_Form.cs</DependentUpon>
