@@ -1867,6 +1867,12 @@ namespace WpfApp1
             main.Show();
 
         }
+
+        private void Button_Click_11(object sender, RoutedEventArgs e)
+        {
+            form.payBalance.payBalanceWpf payBalanceWpf = new form.payBalance.payBalanceWpf();
+            payBalanceWpf.Show();
+        }
     }
 
     

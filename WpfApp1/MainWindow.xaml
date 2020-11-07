@@ -37,5 +37,6 @@
         <Button Content="開催情報" HorizontalAlignment="Left" Height="59" Margin="248,185,0,0" VerticalAlignment="Top" Width="102" Click="InfomationEventForm"/>
         <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="497,155,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_9"/>
         <Button Content="＜＜9＞＞" HorizontalAlignment="Left" Height="24" Margin="497,184,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_10"/>
+        <Button Content="＜＜＞＞" HorizontalAlignment="Left" Height="24" Margin="497,213,0,0" VerticalAlignment="Top" Width="102" Click="Button_Click_11"/>
     </Grid>
 </Window>
