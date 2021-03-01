@@ -56,6 +56,8 @@
             this.ClassLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.Jomei = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.RaceNum = new System.Windows.Forms.Label();
             this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
             this.kaiji = new System.Windows.Forms.Label();
             this.racename = new System.Windows.Forms.Label();
@@ -66,15 +68,13 @@
             this.button1 = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.RaceNum = new System.Windows.Forms.Label();
             this.flowLayoutPanel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.flowLayoutPanel6.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // raceNameEng
@@ -395,6 +395,30 @@
             this.Jomei.Text = "京都";
             this.Jomei.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // panel3
+            // 
+            this.panel3.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.Controls.Add(this.RaceNum);
+            this.panel3.Location = new System.Drawing.Point(7, 76);
+            this.panel3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(156, 72);
+            this.panel3.TabIndex = 72;
+            // 
+            // RaceNum
+            // 
+            this.RaceNum.Font = new System.Drawing.Font("メイリオ", 19.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.RaceNum.ForeColor = System.Drawing.Color.Black;
+            this.RaceNum.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.RaceNum.Location = new System.Drawing.Point(5, 3);
+            this.RaceNum.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.RaceNum.Name = "RaceNum";
+            this.RaceNum.Size = new System.Drawing.Size(151, 72);
+            this.RaceNum.TabIndex = 72;
+            this.RaceNum.Text = "12R";
+            this.RaceNum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // flowLayoutPanel6
             // 
             this.flowLayoutPanel6.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -517,34 +541,11 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(2270, 51);
             this.flowLayoutPanel2.TabIndex = 71;
             // 
-            // panel3
-            // 
-            this.panel3.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Controls.Add(this.RaceNum);
-            this.panel3.Location = new System.Drawing.Point(7, 76);
-            this.panel3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(156, 72);
-            this.panel3.TabIndex = 72;
-            // 
-            // RaceNum
-            // 
-            this.RaceNum.Font = new System.Drawing.Font("メイリオ", 19.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.RaceNum.ForeColor = System.Drawing.Color.Black;
-            this.RaceNum.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.RaceNum.Location = new System.Drawing.Point(5, 3);
-            this.RaceNum.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.RaceNum.Name = "RaceNum";
-            this.RaceNum.Size = new System.Drawing.Size(151, 72);
-            this.RaceNum.TabIndex = 72;
-            this.RaceNum.Text = "12R";
-            this.RaceNum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // NewsPaperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(2608, 1310);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.raceNameEng);
@@ -560,13 +561,13 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             this.flowLayoutPanel6.ResumeLayout(false);
             this.flowLayoutPanel6.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

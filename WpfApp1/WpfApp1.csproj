@@ -16,6 +16,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,7 +29,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SW_DEVELOP,SW_THREAD,SW_LOGTIME</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -65,6 +65,9 @@
     <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
       <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
+    <Reference Include="AngleSharp, Version=0.14.0.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\AngleSharp.0.14.0\lib\net472\AngleSharp.dll</HintPath>
+    </Reference>
     <Reference Include="LibQrDataAnalyze, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LibQrDataAnalyze\bin\Debug\LibQrDataAnalyze.dll</HintPath>
@@ -84,6 +87,12 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.4.5.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -127,9 +136,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Class\extlib\Combination.cs" />
     <Compile Include="Class\com\JvComClass.cs" />
     <Compile Include="Class\com\JvComMain.cs" />
     <Compile Include="Class\com\JvRcInfo.cs" />
+    <Compile Include="Class\com\prog_def.cs" />
     <Compile Include="Class\com\windows\JvComWindowsClass.cs" />
     <Compile Include="Class\com\windows\JvComWindowsForm.cs">
       <SubType>Form</SubType>
@@ -156,6 +167,12 @@
     </Compile>
     <Compile Include="form\CloseInfo.Designer.cs">
       <DependentUpon>CloseInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\data\DataList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\data\DataList.Designer.cs">
+      <DependentUpon>DataList.cs</DependentUpon>
     </Compile>
     <Compile Include="form\Form1.cs">
       <SubType>Form</SubType>
@@ -189,6 +206,10 @@
     <Compile Include="form\Kettou.Designer.cs">
       <DependentUpon>Kettou.cs</DependentUpon>
     </Compile>
+    <Compile Include="JvComDbData\JvFamilyNoData.cs" />
+    <Compile Include="lib\extSoft\LibTargetClass.cs" />
+    <Compile Include="lib\site\data\siteFamilyNuber.cs" />
+    <Compile Include="lib\site\siteNetKeiba.cs" />
     <Compile Include="form\Log.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -244,6 +265,7 @@
     <Compile Include="JvComDbData\JvDbW5Data.cs" />
     <Compile Include="JvComDbData\JvDbWEData.cs" />
     <Compile Include="JvComDbData\JvDbWhData.cs" />
+    <Compile Include="JvComDbData\JvFamilyNo.cs" />
     <Compile Include="JvComDbData\JvWhData.cs" />
     <Compile Include="JvComDbData\Sample.cs" />
     <Compile Include="JVDataClass.cs" />
@@ -274,6 +296,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\CloseInfo.resx">
       <DependentUpon>CloseInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\data\DataList.resx">
+      <DependentUpon>DataList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -416,6 +441,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\info_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Check.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\ico\CheckEneble.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\ico\CheckDisable.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Image1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\ico\RadioEnable.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\ico\RadioDisable.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\ico\FamilyColorInfo.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\UwpDesktop.10.0.14393.3\build\portable-net45+uap\UwpDesktop.targets" Condition="Exists('..\packages\UwpDesktop.10.0.14393.3\build\portable-net45+uap\UwpDesktop.targets')" />

@@ -17,6 +17,9 @@ namespace WpfApp1.form
         JVForm JV_FORM = new JVForm();
         dbConnect db = new dbConnect();
 
+        //ログ
+        Class.com.JvComClass LOG = new Class.com.JvComClass();
+
         public InitSettingForm()
         {
             InitializeComponent();
@@ -146,6 +149,7 @@ namespace WpfApp1.form
             int dlCount = 0;
             String lastTimeCount = "";
 
+            LOG.CONSOLE_TIME_MD("IS", "<<< JV Data InitJvOpen >>>");
             ret = JV_FORM.JvForm_JvOpen("BLOD", "19900101000000", 3, ref rdCount, ref dlCount, ref lastTimeCount);
 
             /* JvOpenのエラーハンドリング */
@@ -169,7 +173,7 @@ namespace WpfApp1.form
             }
 
             String buff = "";
-            int size = 80000;
+            int size = 1000000000 ;
             String fname = "";
             int DBreturn = 1;
 
@@ -179,6 +183,8 @@ namespace WpfApp1.form
             db.DeleteCsv("HN_MST");
 
             String tmp = "";
+            String HnTmp = "";
+            String HnSpec = "";
             String statspec = "";
 
             while (ret >= 1)
@@ -199,24 +205,38 @@ namespace WpfApp1.form
                     switch (buff.Substring(0, 2))
                     {
                         case "HN":　//繁殖馬マスタ
-                            JV_HNSYOKU = new JVData_Struct.JV_HN_HANSYOKU();
                             JV_HNSYOKU.SetDataB(ref buff);
-                            tmp = "";
-                            tmp += JV_HNSYOKU.HansyokuNum + ",";
-                            tmp += JV_HNSYOKU.Bamei + ",";
-                            tmp += JV_HNSYOKU.SanchiName + ",";
-                            tmp += JV_HNSYOKU.KettoNum + ",";
-                            tmp += JV_HNSYOKU.HansyokuFNum + ",";
-                            tmp += JV_HNSYOKU.HansyokuMNum + ",";
-                            db = new dbConnect("0", JV_HNSYOKU.head.RecordSpec, ref tmp, ref DBreturn);
+                            HnSpec = JV_HNSYOKU.head.RecordSpec;
+                            HnTmp += JV_HNSYOKU.HansyokuNum + ",";
+                            HnTmp += JV_HNSYOKU.Bamei + ",";
+                            HnTmp += JV_HNSYOKU.SanchiName + ",";
+                            HnTmp += JV_HNSYOKU.KettoNum + ",";
+                            HnTmp += JV_HNSYOKU.HansyokuFNum + ",";
+                            HnTmp += JV_HNSYOKU.HansyokuMNum + ",";
+                            HnTmp += "\n";
+                            //db = new dbConnect("0", JV_HNSYOKU.head.RecordSpec, ref tmp, ref DBreturn);
+                            if(HnTmp.Length >= 90000000)
+                            {
+                                //9000万文字を超えたら、一旦書き込む
+                                db = new dbConnect("0", HnSpec, ref HnTmp, ref DBreturn);
+                                LOG.CONSOLE_TIME_MD("IS", "<<< HN DataTemporaryComplete ret -> " + DBreturn);
+                                HnTmp = "";
+                            }
                             break;
                         case "BT":
                             JVData.SetDataB(ref buff);
-                            tmp = "";
-                            tmp = JVData.HansyokuNum + ",";
+                            tmp += JVData.HansyokuNum + ",";
                             tmp += JVData.KeitoId + ",";
                             tmp += JVData.KeitoName.Trim() + ",";
-                            db = new dbConnect("0",JVData.head.RecordSpec, ref tmp, ref DBreturn);
+                            tmp += "\n";
+                            //db = new dbConnect("0",JVData.head.RecordSpec, ref tmp, ref DBreturn);
+                            if (tmp.Length >= 90000000)
+                            {
+                                //9000万文字を超えたら、一旦書き込む
+                                db = new dbConnect("0", "BT", ref tmp, ref DBreturn);
+                                LOG.CONSOLE_TIME_MD("IS", "<<< BT DataTemporaryComplete ret -> " + DBreturn);
+                                tmp = "";
+                            }
                             break;
                         default:
                             JV_FORM.JvForm_JvSkip();
@@ -231,8 +251,32 @@ namespace WpfApp1.form
 
                 if (ret == 0)
                 {
+                    /* ファイル切り替わり */
+                    ret = 1;
+
+                    if (HnTmp.Length >= 1)
+                    {
+                        db = new dbConnect("0", HnSpec, ref HnTmp, ref DBreturn);
+                        LOG.CONSOLE_TIME_MD("IS", "<<< HN DataComplete ret -> " + DBreturn);
+                        HnTmp = "";
+                    }
+
+                    if (tmp.Length >= 1)
+                    {
+                        db = new dbConnect("0", "BT", ref tmp, ref DBreturn);
+                        LOG.CONSOLE_TIME_MD("IS", "<<< BT DataComplete ret -> " + DBreturn);
+                        tmp = "";
+                    }
+
                     continue;
                 }
+                
+                if (ret == -1)
+                {
+                 
+                    continue;
+                }
+
             }
             JV_FORM.JvForm_JvClose();
             return 1;

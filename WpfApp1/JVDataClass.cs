@@ -1943,7 +1943,7 @@ public class JVData_Struct
             }
 
             TotalHyosuSanrentan = MidB2S(ref bBuff, 83273, 11);
-            crlf = MidB2S(ref bBuff, 83284, 2);
+            //crlf = MidB2S(ref bBuff, 83284, 2);
             bBuff = null;
         }
     }

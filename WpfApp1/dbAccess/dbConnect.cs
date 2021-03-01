@@ -104,6 +104,11 @@ namespace WpfApp1.dbAccess
             return (str);
         }
 
+        public void ADD_DB(String Path, String Data, ref int ret)
+        {
+
+        }
+
         private void TextWriter(String data ,String dtSpec, String buff, ref int ret)
         {
             String file;
@@ -194,6 +199,8 @@ namespace WpfApp1.dbAccess
                 return ReadCsv(Date, dtSpec, Kind, ref srt, 3, Key, 0);
             }
         }
+
+        //public int TextReader_All(String Date, String dtSpec, )
 
         /**************************************************
          * @func  先頭列(データキー)と合致するデータ提供関数(一つだけ)のラッピング関数
@@ -503,6 +510,153 @@ namespace WpfApp1.dbAccess
         }
 
 
+        //エンコード指定
+        public int DbReadAllData(String file, ref List<String> outParam, Encoding Format)
+        {
+            int loopCount = 0;
+           
+            if (file == "" || file == null) return 0;   //エラー
+
+            try
+            {
+                FileStream fs = File.OpenRead(file);
+
+#if false   //全部はSeekしない
+                if (offset != 0)
+                {
+                    fs.Seek(offset, SeekOrigin.Begin);
+                }
+#endif
+
+                // csvファイルを開く
+                using (var sr = new System.IO.StreamReader(fs, Format))
+                {
+                    // ストリームの末尾まで繰り返す
+                    while (!sr.EndOfStream)
+                    {
+                        // ファイルを指定行から１行読み込む
+                        var line = sr.ReadLine();
+
+                        //空文字の場合はスキップ
+                        if (line.Length == 0)
+                        {
+                            continue;
+                        }
+
+                        // 読み込んだ一行をカンマ毎に分けて配列に格納する→これはやらない
+                        //var values = line.Split(',');
+                        var values = line;
+
+                        //先頭が#から始まる場合は読み込み対象外：ファイル情報などを記載
+                        if (values.Substring(0, 1) == "#")
+                        {
+                            continue;
+                        }
+
+                        // 出力する
+                        //すべての行を実行する
+                        outParam.Add(values);
+                        loopCount++;
+                        continue;
+
+                    }
+                    return loopCount;
+                }
+            }
+            catch (System.Exception e)
+            {
+                // ファイルを開くのに失敗したとき
+                System.Console.WriteLine(e.Message);
+                return 0;
+            }
+
+        }
+
+
+        public int DbReadAllData(String file, ref List<String> outParam, String Format)
+        {
+            Encoding Enc = Encoding.GetEncoding(Format);
+            return DbReadAllData(file, ref outParam, Enc);
+        }
+
+        //ファイル場所を指定してReadする、全部のデータのためOffsetなし
+        public int DbReadAllData(String file, ref List<String> outParam)
+        {
+            //指定しない場合はSJISで読み込む
+            return DbReadAllData(file, ref outParam, "shift_jis");
+        }
+
+        //DB内のすべての情報をreadする：パス指定
+        public int DbReadAllData(String Path, ref List<String> outParam, String Key, int offset)
+        {
+            int loopCount = 0;
+            if (Path == "" || Path == null) return 0;   //エラー
+
+            try
+            {
+                FileStream fs = File.OpenRead(Path);
+
+                if (offset != 0)
+                {
+                    fs.Seek(offset, SeekOrigin.Begin);
+                }
+
+                // csvファイルを開く
+                using (var sr = new System.IO.StreamReader(fs))
+                {
+                    // ストリームの末尾まで繰り返す
+                    while (!sr.EndOfStream)
+                    {
+                        // ファイルを指定行から１行読み込む
+                        var line = sr.ReadLine();
+
+                        //空文字の場合はスキップ
+                        if (line.Length == 0)
+                        {
+                            continue;
+                        }
+
+                        // 読み込んだ一行をカンマ毎に分けて配列に格納する→これはやらない
+                        //var values = line.Split(',');
+                        var values = line;
+
+                        //先頭が#から始まる場合は読み込み対象外：ファイル情報などを記載
+                        if (values.Substring(0, 1) == "#")
+                        {
+                            continue;
+                        }
+
+                        // 出力する
+                        //すべての行を実行する
+                        outParam.Add(values);
+                        loopCount++;
+                        continue;
+
+                    }
+                    return loopCount;
+                }
+            }
+            catch (System.Exception e)
+            {
+                // ファイルを開くのに失敗したとき
+                System.Console.WriteLine(e.Message);
+                return 0;
+            }
+        }
+
+        //DB内のすべての情報をreadする：MSTデータ、開催日データ(ファイルパスはこの関数で指定する)(今まで)
+        public int DbReadAllData(String Date, String dtSpec, int Kind, ref List<String> outParam, String Key, int offset)
+        {
+            String file = ReadCsvComFileName(dtSpec, Date);
+            //新関数(パスを渡す)に処理を投げる
+            return DbReadAllData(file ,ref outParam, Key, offset);
+        }
+
+    }
+
+    class DbAllClass
+    {
+        List<String> vs;
 
     }
 }

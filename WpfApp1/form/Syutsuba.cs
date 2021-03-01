@@ -15,7 +15,11 @@ using WpfApp1.form;
 using WpfApp1.Properties;
 using Microsoft.VisualBasic;
 using WpfApp1.dbCom1;
+using WpfApp1.lib.site;
 using WpfApp1.JvComDbData;
+using AngleSharp.Html.Dom;
+using System.Net.Http;
+using AngleSharp.Html.Parser;
 
 namespace WpfApp1.form
 {
@@ -28,11 +32,12 @@ namespace WpfApp1.form
         /* DB書き込みクラス */
         dbConnect db;
         dbCom dbCom = new dbCom();
-        Class.MainDataClass DataClass = new Class.MainDataClass();
+      //  Class.MainRaClassData RaClassData = new Class.MainRaClassData();
         JvComDbData.JvDbRaData RaClassData = new JvComDbData.JvDbRaData();
         static String Cource;
         int CourceColor;
         MainWindow main = new MainWindow();
+        JvFamilyNoData FnDataClass;
 
         /* 競走馬データ保存用 */
         List<Class.MainDataHorceClass> horceClasses;
@@ -63,6 +68,9 @@ namespace WpfApp1.form
         /* 馬体重データ */
         Boolean BataijuFlg = false;
 
+        /* 人気パラメーター */
+        int RankParam = 0;
+
         enum DT
         {
             DT_BUTTON = 0,
@@ -87,6 +95,8 @@ namespace WpfApp1.form
             DT_MF_NAME,
             DT_MMF_COLOR,
             DT_MMF_NAME,
+            DT_FNO_COLOR,
+            DT_FNO_NAME,
         };
 
         public Syutsuba()
@@ -95,7 +105,7 @@ namespace WpfApp1.form
 
         }
 
-        public Syutsuba(String RA, int Color)
+        public Syutsuba(String RA, int Clr)
         {
             InitializeComponent();
             String tmp = "";
@@ -103,45 +113,47 @@ namespace WpfApp1.form
 
             db = new dbConnect();
             //DBからレース名を検索
-            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 5, ref tmp);
-            DataClass.SET_RA_KEY(RA);
-            DataClass.setRaceDate(RA.Substring(0, 8));
-            DataClass.setRaceCource(RA.Substring(8, 2));
-            DataClass.setRaceKaiji(RA.Substring(10, 2));
-            DataClass.setRaceNichiji(RA.Substring(12, 2));
-            DataClass.setRaceNum(RA.Substring(14,2));
-            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 7, ref tmp);
-            DataClass.setRaceName(tmp);
-            /* グレード */
-            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 16, ref tmp);
-            if (!(tmp == "")){ DataClass.setRaceGrade(tmp); }
-
-            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 17, ref tmp);
-            DataClass.setCourceTrack(tmp);
-            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 18, ref tmp);
-            DataClass.setDistance(tmp);
-            
+            // db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 5, ref tmp);
+            this.Refresh();
             db.TextReader_Col(RA.Substring(0, 8), "RA", 0, ref Radata, RA);
             RaClassData.setData(ref Radata);
 
-            CourceColor = Color;
+#if false
+            RaClassData.SET_RA_KEY(RA);
+            RaClassData.setRaceDate(RA.Substring(0, 8));
+            RaClassData.setRaceCource(RA.Substring(8, 2));
+            RaClassData.setRaceKaiji(RA.Substring(10, 2));
+            RaClassData.setRaceNichiji(RA.Substring(12, 2));
+            RaClassData.setRaceNum(RA.Substring(14,2));
+            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 7, ref tmp);
+            RaClassData.setRaceName(tmp);
+            /* グレード */
+            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 16, ref tmp);
+            if (!(tmp == "")){ RaClassData.setRaceGrade(tmp); }
+
+            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 17, ref tmp);
+            RaClassData.setCourceTrack(tmp);
+            db.TextReader_aCell("RA", RA, RA.Substring(0, 8), 18, ref tmp);
+            RaClassData.setDistance(tmp);
+            
+#endif
+            CourceColor = Clr;
 
             int ret = main.JvGetRTData(RaClassData.getRaceDate()); //速報データ取得
             SetCourceStatusWrite();
 
-            /* レース情報表示 */
-            InitForm();
-            
             String refBuff = "";
             /* データ情報を取得し、中止情報読み込み #41 */
-            ret = RaClassData.RaGetRTRaData(DataClass.getRaceDate() + DataClass.getRaceCource() + DataClass.getRaceNum(), ref refBuff);
+            //ret = RaClassData.RaGetRTRaData(RaClassData.getRaceDate() + RaClassData.getRaceCource() + RaClassData.getRaceNum(), ref refBuff);
+            ret = RaClassData.RaGetRTRaData(RaClassData.GET_RA_KEY() + RaClassData.getRaceCource() + RaClassData.getRaceNum(), ref refBuff);
+            this.Text = "【出馬表】" + tmp + RaClassData.getRaceNum() + "R：" + RaClassData.getRaceName();
 
             if (ret != 0)
             {
                 switch (refBuff)
                 {
                     case "9":
-                        Console.WriteLine("RAKEY = " + DataClass.GET_RA_KEY() + " refBuff = " + refBuff);
+                        Console.WriteLine("RAKEY = " + RaClassData.GET_RA_KEY() + " refBuff = " + refBuff);
                         MessageBox.Show("このレースは「中止」となりました。\n詳細はJRAホームページで確認してください。", "レース中止情報");
                         this.racename.Text = "【中止】" + this.racename.Text;
                         RaceHapning = true;
@@ -150,18 +162,44 @@ namespace WpfApp1.form
                 }
             }
 
+            switch (CourceColor)
+            {
+                case 1:
+                    panel1.BackColor = Color.Blue;
+                    flowLayoutPanel4.BackColor = Color.Blue;
+                    break;
+                case 2:
+                    panel1.BackColor = Color.Green;
+                    flowLayoutPanel4.BackColor = Color.Green;
+                    break;
+                case 3:
+                    panel1.BackColor = Color.Purple;
+                    flowLayoutPanel4.BackColor = Color.Purple;
+                    break;
+            }
+
+            /* #41対応 */
+            if (RaceHapning)
+            {
+                panel1.BackColor = Color.Red;
+            }
+
+#if false   //見た目高速化のため、Form1_Show()の処理に移動(レース情報だけ読み込み)
+            /* レース情報表示 */
+            InitForm();
 
             /* 競走馬データ */
             InitHorceData();
 
             /* 馬体重データ */
             SetbataijuData();
+#endif
         }
 
         public void LogOutPutFormThread(object Max)
         {
             Log LogForm = new Log(Int32.Parse(Max.ToString()));
-            LogForm.Show();
+            //LogForm.Show();
 
             int ret = 0;
 
@@ -266,11 +304,14 @@ namespace WpfApp1.form
 
         private void SetbataijuData()
         {
+#if SW_LOGTIME
+            LOG.CONSOLE_TIME("<<<馬体重データ START！>>>");
+#endif
             JvDbWhData JvWh = new JvDbWhData();
             JvWhData WhData = new JvWhData();
             List<JvWhData> ArrayWhData = new List<JvWhData>();
             String Libtmp = "";
-            ArrayWhData = JvWh.JvWhGetAllData(DataClass.GET_RA_KEY());
+            ArrayWhData = JvWh.JvWhGetAllData(RaClassData.GET_RA_KEY());
             if (ArrayWhData.Count != 0)
             {
                 LOG.CONSOLE_MODULE(SPEC, "Find! JvWhData");
@@ -288,6 +329,9 @@ namespace WpfApp1.form
                 }
                 BataijuFlg = true;
             }
+#if SW_LOGTIME
+            LOG.CONSOLE_TIME("<<<馬体重データ END！>>>");
+#endif
         }
 
 
@@ -299,6 +343,10 @@ namespace WpfApp1.form
         /* 競走馬データ */
         unsafe private void InitHorceData()
         {
+#if SW_LOGTIME
+            LOG.CONSOLE_TIME("<<<競走馬データ START！>>>");
+            toolStripStatusLabel1.Text = "競走馬データ取得中";
+#endif
             /* 他クラス共有用のクラスデータの初期化 */
             horceClasses = new List<Class.MainDataHorceClass>();
 
@@ -309,10 +357,14 @@ namespace WpfApp1.form
             int CODE;
 
             /* スレッド起動 */
+#if !SW_THREAD
             Thread t = new Thread(new ParameterizedThreadStart(LogOutPutFormThread));
             t.SetApartmentState(ApartmentState.STA);
             main.LogMainCancelFlagChanger(true);        //スレッド開始処理
-            String SE_KEY = DataClass.GET_RA_KEY();
+#else
+            StartProgresBar();
+#endif
+            String SE_KEY = RaClassData.GET_RA_KEY();
             String tmp = "";
             List<String> Arraytmp;
 
@@ -323,20 +375,38 @@ namespace WpfApp1.form
                 return;
             }
 
+#if !SW_THREAD
             t.Start(tmp);
+#endif
 
             String[] tmpSlData = new string[18];
             String SlData = ""; //for内で使う
             Boolean SlFlg = GetShirushiToDb(ref tmpSlData);
 
+            //出馬表表示高速化対応
+            List<DataGridViewRow> rowsArray = new List<DataGridViewRow>();
+            List<String> UM_Master = new List<string>();
+            bool fUmSetCompFlg = false;
+            //UMマスタデータを取得しておく
+            db.DbReadAllData("0", "UM", 0, ref UM_Master, SE_KEY, 0);
+
             for (int i = 1; ;i++)
             {
+#if SW_LOGTIME
+                LOG.CONSOLE_TIME(">>>>>出走馬：" + i);
+#endif
                 pHorceClasses = new Class.MainDataHorceClass();
+
+                //出馬表高速化
+                DataGridViewRow row = new DataGridViewRow();
+                row.CreateCells(dataGridView1);
+
                 String covData = String.Format("{0:00}", i);
                 Arraytmp = new List<string>();
 
 
                 //SE初回読み込み時にエラーチェック ０もエラー
+#if false
                 if (db.TextReader_aCell("SE", SE_KEY + covData, SE_KEY.Substring(0, 8), 0, ref tmp) == 0)
                 {
                     break;
@@ -345,12 +415,14 @@ namespace WpfApp1.form
                 if (tmp == "0"|| tmp == "") { break; }
                 else if (tmp.Substring(0,16) != SE_KEY) { break; }
                 pHorceClasses.KEY1 = tmp;
-
+#endif
                 if(db.TextReader_Col(SE_KEY.Substring(0, 8), "SE", 0, ref Arraytmp, SE_KEY + covData)== 0)
                 {
                     break;
                 }
 
+                if (Arraytmp.Count == 0) { break; }
+                pHorceClasses.KEY1 = Arraytmp[0];
                 pHorceClasses.Waku1 = Arraytmp[SE_WAKU];
                 pHorceClasses.Umaban1 = Arraytmp[SE_UMA];
                 pHorceClasses.KettoNum1 = Int32.Parse(Arraytmp[SE_KETTO]);
@@ -378,12 +450,31 @@ namespace WpfApp1.form
                 Arraytmp = new List<string>();
 
                 /* 血統登録番号からマスタを取得 */
+#if SW_DEVELOP
+                fUmSetCompFlg = false;
+                for (int j=0; j < UM_Master.Count && !fUmSetCompFlg; j++)
+                {
+                    //カンマ区切りにする
+                    var param = UM_Master[j].Split(',');
+                    if(param[0] == pHorceClasses.KettoNum1.ToString())
+                    {
+                    //String[]型とList<String>となっているため、ArrayTmpにいれるように変換する
+                        for(int idx = 0; idx < param.Length; idx++)
+                        {
+                            Arraytmp.Add(param[idx]);
+
+                        }
+                        fUmSetCompFlg = true;
+                        break;
+                    }
+                }
+#else
                 if(db.TextReader_Col("0", "UM", 0, ref Arraytmp, pHorceClasses.KettoNum1.ToString())== 0)
                 {
                     
                     break;
                 }
-
+#endif
                 pHorceClasses.F1 = Arraytmp[6];
                 pHorceClasses.M1 = Arraytmp[7];
                 pHorceClasses.FM1 = Arraytmp[9];
@@ -419,53 +510,122 @@ namespace WpfApp1.form
 
 
                 /* 書き込み */
+#if SW_DEVELOP
+                row.SetValues(new object[] { SlData, pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.UmaKigou1 + pHorceClasses.Name1, "", "", "", "", "", "", pHorceClasses.MinaraiCd1,
+                    pHorceClasses.Jockey1, pHorceClasses.Futan1 + "kg", "", "", "",pHorceClasses.F1, "", pHorceClasses.FM1, "", pHorceClasses.FFM1, "", "" });
+#else
                 dataGridView1.Rows.Add(SlData, pHorceClasses.Waku1, pHorceClasses.Umaban1, pHorceClasses.UmaKigou1 + pHorceClasses.Name1, "", "", "", "", "", "", pHorceClasses.MinaraiCd1,
                     pHorceClasses.Jockey1, pHorceClasses.Futan1 + "kg", "", "", "",pHorceClasses.F1, "", pHorceClasses.FM1, "", pHorceClasses.FFM1);
-                
+#endif
                 switch(pHorceClasses.Waku1)
                 {
                     case "1":
+#if SW_DEVELOP
+                        row.Cells[(int)DT.DT_WAKU].Style.BackColor = Color.White;
+                        row.Cells[(int)DT.DT_WAKU].Style.ForeColor = Color.Black;
+#else
                         dataGridView1[(int)DT.DT_WAKU, i-1].Style.ForeColor = Color.Black;
                         dataGridView1[(int)DT.DT_WAKU, i - 1].Style.BackColor = Color.White;
+#endif
                         break;
                     case "2":
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.ForeColor = Color.White;
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.BackColor = Color.Black;
+#if SW_DEVELOP
+                        row.Cells[(int)DT.DT_WAKU].Style.BackColor = Color.Black;
+                        row.Cells[(int)DT.DT_WAKU].Style.ForeColor = Color.White;
+#else
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.ForeColor = Color.Black;
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.BackColor = Color.White;
+#endif
                         break;            
-                    case "3":             
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.ForeColor = Color.White;
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.BackColor = Color.Red;
+                    case "3":
+#if SW_DEVELOP
+                        row.Cells[(int)DT.DT_WAKU].Style.BackColor = Color.Red;
+                        row.Cells[(int)DT.DT_WAKU].Style.ForeColor = Color.White;
+#else
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.ForeColor = Color.White;
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.BackColor = Color.Red;
+#endif
                         break;            
-                    case "4":             
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.ForeColor = Color.White;
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.BackColor = Color.Blue;
+                    case "4":
+#if SW_DEVELOP
+                        row.Cells[(int)DT.DT_WAKU].Style.BackColor = Color.Blue;
+                        row.Cells[(int)DT.DT_WAKU].Style.ForeColor = Color.White;
+#else
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.ForeColor = Color.White;
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.BackColor = Color.Blue;
+#endif
                         break;           
-                    case "5":            
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.ForeColor = Color.Black;
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.BackColor = Color.Yellow;
+                    case "5":
+#if SW_DEVELOP
+                        row.Cells[(int)DT.DT_WAKU].Style.BackColor = Color.Yellow;
+                        row.Cells[(int)DT.DT_WAKU].Style.ForeColor = Color.Black;
+#else
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.ForeColor = Color.Black;
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.BackColor = Color.Yellow;
+#endif
                         break;            
-                    case "6":              
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.ForeColor = Color.White;
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.BackColor = Color.Green;
+                    case "6":
+#if SW_DEVELOP
+                        row.Cells[(int)DT.DT_WAKU].Style.BackColor = Color.Green;
+                        row.Cells[(int)DT.DT_WAKU].Style.ForeColor = Color.White;
+#else
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.ForeColor = Color.White;
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.BackColor = Color.Green;
+#endif
                         break;            
-                    case "7":              
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.ForeColor = Color.Black;
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.BackColor = Color.Orange;
+                    case "7":
+#if SW_DEVELOP
+                        row.Cells[(int)DT.DT_WAKU].Style.BackColor = Color.Orange;
+                        row.Cells[(int)DT.DT_WAKU].Style.ForeColor = Color.Black;
+#else
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.ForeColor = Color.Black;
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.BackColor = Color.Orange;
+#endif
                         break;            
-                    case "8":              
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.ForeColor = Color.Black;
-                        dataGridView1[(int)DT.DT_WAKU, i-1].Style.BackColor = Color.Pink;
+                    case "8":
+#if SW_DEVELOP
+                        row.Cells[(int)DT.DT_WAKU].Style.BackColor = Color.Pink;
+                        row.Cells[(int)DT.DT_WAKU].Style.ForeColor = Color.Black;
+#else
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.ForeColor = Color.Black;
+                        dataGridView1[(int)DT.DT_WAKU, i - 1].Style.BackColor = Color.Pink;
+#endif
                         break;
 
                 }
+#if SW_DEVELOP
+                row.Cells[(int)DT.DT_F_COLOR].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
+                row.Cells[(int)DT.DT_MF_COLOR].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1);
+                row.Cells[(int)DT.DT_MMF_COLOR].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FFM_NUM1);
+                //DataGrid配列に保存(後にまとめて書き込み)
+                rowsArray.Add(row);
+#else
                 dataGridView1[(int)DT.DT_F_COLOR, i - 1].Style.BackColor =  dbCom.DbComSearchBloodColor(pHorceClasses.F_NUM1, pHorceClasses.FF_NUM1, pHorceClasses.FFF_NUM1);
                 dataGridView1[(int)DT.DT_MF_COLOR, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FM_NUM1, pHorceClasses.FMM_NUM1);
                 dataGridView1[(int)DT.DT_MMF_COLOR, i - 1].Style.BackColor = dbCom.DbComSearchBloodColor(pHorceClasses.FFM_NUM1);
-
+#endif
                 /* プログレスバー更新 */
                 ProgressStatus++;
+                CountUpProgressBar(ProgressStatus);
 
             }
+
+#if DEBUG
+            LOG.CONSOLE_TIME("<<<競走馬 ループ終了>>>");
+#endif
+
+#if SW_DEVELOP
+            //書き込み
+            // DataGridViewに格納
+            if (rowsArray.Count != 0)
+                {
+                    DataGridViewRow[] rows = new DataGridViewRow[rowsArray.Count];
+                    //List型に持っているものを配列型に入れる
+                    for (int i = 0; i < rowsArray.Count; i++) rows[i] = rowsArray[i];
+                    //DatagridViewに書き込む
+                    dataGridView1.Rows.AddRange(rows);
+                }
+#endif
 
             //騎手変更情報反映
             List<JvComDbData.JvDbJcData> AfterJockey = new List<JvComDbData.JvDbJcData>();
@@ -495,45 +655,34 @@ namespace WpfApp1.form
                 SetRaceRecordData(RaClassData.GET_RA_KEY());
             }
 
+#if !SW_THREAD
             main.LogMainCancelFlagChanger(false);        //スレッド開始処理
-           // t.Join();
             
             try {
                 t.Abort(); 
                 t.Join();
             }
             catch (Exception){  }
-            
+#endif
+#if SW_LOGTIME
+            LOG.CONSOLE_TIME("<<<競走馬データ START！>>>");
+#endif
         }
 
         /*  DataGridView1[0, 0].Style.BackColor =*/
 
         unsafe private void Form2_Load(object sender, EventArgs e)
         {
-            
+            LOG.CONSOLE_TIME_MD("SY", "Syutsuba form Load Start");
+            /* レース情報表示 */
+            InitForm();
 
+            /* 競走馬データ */
+            InitHorceData();
 
-            switch (CourceColor)
-            {
-                case 1:
-                    panel1.BackColor = Color.Blue;
-                    flowLayoutPanel4.BackColor = Color.Blue;
-                    break;
-                case 2:
-                    panel1.BackColor = Color.Green;
-                    flowLayoutPanel4.BackColor = Color.Green;
-                    break;
-                case 3:
-                    panel1.BackColor = Color.Purple;
-                    flowLayoutPanel4.BackColor = Color.Purple;
-                    break;
-            }
-            
-            /* #41対応 */
-            if(RaceHapning)
-            {
-                panel1.BackColor = Color.Red;
-            }
+            /* 馬体重データ */
+            SetbataijuData();
+
 
             /* フォントの変更 */
             dataGridView1.DefaultCellStyle.Font = new Font("Meiryo UI", 12);
@@ -542,12 +691,23 @@ namespace WpfApp1.form
             /* タイトル表示 */
             int Code = LibJvConvFuncClass.COURCE_CODE;
             String tmp = "";
-            LibJvConvFuncClass.jvSysConvFunction(&Code, DataClass.getRaceCource(), ref tmp);
-            this.Text = "【出馬表】" + tmp + DataClass.getRaceNum() + "R：" + DataClass.getRaceName();
+            LibJvConvFuncClass.jvSysConvFunction(&Code, RaClassData.getRaceCource(), ref tmp);
+            this.Text = "【出馬表】" + tmp + RaClassData.getRaceNum() + "R：" + RaClassData.getRaceName();
+
+            //人気信頼ランク表示
+            RankAverageOutput();
+            toolStripStatusLabel1.Text = "準備完了";
+
+            FinishProfresBar();
+            LOG.CONSOLE_TIME_MD("SY", "Syutsuba form Load Finish!!");
         }
 
         unsafe private void InitForm()
         {
+#if DEBUG
+            LOG.CONSOLE_TIME("<<<レース情報取得 START！>>>");
+#endif
+
             String LibTmp = "";
             int CODE = LibJvConvFuncClass.COURCE_CODE;
 
@@ -615,6 +775,13 @@ namespace WpfApp1.form
             CODE = LibJvConvFuncClass.TRACK_CODE;
             LibJvConvFuncClass.jvSysConvFunction(&CODE, RaClassData.getCourceTrack(), ref LibTmp);
             TrackNameLabel.Text = "（" + LibTmp + "）";
+
+            //人気指数
+
+
+#if DEBUG
+            LOG.CONSOLE_TIME("<<<レース情報取得 END！>>>");
+#endif
         }
 
         unsafe private String MappingGetRaceCource()
@@ -622,17 +789,124 @@ namespace WpfApp1.form
             String LibTmp = "";
             int CODE = LibJvConvFuncClass.COURCE_CODE;
 
-            String tmp = DataClass.getRaceCource();
+            String tmp = RaClassData.getRaceCource();
             LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref LibTmp);
             Cource = LibTmp;
 
             CODE = 2009;
-            tmp = DataClass.getCourceTrack();
+            tmp = RaClassData.getCourceTrack();
             LibJvConvFuncClass.jvSysConvFunction(&CODE, tmp, ref LibTmp);
-            DataClass.setCourceTrack(LibTmp);
+            RaClassData.setCourceTrack(LibTmp);
 
 
             return (Cource);
+        }
+
+        private void SetRankParam(int Count)
+        {
+            RankParam += Count;
+        }
+
+        private void RankAverageOutput()
+        {
+            int ret = 0;   //ランク保持
+
+            if(RaClassData.GET_RA_KEY() == "")
+            {
+                //RAキーが未セット
+                return;
+            }
+
+            //グレードのみここで適応
+            switch (RaClassData.getRaceGrade())
+            {
+                case "ＧⅠ":
+                    SetRankParam(1);
+                    break;
+                case "ＧⅡ":
+                    SetRankParam(2);
+                    break;
+                case "ＧⅢ":
+                case "重賞":  //格付けなし重賞はG3と同等にする
+                    SetRankParam(5);
+                    break;
+                case "Ｌ":
+                    SetRankParam(2);
+                    break;
+                default:
+                    break;
+            }
+
+            //重賞以外はここで処理する(重賞は処理しない)
+            switch (RaClassData.getRaceClass())
+            {
+                case "999": //オープン
+                    //重賞もここに含まれるため、オープン特別のみ処理する
+                    if(RaClassData.getRaceGrade() == "特別")
+                    {
+                        SetRankParam(2);
+                    }
+                    break;
+                case "703": //未勝利
+                case "701": //新馬
+                case "005": //1勝クラス
+                    SetRankParam(1);
+                    break;
+                case "010": //2勝クラス
+                    SetRankParam(2);
+                    break;
+                case "016": //3勝クラス
+                    SetRankParam(5);
+                    break;
+                default:
+                    break;
+            }
+
+            //開催場
+            switch (RaClassData.getRaceCource())
+            {
+                case "03": //福島
+                case "10": //小倉
+                    SetRankParam(5);
+                    break;
+                case "04": //新潟
+                case "05": //東京
+                case "06": //中山
+                case "09": //阪神
+                    SetRankParam(3);
+                    break;
+                case "08": //京都
+                case "01": //札幌
+                    SetRankParam(2);
+                    break;
+                case "02": //函館
+                case "07": //中京
+                    SetRankParam(1);
+                    break;
+            }
+
+            //距離
+            if(TrackLabel.Text == "ダート")
+            {
+                SetRankParam(4); //ダートは共通
+            }
+            else if(RaClassData.getOldYear() == "18" || RaClassData.getOldYear() == "19")
+            {
+                //障害
+                SetRankParam(4);
+            }
+            else if((Int32.Parse(RaClassData.getDistance()) % 400) == 0 )
+            {
+                //芝・根幹
+                SetRankParam(2);
+            }
+            else
+            {
+                //芝・非根幹
+                SetRankParam(1);
+            }
+            Console.WriteLine(RankParam);
+
         }
 
         private void LabelCource_Click(object sender, EventArgs e)
@@ -655,11 +929,37 @@ namespace WpfApp1.form
         {
         }
 
+#if SW_THREAD
+        private void StartProgresBar()
+        {
+            statProgressBar.Minimum = 0;    //固定値0を指定
+            statProgressBar.Maximum = RaClassData.Tosu1;   //最大頭数を指定する。
+            statProgressBar.Value = 0;      //現在値も0を指定する。
+            statProgressBar.Visible = true;
+        }
+        
+        private void CountUpProgressBar( int Cnt )
+        {
+            if(RaClassData.Tosu1 < Cnt)
+            {
+                return; //エラー
+            }
+            statProgressBar.Value = Cnt;
+            this.Refresh();
+        }
+
+        //出馬表データ読み込み完了処理
+        private void FinishProfresBar()
+        {
+            statProgressBar.Visible = false;
+        }
+#endif
+
         unsafe private void button2_Click(object sender, EventArgs e)
         {
             MainWindow main = new MainWindow();
             DataGridViewColumn column = new DataGridViewColumn();
-            String Date = DataClass.getRaceDate() + DataClass.getRaceCource() + DataClass.getRaceNum();
+            String Date = RaClassData.getRaceDate() + RaClassData.getRaceCource() + RaClassData.getRaceNum();
             List<String> tmp = new List<string>();
             List<int> TimeDMArray = new List<int>();//タイム型降順にソートするためのList型配列
             List<int> BattleDMArray = new List<int>();
@@ -669,7 +969,7 @@ namespace WpfApp1.form
             db = new dbConnect();
 
             ret = main.InitRealTimeDataMaining(Date);
-            ret += main.InitRealBattleDataMaining(Date, DataClass.GET_RA_KEY());
+            ret += main.InitRealBattleDataMaining(Date, RaClassData.GET_RA_KEY());
 
             int MaxTimeDM = 0;
             int MaxBattleDM = 99999;
@@ -682,7 +982,7 @@ namespace WpfApp1.form
 
             int DataMainigNum = 0;
 
-            Date = DataClass.getRaceDate();
+            Date = RaClassData.getRaceDate();
 
             dataGridView1.Columns["TM"].Visible = true;
             dataGridView1.Columns["DM"].Visible = true;
@@ -696,7 +996,7 @@ namespace WpfApp1.form
                 tmp.Clear();
 
                 /* 対戦型データマイニング */
-                if (db.TextReader_aCell("TM", DataClass.GET_RA_KEY() + covData, DataClass.GET_RA_KEY(), 4, ref str) == 0)
+                if (db.TextReader_aCell("TM", RaClassData.GET_RA_KEY() + covData, RaClassData.GET_RA_KEY(), 4, ref str) == 0)
                 {
                     Count = i;
                     break;
@@ -726,13 +1026,13 @@ namespace WpfApp1.form
                 tmp.Clear();
 
                 /* タイム型データマイニング */
-                if (db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + covData, DataClass.GET_RA_KEY(), 4, ref str) == 0)
+                if (db.TextReader_aCell("DM", RaClassData.GET_RA_KEY() + covData, RaClassData.GET_RA_KEY(), 4, ref str) == 0)
                 {
                     break;
                 }
 
 
-                if (db.TextReader_Col(DataClass.GET_RA_KEY(), "DM", 0, ref tmp, DataClass.GET_RA_KEY() + covData) == 0)
+                if (db.TextReader_Col(RaClassData.GET_RA_KEY(), "DM", 0, ref tmp, RaClassData.GET_RA_KEY() + covData) == 0)
                 {
 
                 }
@@ -871,18 +1171,18 @@ namespace WpfApp1.form
 
         }
 
-        #region データマイニング区分読み込み
+#region データマイニング区分読み込み
         unsafe private String GetDMStatus()
         {
             /* データ区分書き込み */
             String Libtmp = "", str = "";
             int CODE = LibJvConvFuncClass.DATA_MINING_STATUS;
-            db.TextReader_aCell("DM", DataClass.GET_RA_KEY() + "01", DataClass.GET_RA_KEY(), 2, ref str);
+            db.TextReader_aCell("DM", RaClassData.GET_RA_KEY() + "01", RaClassData.GET_RA_KEY(), 2, ref str);
             LibJvConvFuncClass.jvSysConvFunction(&CODE, str, ref Libtmp);
             return Libtmp;
         }
 
-        #endregion
+#endregion
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -1101,8 +1401,8 @@ namespace WpfApp1.form
                     String tmp = SetShirushiToDb();
                     int ret = 0;
 //db.DeleteCsv("SL", );
-                    db.DeleteCsv("SL", DataClass.GET_RA_KEY().Substring(0, 8) + "/" + "SL" + DataClass.GET_RA_KEY() + ".csv");
-                    db = new dbConnect(DataClass.GET_RA_KEY(), "SL", ref tmp, ref ret);
+                    db.DeleteCsv("SL", RaClassData.GET_RA_KEY().Substring(0, 8) + "/" + "SL" + RaClassData.GET_RA_KEY() + ".csv");
+                    db = new dbConnect(RaClassData.GET_RA_KEY(), "SL", ref tmp, ref ret);
                     LOG.CONSOLE_TIME_MD(SPEC, "Shirushi WriteComp ret->" + ret);
                 }
             }
@@ -1113,10 +1413,10 @@ namespace WpfApp1.form
         private String SetShirushiToDb()
         {
             String tmp = "";
-            tmp = DataClass.GET_RA_KEY() + "\r\n";
+            tmp = RaClassData.GET_RA_KEY() + "\r\n";
             for (int i=1; i<dataGridView1.Rows.Count; i++)
             {
-                tmp += DataClass.GET_RA_KEY() + String.Format("{0:00}", i) + "," + dataGridView1.Rows[i-1].Cells[(int)DT.DT_BUTTON].Value + "\r\n";
+                tmp += RaClassData.GET_RA_KEY() + String.Format("{0:00}", i) + "," + dataGridView1.Rows[i-1].Cells[(int)DT.DT_BUTTON].Value + "\r\n";
             }
 
             return tmp;
@@ -1251,6 +1551,301 @@ namespace WpfApp1.form
         {
 
         }
+
+        private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void FNoButton_Click(object sender, EventArgs e)
+        {
+            //レースキーを取得
+            String SE_KEY = RaClassData.GET_RA_KEY();
+            List<String> Arraytmp = new List<string>();
+            List<JvFamilyNo> ret = new List<JvFamilyNo>();
+            JvFamilyNo tmpFamliNoData = new JvFamilyNo();
+
+            String tmpString = "";
+
+            String outKettoNumber = "";
+            String outFmailyNumber = "";
+
+            //net競馬と接続するクラス
+            siteNetKeiba siteNetClass = new siteNetKeiba();
+
+            //ステータスを更新
+            toolStripStatusLabel1.Text = "ファミリーナンバーを取得中...";
+            statProgressBar.Maximum = RaClassData.Tosu1;
+            statProgressBar.Visible = true;
+
+            //ファミリーナンバーconfファイルが読めているかチェック：初回は読んで２回目はパス
+            if(FnDataClass == null)
+            {
+                FnDataClass = new JvFamilyNoData();
+            }
+
+            //ファミリーナンバー取得
+            //1回取得したら保持しておく？
+            for (int i = 1; i <= RaClassData.Tosu1; i++)
+            {
+                statProgressBar.Value = i;
+                Arraytmp.Clear();
+                outFmailyNumber = "";
+
+                //血統登録番号を取得
+                if (db.TextReader_Col(SE_KEY.Substring(0, 8), "SE", 0, ref Arraytmp, SE_KEY + String.Format("{0:00}", i)) == 0)
+                {
+
+                    break;
+                }
+
+                if (siteNetClass.InitScraping() == 0) siteNetClass = new siteNetKeiba();
+
+                //血統番号を渡してnetkeibaからファミリーナンバーを取得する。
+                siteNetClass.GetFamilyNumber(Arraytmp[7]);
+
+
+#if false
+                if(res == 99)
+                {
+                    while(siteNetClass.CheckScrapingStat() == 99)
+                    {
+                        LOG.CONSOLE_WRITER("wait...");
+                        //Thread.Sleep(100);
+                    }
+                }
+
+
+
+                if (res < 0)
+                {
+                    //0を下回る(マイナス)の場合、取得に失敗した。
+                    switch (res)
+                    {
+                        case -1: //パラメーターエラー
+                            continue; //次のループへ
+                        case -2:
+                            return; //インターネットに接続できない。
+                        case -3:
+                            //NdData(ファミリーナンバーが書いてない)
+                            //母馬を探して再度検索をかける。
+                            String MotherName = SearchGrandmaToFamilyNo(Arraytmp[7]);
+                            if (MotherName == "---")
+                            {
+                                siteNetClass.SetNodata(Arraytmp[7], "---");
+                                //   ret.Add(tmpFamliNoData);
+                                break;
+                            }
+                            continue;
+                        default:
+                            break;
+                    }
+                }
+#endif
+                Task<JvFamilyNo> resFamilyNo = Task.Run(() =>
+                   {
+                       return siteNetClass.GetFamilyNumberToReturn(Arraytmp[7]);
+                   });
+
+
+              //  Task<JvFamilyNo> resFamilyNo = siteNetClass.GetFamilyNumberToReturn(Arraytmp[7]);
+                JvFamilyNo msg = resFamilyNo.Result;
+
+                //結果を確認する。
+                int res = siteNetClass.CheckScrapingStat();
+
+                if (msg.FamilyNumber1 == null)
+                {
+                    //NdData(ファミリーナンバーが書いてない)
+                    //母馬を探して再度検索をかける。
+                    String MotherName = SearchGrandmaToFamilyNo(Arraytmp[7]);
+                    
+                    if (MotherName == "---")
+                    {
+                        //母馬が見つからない
+                        //   ret.Add(tmpFamliNoData);
+                        continue;
+                    }
+
+                    resFamilyNo = Task.Run(() =>
+                    {
+                        return siteNetClass.GetFamilyNumberToReturn(MotherName);
+                    });
+
+                    msg = resFamilyNo.Result;
+                    if (msg.FamilyNumber1 == null)
+                    {
+                        siteNetClass.SetNodata(Arraytmp[7], "---");
+                    }
+                }
+
+
+            }
+
+            //ここから下は正常に成功
+
+            dataGridView1.Columns["FNo"].Visible = true;
+            dataGridView1.Columns["FnoColor"].Visible = true;
+
+
+            //dataGridView1.Rows[n].Cells[(int)DT.DT_FNO_NAME].Value = ret[n].FamilyNumber1;
+
+            for(int i= 0; i < dataGridView1.Rows.Count; i++)
+            {
+                siteNetClass.GetIndexData(i, ref outKettoNumber, ref outFmailyNumber);
+                if (outFmailyNumber == "")
+                {
+                    outFmailyNumber = "---";
+                }
+
+                dataGridView1.Rows[i].Cells[(int)DT.DT_FNO_NAME].Value = outFmailyNumber;
+                dataGridView1.Rows[i].Cells[(int)DT.DT_FNO_COLOR].Style.BackColor = (outFmailyNumber == "---" ? Color.White : FnDataClass.JvFnColorData(outFmailyNumber));
+            }
+
+
+#if false
+
+                //ファミリーナンバーインスタンスを初期化
+                tmpFamliNoData = new JvFamilyNo();
+
+
+
+
+
+
+
+                //netkeibaサイトに接続し、ファミリーナンバーを取得する。
+                /* 血統登録番号は10桁固定 */
+                if (Arraytmp[7].Length != 10)
+                {
+                    return;
+                }
+                try
+                {
+                    var doc = default(IHtmlDocument);
+                    using (var client = new HttpClient())
+                    using (var stream = await client.GetStreamAsync(new Uri(JvFamilyNo.NETKEIBA_SITE_URL_HEAD + Arraytmp[7] + "/")))
+                    {
+                        // AngleSharp.Html.Parser.HtmlParserオブジェクトにHTMLをパースさせる
+                        var parser = new HtmlParser();
+                        //doc = await parser.ParseAsync(stream); →現在使用不可
+                        doc = await parser.ParseDocumentAsync(stream);
+                    }
+
+                    var param = doc.QuerySelector(JvFamilyNo.SELECTER);
+
+                    if(param == null)
+                    {
+                        LOG.CONSOLE_TIME_MD(SPEC, "NoData... index:" + i);
+                        //netkeibaにデータが存在しないときはハイフンを入れておく
+                        //母馬でリトライする。
+
+                        String MotherName = SearchGrandmaToFamilyNo(Arraytmp[7]);
+
+                        if(MotherName == "---")
+                        {
+                            tmpFamliNoData.FamilyNumber1 = "---";
+                            ret.Add(tmpFamliNoData);
+                            continue;
+                        }
+
+                        using (var client = new HttpClient())
+                        using (var stream = await client.GetStreamAsync(new Uri(JvFamilyNo.NETKEIBA_SITE_URL_HEAD + Arraytmp[7] + "/")))
+                        {
+                            // AngleSharp.Html.Parser.HtmlParserオブジェクトにHTMLをパースさせる
+                            var parser = new HtmlParser();
+                            //doc = await parser.ParseAsync(stream); →現在使用不可
+                            doc = await parser.ParseDocumentAsync(stream);
+                        }
+
+                        param = doc.QuerySelector(JvFamilyNo.SELECTER);
+
+                        if(param != null)
+                        {
+                            //このあとの処理を継続させるため、なにもしない
+                        }
+                        else
+                        {
+                            tmpFamliNoData.FamilyNumber1 = "---";
+                            ret.Add(tmpFamliNoData);
+                            continue;
+                        }
+                    }
+
+                    if (param.ParentElement.InnerHtml.Contains("FNo."))
+                    {
+                        int StrNumber = param.ParentElement.InnerHtml.IndexOf("FNo.");
+                        int EndNumber = param.ParentElement.InnerHtml.IndexOf("]", StrNumber) - (StrNumber + 5);
+
+                        
+                        tmpString = param.ParentElement.InnerHtml.Substring(StrNumber + 5, EndNumber);
+                        LOG.CONSOLE_TIME_MD(SPEC, i + ": Fno:" + tmpString);
+                        tmpFamliNoData.FamilyNumber1 = tmpString;
+                        ret.Add(tmpFamliNoData);
+                    }
+                    else
+                    {
+                        LOG.CONSOLE_MODULE(SPEC, "NotConnect");
+                    }
+
+
+                }
+                catch (HttpRequestException)
+                {
+                    LOG.CONSOLE_TIME_MD(SPEC, "disconnect... DomeinNameServerError db.netkeiba.com");
+                    return; //ネットにつながらない場合、即終了。
+                }
+
+            }
+#endif
+            toolStripStatusLabel1.Text = "準備完了";
+            statProgressBar.Visible = false;
+        }
+
+        private String SearchGrandmaToFamilyNo(String KettoNumber)
+        {
+            String ret = "---";
+
+            if(KettoNumber.Length != 10)
+            {
+                LOG.ASSERT("KettoNumber Length Error! -> " + KettoNumber);
+                return ret;
+            }
+
+            //UMマスタから母馬を探す。
+            JvDbUmData UM = new JvDbUmData(true, "UM", "0");
+
+            //UM情報をすべてもらう
+            List<String> Umdata = new List<string>();
+            int res = UM.JvDbUmReadAllData(ref Umdata);
+
+            //UMデータがセットされればresに1以上が返る。
+            if(res == 0 || Umdata.Count == 0)
+            {
+                return ret;
+            }
+
+            //この馬の母馬を探す。
+            for(int i=0; i<Umdata.Count; i++)
+            {
+                var param = Umdata[i].Split(',');
+                if (KettoNumber == param[0])
+                {
+                    LOG.CONSOLE_MODULE(SPEC, param[21]);
+                    return param[21];   //母馬繁殖馬情報を返す。
+                }
+            }
+            return "---";
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            //指定距離の傾向を探す。
+
+            data.DataList DataForm = new data.DataList();
+            DataForm.Show();
+        }
     }
 
     class Shirushi
@@ -1340,6 +1935,7 @@ namespace WpfApp1.form
                 }
             }
             return "";
+            
         }
 
 

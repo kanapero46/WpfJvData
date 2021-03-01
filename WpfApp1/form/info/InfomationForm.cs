@@ -55,6 +55,11 @@ namespace WpfApp1.form.info
         JvComClass COM = new JvComClass();
         backClass.baclClassInfo[] WeatherCond = new backClass.baclClassInfo[MAX_RACE_CNT];
 
+        DataGrid Rows = new DataGrid();
+
+        List<InfoData> ArrayInfoData = new List<InfoData>();
+        InfoData[] InfoDatas = new InfoData[3];
+
         String DateParam;
 
         //文字列定義
@@ -167,6 +172,7 @@ namespace WpfApp1.form.info
                 //SetJockeyInfo();
                 Win5KaisaiInfo();   //WIN5
                 SetKaisaiCanceld();//開催中止のチェック
+                CommonAllGetData();
 
             }
             else
@@ -1310,8 +1316,8 @@ namespace WpfApp1.form.info
         private void axJVLink1_JVEvtJockeyChange(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtJockeyChangeEvent e)
         {
             int ret = 0;
-
-
+            ret = BackEnd.JvInfoBackMain(BackEndInfomationForm.JV_RT_EVENT_JOCKEY_CHANGE, e.bstr);
+            CommonAllGetData();
             COM.CONSOLE_MODULE("INFO_HDL", "JC EventHandler:" + e.bstr + "(" + ret + ")");
         }
         #endregion
@@ -1354,8 +1360,97 @@ namespace WpfApp1.form.info
 
 
         }
-#endregion
 
+        #endregion
 
+        private void flowMain1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        //共通で変更情報を取得して更新する。
+        private void CommonAllGetData()
+        {
+
+            //騎手変更情報取得
+            //JCデータ読み込み
+            dbAccess.dbConnect db = new dbAccess.dbConnect();
+            InfoData tmpInfo = new InfoData();
+
+            List<String> Param = new List<string>();
+            db.DbReadAllData(DateParam, "JC", 0, ref Param, "0", 0);
+            if(Param.Count != 0)
+            {
+                //データあり
+                for(int i=0; i < Param.Count; i++)
+                {
+                    var value = Param[i].Split(',');
+                    tmpInfo.Type1 = InfoData.ID_TYPE_JOCKEY_CHANGE;
+                    tmpInfo.InfoRaceKey1 = value[0];
+                    tmpInfo.InfoName1 = value[5] + "(" + value[8].Substring(0,2) + "." + value[8].Substring(2,1) + "kg)";
+                    tmpInfo.ChangeAfterName1 = value[9] + "(" + value[12].Substring(0, 2) + "." + value[12].Substring(2, 1) + "kg)";
+                    tmpInfo.Time1 = value[4];
+
+                    //このときには重複も許す(未定も含まれる)
+                    ArrayInfoData.Add(tmpInfo);
+                }
+            }
+
+            //発走時刻変更
+            Param.Clear();
+            db.DbReadAllData(DateParam, "TC", 0, ref Param, "0", 0);
+            if (Param.Count != 0)
+            {
+                //データあり
+                for (int i = 0; i < Param.Count; i++)
+                {
+                    var value = Param[i].Split(',');
+                    tmpInfo.Type1 = InfoData.ID_TYPE_RACE_START_CHANGE;
+                    tmpInfo.InfoRaceKey1 = value[0];    //キー
+                    tmpInfo.InfoName1 = value[5] + "(" + value[8].Substring(0, 2) + "." + value[8].Substring(2, 1) + "kg)";
+                    tmpInfo.ChangeAfterName1 = value[9] + "(" + value[12].Substring(0, 2) + "." + value[12].Substring(2, 1) + "kg)";
+                    tmpInfo.Time1 = value[4];
+
+                    //このときには重複も許す(未定も含まれる)
+                    ArrayInfoData.Add(tmpInfo);
+                }
+            }
+
+            //出走取消・競走除外
+            Param.Clear();
+            db.DbReadAllData(DateParam, "AV", 0, ref Param, "0", 0);
+            if(Param.Count != 0)
+            {
+                for(int i=0; i < Param.Count; i++)
+                {
+                    //処理を入れる
+                }
+            }
+
+            //DatGridに書き込む
+        }
+    }
+
+    public class InfoData
+    {
+        private String InfoRaceKey;     //式別キー
+        private int Type;               //情報区分(出走取消・競走除外・騎手変更など)
+        private String InfoName;        //騎手名・馬名
+        private String ChangeAfterName; //変更後の騎手名・馬名
+        private String Time;            //発表時間
+        private int Reason;             //変更理由(出走取消など)
+
+        public const int ID_TYPE_TORIKESI = 1;
+        public const int ID_TYPE_JOGAI = 2;
+        public const int ID_TYPE_JOCKEY_CHANGE = 3;
+        public const int ID_TYPE_RACE_START_CHANGE = 4;
+        public const int ID_TYPE_COURCE_CHANGE = 5;
+
+        public string InfoRaceKey1 { get => InfoRaceKey; set => InfoRaceKey = value; }
+        public int Type1 { get => Type; set => Type = value; }
+        public string InfoName1 { get => InfoName; set => InfoName = value; }
+        public string ChangeAfterName1 { get => ChangeAfterName; set => ChangeAfterName = value; }
+        public string Time1 { get => Time; set => Time = value; }
+        public int Reason1 { get => Reason; set => Reason = value; }
     }
 }

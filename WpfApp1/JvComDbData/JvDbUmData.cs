@@ -19,12 +19,44 @@ namespace WpfApp1.JvComDbData
         Class.com.JvComClass LOG = new Class.com.JvComClass();
         const String SPEC = "UM";
 
+        List<String> UmAllData;
+
         public JvDbUmData()
             {
 
             DbStruct.Date = "";
             DbStruct.WriteStr = "";
         }
+
+        public JvDbUmData(Boolean InitReadFlg, String Spec, String Date)
+        {
+            DbStruct.Date = "";
+            DbStruct.WriteStr = "";
+
+            //UMマスタデータを一括Readする。
+            dbAccess.dbConnect db = new dbConnect();
+            UmAllData = new List<string>();
+            
+            db.DbReadAllData(Date, Spec, 0, ref UmAllData, Date, 0);
+
+            if(UmAllData.Count == 0)
+            {
+                LOG.CONSOLE_MODULE(SPEC, "No Data...");
+            }
+        }
+
+        public int JvDbUmReadAllData(ref List<String> outParam)
+        {
+
+            if(UmAllData == null || UmAllData.Count == 0)
+            {
+                return 0;
+            }
+
+            outParam = UmAllData;
+            return UmAllData.Count;
+        }
+        
 
         #region JVデータを読み込み
         public void JvDbUmDataRead(ref String buff)
@@ -55,8 +87,8 @@ namespace WpfApp1.JvComDbData
             tmp += JV_UMA.Ketto3Info[2].HansyokuNum + ",";  //父父の系統
             tmp += JV_UMA.Ketto3Info[6].HansyokuNum + ",";  //父父父の系統
             tmp += JV_UMA.Ketto3Info[10].HansyokuNum + ","; //母父父の血統
-
-            DbStruct.WriteStr += tmp + "\n\r";
+            tmp += JV_UMA.Ketto3Info[1].HansyokuNum + ","; //母の血統
+            DbStruct.WriteStr += tmp + "\n";
         }
         #endregion
 

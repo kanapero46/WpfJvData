@@ -160,6 +160,10 @@ namespace WpfApp1.Class
         private String DataKubun;
         public String DataKubun1 { get => DataKubun; set => DataKubun = value; }
 
+        private int Tosu;
+        public int Tosu1 { get => Tosu; set => Tosu = value; }
+
+
         //ラップタイム
         protected List<String> LapTime;
 
@@ -178,8 +182,6 @@ namespace WpfApp1.Class
 
 
         public List<string> LapTime1 { get => LapTime; set => LapTime = value; }
-
-
 
         public String ConvertDateToDate(String Date)
         {
@@ -214,5 +216,6 @@ namespace WpfApp1.Class
                 return "0:00.0";
             }
         }
+
     }
 }

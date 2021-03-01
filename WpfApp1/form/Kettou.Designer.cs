@@ -63,7 +63,6 @@
             this.label20 = new System.Windows.Forms.Label();
             this.BloodHorceName = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.TrackDistance = new System.Windows.Forms.Label();
@@ -114,18 +113,19 @@
             this.InfomationBar = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.oldDataView)).BeginInit();
             this.flowLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // Date
@@ -183,7 +183,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 141F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 143F));
             this.tableLayoutPanel1.Controls.Add(this.weLabel, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1715, 24);
@@ -301,7 +301,7 @@
             // 
             this.ClassLabel.AutoSize = true;
             this.ClassLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.ClassLabel.Location = new System.Drawing.Point(301, 0);
+            this.ClassLabel.Location = new System.Drawing.Point(300, 0);
             this.ClassLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.ClassLabel.Name = "ClassLabel";
             this.ClassLabel.Size = new System.Drawing.Size(109, 38);
@@ -315,7 +315,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.22481F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.77519F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 494F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 182F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 184F));
             this.tableLayoutPanel2.Controls.Add(this.label16, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.KigoLabel, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.OldYear, 0, 0);
@@ -334,7 +334,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label16.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label16.Location = new System.Drawing.Point(1098, 0);
+            this.label16.Location = new System.Drawing.Point(1096, 0);
             this.label16.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(115, 38);
@@ -345,7 +345,7 @@
             // 
             this.KigoLabel.AutoSize = true;
             this.KigoLabel.Font = new System.Drawing.Font("Meiryo UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.KigoLabel.Location = new System.Drawing.Point(604, 0);
+            this.KigoLabel.Location = new System.Drawing.Point(602, 0);
             this.KigoLabel.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.KigoLabel.Name = "KigoLabel";
             this.KigoLabel.Size = new System.Drawing.Size(317, 38);
@@ -568,18 +568,6 @@
             this.textBox6.Text = "7";
             this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::WpfApp1.Properties.Resources.all;
-            this.pictureBox1.Location = new System.Drawing.Point(163, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(2009, 698);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 44;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
             // flowLayoutPanel4
             // 
             this.flowLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -598,7 +586,7 @@
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 108F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 136F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 138F));
             this.tableLayoutPanel3.Controls.Add(this.TrackDistance, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.TrackLabel, 0, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(1923, 24);
@@ -985,6 +973,7 @@
             this.oldDataView.Location = new System.Drawing.Point(15, 1253);
             this.oldDataView.Name = "oldDataView";
             this.oldDataView.ReadOnly = true;
+            this.oldDataView.RowHeadersWidth = 82;
             this.oldDataView.RowTemplate.Height = 33;
             this.oldDataView.Size = new System.Drawing.Size(2493, 284);
             this.oldDataView.TabIndex = 40;
@@ -995,13 +984,16 @@
             // 
             this.No.Frozen = true;
             this.No.HeaderText = "No";
+            this.No.MinimumWidth = 10;
             this.No.Name = "No";
             this.No.ReadOnly = true;
+            this.No.Width = 200;
             // 
             // Racedate
             // 
             this.Racedate.Frozen = true;
             this.Racedate.HeaderText = "レース日付";
+            this.Racedate.MinimumWidth = 10;
             this.Racedate.Name = "Racedate";
             this.Racedate.ReadOnly = true;
             this.Racedate.Width = 200;
@@ -1010,6 +1002,7 @@
             // 
             this.data_RaceCource.Frozen = true;
             this.data_RaceCource.HeaderText = "コース名";
+            this.data_RaceCource.MinimumWidth = 10;
             this.data_RaceCource.Name = "data_RaceCource";
             this.data_RaceCource.ReadOnly = true;
             this.data_RaceCource.Width = 150;
@@ -1018,6 +1011,7 @@
             // 
             this.data_RaceName.Frozen = true;
             this.data_RaceName.HeaderText = "レース名";
+            this.data_RaceName.MinimumWidth = 10;
             this.data_RaceName.Name = "data_RaceName";
             this.data_RaceName.ReadOnly = true;
             this.data_RaceName.Width = 500;
@@ -1026,13 +1020,16 @@
             // 
             this.data_Track.Frozen = true;
             this.data_Track.HeaderText = "トラック";
+            this.data_Track.MinimumWidth = 10;
             this.data_Track.Name = "data_Track";
             this.data_Track.ReadOnly = true;
+            this.data_Track.Width = 200;
             // 
             // data_Distance
             // 
             this.data_Distance.Frozen = true;
             this.data_Distance.HeaderText = "距離";
+            this.data_Distance.MinimumWidth = 10;
             this.data_Distance.Name = "data_Distance";
             this.data_Distance.ReadOnly = true;
             this.data_Distance.Width = 120;
@@ -1041,20 +1038,25 @@
             // 
             this.Ninki.Frozen = true;
             this.Ninki.HeaderText = "人気";
+            this.Ninki.MinimumWidth = 10;
             this.Ninki.Name = "Ninki";
             this.Ninki.ReadOnly = true;
+            this.Ninki.Width = 200;
             // 
             // data_Rank
             // 
             this.data_Rank.Frozen = true;
             this.data_Rank.HeaderText = "着順";
+            this.data_Rank.MinimumWidth = 10;
             this.data_Rank.Name = "data_Rank";
             this.data_Rank.ReadOnly = true;
+            this.data_Rank.Width = 200;
             // 
             // data_Jockey
             // 
             this.data_Jockey.Frozen = true;
             this.data_Jockey.HeaderText = "騎手";
+            this.data_Jockey.MinimumWidth = 10;
             this.data_Jockey.Name = "data_Jockey";
             this.data_Jockey.ReadOnly = true;
             this.data_Jockey.Width = 230;
@@ -1063,6 +1065,7 @@
             // 
             this.data_Futan.Frozen = true;
             this.data_Futan.HeaderText = "負担";
+            this.data_Futan.MinimumWidth = 10;
             this.data_Futan.Name = "data_Futan";
             this.data_Futan.ReadOnly = true;
             this.data_Futan.Width = 150;
@@ -1071,6 +1074,7 @@
             // 
             this.Aiteuma.Frozen = true;
             this.Aiteuma.HeaderText = "相手馬";
+            this.Aiteuma.MinimumWidth = 10;
             this.Aiteuma.Name = "Aiteuma";
             this.Aiteuma.ReadOnly = true;
             this.Aiteuma.Width = 300;
@@ -1079,13 +1083,16 @@
             // 
             this.TimeDiff.Frozen = true;
             this.TimeDiff.HeaderText = "タイム差";
+            this.TimeDiff.MinimumWidth = 10;
             this.TimeDiff.Name = "TimeDiff";
             this.TimeDiff.ReadOnly = true;
+            this.TimeDiff.Width = 200;
             // 
             // DMTime
             // 
             this.DMTime.Frozen = true;
             this.DMTime.HeaderText = "DM予測";
+            this.DMTime.MinimumWidth = 10;
             this.DMTime.Name = "DMTime";
             this.DMTime.ReadOnly = true;
             this.DMTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -1094,9 +1101,11 @@
             // DMRank
             // 
             this.DMRank.HeaderText = "DM順位";
+            this.DMRank.MinimumWidth = 10;
             this.DMRank.Name = "DMRank";
             this.DMRank.ReadOnly = true;
             this.DMRank.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.DMRank.Width = 200;
             // 
             // textBox5
             // 
@@ -1233,6 +1242,18 @@
             this.flowLayoutPanel8.TabIndex = 55;
             this.flowLayoutPanel8.Visible = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::WpfApp1.Properties.Resources.all;
+            this.pictureBox1.Location = new System.Drawing.Point(163, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(2009, 698);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 44;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
             // Kettou
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
@@ -1275,7 +1296,6 @@
             this.flowLayoutPanel2.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
@@ -1284,6 +1304,7 @@
             this.flowLayoutPanel3.PerformLayout();
             this.flowLayoutPanel7.ResumeLayout(false);
             this.flowLayoutPanel7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

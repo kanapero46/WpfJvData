@@ -204,6 +204,7 @@ namespace WpfApp1.JvComDbData
             setTrackStatus(inParam[24]);
             setRecordFlag(inParam[25]);
             setRaceName6(inParam[26]);
+            Tosu1 = Int32.Parse(inParam[19]);
 
             for (int i = 0; i < LAP_COUNT_MAX; i++)
             {

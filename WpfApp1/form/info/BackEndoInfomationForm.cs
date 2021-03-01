@@ -36,6 +36,7 @@ namespace WpfApp1.form.info
         JvDbW5Data W5 = new JvDbW5Data();
         JvDbTcData TC = new JvDbTcData();
         JvDbWhData WH = new JvDbWhData();
+        JvDbJcData JC = new JvDbJcData();
 
         public int JvInfoBackMain(int kind, String Key)
         {
@@ -66,7 +67,9 @@ namespace WpfApp1.form.info
         {
             JVData_Struct.JV_HR_PAY Pay = new JVData_Struct.JV_HR_PAY();
             JVData_Struct.JV_WE_WEATHER Weather = new JVData_Struct.JV_WE_WEATHER();
-            
+            JVData_Struct.JV_JC_INFO Jc = new JVData_Struct.JV_JC_INFO();
+
+
             JVForm JvForm = new JVForm();
             int ret = 0;
 
@@ -91,6 +94,7 @@ namespace WpfApp1.form.info
 
             //インスタンスの初期化が必要なものはここで初期化する。
             TC = new JvDbTcData();
+            JvDbJcData JcData = new JvDbJcData();
 
             while(ret >= 1)
             {
@@ -111,7 +115,7 @@ namespace WpfApp1.form.info
                             TCWriteFlag = true;
                             break;
                         case "JC":
-                            
+                            JC.RestrictJCData(ref buff);
                             break;
 
                     }
@@ -524,6 +528,23 @@ namespace WpfApp1.form.info
             Out = W5;
         }
         #endregion
+
+        public void GetJcData(ref InfoData info)
+        {
+            info.InfoRaceKey1 = JC.Key1;
+            info.Type1 = InfoData.ID_TYPE_JOCKEY_CHANGE;
+            info.Time1 = JC.Time1;
+
+            //変更後
+            String tmp = JC.AfterInfo1.MinaraiCd;
+            info.ChangeAfterName1 = LOG.JvSysMappingFunction(2303, ref tmp);
+            info.ChangeAfterName1 += JC.AfterInfo1.MinaraiCd + "(" + JC.AfterInfo1.Futan.Substring(0, 2) + "." + JC.AfterInfo1.Futan.Substring(2, 1) + "kg)";
+
+            //変更前
+            tmp = JC.BeforeInfo1.MinaraiCd;
+            info.InfoName1 = LOG.JvSysMappingFunction(2303, ref tmp);
+            info.InfoName1 += JC.BeforeInfo1.MinaraiCd + "(" + JC.BeforeInfo1.Futan.Substring(0, 2) + "." + JC.BeforeInfo1.Futan.Substring(2, 1) + "kg)";
+        }
 
         unsafe public String BackEndLibMappingFunction(int Code, String Cd)
         {

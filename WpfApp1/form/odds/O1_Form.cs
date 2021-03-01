@@ -49,6 +49,7 @@ namespace WpfApp1.form.odds
 
         private void O1_Form_Load(object sender, EventArgs e)
         {
+            LOG.CONSOLE_TIME_MD(MD, "<< O1FormLoadStart >>");
             if (Key == "" || Key == null)
             {
                 this.Close();
@@ -477,6 +478,8 @@ namespace WpfApp1.form.odds
             JVForm JV = new JVForm();
             int ret = 0;
 
+            LOG.CONSOLE_TIME_MD(MD, "<< GetAllOddzData start!!! >>");
+
             JV.JvForm_JvInit();
 
             ret = JV.JvForm_JvRTOpen("0B30", RaceKey.ToString());
@@ -501,7 +504,7 @@ namespace WpfApp1.form.odds
 
             String fname = "";
             String timeStamp = "";
-            int size = 83285;
+            int size = 100000;
             String buff = "";
             ret = 1;
             WpfApp1.JvComDbData.JvDbOzData OzData = new JvComDbData.JvDbOzData();
@@ -521,6 +524,7 @@ namespace WpfApp1.form.odds
                     break;
                 }
 
+                //オッズデータセット
                 ret = OzData.JvDbSetOzData(buff.Substring(0, 2), ref buff);
 
 #if DEBUG
@@ -534,6 +538,7 @@ namespace WpfApp1.form.odds
                 Param.PayFlag2 = OzData.JvOzDataGetPayInfo();
             }
 
+            //DBに書き込み
             ret = OzData.JvOzDbWriteDbData();
 #if DEBUG
             if (ret == 0)
@@ -541,6 +546,7 @@ namespace WpfApp1.form.odds
                 LOG.CONSOLE_MODULE("DEBUG", "JvOzDbWriteDbData ret = " + ret);
             }
 #endif
+            LOG.CONSOLE_TIME_MD(MD, "<< GetAllOddzData Finish!! " + ret + " >>");
             return ret;
         }
 

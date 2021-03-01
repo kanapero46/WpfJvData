@@ -20,16 +20,26 @@ namespace WpfApp1.dbCom1
 
         dbConnect db = new dbConnect();
 
+        //すべての血統情報を取得する */
+        List<String> St = new List<string>();
+        List<String> Hn = new List<string>();
+
+        public dbCom()
+        {
+            db.DbReadAllData("0", "ST", 0, ref St, "0", 0);
+            db.DbReadAllData("0", "HN", 0, ref Hn, "0", 0);
+        }
+
         #region 血統タイプをDBから読み込み(1)
         public String DbComSearchBloodType(String name1)
         {
             String tmp = "";
-            if(name1 == "")
+            if (name1 == "")
             {
                 return "";
             }
 
-            if(DbComBloodType(name1, ref tmp))
+            if (DbComBloodType(name1, ref tmp))
             {
                 return tmp;
             }
@@ -44,17 +54,17 @@ namespace WpfApp1.dbCom1
         public String DbComSearchBloodType(String name1, String name2)
         {
             String tmp = "";
-            if(name1 == "" || name2 == "")
+            if (name1 == "" || name2 == "")
             {
                 return "";
             }
-         
-            if(DbComBloodType(name1, ref tmp))
+
+            if (DbComBloodType(name1, ref tmp))
             {
-               return tmp;
+                return tmp;
             }
 
-            if(DbComBloodType(name2, ref tmp))
+            if (DbComBloodType(name2, ref tmp))
             {
                 return tmp;
             }
@@ -66,22 +76,22 @@ namespace WpfApp1.dbCom1
         public String DbComSearchBloodType(String name1, String name2, String name3)
         {
             String tmp = "";
-            if(name1 == "" || name2 == "" || name3 == "")
+            if (name1 == "" || name2 == "" || name3 == "")
             {
                 return "";
             }
-         
-            if(DbComBloodType(name1, ref tmp))
-            {
-               return tmp;
-            }
 
-            if(DbComBloodType(name2, ref tmp))
+            if (DbComBloodType(name1, ref tmp))
             {
                 return tmp;
             }
 
-            if(DbComBloodType(name3, ref tmp))
+            if (DbComBloodType(name2, ref tmp))
+            {
+                return tmp;
+            }
+
+            if (DbComBloodType(name3, ref tmp))
             {
                 return tmp;
             }
@@ -98,18 +108,18 @@ namespace WpfApp1.dbCom1
             int cnt = 0;
 
             /* １．設定データ(ST)からデータを取得する */
-            if(db.TextReader_aCell("ST", name, "0", 2, ref tmp) == 1)
+            if (db.TextReader_aCell("ST", name, "0", 2, ref tmp) == 1)
             {
                 outParam = tmp;
                 return true;
             }
 
             fBloodName = name;
-            while(cnt < 7) /* 仕様変更#17 */
+            while (cnt < 7) /* 仕様変更#17 */
             {
                 tmp = "";
                 db.TextReader_aCell("HN", fBloodName, "0", 4, ref tmp);
-                if(tmp == "")
+                if (tmp == "")
                 {
                     /* 父馬がヒットしなかったら検索続行しない */
                     outParam = "";
@@ -119,7 +129,7 @@ namespace WpfApp1.dbCom1
                 {
                     /* ヒットしたら父馬の血統登録番号で検索続行 */
                     fBloodName = tmp;
-                    if(db.TextReader_aCell("ST", fBloodName, "0", 2, ref tmp)　== 1)
+                    if (db.TextReader_aCell("ST", fBloodName, "0", 2, ref tmp) == 1)
                     {
                         /* 検索にヒットしたら処理中断 */
                         outParam = tmp;
@@ -132,7 +142,7 @@ namespace WpfApp1.dbCom1
                     }
                 }
             }
-            return false;      
+            return false;
         }
         #endregion
 
@@ -160,11 +170,11 @@ namespace WpfApp1.dbCom1
                 return Color.White;
             }
             Color Clr = DbComBloodColor(name1, ref ret);
-            if(ret)
+            if (ret)
             {
                 return Clr;
             }
-            
+
             Clr = DbComBloodColor(name2, ref ret);
             return Clr;
         }
@@ -198,12 +208,77 @@ namespace WpfApp1.dbCom1
         #region 血統タイプをDBから読み込み(共通・色)
         private Color DbComBloodColor(String name, ref Boolean ret)
         {
+
             String fBloodName;
             String tmp = "";
             int cnt = 0;
             ret = false;
+            int idx = 0;
 
+#if false
+            if (St.Count == 0) return Color.White;  //取得失敗は処理しない。
+            if (Hn.Count == 0) return Color.White;  //取得失敗は処理しない。
+            
             /* １．設定データ(ST)からデータを取得する */
+            for (idx = 0; idx < St.Count; idx++)
+            {
+                var values = St[idx].Split(',');
+                if(name == values[0])
+                {
+                    ret = true;
+                    return g_FuncHorceKindColor(values[3]);
+                }
+            }
+
+            fBloodName = name;
+
+        re:
+            while (cnt < 7) /* 仕様変更#17 */
+            {
+                for (idx = 0; idx < Hn.Count; idx++)
+                {
+                    var values = Hn[idx].Split(',');
+                    if (fBloodName == values[4])
+                    {
+                        //父親を入れておく
+                        fBloodName = values[4];
+                        //検索にヒットしたら検索実行
+                        for (int idx2 = 0; idx2 < St.Count; idx2++)
+                        {
+                            var value2 = St[idx2].Split(',');
+                            if (value2[0] == values[4])
+                            {
+                                /* 検索にヒットしたら処理中断 */
+                                ret = true;
+                                return g_FuncHorceKindColor(value2[3]);
+                            }
+                        }
+                        //検索に合致しない場合また父親探し
+                        cnt++;
+                        goto re;
+                    }
+                }
+#else
+#if false
+                /* 検索にヒットしたら処理中断 */
+                /* ヒットしたら父馬の血統登録番号で検索続行 */
+                for (int idx2 = 0; idx2 < St.Count; idx2++)
+                {
+                    var value2 = St[idx2].Split(',');
+                    if (value2[0] == values[4])
+                    {
+                        /* 検索にヒットしたら処理中断 */
+                        ret = true;
+                        return g_FuncHorceKindColor(value2[3]);
+                    }
+                }
+                cnt++;
+                continue;
+                cnt++;
+            }
+#endif
+
+#if true
             if (db.TextReader_aCell("ST", name, "0", 3, ref tmp) == 1)
             {
                 ret = true;
@@ -211,6 +286,9 @@ namespace WpfApp1.dbCom1
             }
 
             fBloodName = name;
+
+
+
             while (cnt < 7) /* 仕様変更#17 */
             {
                 tmp = "";
@@ -238,12 +316,16 @@ namespace WpfApp1.dbCom1
                     }
                 }
             }
+#endif
+
+            //Console.WriteLine("あ");
+#endif
             ret = false;
             return Color.White;
         }
-        #endregion
+#endregion
 
-        #region 種牡馬カラー判定
+#region 種牡馬カラー判定
         private Color g_FuncHorceKindColor(String Kind)
         {
             /** 種牡馬色定義　0：その他、１：ノーザンテースト系、２：ナスルーラ、３：ヘイロー系、４：サンデー系、５：ネイティブダンサー系
@@ -277,10 +359,10 @@ namespace WpfApp1.dbCom1
                     return Color.White;
             }
         }
-        #endregion
+#endregion
 
 
-        #region 過去走データをDBから取得(マッピング)
+#region 過去走データをDBから取得(マッピング)
         public int DbComGetOldRunDataMapping(String KettoNum, ref List<String> outParam, int RaceCount)
         {
             int ret = 0;
@@ -294,9 +376,9 @@ namespace WpfApp1.dbCom1
           
             return ret; /* 仕様変更#15 */
         }
-        #endregion
+#endregion
 
-        #region 過去走データをDBから取得(共通)
+#region 過去走データをDBから取得(共通)
         private int DbComGetOldRunData(String KettoNum, int RunNum, ref List<String> outParam)
         {
             List<String> tmp = new List<string>();
@@ -323,10 +405,10 @@ namespace WpfApp1.dbCom1
 
             return res;
         }
-        #endregion
+#endregion
 
 
-        #region 枠番からカラー算出
+#region 枠番からカラー算出
         public Color WakubanToColor(int Kind, String Wakuban)
         {
             switch(Wakuban)
@@ -417,7 +499,7 @@ namespace WpfApp1.dbCom1
             }
            
         }
-        #endregion
+#endregion
 
         public Boolean GetJockeyChangeInfo(String RaKey, ref List<JvComDbData.JvDbJcData> retArray)
         {

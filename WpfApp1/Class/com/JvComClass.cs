@@ -34,21 +34,36 @@ namespace WpfApp1.Class.com
             DateTime time = DateTime.Now;
             if(md == "")
             {
-                Console.WriteLine("[" + time + "]\t" + msg);
+                Console.WriteLine("[" + time.ToString("yyyy/MM/dd HH:mm:ss.ffffff") + "]\t" + msg);
             }
             else
             {
-                Console.WriteLine("[" + md + "] [" + time + "]\t" + msg);
+                Console.WriteLine("[" + md + "] [" + time.ToString("yyyy/MM/dd HH:mm:ss.ffffff") + "]\t" + msg);
             }          
+        }
+
+        //時間を出力
+        public void CONSOLE_TIME_OUT()
+        {
+            DateTime time = DateTime.Now;
+            Console.WriteLine("[" + time + "]\t");
         }
 
         //故障・エラー・ソフトエラー
         public void ASSERT(String md)
         {
-            if(md != "")
+            DateTime time = DateTime.Now;
+
+            if (md != "")
             {
                 Console.WriteLine("■■■■■■ ASSERT!!! ■■■■■■");
-                Console.WriteLine("■ ASSERT MODULE [" + md + "] ■");
+                Console.WriteLine("■■■■■■ ASSERT TIME [" + time + "]");
+                Console.WriteLine("■■■■■■ ASSERT MODULE [" + md + "]");
+            }
+            else
+            {
+                Console.WriteLine("■■■■■■ ASSERT!!! ■■■■■■");
+                Console.WriteLine("■■■■■■ ASSERT TIME [" + time + "]");
             }
         }
 
@@ -96,7 +111,116 @@ namespace WpfApp1.Class.com
             return max;
         }
 
+        //String型でラッピング
+        public Color NumberStrToColor(String WakubanStr) { return NumberToColor(Int32.Parse(WakubanStr)); }
+        public Color NumberStrToForeColor(String WakubanStr) { return NumberToForeColor(Int32.Parse(WakubanStr)); }
 
+        //枠番から枠色を返す
+        public System.Drawing.Color NumberToColor(int Wakuban)
+        {
+            switch (Wakuban)
+            {
+                case 1:
+                    return Color.White;
+                case 2:
+                    return Color.Black;
+                case 3:
+                    return Color.Red;
+                case 4:
+                    return Color.Blue;
+                case 5:
+                    return Color.Yellow;
+                case 6:
+                    return Color.Green;
+                case 7:
+                    return Color.Orange;
+                case 8:
+                    return Color.Pink;
+            }
+            return Color.White;
+        }
+
+
+        //枠番から枠字を返す
+        public System.Drawing.Color NumberToForeColor(String Wakuban)
+        {
+            return NumberToForeColor(Int32.Parse(Wakuban));
+        }
+
+        public System.Drawing.Color NumberToForeColor(int Wakuban)
+        {
+            switch (Wakuban)
+            {
+                case 1:
+                case 5:
+                case 7:
+                case 8:
+                    return Color.Black;
+                case 2:
+                case 3:
+                case 4:
+                case 6:
+                    return Color.White;
+            }
+            return Color.Black;
+        }
+
+        //JRA-VANDataLabのオッズから、String型を形成
+        public String OddzStrToString(String O1)
+        {
+            //3連単は最大7桁の仕様に合わせた
+            int tmp = 0;
+            String outParam = "";
+            try
+            {
+                outParam = (O1.Length <= 7 ? "0" : "") + (O1.Length <= 6 ? "0" : "") + (O1.Length <= 5 ? "0" : "") + (O1.Length <= 4 ? "0" : "") + (O1.Length <= 3 ? "0" : "") + (O1.Length <= 2 ? "0" : "") + (O1.Length <= 1 ? "0" : "") + O1;
+
+                if (Int32.TryParse(outParam, out tmp))
+                {
+                    //int型に変換出来ることが条件
+                    return Int32.Parse(outParam.Substring(0, 7)).ToString() + "." + outParam.Substring(7, 1);
+                }
+            }catch(Exception)
+            {
+
+            }
+
+            return "***.*";
+        }
+        
+        //intの２次元配列をソートする共通関数
+        //indexは１次元(0)・２次元(1)の次元番号
+        public void ArraySort(int[,] inParam, ref int[,] outParam, int Index)
+        {
+            
+            
+            try
+            {
+                int ArrayIndex = inParam.GetLength(Index);
+                int[] tmpArray = new int[ArrayIndex];    //とりあえず１つ
+                for (int i = 0; i < ArrayIndex; i++)
+                {
+                    if(Index == 0)
+                    {
+                        //1次元をソート
+                        tmpArray[i] = inParam[i, 0];
+                    }
+                    else
+                    {
+                        //２次元をソート
+                        tmpArray[i] = inParam[0, i];
+                    }
+                }
+                   
+            }
+            catch(Exception)
+            {
+               // return 0;
+            }
+
+            //tmpArray = new int[ArrayIndex];
+
+        }
     }
 
 }

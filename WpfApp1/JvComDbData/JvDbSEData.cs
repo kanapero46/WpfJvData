@@ -11,7 +11,7 @@ namespace WpfApp1.JvComDbData
 
     public class JvDbSEData : MainDataHorceClass
     {
-        const int RA_MAX = 31;
+        const int RA_MAX = 32;
         dbConnect db = new dbConnect();
         private const String MAGIC_STR = "A";
         private const String SPEC = "SE";

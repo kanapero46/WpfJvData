@@ -19,6 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LibJvConv;
 using WpfApp1.Class;
+using WpfApp1.Class.com;
 using WpfApp1.dbAccess;
 using WpfApp1.form;
 using WpfApp1.JvComDbData;
@@ -679,6 +680,7 @@ namespace WpfApp1
             String RaceCource ="";
             Boolean East = false;
             Boolean West = false;
+            Boolean Local = false;
             int Select = RaceListBox.SelectedIndex;
 
             if (Select == -1) { return; } /* 障害Issue#3 */
@@ -702,10 +704,45 @@ namespace WpfApp1
 
             /* クラスにセット */
             mainDataClass.setRaceCource(TextArray[Select]);
-            
+
+            /* 2021年中京・小倉同時開催対応 */
+            JvRcInfo RC_INFO = new JvRcInfo();
+            JvComRcInfo RcFunc = new JvComRcInfo();
+
+            RcFunc.JvComGetRcInfo(fromtime, ref RC_INFO);
+            String RaceCourceNum = LOG.JvSysMappingFunction(20011, ref RaceCource);
+            int JomeiColor = 0;
+            if(!Int32.TryParse(RaceCourceNum, out JomeiColor))
+            {
+                System.Windows.MessageBox.Show("データが取得出来ていません。", "エラー");
+                return;
+            }
+
+            if(JomeiColor == RC_INFO.EastRcNum1)
+            {
+                MainBack.Fill = System.Windows.Media.Brushes.Blue;
+            }
+            else if(JomeiColor == RC_INFO.WestRcNum1)
+            {
+                MainBack.Fill = System.Windows.Media.Brushes.DarkGreen;
+            }
+            else if(JomeiColor == RC_INFO.LocalRcNum1)
+            {
+                MainBack.Fill = System.Windows.Media.Brushes.Purple;
+            }
+
+            TextArray.Clear();
+
+#if false
             /* 夏競馬開催判定 */
             for (int i = 0; i < TextArray.Count; i++)
             {
+                RC_INFO.EastRcNum1
+
+
+
+
+
                 switch(TextArray[i])
                 {
                     case "05":
@@ -719,8 +756,6 @@ namespace WpfApp1
                 }
             }
 
-            TextArray.Clear();
-
             switch (RaceCource)
             {
                 case "東京":
@@ -732,8 +767,12 @@ namespace WpfApp1
                     MainBack.Fill = System.Windows.Media.Brushes.DarkGreen;
                     break;
                 case "中京":
-                case "小倉":
                     if (West) { MainBack.Fill = System.Windows.Media.Brushes.Purple; }
+                    else { MainBack.Fill = System.Windows.Media.Brushes.DarkGreen; }
+                    break;
+                case "小倉": //中京と小倉は中京を優先する。(2021年1月開催対応)
+                    if (West) { MainBack.Fill = System.Windows.Media.Brushes.Purple; }
+                    else if (Local) { MainBack.Fill = System.Windows.Media.Brushes.Purple; }
                     else { MainBack.Fill = System.Windows.Media.Brushes.DarkGreen; }
                     break;   
                 case "福島":
@@ -746,6 +785,12 @@ namespace WpfApp1
                     MainBack.Fill = System.Windows.Media.Brushes.Purple;
                     break;
             }
+
+            if(!West)
+            {
+
+            }
+#endif
 
             int CODE;
             String tmp = "";
@@ -1755,7 +1800,7 @@ namespace WpfApp1
         }
 
 
-        #region DBから開催競馬場を取得
+#region DBから開催競馬場を取得
         public void SetKaisaiInfo(String Date, ref List<String> ret)
         {
             List<String> ArrayStr = new List<string>();
@@ -1797,7 +1842,7 @@ namespace WpfApp1
             ret = ArrayRet;
 
         }
-        #endregion
+#endregion
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
         {
@@ -1854,11 +1899,11 @@ namespace WpfApp1
                     break;
             }
 
-            form.odds.O1_Form O1 = new form.odds.O1_Form(strParam, JomeiColor);
+            //form.odds.O1_Form O1 = new form.odds.O1_Form(strParam, JomeiColor);
+            //O1.Show();
 
-
-
-            O1.Show();
+            form.payBalance.Form1 f1 = new form.payBalance.Form1(strParam);
+            f1.Show();
         }
 
         private void Button_Click_10(object sender, RoutedEventArgs e)
