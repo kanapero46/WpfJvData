@@ -321,11 +321,18 @@ namespace WpfApp1.form
 
                 for (int i = 0; i < ArrayWhData.Count; i++)
                 {
-                    Libtmp = ArrayWhData[i].Zogensa1;
-                    dataGridView1.Rows[i].Cells[(int)DT.DT_H_TAIJU].Value = ArrayWhData[i].Bataiju1;
+                    try
+                    {
+                        Libtmp = ArrayWhData[i].Zogensa1;
+                        dataGridView1.Rows[i].Cells[(int)DT.DT_H_TAIJU].Value = ArrayWhData[i].Bataiju1;
 
-                    dataGridView1.Rows[i].Cells[(int)DT.DT_H_ZOGEN].Value =
-                        "(" + ArrayWhData[i].Fugo1 + LOG.JvSysMappingFunction(6002, ref Libtmp) + ")";
+                        dataGridView1.Rows[i].Cells[(int)DT.DT_H_ZOGEN].Value =
+                            "(" + ArrayWhData[i].Fugo1 + LOG.JvSysMappingFunction(6002, ref Libtmp) + ")";
+                    }
+                    catch(Exception)
+                    {
+
+                    }
                 }
                 BataijuFlg = true;
             }
@@ -646,7 +653,7 @@ namespace WpfApp1.form
                     dataGridView1[(int)DT.DT_J_MINARAI, ArrayNum].Style.ForeColor = Color.Red;
                     dataGridView1[(int)DT.DT_J_NAME, ArrayNum].Style.ForeColor = Color.Red;
                 }
-            }
+            }                                                     
 
             //レコード情報
             SetRecordData(RaClassData.GET_RA_KEY());

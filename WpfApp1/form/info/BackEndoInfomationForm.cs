@@ -37,6 +37,7 @@ namespace WpfApp1.form.info
         JvDbTcData TC = new JvDbTcData();
         JvDbWhData WH = new JvDbWhData();
         JvDbJcData JC = new JvDbJcData();
+        JvDbAVData AV = new JvDbAVData();
 
         public int JvInfoBackMain(int kind, String Key)
         {
@@ -55,6 +56,10 @@ namespace WpfApp1.form.info
                 case JV_RT_EVENT_WEIGHT:
                     ret = WH.JvDbWhLinkData(Key);
                     break;
+                case JV_RT_EVENT_AVOID:
+                    ret = JvInfoBackJvRead("0B16", Key);
+                    
+                    break;
             }
 
 
@@ -68,7 +73,7 @@ namespace WpfApp1.form.info
             JVData_Struct.JV_HR_PAY Pay = new JVData_Struct.JV_HR_PAY();
             JVData_Struct.JV_WE_WEATHER Weather = new JVData_Struct.JV_WE_WEATHER();
             JVData_Struct.JV_JC_INFO Jc = new JVData_Struct.JV_JC_INFO();
-
+            JVData_Struct.JV_AV_INFO Av = new JVData_Struct.JV_AV_INFO();
 
             JVForm JvForm = new JVForm();
             int ret = 0;
@@ -95,6 +100,7 @@ namespace WpfApp1.form.info
             //インスタンスの初期化が必要なものはここで初期化する。
             TC = new JvDbTcData();
             JvDbJcData JcData = new JvDbJcData();
+            JvDbAVData AV = new JvDbAVData();
 
             while(ret >= 1)
             {
@@ -117,7 +123,9 @@ namespace WpfApp1.form.info
                         case "JC":
                             JC.RestrictJCData(ref buff);
                             break;
-
+                        case "AV":
+                            AV = new JvDbAVData(ref buff, false);
+                            break;
                     }
                 }
                 else if(ret == 0 || buff == "")
@@ -303,7 +311,7 @@ namespace WpfApp1.form.info
             if(ret != 0)
             {
                 JVForm.JvForm_JvClose();
-                return -1;
+                return 0;
             }
 
             ret = 1;
@@ -414,7 +422,12 @@ namespace WpfApp1.form.info
             JVData_Struct.JV_WE_WEATHER we = new JVData_Struct.JV_WE_WEATHER();
             //JVData_Struct.WF_PAY_INFO W5 = new JVData_Struct.WF_PAY_INFO();
 
+            JvDbTcData TC = new JvDbTcData();
+            Boolean TcFlg = false;
+
             JvDbW5Data W5 = new JvDbW5Data();
+
+            Boolean JcFlg = true;
 
             while (ret >= 1)
             {
@@ -457,8 +470,12 @@ namespace WpfApp1.form.info
                     case "JC":  //騎手変更
                         //InfoClass.SetJockeyInfo();
                         // JcData = new JvDbJcData( ref buff, false,  )
+                        JC = new JvDbJcData(ref buff, JcFlg, 0);
+                        JcFlg = false;
                         break;
                     case "TC":  //発走時刻変更
+                        TC.SetJvTcData(ref buff);
+                        TcFlg = true;
                       //  InfoClass.SetTimeInfo();
                         break;
                     case "CC":  //コース変更情報
@@ -488,6 +505,12 @@ namespace WpfApp1.form.info
                     ret = JvWeData.JvDbWeGetDataMapping(i, ref weatherStatus);
                     BackEndConvWeatherStatusClassInfo(ref weatherStatus, ref tmpInfoClass);
                     InfoClass.Add(tmpInfoClass);
+                }
+
+                //発走時刻変更を書き込み
+                if(TcFlg)
+                {
+                    TC.ExecJvTcData();
                 }
             }
             else if(Spec == "0B51")

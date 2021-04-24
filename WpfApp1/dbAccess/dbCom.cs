@@ -215,6 +215,13 @@ namespace WpfApp1.dbCom1
             ret = false;
             int idx = 0;
 
+
+            if(St.Count == 0 || Hn.Count == 0)
+            {
+                db.DbReadAllData("0", "ST", 0, ref St, "0", 0);
+                db.DbReadAllData("0", "HN", 0, ref Hn, "0", 0);
+            }
+
 #if false
             if (St.Count == 0) return Color.White;  //取得失敗は処理しない。
             if (Hn.Count == 0) return Color.White;  //取得失敗は処理しない。
@@ -279,12 +286,24 @@ namespace WpfApp1.dbCom1
 #endif
 
 #if true
+
+            for(int i=0; i < St.Count; i++)
+            {
+                var value = St[i].Split(',');
+                if(St[0] == name)
+                {
+                    ret = true;
+                    return g_FuncHorceKindColor(value[3]);
+                }
+            }
+
+#if falase
             if (db.TextReader_aCell("ST", name, "0", 3, ref tmp) == 1)
             {
                 ret = true;
                 return g_FuncHorceKindColor(tmp);
             }
-
+#endif
             fBloodName = name;
 
 
@@ -292,6 +311,28 @@ namespace WpfApp1.dbCom1
             while (cnt < 7) /* 仕様変更#17 */
             {
                 tmp = "";
+                for(int i=0; i< Hn.Count; i++)
+                {
+                    var values = Hn[i].Split(',');
+                    if(fBloodName == values[0])
+                    {
+                        var fBloolTmp = Hn[i].Split(',');
+                        fBloodName = fBloolTmp[4];
+                        for(int j = 0; j < St.Count; j++)
+                        {
+                            var values2 = St[j].Split(',');
+                            if (values2[0] == fBloodName)
+                            {
+                                ret = true;
+                                return g_FuncHorceKindColor(values2[3]);
+                            }
+                            
+                        }
+                    }
+                }
+                cnt++;
+
+#if false
                 db.TextReader_aCell("HN", fBloodName, "0", 4, ref tmp);
                 if (tmp == "")
                 {
@@ -315,12 +356,13 @@ namespace WpfApp1.dbCom1
                         cnt++;
                     }
                 }
+#endif
             }
 #endif
 
-            //Console.WriteLine("あ");
+                //Console.WriteLine("あ");
 #endif
-            ret = false;
+                ret = false;
             return Color.White;
         }
 #endregion
@@ -507,22 +549,29 @@ namespace WpfApp1.dbCom1
             List<JvComDbData.JvDbJcData> JvDbJcData = new List<JvComDbData.JvDbJcData>();
             List<String> tmp = new List<string>();
             Boolean SetFlag = false;
-            JvComDbData.JvDbJcData cacheJcData;
+            JvComDbData.JvDbJcData cacheJcData = new JvComDbData.JvDbJcData();
 
 
-            for (int i = 1; ; i++) //エラーになるまで継続
-            {
-                tmp.Clear();
-                cacheJcData = new JvComDbData.JvDbJcData();
-                if (db.TextReader_Col(RaKey.Substring(0, 8), "JC", 0, ref tmp, i.ToString()) != 0)
+            for (int i = 1; i < 19 ; i++) //エラーになるまで継続
+            { 
+                tmp.Clear();     
+
+                Console.WriteLine(RaKey + String.Format("{0:00}", i));
+                if (db.TextReader_Col(RaKey.Substring(0, 8), "JC", 0, ref tmp, RaKey + String.Format("{0:00}", i)) != 0)
                 {
+                    if(tmp.Count == 0)
+                    {
+                        continue;
+                    }
+
                     if (cacheJcData.ReadData_AV(ref tmp) == 0)
                     {
-                        break;
+                        continue;
                     }
                     else
                     {
                         JvDbJcData.Add(cacheJcData);
+                        cacheJcData = new JvComDbData.JvDbJcData();
                         Console.WriteLine("[INFO]InitChangeInfo TRUE!");
                     }
                 }

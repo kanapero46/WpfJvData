@@ -80,7 +80,8 @@ namespace WpfApp1.JvComDbData
                     tmpDbStr += Key[i] + "," + HappyoTime[i] + "," + OldTime[i] + "," + AfterTime[i] + "\r\n";
                 }
 
-                  db = new dbAccess.dbConnect("TC", ref tmpDbStr, ref ret);
+                //  db = new dbAccess.dbConnect("TC", ref tmpDbStr, ref ret);
+                db = new dbAccess.dbConnect(Key[0].Substring(0, 8), "TC", ref tmpDbStr, ref ret);
             }
         }
 

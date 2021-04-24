@@ -143,22 +143,22 @@ namespace WpfApp1.JvComDbData
 
             try
             {
-                Key1 = inParam[1];
-                RaceNum1 = Int32.Parse(inParam[2]);
-                Umaban1 = Int32.Parse(inParam[3]);
-                Bamei1 = inParam[4];
-                Time1 = inParam[5];
-                JockeyInfo.Name = inParam[6];
-                JockeyInfo.JcokeyCode = inParam[7];
-                JockeyInfo.MinaraiCd = inParam[8];
-                JockeyInfo.Futan = inParam[9];
+                Key1 = inParam[0];
+                RaceNum1 = Int32.Parse(inParam[1]);
+                Umaban1 = Int32.Parse(inParam[2]);
+                Bamei1 = inParam[3];
+                Time1 = inParam[4];
+                JockeyInfo.Name = inParam[5];
+                JockeyInfo.JcokeyCode = inParam[6];
+                JockeyInfo.MinaraiCd = inParam[7];
+                JockeyInfo.Futan = inParam[8];
                 BeforeInfo1 = JockeyInfo;
                 JockeyInfo = new JV_JC_DATA();
 
-                JockeyInfo.Name = inParam[10];
-                JockeyInfo.JcokeyCode = inParam[11];
-                JockeyInfo.MinaraiCd = inParam[12];
-                JockeyInfo.Futan = inParam[13];
+                JockeyInfo.Name = inParam[9];
+                JockeyInfo.JcokeyCode = inParam[10];
+                JockeyInfo.MinaraiCd = inParam[11];
+                JockeyInfo.Futan = inParam[12];
                 AfterInfo1 = JockeyInfo;
                 return 1;
             }

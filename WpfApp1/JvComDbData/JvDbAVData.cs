@@ -63,10 +63,20 @@ namespace WpfApp1.JvComDbData
             Kubun = Int32.Parse(JvData.head.DataKubun);
             Umaban = Int32.Parse(JvData.Umaban);
             Bamei = JvData.Bamei.Trim();
+            List<String> tmpArray = new List<string>();
 
             //事由が入らないパターンがある？
             try
             {
+                db.DbReadAllData(Key.Substring(0, 8), "AV", 0, ref tmpArray, Key.Substring(0, 8), 0);
+                if(tmpArray.Count == 0)
+                {
+                    String Header = "#出走取消・競走除外情報";
+                    db.DeleteCsv("AV");
+                    /* ヘッダー書き込み */
+                    db = new dbConnect(JvData.id.Year + JvData.id.MonthDay, JvData.head.RecordSpec, ref Header, ref ret);
+                }
+
                 Riyuu = Int32.Parse(JvData.JiyuKubun);
             }
             catch(Exception)

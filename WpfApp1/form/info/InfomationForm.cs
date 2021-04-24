@@ -27,7 +27,9 @@ namespace WpfApp1.form.info
             public String CourceStr;    //競馬場名（日本語）
             public int PayEndRaceNum;   //発売締切レース番号
             public Boolean RaceCanceldFlg;//開催中止情報
+            public MainRaceInfo MainRaceNamme;  //当日メインレース(クラスが一番高い)
         }
+
 
         //表示レベル
         const int SAPPORO = 5;
@@ -62,6 +64,9 @@ namespace WpfApp1.form.info
 
         String DateParam;
 
+        //デバッグフラグ
+        Boolean DebugPayFlg = false;
+
         //文字列定義
         const String IF_TEXT_ID_CAN_1 = "レース以降は開催取り止めとなりました。";
         const String IF_TEXT_ID_CAN_2_1 = "本日の";
@@ -79,6 +84,15 @@ namespace WpfApp1.form.info
             DateParam = Date;
             COM.CONSOLE_TIME_MD("INFO", "InfomatioForm Date = " + Date);
         }
+
+        public InfomationForm(String Date, Boolean DebugFlg)
+        {
+            InitializeComponent();
+            DateParam = Date;
+            COM.CONSOLE_TIME_MD("INFO", "InfomatioForm Date = " + Date + " debug " + DebugFlg.ToString());
+            DebugPayFlg = DebugFlg;
+        }
+
 
         #region フォーム読み込み処理
 
@@ -109,6 +123,9 @@ namespace WpfApp1.form.info
             axJVLink1.JVWatchEvent();
 
             main.SetKaisaiInfo(DateParam, ref ArrayStr);
+
+            //変更情報を一括取得
+
 
             if(ArrayStr.Count == 0)
             {
@@ -159,16 +176,30 @@ namespace WpfApp1.form.info
                 }
 
                 gCacheParamRaceData[j].OutputLebel = GetOutPutLebel(gCacheParamRaceData[j].CourceCd);
+
+                //gCacheParamRaceData[j].MainRaceNamme;
             }
+
+            GetTodayMainRaceName(DateParam);
+
+#if DEBUG
+            if (DebugPayFlg)
+            {
+                gCacheParamRaceData[0].KaisaiFlag = DebugPayFlg;
+                gCacheParamRaceData[1].KaisaiFlag = DebugPayFlg;
+                gCacheParamRaceData[2].KaisaiFlag = DebugPayFlg;
+            }
+#endif
 
             //競馬場フィールド有効化のため、再ループ
             //ここが一つでも有効にならないと開催レースなしと表示される。
             //デバッグ時はここをtrueにする
-            if(gCacheParamRaceData[0].KaisaiFlag || gCacheParamRaceData[1].KaisaiFlag|| gCacheParamRaceData[2].KaisaiFlag)
+            if (gCacheParamRaceData[0].KaisaiFlag || gCacheParamRaceData[1].KaisaiFlag|| gCacheParamRaceData[2].KaisaiFlag)
             {
                 //フォーム開始時の処理
                 SetPanelEnable();
                 SetWeatherInfo();
+                OutPutMainRaceName();
                 //SetJockeyInfo();
                 Win5KaisaiInfo();   //WIN5
                 SetKaisaiCanceld();//開催中止のチェック
@@ -180,7 +211,6 @@ namespace WpfApp1.form.info
                 ShowErrorMessage("発売中のレースはありませんでした。");
             }
 
-          
             //起動完了
             InitFuncEnable = true;
             WriteTaskBar("準備完了");
@@ -551,10 +581,47 @@ namespace WpfApp1.form.info
             //GetRealTimeInfo();
 #endif
         }
-#endregion
+        #endregion
+
+        #region 競馬場コードから表示パネルを0 or 1 or 2で返す
+        private int CheckPanelLevel( int JyoCd )
+        {
+            //まず、全競馬場のパネル情報取得
+            int[,] ArrayJyoCdPanelInfo = new int[3,3];
+
+            for (int i = 0; i < gCacheParamRaceData.Length; i++)
+            {
+                ArrayJyoCdPanelInfo[i, 0] = gCacheParamRaceData[i].CourceCd;
+                ArrayJyoCdPanelInfo[i, 1] = gCacheParamRaceData[i].OutputLebel;
+            }
 
 
-#region 確定レース数の表示
+            
+
+            for(int j=0; j < gCacheParamRaceData.Length; j++)
+            {
+                
+            }
+
+            return 0;
+        }
+
+        private void sort(ref int n1, ref int n2, ref int n3)
+        {
+            if (n1 > n2) swap(ref n1, ref n2);
+            if (n2 > n3) swap(ref n2, ref n3);
+            if (n1 > n2) swap(ref n1, ref n2);
+        }
+
+        private void swap(ref int nx, ref int ny)
+        {
+            int temp = nx;
+            nx = ny;
+            ny = temp;
+        }
+        #endregion
+
+        #region 確定レース数の表示
         private void OutPutPayRaceLabel(int RcCode,int Kind)
         {
 
@@ -976,9 +1043,9 @@ namespace WpfApp1.form.info
 
         private int SearchCourceParamIndex(int JyoCd)
         {
-            for (int i = 0; i < gCacheParamRaceData.Length; i++)
+            for (　int i = 0; i < gCacheParamRaceData.Length; i++)
             {
-                if (JyoCd == gCacheParamRaceData[i].CourceCd)
+                if (JyoCd == gCacheIntCourceArray[i])
                 {
                     return i;
                 }
@@ -1322,7 +1389,14 @@ namespace WpfApp1.form.info
         }
         #endregion
 
-#region 開催中止情報
+        #region 出走取消・競走除外ハンドラー
+        private void axJVLink1_JVEvtCourseChange(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtCourseChangeEvent e)
+        {
+
+        }
+        #endregion
+
+        #region 開催中止情報
         private void SetKaisaiCanceld()
         {
             if(gCacheParamRaceData.Length == 0)
@@ -1378,12 +1452,27 @@ namespace WpfApp1.form.info
             InfoData tmpInfo = new InfoData();
 
             List<String> Param = new List<string>();
+
+            //フォントの変更
+            dataGridView1.DefaultCellStyle.Font = new Font("Meiryo UI", 10);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Meiryo UI", 9);
+            dataGridView2.DefaultCellStyle.Font = new Font("Meiryo UI", 10);
+            dataGridView2.ColumnHeadersDefaultCellStyle.Font = new Font("Meiryo UI", 9);
+            dataGridView3.DefaultCellStyle.Font = new Font("Meiryo UI", 10);
+            dataGridView3.ColumnHeadersDefaultCellStyle.Font = new Font("Meiryo UI", 9);
+
+            //スクロールバーを非表示
+            dataGridView1.ScrollBars = ScrollBars.None;
+            dataGridView2.ScrollBars = ScrollBars.None;
+            dataGridView3.ScrollBars = ScrollBars.None;
+
             db.DbReadAllData(DateParam, "JC", 0, ref Param, "0", 0);
             if(Param.Count != 0)
             {
                 //データあり
                 for(int i=0; i < Param.Count; i++)
                 {
+                    tmpInfo = new InfoData();
                     var value = Param[i].Split(',');
                     tmpInfo.Type1 = InfoData.ID_TYPE_JOCKEY_CHANGE;
                     tmpInfo.InfoRaceKey1 = value[0];
@@ -1404,12 +1493,13 @@ namespace WpfApp1.form.info
                 //データあり
                 for (int i = 0; i < Param.Count; i++)
                 {
+                    tmpInfo = new InfoData();
                     var value = Param[i].Split(',');
                     tmpInfo.Type1 = InfoData.ID_TYPE_RACE_START_CHANGE;
                     tmpInfo.InfoRaceKey1 = value[0];    //キー
-                    tmpInfo.InfoName1 = value[5] + "(" + value[8].Substring(0, 2) + "." + value[8].Substring(2, 1) + "kg)";
-                    tmpInfo.ChangeAfterName1 = value[9] + "(" + value[12].Substring(0, 2) + "." + value[12].Substring(2, 1) + "kg)";
-                    tmpInfo.Time1 = value[4];
+                    tmpInfo.OldTime1 = value[2];
+                    tmpInfo.NewTime1 = value[3];
+                    tmpInfo.Time1 = value[1];               
 
                     //このときには重複も許す(未定も含まれる)
                     ArrayInfoData.Add(tmpInfo);
@@ -1424,10 +1514,420 @@ namespace WpfApp1.form.info
                 for(int i=0; i < Param.Count; i++)
                 {
                     //処理を入れる
+                    tmpInfo = new InfoData();
+                    var value = Param[i].Split(',');
+                    if(Int32.Parse(value[2]) == 1) tmpInfo.Type1 = InfoData.ID_TYPE_TORIKESI;
+                    if(Int32.Parse(value[2]) == 2) tmpInfo.Type1 = InfoData.ID_TYPE_JOGAI;
+
+                    tmpInfo.InfoRaceKey1 = value[0];    //キー
+                    tmpInfo.InfoName1 = value[3] + "番 " + value[4];   //馬番 + 馬名
+                    
+
+                    //このときには重複も許す(未定も含まれる)
+                    ArrayInfoData.Add(tmpInfo);
                 }
             }
 
-            //DatGridに書き込む
+
+            ChangeInfoDataGridWriteAll(ref ArrayInfoData);
+        }
+
+        private void ChangeInfoDataGridWriteAll(ref List<InfoData> InData)
+        {
+            bool[] JockeyChange = new bool[3];
+            bool[] StartTimeChange = new bool[3];
+            bool[] TorikeshiChange = new bool[3];
+            bool[] JogaiChange = new bool[3];
+
+            int CourceIndex = 0;
+
+            DataGridView CommonsData = new DataGridView();
+
+            bool CommonFlg = false;
+
+            dataGridView1.Rows.Clear();
+            dataGridView2.Rows.Clear();
+            dataGridView3.Rows.Clear();
+
+            for (int i = 0; i < InData.Count; i++)
+            {
+                //datagridviewを切り替える
+                CourceIndex = SearchCourceParamIndex(Int32.Parse(InData[i].InfoRaceKey1.Substring(8, 2)));
+                switch (CourceIndex)
+                {
+                    case 0:
+                        CommonsData = dataGridView1;
+                        break;
+                    case 1:
+                        CommonsData = dataGridView3;
+                        break;
+                    case 2:
+                        CommonsData = dataGridView2;
+                        break;
+                    default:
+                        continue;
+                }
+
+                switch (InData[i].Type1)
+                {
+                    case 1: //出走取消
+                        CourceIndex = SearchCourceParamIndex(Int32.Parse(InData[i].InfoRaceKey1.Substring(8, 2)));
+                        if (TorikeshiChange[CourceIndex])
+                        {
+                            CommonFlg = false;
+                            //すでにヘッダー記載済み
+                            for (int j = 0; j < CommonsData.Rows.Count; j++)
+                            {
+                                //ヘッダー、もしくは、空セルの場合
+                                if (CommonsData.Rows[j].Cells[1].Value == null || (String)CommonsData.Rows[j].Cells[1].Value == "")
+                                {
+                                    continue;
+                                }
+
+                                if (CommonsData.Rows[j].Cells[1].Value.ToString() == "TK" + InData[i].InfoRaceKey1)
+                                {
+                                    //上書き対象
+                                    CommonsData.Rows[j].Cells[0].Value = InData[i].InfoRaceKey1.Substring(14, 2) + "R";
+                                    CommonsData.Rows[j].Cells[1].Value = "TK" + InData[i].InfoRaceKey1;
+                                    CommonsData.Rows[j].Cells[2].Value = InData[i].InfoName1;
+                                    CommonFlg = true;
+                                    break;
+                                }
+                            }
+
+                            //初データ
+                            if (!CommonFlg)
+                            {
+                                CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14, 2) + "R", "TK" + InData[i].InfoRaceKey1, InData[i].InfoName1);
+                            }
+
+                        }
+                        else
+                        {
+                            CommonsData.Rows.Add("", "", "＜出走取消＞");
+                            CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14, 2) + "R", "TK" + InData[i].InfoRaceKey1, InData[i].InfoName1);
+                            TorikeshiChange[CourceIndex] = true;
+                        }
+                        break;
+                    case 2: //競走除外
+                        CourceIndex = SearchCourceParamIndex(Int32.Parse(InData[i].InfoRaceKey1.Substring(8, 2)));
+                        if (JogaiChange[CourceIndex])
+                        {
+                            CommonFlg = false;
+                            //すでにヘッダー記載済み
+                            for (int j = 0; j < CommonsData.Rows.Count; j++)
+                            {
+                                //ヘッダー、もしくは、空セルの場合
+                                if (CommonsData.Rows[j].Cells[1].Value == null || (String)CommonsData.Rows[j].Cells[1].Value == "")
+                                {
+                                    continue;
+                                }
+
+                                if (CommonsData.Rows[j].Cells[1].Value.ToString() == "JG" + InData[i].InfoRaceKey1)
+                                {
+                                    //上書き対象
+                                    CommonsData.Rows[j].Cells[0].Value = InData[i].InfoRaceKey1.Substring(14, 2) + "R";
+                                    CommonsData.Rows[j].Cells[1].Value = "JG" + InData[i].InfoRaceKey1;
+                                    CommonsData.Rows[j].Cells[2].Value = InData[i].InfoName1;
+                                    CommonFlg = true;
+                                    break;
+                                }
+                            }
+
+                            //初データ
+                            if (!CommonFlg)
+                            {
+                                CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14, 2) + "R", "JG" + InData[i].InfoRaceKey1, InData[i].InfoName1);
+                            }
+                        }
+                        else
+                        {
+                            CommonsData.Rows.Add("", "", "＜競走除外＞");
+                            CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14, 2) + "R", "JG" + InData[i].InfoRaceKey1, InData[i].InfoName1);
+                            JogaiChange[CourceIndex] = true;
+                        }
+                        break;
+                    case 3: //騎手変更
+                        CourceIndex = SearchCourceParamIndex(Int32.Parse(InData[i].InfoRaceKey1.Substring(8, 2)));
+                        if (JockeyChange[CourceIndex])
+                        {
+                            CommonFlg = false;
+                            //すでにヘッダー記載済み
+                            for (int j = 0; j < CommonsData.Rows.Count; j++)
+                            {
+                                //ヘッダー、もしくは、空セルの場合
+                                if (CommonsData.Rows[j].Cells[1].Value == null || (String)CommonsData.Rows[j].Cells[1].Value == "")
+                                {
+                                    continue;
+                                }
+
+                                if (CommonsData.Rows[j].Cells[1].Value.ToString().Substring(2, 16) == InData[i].InfoRaceKey1)
+                                {
+                                    //上書き対象
+                                    CommonsData.Rows[j].Cells[0].Value = InData[i].InfoRaceKey1.Substring(14, 2) + "R";
+                                    CommonsData.Rows[j].Cells[1].Value = "TC" + InData[i].InfoRaceKey1;
+                                    CommonsData.Rows[j].Cells[2].Value = InData[i].InfoName1 + " → " + InData[i].ChangeAfterName1;
+                                    CommonFlg = true;
+                                    break;
+                                }
+                            }
+
+                            //初データ
+                            if (!CommonFlg)
+                            {
+                                CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14, 2) + "R", "TC" + InData[i].InfoRaceKey1, InData[i].InfoName1 + " → " + InData[i].ChangeAfterName1);
+                            }
+
+                        }
+                        else
+                        {
+                            CommonsData.Rows.Add("", "", "＜騎手変更＞");
+                            CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14, 2) + "R", "JC" + InData[i].InfoRaceKey1, InData[i].InfoName1 + " → " + InData[i].ChangeAfterName1);
+                            JockeyChange[CourceIndex] = true;
+                        }
+                        break;
+                    case 4: //発走時刻変更
+                        CourceIndex = SearchCourceParamIndex(Int32.Parse(InData[i].InfoRaceKey1.Substring(8, 2)));
+                        if(StartTimeChange[CourceIndex])
+                        {
+                            CommonFlg = false;
+                            //すでにヘッダー記載済み
+                            for (int j = 0; j < CommonsData.Rows.Count; j++)
+                            {
+                                //ヘッダー、もしくは、空セルの場合
+                                if(CommonsData.Rows[j].Cells[1].Value == null || (String)CommonsData.Rows[j].Cells[1].Value == "")
+                                {
+                                    continue;
+                                }
+                                
+                                if (CommonsData.Rows[j].Cells[1].Value.ToString().Substring(2,16) == InData[i].InfoRaceKey1)
+                                {
+                                    //上書き対象
+                                    CommonsData.Rows[j].Cells[0].Value = InData[i].InfoRaceKey1.Substring(14, 2) + "R";
+                                    CommonsData.Rows[j].Cells[1].Value = "TC" + InData[i].InfoRaceKey1;
+                                    CommonsData.Rows[j].Cells[2].Value = InData[i].OldTime1 + " → " + InData[i].NewTime1; ;
+                                    CommonFlg = true;
+                                    break;
+                                }
+                            }
+
+                            //初データ
+                            if(!CommonFlg)
+                            {
+                                CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14, 2) + "R", "TC" + InData[i].InfoRaceKey1, InData[i].OldTime1 + " → " + InData[i].NewTime1);
+                            }
+
+                        }
+                        else
+                        {
+                            CommonsData.Rows.Add("", "", "＜発走時刻変更＞");
+                            CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14,2) + "R", "TC" + InData[i].InfoRaceKey1, InData[i].OldTime1 + " → " + InData[i].NewTime1);
+                            StartTimeChange[CourceIndex] = true;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+        #region 本日のメインレースを取得
+        private void GetTodayMainRaceName(String Date)
+        {
+            MainRaceInfo[] ret = new MainRaceInfo[3];
+            List<String> tmpArray = new List<string>();
+
+            dbAccess.dbConnect db = new dbAccess.dbConnect();
+
+            Boolean SetFlg = false;
+
+            //レース情報を取得
+            db.DbReadAllData(Date, "RA", 0, ref tmpArray, Date, 0);
+            if(tmpArray.Count != 0)
+            {
+                ret[0] = new MainRaceInfo();
+                ret[1] = new MainRaceInfo();
+                ret[2] = new MainRaceInfo();
+
+                //取得した件数分ループ
+                for (int j = 0; j < tmpArray.Count; j++)
+                {
+                    var value = tmpArray[j].Split(',');
+
+                    for(int i = 0; i < MAX_RACE_CNT; i++)
+                    {
+
+                        //一般競走はメインレースにしない
+                        if(value[16] == "一般")
+                        {
+                            continue;
+                        }
+
+                        //最初は入ってくる
+                        if(gCacheParamRaceData[i].CourceCd == Int32.Parse(value[2]))
+                        {
+                            //クラスが高い方を置き換える
+                            if (ret[i].Class1 <= GredeRankJudge(value[14]))
+                            {
+                                SetFlg = true;
+                                ret[i].Key1 = Int32.Parse(value[2]);
+                                ret[i].Racename1 = value[7];
+                                ret[i].Class1 = GredeRankJudge(value[14]);
+                                ret[i].Grade1 = value[16];
+                            }
+                        }
+
+#if false
+                        if (ret[i].Key1 == Int32.Parse(value[2]))
+                        {
+                            //クラスが高い方を置き換える
+                            if (ret[i].Class1 <= GredeJudge(value[16]))
+                            {
+                                SetFlg = true;
+                                ret[i].Key1 = Int32.Parse(value[2]);
+                                ret[i].Racename1 = value[8];
+                                if (value[16] != "一般" && value[16] != "特別")
+                                {
+                                    ret[i].Racename1 += "(" + value[16] + ")";
+                                }
+                                ret[i].Class1 = GredeJudge(value[16]);
+                            }
+                        }
+#endif
+                    }
+
+
+
+                }
+
+                //全部終わったら入れる
+                int l = 0;
+                for (int n = 0; n < MAX_RACE_CNT; n++)
+                {
+                    gCacheParamRaceData[n].MainRaceNamme = new MainRaceInfo();
+
+                    if (gCacheParamRaceData[n].CourceCd == ret[0].Key1)
+                    {
+                        gCacheParamRaceData[n].MainRaceNamme.Racename1 = ret[0].Racename1;
+                        gCacheParamRaceData[n].MainRaceNamme.Grade1 = ret[0].Grade1;
+                    }
+
+                    if (gCacheParamRaceData[n].CourceCd == ret[1].Key1)
+                    {
+                        gCacheParamRaceData[n].MainRaceNamme.Racename1 = ret[1].Racename1;
+                        gCacheParamRaceData[n].MainRaceNamme.Grade1 = ret[1].Grade1;
+                    }
+
+                    if (gCacheParamRaceData[n].CourceCd == ret[2].Key1)
+                    {
+                        gCacheParamRaceData[n].MainRaceNamme.Racename1 = ret[2].Racename1;
+                        gCacheParamRaceData[n].MainRaceNamme.Grade1 = ret[2].Grade1;
+                    }
+                }
+            }
+           
+        }
+
+        private void OutPutMainRaceName()
+        {
+            int OutParamLevel = 0;
+            Label label = new Label();
+
+            for (int i = 0; i < MAX_RACE_CNT; i++)
+            {
+                for (OutParamLevel = 0; OutParamLevel < gCacheParamRaceData.Length; OutParamLevel++)
+                {
+                    if (gCacheParamRaceData[i].CourceCd == gCacheIntCourceArray[OutParamLevel])
+                    {
+                        break;
+                    }
+                }
+
+                switch (OutParamLevel)
+                {
+                    case 0:
+                        label = label11;
+                        break;
+                    case 1:
+                        label = label26;
+                        break;
+                    case 2:
+                        label = label21;
+                        break;
+
+                }
+
+                label.Text = gCacheParamRaceData[i].MainRaceNamme.Racename1;
+                if(gCacheParamRaceData[i].MainRaceNamme.Grade1 != "一般" && gCacheParamRaceData[i].MainRaceNamme.Grade1 != "特別")
+                {
+                    label.Text += "(" + gCacheParamRaceData[i].MainRaceNamme.Grade1 + ")";
+                }
+                label.ForeColor = GradeForeColor(gCacheParamRaceData[i].MainRaceNamme.Grade1);
+
+            }
+        }
+
+
+        //グレードコードから、優先度を判断
+        private int GredeRankJudge(String GradeCd)
+        {
+            switch (GradeCd)
+            {
+                case "999": //オープン
+                    return 5;
+                case "016": //3勝クラス
+                    return 4;
+                case "010": //2勝クラス
+                    return 3;
+                case "005": //1勝クラス
+                    return 2;
+                case "701": //メイクデビュー
+                case "703": //未勝利
+                    return 1;
+                default:
+                    return 0;
+            }
+        }
+
+        private Color GradeForeColor(String Grade)
+        {
+            switch (Grade)
+            {
+                case "ＧⅠ":
+                case "Ｊ・ＧⅠ":
+                    return Color.DarkBlue;
+                case "ＧⅡ":
+                case "Ｊ・ＧⅡ":
+                    return Color.DarkRed;
+                case "ＧⅢ":
+                case "Ｊ・ＧⅢ":
+                case "重賞":
+                    return Color.DarkGreen;
+                case "Ｌ":
+                    return Color.DarkSlateGray;
+                default:
+                    return Color.Black;
+            }
+        }
+#endregion
+
+        private void flowLayoutPanel10_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel9_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void axJVLink1_JVEvtAvoid(object sender, AxJVDTLabLib._IJVLinkEvents_JVEvtAvoidEvent e)
+        {
+            int ret = 0;
+            ret = BackEnd.JvInfoBackMain(BackEndInfomationForm.JV_RT_EVENT_AVOID, e.bstr);
+            CommonAllGetData();
+            COM.CONSOLE_MODULE("INFO_HDL", "AV EventHanlder:" + e.bstr + "(" + ret + ")");
         }
     }
 
@@ -1438,6 +1938,10 @@ namespace WpfApp1.form.info
         private String InfoName;        //騎手名・馬名
         private String ChangeAfterName; //変更後の騎手名・馬名
         private String Time;            //発表時間
+
+        //ID_TYPE_RACE_START_CHANGE用
+        private String OldTime;         //変更前時間
+        private String NewTime;         //変更五時間
         private int Reason;             //変更理由(出走取消など)
 
         public const int ID_TYPE_TORIKESI = 1;
@@ -1452,5 +1956,28 @@ namespace WpfApp1.form.info
         public string ChangeAfterName1 { get => ChangeAfterName; set => ChangeAfterName = value; }
         public string Time1 { get => Time; set => Time = value; }
         public int Reason1 { get => Reason; set => Reason = value; }
+        public string OldTime1 { get => OldTime; set => OldTime = value; }
+        public string NewTime1 { get => NewTime; set => NewTime = value; }
+    }
+
+    class MainRaceInfo
+    {
+        private String Racename;    //レース名
+        private int Key;            //レースキー
+        private int Class;          //レースクラス
+        private String Grade;
+
+        public string Racename1 { get => Racename; set => Racename = value; }
+        public int Key1 { get => Key; set => Key = value; }
+        public int Class1 { get => Class; set => Class = value; }
+        public string Grade1 { get => Grade; set => Grade = value; }
+
+        //Stringの初期化
+        public MainRaceInfo()
+        {
+            Racename = "";
+        }
     }
 }
+
+

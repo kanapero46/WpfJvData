@@ -1788,7 +1788,11 @@ namespace WpfApp1
             /* 二重起動防止 */
             if (this.infomationForm == null || this.infomationForm.IsDisposed)
             { /* ヌル、または破棄されていたら */
+#if DEBUG
+                infomationForm = new form.info.InfomationForm(dt.ToString("yyyyMMdd"), DebugFlg.IsEnabled );
+#else
                 infomationForm = new form.info.InfomationForm(dt.ToString("yyyyMMdd"));
+#endif
                 infomationForm.Show();
             }
             else
