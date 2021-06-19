@@ -557,6 +557,37 @@ namespace WpfApp1.dbCom1
                 tmp.Clear();     
 
                 Console.WriteLine(RaKey + String.Format("{0:00}", i));
+
+                db.DbReadAllData(RaKey.Substring(0, 8), "JC", 0, ref tmp, RaKey.Substring(0, 8), 0);
+                if(tmp.Count != 0)
+                {
+                    for(int j=0; j<tmp.Count; j++)
+                    {
+                        var values = tmp[j].Split(',');
+
+                        if(values.Length != 0)
+                        {
+                            if (cacheJcData.ReadData_AV(ref values) == 0)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                JvDbJcData.Add(cacheJcData);
+                                cacheJcData = new JvComDbData.JvDbJcData();
+                                Console.WriteLine("[INFO]InitChangeInfo TRUE!");
+                            }
+                        }
+                    }
+                    
+                    if (tmp.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    
+                }
+#if false
                 if (db.TextReader_Col(RaKey.Substring(0, 8), "JC", 0, ref tmp, RaKey + String.Format("{0:00}", i)) != 0)
                 {
                     if(tmp.Count == 0)
@@ -575,6 +606,7 @@ namespace WpfApp1.dbCom1
                         Console.WriteLine("[INFO]InitChangeInfo TRUE!");
                     }
                 }
+#endif
                 else
                 {
                     //Žæ“¾I—¹E‚Ü‚½‚ÍŽæ“¾‚È‚µ

@@ -53,6 +53,7 @@
             this.flowMain1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
             this.label13 = new System.Windows.Forms.Label();
+            this.Main1 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -75,6 +76,7 @@
             this.PayInfo2 = new System.Windows.Forms.Label();
             this.flowLayoutPanel17 = new System.Windows.Forms.FlowLayoutPanel();
             this.label24 = new System.Windows.Forms.Label();
+            this.Main3 = new System.Windows.Forms.Button();
             this.label26 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
@@ -100,8 +102,8 @@
             this.PayInfo3 = new System.Windows.Forms.Label();
             this.flowLayoutPanel16 = new System.Windows.Forms.FlowLayoutPanel();
             this.label19 = new System.Windows.Forms.Label();
+            this.Main2 = new System.Windows.Forms.Button();
             this.label21 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -454,6 +456,7 @@
             // flowLayoutPanel8
             // 
             this.flowLayoutPanel8.Controls.Add(this.label13);
+            this.flowLayoutPanel8.Controls.Add(this.Main1);
             this.flowLayoutPanel8.Controls.Add(this.label11);
             this.flowLayoutPanel8.Controls.Add(this.button2);
             this.flowLayoutPanel8.Location = new System.Drawing.Point(3, 113);
@@ -471,12 +474,25 @@
             this.label13.TabIndex = 33;
             this.label13.Text = "今日のメインレース";
             // 
+            // Main1
+            // 
+            this.Main1.BackColor = System.Drawing.Color.White;
+            this.Main1.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Main1.Location = new System.Drawing.Point(1, 20);
+            this.Main1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.Main1.Name = "Main1";
+            this.Main1.Size = new System.Drawing.Size(336, 35);
+            this.Main1.TabIndex = 36;
+            this.Main1.Text = "RACE_NAME_JOMEI_1";
+            this.Main1.UseVisualStyleBackColor = false;
+            this.Main1.Click += new System.EventHandler(this.button5_Click);
+            // 
             // label11
             // 
             this.label11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label11.Font = new System.Drawing.Font("Meiryo UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label11.ForeColor = System.Drawing.Color.Navy;
-            this.label11.Location = new System.Drawing.Point(1, 18);
+            this.label11.Location = new System.Drawing.Point(1, 57);
             this.label11.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(338, 33);
@@ -486,7 +502,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(1, 53);
+            this.button2.Location = new System.Drawing.Point(1, 92);
             this.button2.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(339, 20);
@@ -698,6 +714,7 @@
             // flowLayoutPanel17
             // 
             this.flowLayoutPanel17.Controls.Add(this.label24);
+            this.flowLayoutPanel17.Controls.Add(this.Main3);
             this.flowLayoutPanel17.Controls.Add(this.label26);
             this.flowLayoutPanel17.Controls.Add(this.button4);
             this.flowLayoutPanel17.Location = new System.Drawing.Point(3, 113);
@@ -715,12 +732,25 @@
             this.label24.TabIndex = 33;
             this.label24.Text = "今日のメインレース";
             // 
+            // Main3
+            // 
+            this.Main3.BackColor = System.Drawing.Color.White;
+            this.Main3.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Main3.Location = new System.Drawing.Point(1, 20);
+            this.Main3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.Main3.Name = "Main3";
+            this.Main3.Size = new System.Drawing.Size(336, 35);
+            this.Main3.TabIndex = 36;
+            this.Main3.Text = "RACE_NAME_JOMEI_3";
+            this.Main3.UseVisualStyleBackColor = false;
+            this.Main3.Click += new System.EventHandler(this.Main3_Click);
+            // 
             // label26
             // 
             this.label26.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label26.Font = new System.Drawing.Font("Meiryo UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label26.ForeColor = System.Drawing.Color.Navy;
-            this.label26.Location = new System.Drawing.Point(1, 18);
+            this.label26.Location = new System.Drawing.Point(1, 57);
             this.label26.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(336, 33);
@@ -730,7 +760,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(1, 53);
+            this.button4.Location = new System.Drawing.Point(1, 92);
             this.button4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(339, 20);
@@ -977,8 +1007,8 @@
             // flowLayoutPanel16
             // 
             this.flowLayoutPanel16.Controls.Add(this.label19);
+            this.flowLayoutPanel16.Controls.Add(this.Main2);
             this.flowLayoutPanel16.Controls.Add(this.label21);
-            this.flowLayoutPanel16.Controls.Add(this.button3);
             this.flowLayoutPanel16.Location = new System.Drawing.Point(3, 113);
             this.flowLayoutPanel16.Name = "flowLayoutPanel16";
             this.flowLayoutPanel16.Size = new System.Drawing.Size(340, 63);
@@ -994,30 +1024,31 @@
             this.label19.TabIndex = 33;
             this.label19.Text = "今日のメインレース";
             // 
+            // Main2
+            // 
+            this.Main2.BackColor = System.Drawing.Color.White;
+            this.Main2.Font = new System.Drawing.Font("メイリオ", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Main2.Location = new System.Drawing.Point(1, 20);
+            this.Main2.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.Main2.Name = "Main2";
+            this.Main2.Size = new System.Drawing.Size(336, 35);
+            this.Main2.TabIndex = 35;
+            this.Main2.Text = "RACE_NAME_JOMEI_2";
+            this.Main2.UseVisualStyleBackColor = false;
+            this.Main2.Click += new System.EventHandler(this.Main2_Click);
+            // 
             // label21
             // 
             this.label21.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label21.Font = new System.Drawing.Font("Meiryo UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label21.ForeColor = System.Drawing.Color.Navy;
-            this.label21.Location = new System.Drawing.Point(1, 18);
+            this.label21.Location = new System.Drawing.Point(1, 57);
             this.label21.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(287, 33);
             this.label21.TabIndex = 20;
             this.label21.Text = "札幌２歳Ｓ(ＧⅢ)";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.Color.White;
-            this.button3.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button3.Location = new System.Drawing.Point(290, 20);
-            this.button3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(46, 32);
-            this.button3.TabIndex = 35;
-            this.button3.Text = "出馬表";
-            this.button3.UseVisualStyleBackColor = false;
             // 
             // dataGridView2
             // 
@@ -1731,6 +1762,8 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button Main2;
+        private System.Windows.Forms.Button Main1;
+        private System.Windows.Forms.Button Main3;
     }
 }

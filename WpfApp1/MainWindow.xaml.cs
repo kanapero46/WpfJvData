@@ -360,7 +360,7 @@ namespace WpfApp1
                 ret = CheckJvOpenRetErr(ret);
                 if(ret != 1)
                 {
-                    System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー");
+                    //System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー");
                     JVForm.JvForm_JVWatchEventClose();     //速報系スレッドの終了
                     return 0;
                 }

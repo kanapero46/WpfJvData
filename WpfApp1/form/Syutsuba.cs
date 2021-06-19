@@ -648,10 +648,25 @@ namespace WpfApp1.form
                     ArrayNum = AfterJockey[j].Umaban1 - 1;
                     dataGridView1[(int)DT.DT_J_MINARAI, ArrayNum].Value = tmp;
                     dataGridView1[(int)DT.DT_J_NAME, ArrayNum].Value = AfterJockey[j].AfterInfo1.Name;
+                    if(AfterJockey[j].AfterInfo1.Name != "未定")
+                    {
+                        dataGridView1[(int)DT.DT_J_FUTAN, ArrayNum].Value = AfterJockey[j].AfterInfo1.Futan.Substring(0, 2) + "." + AfterJockey[j].AfterInfo1.Futan.Substring(2, 1) + "kg";
+                    }
+                    else
+                    {
+                        //騎手未定の場合、負担重量欄を空にしておく
+                        dataGridView1[(int)DT.DT_J_FUTAN, ArrayNum].Value = " ";
+                    }
 
                     //フォント
                     dataGridView1[(int)DT.DT_J_MINARAI, ArrayNum].Style.ForeColor = Color.Red;
                     dataGridView1[(int)DT.DT_J_NAME, ArrayNum].Style.ForeColor = Color.Red;
+
+                    if(AfterJockey[j].AfterInfo1.Futan != AfterJockey[j].BeforeInfo1.Futan)
+                    {
+                        //負担重量が変わった場合は、負担重量欄も赤字にする
+                        dataGridView1[(int)DT.DT_J_FUTAN, ArrayNum].Style.ForeColor = Color.Red;
+                    }
                 }
             }                                                     
 
@@ -1495,10 +1510,12 @@ namespace WpfApp1.form
                 return;
             }
 
+            JvDbRcData Rc = new JvDbRcData();
+
             List<String> tmpArrayData = new List<string>();
             String tmpKey = "";
 
-            tmpKey = "G" + RaClassData.getRaceCource() + RaClassData.getCourceTrack() + RaClassData.getDistance();
+            tmpKey = "G" + String.Format("{0:00}", Rc.CheckRaceName6( RaClassData.getRaceName6() ));
             db.TextReader_Col("0", "RC", 0, ref tmpArrayData, tmpKey);
             if (tmpArrayData.Count == 0)
             {
@@ -1852,6 +1869,16 @@ namespace WpfApp1.form
 
             data.DataList DataForm = new data.DataList();
             DataForm.Show();
+        }
+
+        private void Syutsuba_Activated(object sender, EventArgs e)
+        {
+            this.dataGridView1.ShowCellToolTips = true;
+        }
+
+        private void Syutsuba_Deactivate(object sender, EventArgs e)
+        {
+            this.dataGridView1.ShowCellToolTips = false;
         }
     }
 

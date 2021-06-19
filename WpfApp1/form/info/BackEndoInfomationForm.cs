@@ -43,7 +43,7 @@ namespace WpfApp1.form.info
         {
             int ret = 0;
             LOG.CONSOLE_MODULE("BE_INFO", "[" + kind + "]" + Key);
-            switch(kind)
+            switch (kind)
             {
                 case JV_RT_EVENT_PAY:   //払戻確定情報
                     ret = JvInfoBackJvRead("0B15", Key);
@@ -58,7 +58,7 @@ namespace WpfApp1.form.info
                     break;
                 case JV_RT_EVENT_AVOID:
                     ret = JvInfoBackJvRead("0B16", Key);
-                    
+
                     break;
             }
 
@@ -85,9 +85,9 @@ namespace WpfApp1.form.info
 
             ret = JvForm.JvForm_JvRTOpen(Spec, Key);
 
-            if(ret != 0)
+            if (ret != 0)
             {
-                LOG.CONSOLE_MODULE("BE_INFO", "JVRTOPEN ERROR! JvInfoBackJvRead["+ Spec +"](" + ret + ")");
+                LOG.CONSOLE_MODULE("BE_INFO", "JVRTOPEN ERROR! JvInfoBackJvRead[" + Spec + "](" + ret + ")");
                 JvForm.JvForm_JvClose();
                 return ret;
             }
@@ -102,12 +102,12 @@ namespace WpfApp1.form.info
             JvDbJcData JcData = new JvDbJcData();
             JvDbAVData AV = new JvDbAVData();
 
-            while(ret >= 1)
+            while (ret >= 1)
             {
                 ret = JvForm.JvForm_JvRead(ref buff, out size, out filename);
-                if(ret >= 1)
+                if (ret >= 1)
                 {
-                    switch(buff.Substring(0,2))
+                    switch (buff.Substring(0, 2))
                     {
                         case "HR":
                             HR.SetHrData(ref buff);
@@ -128,12 +128,12 @@ namespace WpfApp1.form.info
                             break;
                     }
                 }
-                else if(ret == 0 || buff == "")
+                else if (ret == 0 || buff == "")
                 {
                     //全ファイル読み込み終了
                     break;
                 }
-                else if(ret == -1)
+                else if (ret == -1)
                 {
                     ret = 1;
                     continue;
@@ -143,20 +143,19 @@ namespace WpfApp1.form.info
 
                 }
 
-                if(TCWriteFlag)
+                if (TCWriteFlag)
                 {
                     TC.ExecJvTcData();
                 }
-
             }
             JvForm.JvForm_JvClose();
 
             //DBに書き込み
-            if(HRWriteFlag)
+            if (HRWriteFlag)
             {
                 ret = HR.JvWriteHrData();
             }
-            else if(TCWriteFlag)
+            else if (TCWriteFlag)
             {
                 ret = TC.WriteJvDbData();
             }
@@ -200,7 +199,7 @@ namespace WpfApp1.form.info
             }
 
             Out = tmp;
-            return 1;           
+            return 1;
         }
         #endregion
 
@@ -211,11 +210,11 @@ namespace WpfApp1.form.info
             List<String> tmp = new List<string>();
             int ret = 0;
 
-            for(int i=1; ;i++)
+            for (int i = 1; ; i++)
             {
-                if(db.TextReader_Col(Date, "TC", 0, ref tmp, i.ToString()) >= 1 )
+                if (db.TextReader_Col(Date, "TC", 0, ref tmp, i.ToString()) >= 1)
                 {
-                    if(tmp.Count == 0)
+                    if (tmp.Count == 0)
                     {
                         return i;
                     }
@@ -242,7 +241,7 @@ namespace WpfApp1.form.info
             Jv.JvForm_JVWatchEvent();
             int ret = Jv.JvForm_JvRTOpen("0B14", Date);
 
-            if(ret != 0)
+            if (ret != 0)
             {
                 LOG.CONSOLE_MODULE("BE_INFO", "KaisaiInfo Error RTOPEN[" + ret + "]");
                 return;
@@ -253,24 +252,24 @@ namespace WpfApp1.form.info
             String buff = "";
             ret = 1;
 
-            while(ret >= 1)
+            while (ret >= 1)
             {
                 ret = Jv.JvForm_JvRead(ref buff, out size, out fileName);
 
-                if(ret == 0)
+                if (ret == 0)
                 {
                     break;
                 }
-                else if(ret == -3)
+                else if (ret == -3)
                 {
                     ret = 1;
                     continue;
                 }
-                else if(ret == -202)
+                else if (ret == -202)
                 {
                     break;
                 }
-                else if(ret == -1)
+                else if (ret == -1)
                 {
                     ret = 1;
                     continue;
@@ -282,12 +281,12 @@ namespace WpfApp1.form.info
                     break;
                 }
 
-                switch(buff.Substring(0,2))
+                switch (buff.Substring(0, 2))
                 {
                     case "WE":
                         break;
                 }
-            
+
 
 
             }
@@ -300,7 +299,7 @@ namespace WpfApp1.form.info
         {
             JVForm JVForm = new JVForm();
 
-            if(Key == "")
+            if (Key == "")
             {
                 return -1;
             }
@@ -308,7 +307,7 @@ namespace WpfApp1.form.info
             JVForm.JvForm_JvInit();
             int ret = JVForm.JvForm_JvRTOpen("0B31", Key);
 
-            if(ret != 0)
+            if (ret != 0)
             {
                 JVForm.JvForm_JvClose();
                 return 0;
@@ -321,37 +320,37 @@ namespace WpfApp1.form.info
 
             JVData_Struct.JV_O1_ODDS_TANFUKUWAKU O1 = new JVData_Struct.JV_O1_ODDS_TANFUKUWAKU();
             int res = -1;
-                       
-            while(ret >= 1)
+
+            while (ret >= 1)
             {
                 ret = JVForm.JvForm_JvRead(ref buff, out size, out fname);
 
-                if(ret == 0)
+                if (ret == 0)
                 {
                     //EOF
                     break;
                 }
-                else if(ret == -1)
+                else if (ret == -1)
                 {
                     //ファイル切り替え
                     continue;
                 }
-                else if(ret == -3)
+                else if (ret == -3)
                 {
                     //DL中
                     continue;
                 }
-                else if(buff == "")
+                else if (buff == "")
                 {
                     continue;
                 }
-                else if(ret <= 0)
+                else if (ret <= 0)
                 {
                     res = -1;
                     break;
                 }
 
-                switch(buff.Substring(0,2))
+                switch (buff.Substring(0, 2))
                 {
                     case "O1":
                         O1.SetDataB(ref buff);
@@ -361,7 +360,7 @@ namespace WpfApp1.form.info
                         else res = 2;                                                       //発売締切
                         break;
                 }
-      
+
             }
 
             JVForm.JvForm_JvClose();
@@ -376,11 +375,11 @@ namespace WpfApp1.form.info
 
             List<String> ArrayStr = new List<string>();
 
-            if(db.TextReader_Row(Date, "RA", 0, ref ArrayStr) != 0)
+            if (db.TextReader_Row(Date, "RA", 0, ref ArrayStr) != 0)
             {
-                for(int i=0; i<ArrayStr.Count; i++)
+                for (int i = 0; i < ArrayStr.Count; i++)
                 {
-                    if(ArrayStr[i].Substring(0,10) == (Date + String.Format("{0:00}",JyoCd)))
+                    if (ArrayStr[i].Substring(0, 10) == (Date + String.Format("{0:00}", JyoCd)))
                     {
                         return ArrayStr[i];
                     }
@@ -457,7 +456,7 @@ namespace WpfApp1.form.info
                     break;
                 }
 
-                switch(buff.Substring(0,2))
+                switch (buff.Substring(0, 2))
                 {
                     case "WE":
                         we.SetDataB(ref buff);
@@ -476,10 +475,10 @@ namespace WpfApp1.form.info
                     case "TC":  //発走時刻変更
                         TC.SetJvTcData(ref buff);
                         TcFlg = true;
-                      //  InfoClass.SetTimeInfo();
+                        //  InfoClass.SetTimeInfo();
                         break;
                     case "CC":  //コース変更情報
-                     //   InfoClass.SetCourceInfo();
+                                //   InfoClass.SetCourceInfo();
                         break;
                     case "WF":  //WIN5データ
                         W5.SetW5Data(ref buff);
@@ -488,7 +487,7 @@ namespace WpfApp1.form.info
                         break;
                 }
 
-               
+
             }
 
             //共通
@@ -497,7 +496,7 @@ namespace WpfApp1.form.info
             if (Spec == "0B14" || Spec == "0B16")
             {
                 WeatherCourceStatus weatherStatus = new WeatherCourceStatus();
-                
+
 
                 for (int i = 0; i < JvWeData.JvDbWeGetCount(); i++)
                 {
@@ -508,12 +507,12 @@ namespace WpfApp1.form.info
                 }
 
                 //発走時刻変更を書き込み
-                if(TcFlg)
+                if (TcFlg)
                 {
                     TC.ExecJvTcData();
                 }
             }
-            else if(Spec == "0B51")
+            else if (Spec == "0B51")
             {
                 tmpInfoClass = new baclClassInfo();
                 tmpInfoClass.W51 = (JvDbW5Data)W5;
@@ -534,7 +533,7 @@ namespace WpfApp1.form.info
             List<baclClassInfo> classInfo = new List<baclClassInfo>();
             if (BackEndWeatherCondInfo("0B51", key, ref classInfo) != 0)
             {
-                if(classInfo.Count != 0)
+                if (classInfo.Count != 0)
                 {
                     W5 = classInfo[0].W51;
                     LOG.CONSOLE_MODULE("BE_INFO", "WIN5 Enable Status(" + classInfo[0].W51.Win5Status + ")");
@@ -588,11 +587,85 @@ namespace WpfApp1.form.info
                 Out.TurfStatus = In.Turf;
                 Out.DirtStatus = In.Dirt;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 LOG.CONSOLE_MODULE("BE_INFO", "ConvWeatherStatusInfo ConvertError!");
                 LOG.CONSOLE_MODULE("BE_INFO", e.Message);
             }
+        }
+
+        public int BackEndJockeyChange(String Buff)
+        {
+            JVForm JvForm = new JVForm();
+            int ret = 0;
+
+            JvForm.JvForm_JvInit();
+
+            ret = JvForm.JvForm_JvRTOpen("0B16", Buff);
+            if (ret != 0)
+            {
+                LOG.CONSOLE_MODULE("BE_INFO", "BackEndJockeyChange Error");
+                JvForm.JvForm_JvClose();
+                return ret;
+            }
+
+            ret = 1;
+            String buff = "";
+            int size = 20000;
+            String filename = "";
+
+            String msg = "";
+            String title = "";
+            const String WinHeader = "【騎手変更";
+            String tmpStr = "";
+
+            //インスタンスの初期化が必要なものはここで初期化する。
+            TC = new JvDbTcData();
+            JvDbJcData JcData = new JvDbJcData();
+            JVData_Struct.JV_JC_INFO JvJc = new JVData_Struct.JV_JC_INFO();
+
+            while (ret >= 1)
+            {
+                ret = JvForm.JvForm_JvRead(ref buff, out size, out filename);
+                if (ret >= 1)
+                {
+                    switch (buff.Substring(0, 2))
+                    {
+                        case "JC":
+                            JvJc.SetDataB(ref buff);
+                            tmpStr = JvJc.id.JyoCD;
+                            tmpStr = LOG.JvSysMappingFunction(2001, ref tmpStr);
+                            title = WinHeader + "：" + tmpStr + "競馬】";
+                            msg += LOG.JvSysMappingFunction(2001, ref tmpStr) + JvJc.id.RaceNum + "R："; //東京11R
+                            msg += JvJc.JCInfoBefore.KisyuName.Trim() + "(" + JvJc.JCInfoBefore.Futan.Substring(0, 2) + "." + JvJc.JCInfoBefore.Futan.Substring(2, 1) + "kg) → ";
+                            msg += JvJc.JCInfoAfter.KisyuName.Trim() + "(" + JvJc.JCInfoAfter.Futan.Substring(0, 2) + "." + JvJc.JCInfoAfter.Futan.Substring(2, 1) + "kg)" + "\n";
+                            break;
+                    }
+                }
+                else if (ret == 0 || buff == "")
+                {
+                    //全ファイル読み込み終了
+                    break;
+                }
+                else if (ret == -1)
+                {
+                    ret = 1;
+                    continue;
+                }
+                else
+                {
+
+                }
+            }
+
+            //Windows通知対象
+            if (msg.Length != 0)
+            {
+                Class.com.windows.JvComWindowsForm WinNoice = new Class.com.windows.JvComWindowsForm();
+                WinNoice.JvComNoticeShow(1, title, msg);
+            }
+
+            return 1;
         }
     }
 }

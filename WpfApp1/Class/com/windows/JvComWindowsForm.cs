@@ -111,6 +111,8 @@ namespace WpfApp1.Class.com.windows
                 return 0;
             }
 
+
+            Dispose();
             return 1;
         }
         #endregion

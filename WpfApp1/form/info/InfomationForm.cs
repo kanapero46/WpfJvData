@@ -583,24 +583,18 @@ namespace WpfApp1.form.info
         }
         #endregion
 
-        #region 競馬場コードから表示パネルを0 or 1 or 2で返す
+        #region gCacheIntArrayとgCacheParamRaceDataとの紐付け(RaceDataのインデックスを返す)
         private int CheckPanelLevel( int JyoCd )
         {
-            //まず、全競馬場のパネル情報取得
-            int[,] ArrayJyoCdPanelInfo = new int[3,3];
-
-            for (int i = 0; i < gCacheParamRaceData.Length; i++)
-            {
-                ArrayJyoCdPanelInfo[i, 0] = gCacheParamRaceData[i].CourceCd;
-                ArrayJyoCdPanelInfo[i, 1] = gCacheParamRaceData[i].OutputLebel;
-            }
-
-
+            int idx = 0;   
             
 
-            for(int j=0; j < gCacheParamRaceData.Length; j++)
+            for(idx = 0; idx < gCacheParamRaceData.Length; idx++)
             {
-                
+                if(JyoCd == gCacheParamRaceData[idx].CourceCd)
+                {
+                    return idx;
+                }
             }
 
             return 0;
@@ -1311,7 +1305,7 @@ namespace WpfApp1.form.info
             if (ret == 1)
             {
                 BackEnd.BackEndoGetPayCource(ref Key, ref Cource, ref RaceNum);                                      //取得した払戻情報をBackEndクラス取得
-                gCacheParamRaceData[SearchCourceParamIndex(Int32.Parse(Cource))].PayEndRaceNum = RaceNum;   //締切済みレース番号を更新
+                gCacheParamRaceData[CheckPanelLevel(Int32.Parse(Cource))].PayEndRaceNum = RaceNum;   //締切済みレース番号を更新
                 OutPutPayRaceLabel(Int32.Parse(Cource), SearchOutPutLebel(Int32.Parse(Cource), ""));        //締切情報を更新
                 BackEnd.BackEndPayInfoNotice();
             }
@@ -1385,7 +1379,9 @@ namespace WpfApp1.form.info
             int ret = 0;
             ret = BackEnd.JvInfoBackMain(BackEndInfomationForm.JV_RT_EVENT_JOCKEY_CHANGE, e.bstr);
             CommonAllGetData();
+            BackEnd.BackEndJockeyChange(e.bstr);
             COM.CONSOLE_MODULE("INFO_HDL", "JC EventHandler:" + e.bstr + "(" + ret + ")");
+
         }
         #endregion
 
@@ -1604,7 +1600,7 @@ namespace WpfApp1.form.info
                         }
                         else
                         {
-                            CommonsData.Rows.Add("", "", "＜出走取消＞");
+                            CommonsData.Rows.Add("", "TK", "＜出走取消＞");
                             CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14, 2) + "R", "TK" + InData[i].InfoRaceKey1, InData[i].InfoName1);
                             TorikeshiChange[CourceIndex] = true;
                         }
@@ -1642,7 +1638,7 @@ namespace WpfApp1.form.info
                         }
                         else
                         {
-                            CommonsData.Rows.Add("", "", "＜競走除外＞");
+                            CommonsData.Rows.Add("", "JG", "＜競走除外＞");
                             CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14, 2) + "R", "JG" + InData[i].InfoRaceKey1, InData[i].InfoName1);
                             JogaiChange[CourceIndex] = true;
                         }
@@ -1661,11 +1657,12 @@ namespace WpfApp1.form.info
                                     continue;
                                 }
 
-                                if (CommonsData.Rows[j].Cells[1].Value.ToString().Substring(2, 16) == InData[i].InfoRaceKey1)
+                                Console.WriteLine(CommonsData.Rows[j].Cells[1].Value.ToString() + " " + InData[i].InfoRaceKey1 + ":" + InData[i].ChangeAfterName1);
+                                if (CommonsData.Rows[j].Cells[1].Value.ToString() == "JC" + InData[i].InfoRaceKey1)
                                 {
                                     //上書き対象
                                     CommonsData.Rows[j].Cells[0].Value = InData[i].InfoRaceKey1.Substring(14, 2) + "R";
-                                    CommonsData.Rows[j].Cells[1].Value = "TC" + InData[i].InfoRaceKey1;
+                                    CommonsData.Rows[j].Cells[1].Value = "JC" + InData[i].InfoRaceKey1;
                                     CommonsData.Rows[j].Cells[2].Value = InData[i].InfoName1 + " → " + InData[i].ChangeAfterName1;
                                     CommonFlg = true;
                                     break;
@@ -1675,13 +1672,13 @@ namespace WpfApp1.form.info
                             //初データ
                             if (!CommonFlg)
                             {
-                                CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14, 2) + "R", "TC" + InData[i].InfoRaceKey1, InData[i].InfoName1 + " → " + InData[i].ChangeAfterName1);
+                                CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14, 2) + "R", "JC" + InData[i].InfoRaceKey1, InData[i].InfoName1 + " → " + InData[i].ChangeAfterName1);
                             }
 
                         }
                         else
                         {
-                            CommonsData.Rows.Add("", "", "＜騎手変更＞");
+                            CommonsData.Rows.Add("", "JC", "＜騎手変更＞");
                             CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14, 2) + "R", "JC" + InData[i].InfoRaceKey1, InData[i].InfoName1 + " → " + InData[i].ChangeAfterName1);
                             JockeyChange[CourceIndex] = true;
                         }
@@ -1700,7 +1697,7 @@ namespace WpfApp1.form.info
                                     continue;
                                 }
                                 
-                                if (CommonsData.Rows[j].Cells[1].Value.ToString().Substring(2,16) == InData[i].InfoRaceKey1)
+                                if (CommonsData.Rows[j].Cells[1].Value.ToString() == "TC" + InData[i].InfoRaceKey1)
                                 {
                                     //上書き対象
                                     CommonsData.Rows[j].Cells[0].Value = InData[i].InfoRaceKey1.Substring(14, 2) + "R";
@@ -1720,7 +1717,7 @@ namespace WpfApp1.form.info
                         }
                         else
                         {
-                            CommonsData.Rows.Add("", "", "＜発走時刻変更＞");
+                            CommonsData.Rows.Add("", "TC", "＜発走時刻変更＞");
                             CommonsData.Rows.Add(InData[i].InfoRaceKey1.Substring(14,2) + "R", "TC" + InData[i].InfoRaceKey1, InData[i].OldTime1 + " → " + InData[i].NewTime1);
                             StartTimeChange[CourceIndex] = true;
                         }
@@ -1729,6 +1726,20 @@ namespace WpfApp1.form.info
                     default:
                         break;
                 }
+
+                //各列をソート
+                //並び替える列を決める
+     //           DataGridViewColumn sortColumn = dataGridView1.CurrentCell.OwningColumn;
+
+                //並び替えの方向（昇順か降順か）を決める
+                ListSortDirection sortDirection = ListSortDirection.Ascending;
+
+
+                //並び替えを行う
+                dataGridView1.Sort(dataGridView1.Columns[1], sortDirection);
+                dataGridView2.Sort(dataGridView2.Columns[1], sortDirection);
+                dataGridView3.Sort(dataGridView3.Columns[1], sortDirection);
+
             }
         }
 
@@ -1768,13 +1779,14 @@ namespace WpfApp1.form.info
                         if(gCacheParamRaceData[i].CourceCd == Int32.Parse(value[2]))
                         {
                             //クラスが高い方を置き換える
-                            if (ret[i].Class1 <= GredeRankJudge(value[14]))
+                            if (ret[i].Class1 <= GredeRankJudge(value[14], value[16]))
                             {
                                 SetFlg = true;
                                 ret[i].Key1 = Int32.Parse(value[2]);
-                                ret[i].Racename1 = value[7];
-                                ret[i].Class1 = GredeRankJudge(value[14]);
+                                ret[i].Racename1 = value[8];
+                                ret[i].Class1 = GredeRankJudge(value[14], value[16]);
                                 ret[i].Grade1 = value[16];
+                                ret[i].RaceKey1 = value[0];
                             }
                         }
 
@@ -1811,18 +1823,21 @@ namespace WpfApp1.form.info
                     {
                         gCacheParamRaceData[n].MainRaceNamme.Racename1 = ret[0].Racename1;
                         gCacheParamRaceData[n].MainRaceNamme.Grade1 = ret[0].Grade1;
+                        gCacheParamRaceData[n].MainRaceNamme.RaceKey1 = ret[0].RaceKey1;
                     }
 
                     if (gCacheParamRaceData[n].CourceCd == ret[1].Key1)
                     {
                         gCacheParamRaceData[n].MainRaceNamme.Racename1 = ret[1].Racename1;
                         gCacheParamRaceData[n].MainRaceNamme.Grade1 = ret[1].Grade1;
+                        gCacheParamRaceData[n].MainRaceNamme.RaceKey1 = ret[1].RaceKey1;
                     }
 
                     if (gCacheParamRaceData[n].CourceCd == ret[2].Key1)
                     {
                         gCacheParamRaceData[n].MainRaceNamme.Racename1 = ret[2].Racename1;
                         gCacheParamRaceData[n].MainRaceNamme.Grade1 = ret[2].Grade1;
+                        gCacheParamRaceData[n].MainRaceNamme.RaceKey1 = ret[2].RaceKey1;
                     }
                 }
             }
@@ -1833,6 +1848,7 @@ namespace WpfApp1.form.info
         {
             int OutParamLevel = 0;
             Label label = new Label();
+            Button button = new Button();
 
             for (int i = 0; i < MAX_RACE_CNT; i++)
             {
@@ -1848,34 +1864,40 @@ namespace WpfApp1.form.info
                 {
                     case 0:
                         label = label11;
+                        button = Main1;
                         break;
                     case 1:
                         label = label26;
+                        button = Main3;
                         break;
                     case 2:
                         label = label21;
+                        button = Main2;
                         break;
 
                 }
 
                 label.Text = gCacheParamRaceData[i].MainRaceNamme.Racename1;
-                if(gCacheParamRaceData[i].MainRaceNamme.Grade1 != "一般" && gCacheParamRaceData[i].MainRaceNamme.Grade1 != "特別")
+                button.Text = gCacheParamRaceData[i].MainRaceNamme.Racename1;
+                if (gCacheParamRaceData[i].MainRaceNamme.Grade1 != "一般" && gCacheParamRaceData[i].MainRaceNamme.Grade1 != "特別")
                 {
                     label.Text += "(" + gCacheParamRaceData[i].MainRaceNamme.Grade1 + ")";
+                    button.Text += "(" + gCacheParamRaceData[i].MainRaceNamme.Grade1 + ")";
                 }
                 label.ForeColor = GradeForeColor(gCacheParamRaceData[i].MainRaceNamme.Grade1);
+                button.ForeColor = GradeForeColor(gCacheParamRaceData[i].MainRaceNamme.Grade1);
 
             }
         }
 
 
         //グレードコードから、優先度を判断
-        private int GredeRankJudge(String GradeCd)
+        private int GredeRankJudge(String ClassCd, String Grade)
         {
-            switch (GradeCd)
+            switch (ClassCd)
             {
                 case "999": //オープン
-                    return 5;
+                    return GredeRankDetailJudge(Grade);
                 case "016": //3勝クラス
                     return 4;
                 case "010": //2勝クラス
@@ -1888,6 +1910,30 @@ namespace WpfApp1.form.info
                 default:
                     return 0;
             }
+        }
+
+        private int GredeRankDetailJudge(String GradeCode)
+        {
+            switch (GradeCode)
+            {
+                case "ＧⅠ":
+                case "Ｊ・ＧⅠ":
+                    return 10;
+                case "ＧⅡ":
+                case "Ｊ・ＧⅡ":
+                    return 9;
+                case "ＧⅢ":
+                case "Ｊ・ＧⅢ":
+                    return 8;
+                case "重賞":
+                    return 7;
+                case "Ｌ":
+                    return 6;
+                default:
+                    break;
+            }
+            //オープン特別は5で返す
+            return 5;
         }
 
         private Color GradeForeColor(String Grade)
@@ -1929,6 +1975,51 @@ namespace WpfApp1.form.info
             CommonAllGetData();
             COM.CONSOLE_MODULE("INFO_HDL", "AV EventHanlder:" + e.bstr + "(" + ret + ")");
         }
+
+        #region メインレースボタンを押下したときのイベント
+        private void button5_Click(object sender, EventArgs e)
+        {            
+            Syutsuba syutsuba = new Syutsuba(gCacheParamRaceData[CheckPanelLevel(gCacheIntCourceArray[0])].MainRaceNamme.RaceKey1, 1);
+            syutsuba.Show();
+            
+        }
+
+        private void Main2_Click(object sender, EventArgs e)
+        {
+            Syutsuba syutsuba = new Syutsuba(gCacheParamRaceData[CheckPanelLevel(gCacheIntCourceArray[2])].MainRaceNamme.RaceKey1, 3);
+            syutsuba.Show();
+        }
+
+        private void Main3_Click(object sender, EventArgs e)
+        {
+            Syutsuba syutsuba = new Syutsuba(gCacheParamRaceData[CheckPanelLevel(gCacheIntCourceArray[1])].MainRaceNamme.RaceKey1, 2);
+            syutsuba.Show();
+        }
+
+        //現在の色を取得
+        private int GetLineColor(int Area)
+        {
+            Color clr = new Color();
+            switch (Area)
+            {
+                case 1:
+                    clr = panel.BackColor;
+                    break;
+                case 2:
+                    clr = panel30.BackColor;
+                    break;
+                case 3:
+                    clr = panel26.BackColor;
+                    break;
+                default:
+                    break;
+            }
+
+            int tmp = clr.ToArgb();
+
+            return 0;
+        }
+        #endregion
     }
 
     public class InfoData
@@ -1963,14 +2054,16 @@ namespace WpfApp1.form.info
     class MainRaceInfo
     {
         private String Racename;    //レース名
-        private int Key;            //レースキー
+        private int Key;            //競馬場コード
         private int Class;          //レースクラス
         private String Grade;
+        private String RaceKey;     //レースキー
 
         public string Racename1 { get => Racename; set => Racename = value; }
         public int Key1 { get => Key; set => Key = value; }
         public int Class1 { get => Class; set => Class = value; }
         public string Grade1 { get => Grade; set => Grade = value; }
+        public string RaceKey1 { get => RaceKey; set => RaceKey = value; }
 
         //Stringの初期化
         public MainRaceInfo()
