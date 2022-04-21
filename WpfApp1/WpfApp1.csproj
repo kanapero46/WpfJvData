@@ -68,6 +68,10 @@
     <Reference Include="AngleSharp, Version=0.14.0.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
       <HintPath>..\packages\AngleSharp.0.14.0\lib\net472\AngleSharp.dll</HintPath>
     </Reference>
+    <Reference Include="AxInterop.JVDTLabLib, Version=1.18.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Release\AxInterop.JVDTLabLib.dll</HintPath>
+    </Reference>
     <Reference Include="LibQrDataAnalyze, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LibQrDataAnalyze\bin\Debug\LibQrDataAnalyze.dll</HintPath>
@@ -162,6 +166,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\chokyo\Chokyo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\chokyo\Chokyo.Designer.cs">
+      <DependentUpon>Chokyo.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\CloseInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +216,8 @@
     <Compile Include="form\Kettou.Designer.cs">
       <DependentUpon>Kettou.cs</DependentUpon>
     </Compile>
+    <Compile Include="JvComDbData\JvDbHcData.cs" />
+    <Compile Include="JvComDbData\JvDbWdData.cs" />
     <Compile Include="JvComDbData\JvFamilyNoData.cs" />
     <Compile Include="lib\extSoft\LibTargetClass.cs" />
     <Compile Include="lib\site\data\siteFamilyNuber.cs" />
@@ -294,6 +306,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="form\chokyo\Chokyo.resx">
+      <DependentUpon>Chokyo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="form\CloseInfo.resx">
       <DependentUpon>CloseInfo.cs</DependentUpon>
     </EmbeddedResource>
@@ -367,18 +382,28 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-    <COMReference Include="AxJVDTLabLib">
-      <Guid>{2AB17740-0C41-11D7-916F-0003479BEB3F}</Guid>
+    <COMReference Include="JVAUTOUPLib">
+      <Guid>{F436074B-17EA-4890-B77B-B9E1D14A2E7A}</Guid>
       <VersionMajor>1</VersionMajor>
-      <VersionMinor>18</VersionMinor>
+      <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
+      <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="JVDTLabLib">
       <Guid>{2AB17740-0C41-11D7-916F-0003479BEB3F}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>18</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="JVLinkAgentLib">
+      <Guid>{C776BA35-EE5E-4B36-AB38-20734FF9C8A4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>

@@ -29,36 +29,38 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JVForm));
-            this.JvLinkClass = new AxJVDTLabLib.AxJVLink();
             this.label1 = new System.Windows.Forms.Label();
+            this.JvLinkClass = new AxJVDTLabLib.AxJVLink();
             ((System.ComponentModel.ISupportInitialize)(this.JvLinkClass)).BeginInit();
             this.SuspendLayout();
-            // 
-            // JvLinkClass
-            // 
-            this.JvLinkClass.Enabled = true;
-            this.JvLinkClass.Location = new System.Drawing.Point(57, 8);
-            this.JvLinkClass.Name = "JvLinkClass";
-            this.JvLinkClass.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("JvLinkClass.OcxState")));
-            this.JvLinkClass.Size = new System.Drawing.Size(87, 241);
-            this.JvLinkClass.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 18);
+            this.label1.Location = new System.Drawing.Point(35, 36);
+            this.label1.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 12);
+            this.label1.Size = new System.Drawing.Size(82, 24);
             this.label1.TabIndex = 1;
             this.label1.Text = "接続中";
             // 
+            // JvLinkClass
+            // 
+            this.JvLinkClass.Enabled = true;
+            this.JvLinkClass.Location = new System.Drawing.Point(157, 13);
+            this.JvLinkClass.Name = "JvLinkClass";
+            this.JvLinkClass.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("JvLinkClass.OcxState")));
+            this.JvLinkClass.Size = new System.Drawing.Size(764, 384);
+            this.JvLinkClass.TabIndex = 2;
+            // 
             // JVForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(281, 47);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(609, 94);
             this.Controls.Add(this.JvLinkClass);
+            this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.Name = "JVForm";
             this.Text = "JRA-VAN DataLab接続中";
             this.Load += new System.EventHandler(this.JVForm_Load);
@@ -69,8 +71,7 @@
         }
 
         #endregion
-
-        private AxJVDTLabLib.AxJVLink JvLinkClass;
         private System.Windows.Forms.Label label1;
+        private AxJVDTLabLib.AxJVLink JvLinkClass;
     }
 }

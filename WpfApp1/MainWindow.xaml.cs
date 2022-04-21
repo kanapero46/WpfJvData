@@ -59,7 +59,7 @@ namespace WpfApp1
 
         const int JV_SYS_CLOSE_COMP_NOTICE = 1;
         const int JV_SYS_CLOSE_FALUE_NOTICE = 2;
-        
+
         /* *******グローバル変数定義******* */
         String StatusInfo = "";
         Boolean Cancel_Flag = false;
@@ -102,7 +102,7 @@ namespace WpfApp1
             msg = "JVFromの初期化終了[" + ret + "]\n";
             ThreadFlag = true;
             thread.Start(msg);
-            thread.Abort();          
+            thread.Abort();
 
 
             int op = 2;
@@ -124,7 +124,7 @@ namespace WpfApp1
                 if (ret != 1)
                 {
                     StatusWrite("続行不可のエラーが発生しました。\n" + ret);
-                    JVForm.JvForm_JvClose();                   
+                    JVForm.JvForm_JvClose();
                     ThreadFlag = false;     //スレッドの終了を通知
                     return 0; /* エラー */
                 }
@@ -146,12 +146,12 @@ namespace WpfApp1
 
             StatusWrite("DataKind\t" + op + rdCount + dlCount + "\n");
             StatusWrite("LastStamp\t" + lastStamp + "\n");
-    
+
             /* JvRead用変数の初期化 */
             ret = 1;
 
             /* ロギング */
-            LOG.CONSOLE_TIME_MD("MAIN", "<< JvRead Start!! >>" );
+            LOG.CONSOLE_TIME_MD("MAIN", "<< JvRead Start!! >>");
 
             ret = 1;
             String buff = "";
@@ -171,7 +171,7 @@ namespace WpfApp1
             Boolean RaFlag = false;
             Boolean SeFlag = false;
 
-            JvDbRaData raData =  new JvDbRaData();
+            JvDbRaData raData = new JvDbRaData();
             JvDbSEData sEData = new JvDbSEData();
 
             /* DB初期化 */
@@ -189,8 +189,8 @@ namespace WpfApp1
             db.DeleteCsv("JC");
             db.DeleteCsv("RS");
 
-            /* データリード */
-            read_start:
+        /* データリード */
+        read_start:
             while (ret >= 1)
             {
                 /* JvReadする */
@@ -240,6 +240,9 @@ namespace WpfApp1
                             //tmp += JV_SE_UMA.DMJyuni + ",";
                             //db = new dbConnect((JV_SE_UMA.id.Year + JV_SE_UMA.id.MonthDay), JV_SE_UMA.head.RecordSpec, ref tmp, ref DbReturn);
 
+                            break;
+                        case "WC":
+                            LOG.CONSOLE_TIME_MD("MAIN", buff);
                             break;
                         default:
                             JVForm.JvForm_JvSkip();
@@ -293,12 +296,12 @@ namespace WpfApp1
                         RaFlag = false;
                     }
 
-                    if(sEData.JvDbSeComDataEnable())
+                    if (sEData.JvDbSeComDataEnable())
                     {
                         sEData.ExecSEDataWriteDb(1);
                         sEData = new JvDbSEData();  //ファイル切り替わり時は初期化する。
                     }
-                    
+
                     continue;
                 }
                 else
@@ -311,13 +314,13 @@ namespace WpfApp1
 
             ret = 0;
             /* 後から書き込み場合、ここで書き込み */
-            if(RaFlag)
+            if (RaFlag)
             {
                 ret = raData.ExecRADataWriteDb(1);
                 RaFlag = false;
             }
 
-            if(sEData.JvDbSeComDataEnable())
+            if (sEData.JvDbSeComDataEnable())
             {
                 ret = sEData.ExecSEDataWriteDb(1);
             }
@@ -331,7 +334,7 @@ namespace WpfApp1
 
         public void JvSysMain(int msg)
         {
-            switch(msg)
+            switch (msg)
             {
                 case JV_SYS_CLOSE_COMP_NOTICE: //JV_SYS_CLOSE_COMP_NOTICE
                     /* 場名リスト更新 */
@@ -355,17 +358,17 @@ namespace WpfApp1
 
             ret = JVForm.JvForm_JvRTOpen(Dt, FromTime);
 
-            if(ret != 0)
+            if (ret != 0)
             {
                 ret = CheckJvOpenRetErr(ret);
-                if(ret != 1)
+                if (ret != 1)
                 {
                     //System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー");
                     JVForm.JvForm_JVWatchEventClose();     //速報系スレッドの終了
                     return 0;
                 }
                 ret = JVForm.JvForm_JvRTOpen(Dt, FromTime);
-                if(ret != 0)
+                if (ret != 0)
                 {
                     System.Windows.MessageBox.Show("DataLabサーバに接続出来ませんでした。\nSC-" + ret, "JVRTOpenエラー2");
                     JVForm.JvForm_JVWatchEventClose();     //速報系スレッドの終了
@@ -391,7 +394,7 @@ namespace WpfApp1
 
             /* 天候馬場状態用配列宣言 */
             List<WeatherCourceStatus> WCstatus = new List<WeatherCourceStatus>();
-                       
+
             /* DB初期化 */
             db = new dbConnect();
             //db.DeleteCsv("TM");
@@ -433,7 +436,7 @@ namespace WpfApp1
                             //tmp += JV_WEATHER.TenkoBaba.DirtBabaCD + ",";
                             //tmp += JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute + ",";
                             Flag = false;
-                            for (int i=0; i < WCstatus.Count(); i++)
+                            for (int i = 0; i < WCstatus.Count(); i++)
                             {
                                 if (WCstatus[i].Key == tmp)
                                 {
@@ -445,7 +448,7 @@ namespace WpfApp1
                                 }
                             }
 
-                            if(Flag == false)
+                            if (Flag == false)
                             {
                                 //ここに来たらデータなしのため配列を作成
                                 WeatherCourceStatus tmpClass = new WeatherCourceStatus();
@@ -454,11 +457,11 @@ namespace WpfApp1
                                             JV_WEATHER.HappyoTime.Month + JV_WEATHER.HappyoTime.Day + JV_WEATHER.HappyoTime.Hour + JV_WEATHER.HappyoTime.Minute);
                                 WCstatus.Add(tmpClass);
                             }
-                           
+
                             break;
                         case "AV":
                             /* 仕様変更#23 */
-                            if(AVInit)
+                            if (AVInit)
                             {
                                 //初回はDBを初期化する
                                 AvData = new JvDbAVData(ref buff, AVInit);
@@ -469,7 +472,7 @@ namespace WpfApp1
                                 AvData = new JvDbAVData();
                                 AvData.SetDataAV(ref buff);
                             }
-                           
+
                             break;
                         case "JC":
                             JcIdx++;
@@ -517,7 +520,7 @@ namespace WpfApp1
             /* DBに書き込み */
             String Key;
             //天候馬場状態書き込み
-            for(int j=0; j < WCstatus.Count(); j++)
+            for (int j = 0; j < WCstatus.Count(); j++)
             {
                 Key = WCstatus[j].Key + "," + WCstatus[j].Weather + "," + WCstatus[j].Turf + "," + WCstatus[j].Dirt + "," +
                      WCstatus[j].LatestTime + ",";
@@ -535,11 +538,11 @@ namespace WpfApp1
             return 1;
         }
 
- 
+
 
         private void InitForm()
         {
-            
+
         }
 
         /* MainWindowsのComboBox更新 */ /* フォルダが生成されていなくても実行可能にする。 */
@@ -553,7 +556,7 @@ namespace WpfApp1
 
             String LibOutParam = "";
 
-   
+
 
             /* レース開催日は+1する */
             //fromtime = (Int32.Parse(fromtime) + 1).ToString();
@@ -564,7 +567,7 @@ namespace WpfApp1
             db.TextReader_Row(fromtime, "RA", 5, ref RaceNum);
 
             /* エラーチェック */
-            if(Cource.Count == 0)
+            if (Cource.Count == 0)
             {
                 return;
             }
@@ -578,71 +581,73 @@ namespace WpfApp1
             /* JVコード→文字列変換 */
             int Func = 2001;    // 2001：競馬場コード
 
-            for (int i = 0; i< Cource.Count; i++)
-            { 
+            for (int i = 0; i < Cource.Count; i++)
+            {
                 LibOutParam = "";
                 LibJvConv.LibJvConvFuncClass.jvSysConvFunction(&Func, Cource[i], ref LibOutParam);
                 Cource[i] = LibOutParam;
-             }
+            }
 
-            for (int i = 0; i < RaceName.Count && i<Cource.Count && i < RaceNum.Count ; i++)
+            for (int i = 0; i < RaceName.Count && i < Cource.Count && i < RaceNum.Count; i++)
             {
                 RaceListBox.Items.Add(Cource[i] + RaceNum[i].Trim() + "R :" + RaceName[i]);
             }
         }
-       
+
 
         /* Jvopenエラーチェック */ /* 0：処理中断　1:処理続行 */
         private int CheckJvOpenRetErr(int ret)
         {
+            LOG.CONSOLE_TIME_MD("MAIN", "JvOpenErr:" + ret);
+
             switch (ret)
             {
                 case -1:
                     StatusInfo += ("取得したデータがありませんでした。");
                     return 0;
                 case -2:
-                    StatusInfo +=("キャンセルしました。");
+                    StatusInfo += ("キャンセルしました。");
                     return 0;
                 case -111:
                 case -112:
                 case -114:
                 case -115:
                 case -116:
-                    StatusInfo +=("Jvopenでのパラメータが不正です。[E:" + ret + "]");
+                    StatusInfo += ("Jvopenでのパラメータが不正です。[E:" + ret + "]");
                     return 0;
                 case -201:
-                    StatusInfo +=("JvInitが行われていない");
+                    StatusInfo += ("JvInitが行われていない");
                     return 0;
                 case -202:
                     JVForm.JvForm_JvClose();
                     return 1;   /* 処理続行 */
                 case -211:
-                    StatusInfo +=("DataLab内部エラーです。[E:211]");
+                    StatusInfo += ("DataLab内部エラーです。[E:211]");
                     break;
                 case -301:
-                    StatusInfo +=("認証に失敗しました。[E:301]。");
+                    StatusInfo += ("認証に失敗しました。[E:301]。");
                     return 0;
                 case -302:
-                    StatusInfo +=("DataLabサービスキーの有効期限が切れています。\nサービス権を購入してください。");
+                    StatusInfo += ("DataLabサービスキーの有効期限が切れています。\nサービス権を購入してください。");
                     return 0;
                 case -303:
-                    StatusInfo +=("DataLabサービスキーが設定されていません。");
+                    StatusInfo += ("DataLabサービスキーが設定されていません。");
                     return 0;
                 case -401:
-                    StatusInfo +=("JV-Link内部エラーです。");
+                    StatusInfo += ("JV-Link内部エラーです。");
                     return 0;
                 case -411:
                 case -412:
                 case -413:
                 case -421:
                 case -431:
-                    StatusInfo +=("サーバーエラーです。[E:" + ret + "]");
+                    StatusInfo += ("サーバーエラーです。[E:" + ret + "]");
                     return 0;
                 case -501:
-                    StatusInfo +=("スタートキットが無効です。");
+                    StatusInfo += ("スタートキットが無効です。");
                     return 0;
                 case -504:
-                    StatusInfo +=("JRA-VANサーバーがメンテナンス中です。");
+                    StatusInfo += ("JRA-VANサーバーがメンテナンス中です。");
                     return 0;
                 default:
                     return 0;
@@ -661,7 +666,7 @@ namespace WpfApp1
         private void ComboBox_TextChanged(object sender, SelectionChangedEventArgs e)
         {
         }
-        
+
         private void ComboBoxAddList(String[] RaceName)
         {
 
@@ -677,7 +682,7 @@ namespace WpfApp1
         unsafe private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SolidColorBrush solidColor = new SolidColorBrush();
-            String RaceCource ="";
+            String RaceCource = "";
             Boolean East = false;
             Boolean West = false;
             Boolean Local = false;
@@ -690,13 +695,13 @@ namespace WpfApp1
                 RaceCource = RaceListBox.SelectedItem.ToString().Substring(0, 2);
             }
             catch (NullReferenceException) { }
-            
+
             String fromtime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
             List<String> TextArray = new List<string>();
             db = new dbConnect();
 
             /* 競馬場名取得（コード） */
-            if(db.TextReader_Row(fromtime, "RA", RA_RACECOURCE, ref TextArray) != 1)
+            if (db.TextReader_Row(fromtime, "RA", RA_RACECOURCE, ref TextArray) != 1)
             {
                 System.Windows.MessageBox.Show("データが取得出来ていません。", "エラー");
                 return;
@@ -712,21 +717,21 @@ namespace WpfApp1
             RcFunc.JvComGetRcInfo(fromtime, ref RC_INFO);
             String RaceCourceNum = LOG.JvSysMappingFunction(20011, ref RaceCource);
             int JomeiColor = 0;
-            if(!Int32.TryParse(RaceCourceNum, out JomeiColor))
+            if (!Int32.TryParse(RaceCourceNum, out JomeiColor))
             {
                 System.Windows.MessageBox.Show("データが取得出来ていません。", "エラー");
                 return;
             }
 
-            if(JomeiColor == RC_INFO.EastRcNum1)
+            if (JomeiColor == RC_INFO.EastRcNum1)
             {
                 MainBack.Fill = System.Windows.Media.Brushes.Blue;
             }
-            else if(JomeiColor == RC_INFO.WestRcNum1)
+            else if (JomeiColor == RC_INFO.WestRcNum1)
             {
                 MainBack.Fill = System.Windows.Media.Brushes.DarkGreen;
             }
-            else if(JomeiColor == RC_INFO.LocalRcNum1)
+            else if (JomeiColor == RC_INFO.LocalRcNum1)
             {
                 MainBack.Fill = System.Windows.Media.Brushes.Purple;
             }
@@ -848,10 +853,10 @@ namespace WpfApp1
         {
             String strParam = "";
             mainDataClass.GET_AUTO_RA_KEY(ref strParam);
-            if(strParam == null || strParam == "")
+            if (strParam == null || strParam == "")
             {
                 MessageBox.Show("レースが選択されていません。");
-                Console.WriteLine("[MAIN] RaceSelectError! strParam" + (strParam == null? " null" : strParam));
+                Console.WriteLine("[MAIN] RaceSelectError! strParam" + (strParam == null ? " null" : strParam));
                 return;
             }
 
@@ -886,7 +891,7 @@ namespace WpfApp1
 
             int ret = 0;
 
-            if(DateText.SelectedDate == null)
+            if (DateText.SelectedDate == null)
             {
                 System.Windows.MessageBox.Show("レース開催日が選択されていません。\n処理を終了します。\nERR:500", "データエラー");
                 return;
@@ -908,10 +913,10 @@ namespace WpfApp1
                 StatusInfo += "DataLabからのデータの取得をスキップしました。\n";
                 StatusInfo += "処理が終了しました。\n";
                 StatusWriter();   //スレッド開始せずに呼び出し
-                
+
                 InitCompLabelText();    /* 障害Issue#3 */
 
-                if(RaceListBox.Items.Count == 0)
+                if (RaceListBox.Items.Count == 0)
                 {
                     this.MainBack.Fill = System.Windows.Media.Brushes.DeepPink;
                     LabelRaceNum.Content = "NG!!";
@@ -921,17 +926,22 @@ namespace WpfApp1
                     this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
                     LabelRaceNum.Content = "OK";
                 }
-                                              
+
             }
             else
             {
-                if(JVForm.JvForm_JvInit() != 0)
+                if (JVForm.JvForm_JvInit() != 0)
                 {
                     StatusWrite("SIDがセットされていません。\n処理を終了します。\n");
                     return;
                 }
 
-                if((bool)this.ToWeekFlag.IsChecked){ InitMain(); }
+                if ((bool)this.ToWeekFlag.IsChecked)
+                {
+                    InitMain();
+                    InitTraningRunTime();
+
+                }
                 StatusInfo += "当週データの取得を終了しました。\n";
                 StatusWriter();
                 if ((bool)this.MasterFlag.IsChecked) { InitMSTMain(); }
@@ -940,7 +950,7 @@ namespace WpfApp1
 
         public void KinnProcess()
         {
-                
+
         }
 
         /** **********************************
@@ -987,7 +997,7 @@ namespace WpfApp1
 
             Syutsuba syutsuba = new Syutsuba(key, JomeiColor);
             syutsuba.Show();
-            
+
         }
 
 
@@ -1011,7 +1021,7 @@ namespace WpfApp1
 
         private void hogehoge()
         {
-           
+
         }
 
         /** **********************************
@@ -1022,7 +1032,7 @@ namespace WpfApp1
          * @OutPrm
          * @Issue  0003
          ********************************** */
-         private void InitCompLabelText()
+        private void InitCompLabelText()
         {
             LabelCource.Content = "";
             LabelRaceNum.Content = "";
@@ -1036,22 +1046,23 @@ namespace WpfApp1
          * @inPrm
          * @OutPrm
          ********************************** */
-         public void StatusWrite(String status)
+        public void StatusWrite(String status)
         {
             Status.Text = status;
         }
 
 
-        public void StatusWriter(){
+        public void StatusWriter()
+        {
             try
             {
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
 
-            }           
+            }
         }
-        
+
         public void ThreadStatusWriter()
         {
             /* スレッド用 */
@@ -1062,7 +1073,7 @@ namespace WpfApp1
 
         unsafe private void ThreadJvReadFunction()
         {
-  
+
         }
 
         delegate void delegate1(String text1);
@@ -1073,7 +1084,7 @@ namespace WpfApp1
         }
 
         public void ThreadLogDataMain(object msg)
-        {   
+        {
             Log LogForm = new Log();
         }
 
@@ -1175,7 +1186,7 @@ namespace WpfApp1
             t.SetApartmentState(ApartmentState.STA);
             t.Start("100"); //仮で100を設定
 
-            read_start:
+        read_start:
             while (ret >= 1)
             {
                 ret = JVForm.JvForm_JvRead(ref buff, out size, out fname);
@@ -1187,7 +1198,7 @@ namespace WpfApp1
                         LOG.CONSOLE_TIME_MD("MAIN", ">>file end");
                         continue;
                     }
-                    else if(strBuff == buff.Substring(0, 2))
+                    else if (strBuff == buff.Substring(0, 2))
                     {
                         /* 排他制御にする。 */
                         Interlocked.Exchange(ref MaxValue, ret);
@@ -1207,7 +1218,7 @@ namespace WpfApp1
                             //  JV_SE_UMA = new JVData_Struct.JV_SE_RACE_UMA();
                             JV_SE_UMA.SetDataB(ref buff);
 
-                            if(horse == JV_SE_UMA.Bamei.Trim())
+                            if (horse == JV_SE_UMA.Bamei.Trim())
                             {
                                 OldRaceCounter++;
                             }
@@ -1251,13 +1262,13 @@ namespace WpfApp1
                     break;
 
                 }
-                else if(ret == -3)
+                else if (ret == -3)
                 {
                     /* ファイルダウンロード中 */
-                    while(ret >= 0)
+                    while (ret >= 0)
                     {
                         ret = JVForm.JvForm_JvStatus();
-                        if(ret == -201 || ret == -203 || ret == -502)
+                        if (ret == -201 || ret == -203 || ret == -502)
                         {
                             LOG.CONSOLE_MODULE("MAIN", "JvStatusCheckError! ret->" + ret);
                             return ret;
@@ -1272,19 +1283,19 @@ namespace WpfApp1
                     /* ファイル切り替わり */
                     ret = 1;
 
-                    if(RaFlag)
+                    if (RaFlag)
                     {
                         RaData.ExecRADataWriteDb(0);
                         RaData = new JvDbRaData();
                     }
 
-                    if(SeData.JvDbSeComDataEnable())
+                    if (SeData.JvDbSeComDataEnable())
                     {
                         SeData.ExecSEDataWriteDb(0);
                         SeData = new JvDbSEData();  //ファイル切り替わり時に初期化する
                     }
 
-                    if(UmData.JvDbUmEnable())
+                    if (UmData.JvDbUmEnable())
                     {
                         UmData.ExecUmData();
                         UmData = new JvDbUmData();
@@ -1300,12 +1311,12 @@ namespace WpfApp1
             }
             JVForm.JvForm_JvClose();
 
-            if(RaFlag)
+            if (RaFlag)
             {
                 RaData.ExecRADataWriteDb(0);
             }
 
-            if(SeData.JvDbSeComDataEnable())
+            if (SeData.JvDbSeComDataEnable())
             {
                 SeData.ExecSEDataWriteDb(0);
             }
@@ -1342,7 +1353,7 @@ namespace WpfApp1
             int dlCount = 0;
             String str = "";
 
-            
+
 
             JVForm.JvForm_JvInit();
             ret = JVForm.JvForm_JvRTOpen(Dt, FromTime);
@@ -1429,7 +1440,7 @@ namespace WpfApp1
 
                             for (int i = 0; i < 18; i++)
                             {
-                                tmp = "";   
+                                tmp = "";
                                 /* それ以外はデータ取得する */
                                 tmp += JV_TMMD.id.Year + JV_TMMD.id.MonthDay + JV_TMMD.id.JyoCD + JV_TMMD.id.Kaiji +
                                     JV_TMMD.id.Nichiji + JV_TMMD.id.RaceNum + JV_TMMD.TMInfo[i].Umaban + ",";
@@ -1500,7 +1511,7 @@ namespace WpfApp1
             int dlCount = 0;
 
             JVForm.JvForm_JvInit();
-            ret = JVForm.JvForm_JvRTOpen( Dt, FromTime);
+            ret = JVForm.JvForm_JvRTOpen(Dt, FromTime);
 
             /* JvOpenエラーハンドリング */
             if (ret != 0)
@@ -1516,7 +1527,7 @@ namespace WpfApp1
                 else
                 {
                     /* JvCloseできていない場合、再度処理実施 */
-                    ret = JVForm.JvForm_JvRTOpen( Dt, FromTime);
+                    ret = JVForm.JvForm_JvRTOpen(Dt, FromTime);
                     /* 2回目の失敗はエラー */
                     if (ret != 0)
                     {
@@ -1543,7 +1554,7 @@ namespace WpfApp1
 
             /* データを追加するにはここに構造体を追加 */
             JVData_Struct.JV_DM_INFO JV_DTMD = new JVData_Struct.JV_DM_INFO();
-            
+
             /* DB初期化 */
             db = new dbConnect();
             //db.DeleteCsv("DM", Date.Substring(0,8) + ".csv");
@@ -1562,7 +1573,7 @@ namespace WpfApp1
                     switch (buff.Substring(0, 2))
                     {
                         case "DM":  /* 対戦型 */
-                        //case "TM":  /* タイム型 */
+                                    //case "TM":  /* タイム型 */
                             JV_DTMD.SetDataB(ref buff);
                             tmpKey = JV_DTMD.id.Year + JV_DTMD.id.MonthDay + JV_DTMD.id.JyoCD + JV_DTMD.id.Kaiji + JV_DTMD.id.Nichiji + JV_DTMD.id.RaceNum;
                             Console.WriteLine("DM" + tmpKey + "01");
@@ -1590,7 +1601,7 @@ namespace WpfApp1
                             {
                                 tmp = "";
                                 tmp += JV_DTMD.id.Year + JV_DTMD.id.MonthDay + JV_DTMD.id.JyoCD + JV_DTMD.id.Kaiji +
-                                    JV_DTMD.id.Nichiji + JV_DTMD.id.RaceNum + JV_DTMD.DMInfo[i].Umaban +  ",";
+                                    JV_DTMD.id.Nichiji + JV_DTMD.id.RaceNum + JV_DTMD.DMInfo[i].Umaban + ",";
                                 tmp += JV_DTMD.head.RecordSpec + ",";
                                 tmp += JV_DTMD.head.DataKubun + ",";
                                 tmp += JV_DTMD.DMInfo[i].Umaban + ",";
@@ -1640,13 +1651,42 @@ namespace WpfApp1
             }
             JVForm.JvForm_JvClose();
             return 1;
-            
-        } 
+
+        }
+
+        private String ChgToDateMon(String time, String WeekDay)
+        {
+            int IntTime = Int32.Parse(time);
+            switch (WeekDay)
+            {
+                case "Monday": //月曜日基準
+                    break;
+                case "Tuesday":
+                    IntTime = IntTime - 1;
+                    break;
+                case "Wednesday":
+                    IntTime = IntTime - 2;
+                    break;
+                case "Thursday":  //木曜日基準
+                    IntTime = IntTime - 3;
+                    break;
+                case "Friday":
+                    IntTime = IntTime - 4;
+                    break;
+                case "Saturday":
+                    IntTime = IntTime - 5;
+                    break;
+                case "Sunday":
+                    IntTime = IntTime - 6;
+                    break;
+            }
+            return IntTime.ToString();
+        }
 
         private String ChgToDate(String time, String WeekDay)
         {
             int IntTime = Int32.Parse(time);
-            switch(WeekDay)
+            switch (WeekDay)
             {
                 case "Monday": //月曜日
                     IntTime = IntTime - 4;
@@ -1742,8 +1782,8 @@ namespace WpfApp1
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
             DateTime dt = DateTime.Now;
-            
-            if(DateText.Text == "")
+
+            if (DateText.Text == "")
             {
                 dt = dt.AddDays(1);
             }
@@ -1752,7 +1792,7 @@ namespace WpfApp1
                 dt = DateTime.Parse(DateText.Text);
                 dt = dt.AddDays(1);
             }
-            
+
             DateText.Text = dt.ToLongDateString();
         }
 
@@ -1789,7 +1829,7 @@ namespace WpfApp1
             if (this.infomationForm == null || this.infomationForm.IsDisposed)
             { /* ヌル、または破棄されていたら */
 #if DEBUG
-                infomationForm = new form.info.InfomationForm(dt.ToString("yyyyMMdd"), DebugFlg.IsEnabled );
+                infomationForm = new form.info.InfomationForm(dt.ToString("yyyyMMdd"), DebugFlg.IsEnabled);
 #else
                 infomationForm = new form.info.InfomationForm(dt.ToString("yyyyMMdd"));
 #endif
@@ -1804,7 +1844,7 @@ namespace WpfApp1
         }
 
 
-#region DBから開催競馬場を取得
+        #region DBから開催競馬場を取得
         public void SetKaisaiInfo(String Date, ref List<String> ret)
         {
             List<String> ArrayStr = new List<string>();
@@ -1812,29 +1852,29 @@ namespace WpfApp1
             Boolean SetFlag = false;
             db = new dbConnect();
 
-            if( db.TextReader_Row(Date, "RA", 2, ref ArrayStr) != 0)
+            if (db.TextReader_Row(Date, "RA", 2, ref ArrayStr) != 0)
             {
-                if(ArrayStr.Count != 0)
+                if (ArrayStr.Count != 0)
                 {
-                    for(int i=0; i<ArrayStr.Count;i++)
+                    for (int i = 0; i < ArrayStr.Count; i++)
                     {
                         SetFlag = false;
-                        if(ArrayRet.Count == 0)
+                        if (ArrayRet.Count == 0)
                         {
                             ArrayRet.Add(ArrayStr[i]);
                         }
                         else
                         {
-                            for(int j=0; j<ArrayRet.Count; j++)
+                            for (int j = 0; j < ArrayRet.Count; j++)
                             {
-                                if(ArrayStr[i] == ArrayRet[j])
+                                if (ArrayStr[i] == ArrayRet[j])
                                 {
                                     SetFlag = true;
                                     break;
                                 }
                             }
 
-                            if(!SetFlag)
+                            if (!SetFlag)
                             {
                                 ArrayRet.Add(ArrayStr[i]);
                                 SetFlag = false;
@@ -1846,7 +1886,7 @@ namespace WpfApp1
             ret = ArrayRet;
 
         }
-#endregion
+        #endregion
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
         {
@@ -1870,7 +1910,7 @@ namespace WpfApp1
             }
 
             form.info.RaceResult result = new form.info.RaceResult(key, JomeiColor);
-            if(result.SetData() == 1)
+            if (result.SetData() == 1)
             {
                 result.Show();
             }
@@ -1879,7 +1919,7 @@ namespace WpfApp1
                 MessageBox.Show("当該レースは確定していません。");
                 return;
             }
-            
+
         }
 
         private void Button_Click_9(object sender, RoutedEventArgs e)
@@ -1922,7 +1962,162 @@ namespace WpfApp1
             form.payBalance.payBalanceWpf payBalanceWpf = new form.payBalance.payBalanceWpf();
             payBalanceWpf.Show();
         }
+
+        private void InitTraningRunTime()
+        {
+            int op = 1;
+            int rdCount = 0;
+            int dlCount = 0;
+            String GetSpec = "WOODSLOP";    //坂路・ウッド
+            //String lastStamp = "";
+            String FromTime = CngDataToString(DateText.SelectedDate.Value.ToShortDateString());
+            String WeekDay = DateText.SelectedDate.Value.DayOfWeek.ToString();
+            String lastStamp = ChgToDateMon(FromTime, WeekDay) + "000000";
+            int ret = JVForm.JvForm_JvOpen(GetSpec, lastStamp, op, ref rdCount, ref dlCount, ref lastStamp);
+
+            LOG.CONSOLE_TIME_MD("MAIN", "InitTraningRunTime Start");
+
+            /* JvOpenエラーハンドリング */
+            if (ret != 0)
+            {
+                ret = CheckJvOpenRetErr(ret);
+
+                if (ret != 1)
+                {
+                    StatusWrite("続行不可のエラーが発生しました。\n" + ret);
+                    JVForm.JvForm_JvClose();
+                    ThreadFlag = false;     //スレッドの終了を通知
+                    return; /* エラー */
+                }
+                else
+                {
+                    /* JvCloseできていない場合、再度処理実施 */
+                    ret = JVForm.JvForm_JvOpen(GetSpec, lastStamp, op, ref rdCount, ref dlCount, ref lastStamp);
+                    /* 2回目の失敗はエラー */
+                    if (ret != 0)
+                    {
+                        StatusWrite("続行不可のエラーが発生しました。\n" + ret);
+                        JVForm.JvForm_JvClose();
+                        ThreadFlag = false;     //スレッドの終了を通知
+                        return; /* エラー */
+                    }
+
+                }
+            }
+
+            StatusWrite("DataKind\t" + op + rdCount + dlCount + "\n");
+            StatusWrite("LastStamp\t" + lastStamp + "\n");
+
+            /* JvRead用変数の初期化 */
+            ret = 1;
+
+            /* ロギング */
+            LOG.CONSOLE_TIME_MD("MAIN", "<< JvRead Start!! >>");
+
+            ret = 1;
+            String buff = "";
+            int size = 80000;
+            String fname = "";
+
+            /* JRA-VAN DataLab構造体 */
+            
+            String tmp;
+            String LibTmp = "";
+            int CODE;
+            int DbReturn = 1;
+
+            /* 書き込みフラグ */
+            Boolean RaFlag = false;
+            Boolean SeFlag = false;
+
+            JvDbWdData wdData = new JvDbWdData();
+            JvDbHcData whcData = new JvDbHcData();
+
+            /* DB初期化 */
+            db = new dbConnect();
+
+
+        /* データリード */
+        read_start:
+            while (ret >= 1)
+            {
+                /* JvReadする */
+                ret = JVForm.JvForm_JvRead(ref buff, out size, out fname);
+
+                /* エラーチェック */
+                if (ret > 0)
+                {
+                    if (buff == "")
+                    {
+                        continue;
+                    }
+
+                    //LOG.CONSOLE_MODULE("MAIN", buff);
+
+                    switch (buff.Substring(0, 2))
+                    {
+                        case "HC":
+                            whcData.JvDbHcSetData(ref buff);
+                            break;
+                        case "WC":
+                            wdData.JvDbWeSetData(ref buff);
+                            break;
+                        default:
+                            JVForm.JvForm_JvSkip();
+                            break;
+                    }
+
+                    if (DbReturn == 0)
+                    {
+                        break;
+                    }
+                }
+                else if (ret == 0)
+                {
+                    /* 全ファイルデータ読み込み終了 */
+                    //ProgressStatus.Visibility = Visibility.Hidden;
+                    this.MainBack.Fill = System.Windows.Media.Brushes.SeaGreen;
+                    InitCompLabelText();    /* 障害Issue#3 */
+                    LabelRaceNum.Content = "OK";
+                    //JvSysMain(JV_SYS_CLOSE_COMP_NOTICE);
+                    wdData.JvWriteWdData();
+                    whcData.JvWriteWdData();
+                    break;
+
+                }
+                else if (ret == -3)
+                {
+                    /* ファイルダウンロード中 */
+                    while (ret >= 0)
+                    {
+                        ret = JVForm.JvForm_JvStatus();
+                        if (ret == -201 || ret == -203 || ret == -502)
+                        {
+                            LOG.CONSOLE_MODULE("MAIN", "JvStatusCheckError! ret->" + ret);
+                            return;
+                        }
+                    }
+
+                    ret = 1;
+                    goto read_start;
+                }
+                else if (ret == -1)
+                {
+                    /* ファイルの切り替え */
+                    ret = 1;
+                    continue;
+                }
+                else
+                {
+                    break;
+                }
+                
+            }
+            JVForm.JvForm_JvClose();
+            LOG.CONSOLE_TIME_MD("MAIN", "InitTraningRunTime End");
+        }
     }
+
 
     
 

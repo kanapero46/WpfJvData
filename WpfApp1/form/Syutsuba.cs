@@ -20,6 +20,7 @@ using WpfApp1.JvComDbData;
 using AngleSharp.Html.Dom;
 using System.Net.Http;
 using AngleSharp.Html.Parser;
+using WpfApp1.form.chokyo;
 
 namespace WpfApp1.form
 {
@@ -138,7 +139,7 @@ namespace WpfApp1.form
             
 #endif
             CourceColor = Clr;
-
+ 
             int ret = main.JvGetRTData(RaClassData.getRaceDate()); //速報データ取得
             SetCourceStatusWrite();
 
@@ -1880,6 +1881,17 @@ namespace WpfApp1.form
         {
             this.dataGridView1.ShowCellToolTips = false;
         }
+
+        #region 調教タイムボタン
+        private void button7_Click(object sender, EventArgs e)
+        {
+            LOG.CONSOLE_TIME_MD("SY", "Chokyo Button On");
+            Chokyo chokyo = new Chokyo(RaClassData.GET_RA_KEY(), CourceColor);
+            chokyo.Show();
+            LOG.CONSOLE_TIME_MD("SY", "Chokyo Show End");
+        }
+        #endregion
+
     }
 
     class Shirushi

@@ -22,6 +22,7 @@ namespace WpfApp1
             return (JvLinkClass.JVInit("UNKNOWN"));
         }
 
+
         public int JvForm_JvOpen(String DtSpec, String fromTime, int op, ref int rdCount, ref int downloadcount, ref string lastfiletimestamp)
         {
             return (JvLinkClass.JVOpen(DtSpec, fromTime, op, ref rdCount, ref downloadcount, out lastfiletimestamp));

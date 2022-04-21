@@ -439,6 +439,7 @@ namespace WpfApp1.dbAccess
             catch (IOException e)
             {
                 Console.WriteLine("IOException ERROR file:" + file);
+                Console.WriteLine("Message:" + e.Message);
                 //Console.WriteLine(e.Message);
                 ret = 0;
             }
