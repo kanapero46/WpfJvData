@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibQrDataAnalyze", "LibQrDa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibJvMsAccessLib", "JvLibMsAccessLib\LibJvMsAccessLib.csproj", "{585D4E6C-78AD-4330-A1FD-1233BE0FDD04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibRaceAnalyze", "LibRaceAnalyze\LibRaceAnalyze.csproj", "{CA776CB5-3CEA-4DE7-9B37-836952392F6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{585D4E6C-78AD-4330-A1FD-1233BE0FDD04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{585D4E6C-78AD-4330-A1FD-1233BE0FDD04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{585D4E6C-78AD-4330-A1FD-1233BE0FDD04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA776CB5-3CEA-4DE7-9B37-836952392F6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA776CB5-3CEA-4DE7-9B37-836952392F6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA776CB5-3CEA-4DE7-9B37-836952392F6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA776CB5-3CEA-4DE7-9B37-836952392F6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

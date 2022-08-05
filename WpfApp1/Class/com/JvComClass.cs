@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,27 @@ namespace WpfApp1.Class.com
 {
     class JvComClass
     {
+        private String AnalyzePath;
+        private String AnalyzeFileName;
+
+        public void SetAnalyzePathName(String Path, String Name)
+        {
+            AnalyzePath = Path;
+            AnalyzeFileName = Name;
+        }
+
+        public String GetAnalyzePathFull()
+        {
+            return AnalyzePath + AnalyzeFileName;
+        }
+
+        public JvComClass()
+        {
+            AnalyzePath = Directory.GetCurrentDirectory() + "\\ExtFile\\";
+            AnalyzeFileName = "20220623.csv";
+        }
+
+
         public void CONSOLE_WRITER(String msg)
         {
             Console.WriteLine(msg);

@@ -76,6 +76,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LibQrDataAnalyze\bin\Debug\LibQrDataAnalyze.dll</HintPath>
     </Reference>
+    <Reference Include="LibRaceAnalyze, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\LibRaceAnalyze.dll</HintPath>
+    </Reference>
     <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenCvSharp4.4.2.0.20200108\lib\net461\OpenCvSharp.dll</HintPath>
     </Reference>

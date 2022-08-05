@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -289,6 +290,15 @@ namespace WpfApp1.form
 
 
             statusBar1.Text = "library Version [" + LOG.JvSysMappingFunction(LibJvConv.LibJvConvFuncClass.GET_VERSION, ref LibVer) + "]";
+
+            //レース解析用パス
+            Class.com.JvComClass jv = new Class.com.JvComClass();
+            textBox1.Text = jv.GetAnalyzePathFull();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //パスの変更
         }
     }
 }

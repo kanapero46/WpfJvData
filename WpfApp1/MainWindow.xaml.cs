@@ -71,10 +71,23 @@ namespace WpfApp1
         /* *******フォームの多重定義防止変数の定義 ********* */
         public form.info.InfomationForm infomationForm = null;
 
+        /* *******レース解析用ライブラリのインスタンス ********* */
+        LibRaceAnalyze.RaceAnalyzeMain AlyMain;
+
         public MainWindow()
         {
+            LOG.CONSOLE_TIME_MD("MAIN", "Hello World!! I'm WpfApp1!! MainWindows Open Start!!!");
             InitializeComponent();
             Initialized += MainWindow_Activated;
+
+            String LibVer = "";
+            LOG.CONSOLE_TIME_MD("MAIN", "library Verion [" + LOG.JvSysMappingFunction(LibJvConv.LibJvConvFuncClass.GET_VERSION, ref LibVer) + "]");
+
+            //解析用ファイルの読み込み
+            LOG.CONSOLE_TIME_MD("MAIN", "AnalyzeLibraryStart!!");
+            AlyMain = new LibRaceAnalyze.RaceAnalyzeMain(LOG.GetAnalyzePathFull());
+            AlyMain.RaceAnalyzeInitExec();
+            LOG.CONSOLE_TIME_MD("MAIN", "AnalyzeLibraryEnd!!");
         }
 
         public void WpfApp1_Load()
@@ -85,6 +98,13 @@ namespace WpfApp1
 
             String LibVer = "";
             LOG.CONSOLE_TIME_MD("MAIN", "library Verion [" + LOG.JvSysMappingFunction(LibJvConv.LibJvConvFuncClass.GET_VERSION, ref LibVer) + "]");
+
+            //解析用ファイルの読み込み
+            LOG.CONSOLE_TIME_MD("MAIN", "AnalyzeLibraryStart!!");
+            AlyMain = new LibRaceAnalyze.RaceAnalyzeMain(LOG.GetAnalyzePathFull());
+            AlyMain.RaceAnalyzeInitExec();
+            LOG.CONSOLE_TIME_MD("MAIN", "AnalyzeLibraryEnd!!");
+
         }
 
         private void MainWindow_Activated(object sender, EventArgs e)

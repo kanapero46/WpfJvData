@@ -34,6 +34,9 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.button1 = new System.Windows.Forms.Button();
             this.statusBar1 = new System.Windows.Forms.StatusBar();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -92,18 +95,49 @@
             // 
             // statusBar1
             // 
-            this.statusBar1.Location = new System.Drawing.Point(0, 236);
+            this.statusBar1.Location = new System.Drawing.Point(0, 397);
             this.statusBar1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.statusBar1.Name = "statusBar1";
             this.statusBar1.Size = new System.Drawing.Size(789, 44);
             this.statusBar1.TabIndex = 5;
             this.statusBar1.Text = "statusBar1";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(26, 246);
+            this.label2.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(984, 48);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "レース解析用データ(.csv)のパスを指定してください。";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(30, 288);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(713, 31);
+            this.textBox1.TabIndex = 7;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(570, 328);
+            this.button2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(163, 46);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "変更";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // InitSettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(789, 280);
+            this.ClientSize = new System.Drawing.Size(789, 441);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.statusBar1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.progressBar1);
@@ -127,5 +161,8 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.StatusBar statusBar1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button2;
     }
 }
