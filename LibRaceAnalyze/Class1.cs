@@ -39,6 +39,7 @@ namespace LibRaceAnalyze
         public String RaceAnalyzeInitExec()
         {
             file.ReadData();
+            PrintConsole(LIBRARY_VERSION);
             return LIBRARY_VERSION;
         }
 
