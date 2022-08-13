@@ -11,9 +11,9 @@ namespace WpfApp1.JvComDbData
 
     public class JvDbSEData : MainDataHorceClass
     {
-        const int RA_MAX = 32;
+        const int RA_MAX = 34;
         dbConnect db = new dbConnect();
-        private const String MAGIC_STR = "A";
+        private const String MAGIC_STR = "B";
         private const String SPEC = "SE";
         String statHorce = "";
 
@@ -131,6 +131,8 @@ namespace WpfApp1.JvComDbData
             tmp += JV_SE_UMA.ChakusaCD + ",";
             tmp += JV_SE_UMA.ChakusaCDP + ",";
             tmp += JV_SE_UMA.Odds + ","; //30
+            tmp += JV_SE_UMA.ChokyosiRyakusyo + ","; //31
+            tmp += JV_SE_UMA.ChokyosiCode + ","; //32
             tmp += "\r\n";
 
             SeStruct.WriteStr += tmp;

@@ -100,10 +100,10 @@ namespace WpfApp1
             LOG.CONSOLE_TIME_MD("MAIN", "library Verion [" + LOG.JvSysMappingFunction(LibJvConv.LibJvConvFuncClass.GET_VERSION, ref LibVer) + "]");
 
             //解析用ファイルの読み込み
-            LOG.CONSOLE_TIME_MD("MAIN", "AnalyzeLibraryStart!!");
-            AlyMain = new LibRaceAnalyze.RaceAnalyzeMain(LOG.GetAnalyzePathFull());
-            AlyMain.RaceAnalyzeInitExec();
-            LOG.CONSOLE_TIME_MD("MAIN", "AnalyzeLibraryEnd!!");
+            //LOG.CONSOLE_TIME_MD("MAIN", "AnalyzeLibraryStart!!");
+            //AlyMain = new LibRaceAnalyze.RaceAnalyzeMain(LOG.GetAnalyzePathFull());
+            //AlyMain.RaceAnalyzeInitExec();
+            //LOG.CONSOLE_TIME_MD("MAIN", "AnalyzeLibraryEnd!!");
 
         }
 
@@ -1015,7 +1015,8 @@ namespace WpfApp1
             }
 
 
-            Syutsuba syutsuba = new Syutsuba(key, JomeiColor);
+            //            Syutsuba syutsuba = new Syutsuba(key, JomeiColor);
+            Syutsuba syutsuba = new Syutsuba(key, JomeiColor, ref AlyMain);
             syutsuba.Show();
 
         }

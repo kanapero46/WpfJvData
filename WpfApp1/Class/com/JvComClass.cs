@@ -27,7 +27,8 @@ namespace WpfApp1.Class.com
         public JvComClass()
         {
             AnalyzePath = Directory.GetCurrentDirectory() + "\\ExtFile\\";
-            AnalyzeFileName = "20220623.csv";
+            //   AnalyzeFileName = "20220623.csv";
+            AnalyzeFileName = "All.csv";
         }
 
 

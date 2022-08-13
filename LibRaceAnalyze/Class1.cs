@@ -9,7 +9,7 @@ namespace LibRaceAnalyze
 {
     public class RaceAnalyzeMain
     {
-        const String LIBRARY_VERSION = "00.01-00";
+        const String LIBRARY_VERSION = "00.03-00";
         FileManageCleass file;
 
         //過去データの読み込み
@@ -44,13 +44,13 @@ namespace LibRaceAnalyze
         }
 
         //分析
-        public bool RaceAnalyzeExec( HorceInfo hc, RaceInfo rc, int type ,ref float ret )
+        public bool RaceAnalyzeExec( HorceInfo hc, RaceInfo rc, int type ,ref double ret )
         {
             int[] num = new int[20];
             
             int[] boold = new int[10];//血統用データ
             int[] traner = new int[10]; //調教師データ
-            float fNum = 0;
+            double fNum = 0;
             bool fJockeyChange = false;
             bool fOldJockeyNoneFlg = false;
 
@@ -88,8 +88,8 @@ namespace LibRaceAnalyze
                     continue;
                 }
 
-                num[15]++; //件数
-                num[16] += iRank; //全着順(intのMaxはいかないはず)
+                num[16]++; //件数
+                num[17] += iRank; //全着順(intのMaxはいかないはず)
 
                 //騎手：ジョッキーコード
                 if (values[38] == hc.Jockey1.Value)
@@ -136,7 +136,11 @@ namespace LibRaceAnalyze
                 {
                     //前走データがない場合
                     //なにもしない
-                    if (hc.OldJockey1.Value == hc.Jockey1.Value)
+                    if(hc.OldJockey1 == null)
+                    {
+                        //ありえる？
+                    }
+                    else if (hc.OldJockey1.Value == hc.Jockey1.Value)
                     {
                         //前走から同じ騎手
                         fJockeyChange = true;
@@ -199,17 +203,17 @@ namespace LibRaceAnalyze
                     if (values[4] == rc.Cource1)
                     {
                         //競馬場・コース別出走回数
-                        boold[3]++;
+                        traner[3]++;
 
                         if (iRank <= 3 && 1 <= iRank)
                         {
                             //複勝回数
-                            boold[4]++;
+                            traner[4]++;
 
                             if (iRank == 1)
                             {
                                 //単勝回数
-                                boold[5]++;
+                                traner[5]++;
                             }
                         }
                     }
@@ -260,26 +264,26 @@ namespace LibRaceAnalyze
             /* ============================================ */
             
             /***** 騎手 *****/
-            float fJChangeCof = 0;
-            float fJWinRatio = 0;
-            float fJRankAve = 0;
-            float fJRank3Ave = 0;
-            float fJCourceRankAve = 0;
-            float fJCourceRank = 0;
-            float fJCourceWinAve = 0;
+            double fJChangeCof = 0;
+            //double fJWinRatio = 0;
+            //double fJRankAve = 0;
+            //double fJRank3Ave = 0;
+            //double fJCourceRankAve = 0;
+            //double fJCourceRank = 0;
+            //double fJCourceWinAve = 0;
 
-            float fJAllRankAve = 0;
+            double fJAllRankAve = num[17] / num[16];
 
-            float[] Diff = new float[6];
+            double[] Diff = new double[6];
 
             //乗り替わり係数
             //今回のジョッキー：共通処理
-            fJWinRatio = num[6] / num[0]; //勝率(1.00 <--> 0.00)
-            fJRankAve = num[1] / num[0]; //平均着順(1.00 <--> 18.00)
-            fJRank3Ave = num[2] / num[0]; //複勝率(1.00 <--> 0.00)
-            fJCourceRank = num[4] / num[3]; //競馬場平均着順(1.00 <--> 18.00)
-            fJCourceRankAve = num[5] / num[3]; //競馬場複勝率(1.00 <--> 0.00)
-            fJCourceWinAve = num[13] / num[3]; //競馬場勝率(1.00 <--> 0.00)
+            double fJWinRatio = (num[6] / (double)num[0]); //勝率(1.00 <--> 0.00)
+            double fJRankAve = num[1] / (double)num[0]; //平均着順(1.00 <--> 18.00)
+            double fJRank3Ave = num[2] / (double)num[0]; //複勝率(1.00 <--> 0.00)
+            double fJCourceRank = num[4] / (double)num[3]; //競馬場平均着順(1.00 <--> 18.00)
+            double fJCourceRankAve = num[5] / (double)num[3]; //競馬場複勝率(1.00 <--> 0.00)
+            double fJCourceWinAve = num[13] / (double)num[3]; //競馬場勝率(1.00 <--> 0.00)
 
             if (fOldJockeyNoneFlg || fJockeyChange)
             {
@@ -290,54 +294,68 @@ namespace LibRaceAnalyze
             {
                 //乗り替わり
                 //今回騎手を100としたときの増加/減少を調べる
-                Diff[0] = (num[14] / num[7]) / fJWinRatio; //勝率
-                Diff[1] =  (num[8] / num[7]) / fJRankAve; //平均着順(低い方がいい)
-                Diff[2] = (num[9] / num[7]) / fJRank3Ave; //複勝率
-                Diff[3] = (num[11] / num[10]) / fJCourceRank; //競馬場平均着順
-                Diff[4] = (num[12] / num[10]) / fJCourceRankAve; //競馬場複勝率
-                Diff[5] = (num[14] / num[10]) / fJCourceWinAve; //競馬場勝率
+                Diff[0] = 0.0f;
+                Diff[1] = 0.0f;
+                Diff[2] = 0.0f;
+                Diff[3] = 0.0f;
+                Diff[4] = 0.0f;
+                Diff[5] = 0.0f;
+
+
+                fJWinRatio = Diff[0] = (num[14] / num[7]) / fJWinRatio; //勝率
+                fJRankAve = Diff[1] =  (num[8] / num[7]) / (double)fJRankAve; //平均着順(低い方がいい)
+                fJRank3Ave = Diff[2] = (num[9] / num[7]) / (double)fJRank3Ave; //複勝率
+                if(num[10] != 0)
+                {
+                    //競馬場出走歴なし
+                    fJCourceRank = Diff[3] = (num[11] / num[10]) / (double)fJCourceRank;
+                }
+                fJCourceRankAve = Diff[4] = (num[12] / num[10]) / (double)fJCourceRankAve; //競馬場複勝率
+                fJCourceWinAve = Diff[5] = (num[15] / num[10]) / (double)fJCourceWinAve; //競馬場勝率
+
+                
             }
 
             /***** 調教師 *****/
-            float fTWinAve = 0; //勝率
-            float fT3Ave = 0; //複勝率
-            float fTCourceWin = 0; //競馬場勝率
-            float fTCource3Ave = 0; //競馬場複勝率
+            double fTWinAve = 0; //勝率
+            double fT3Ave = 0; //複勝率
+            double fTCourceWin = 0; //競馬場勝率
+            double fTCource3Ave = 0; //競馬場複勝率
 
-            fTWinAve = traner[2] / traner[0]; //勝率
-            fT3Ave = traner[1] / traner[0]; //複勝率
-            fTCourceWin = traner[5] / traner[3]; //競馬場勝率
-            fTCource3Ave = traner[4] / traner[3]; //競馬場勝率
+            fTWinAve = traner[2] / (double)traner[0]; //勝率
+            fT3Ave = traner[1] / (double)traner[0]; //複勝率
+            fTCourceWin = traner[5] / (double)traner[3]; //競馬場勝率
+            fTCource3Ave = traner[4] / (double)traner[3]; //競馬場勝率
 
             /***** 種牡馬 *****/
-            float fBWinAve = 0;
-            float fB3Ave = 0; //複勝率
-            float fBCourceWin = 0; //競馬場勝率
-            float fBCource3Ave = 0; //競馬場複勝率
-            fBWinAve = boold[2] / boold[0]; //勝率
-            fB3Ave = boold[1] / boold[0]; //複勝率
-            fBCourceWin = boold[5] / boold[3]; //競馬場勝率
-            fBCource3Ave = boold[4] / boold[3]; //競馬場勝率
+            double fBWinAve = 0;
+            double fB3Ave = 0; //複勝率
+            double fBCourceWin = 0; //競馬場勝率
+            double fBCource3Ave = 0; //競馬場複勝率
+            fBWinAve = boold[2] / (double)boold[0]; //勝率
+            fB3Ave = boold[1] / (double)boold[0]; //複勝率
+            fBCourceWin = boold[5] / (double)boold[3]; //競馬場勝率
+            fBCource3Ave = boold[4] / (double)boold[3]; //競馬場勝率
 
 
-            float[] rank = new float[7];
+            double[] rank = new double[7];
             //1着の計算
             //平均着順
-            rank[0] = (float)(((fJRankAve * 1.0) + (fJCourceRank * 0.9)) / 2 
+            rank[0] = (double)(((fJRankAve * 1.0) + (fJCourceRank * 0.9)) / 2 
                 * (fOldJockeyNoneFlg || fJockeyChange ? 1 : Diff[1])
                 * (fOldJockeyNoneFlg || fJockeyChange ? 1 : Diff[3])
                 ); //該当競馬場は多めに設定(値を低くすると、値は高くでる)
             rank[0] = fJAllRankAve / rank[0]; //rank[0]には騎手平均着順指数をいれる(1.00中央値。大きいければ大きいほどよい)
 
             //勝率の計算
-            rank[1] = (float)((fJWinRatio + fJCourceRankAve * 1.1)
+            rank[1] = (double)((fJWinRatio + fJCourceRankAve * 1.1)
                 + (fOldJockeyNoneFlg || fJockeyChange ? 0 : Diff[0])
                 + (fOldJockeyNoneFlg || fJockeyChange ? 0 : Diff[5] * 1.1)
                 / (fOldJockeyNoneFlg || fJockeyChange ? 2 : 4)
                 );
 
             //複勝率の計算
-            rank[2] = (float)((fJRank3Ave + fJCourceWinAve * 1.1)
+            rank[2] = (double)((fJRank3Ave + fJCourceWinAve * 1.1)
                 + (fOldJockeyNoneFlg || fJockeyChange ? 0 : Diff[2])
                 + (fOldJockeyNoneFlg || fJockeyChange ? 0 : Diff[4] * 1.1)
                 / (fOldJockeyNoneFlg || fJockeyChange ? 2 : 4)
@@ -345,13 +363,13 @@ namespace LibRaceAnalyze
 
 
             //調教師の勝率計算
-            rank[3] = (float)(fTWinAve + fTCourceWin * 1.1);
+            rank[3] = (double)(fTWinAve + fTCourceWin * 1.1);
             //調教師の3着内計算
-            rank[4] = (float)(fT3Ave + fTCource3Ave * 1.1);
+            rank[4] = (double)(fT3Ave + fTCource3Ave * 1.1);
 
             //種牡馬勝率
-            rank[5] = (float)(fBWinAve + fBCourceWin * 1.1);
-            rank[6] = (float)(fB3Ave + fBCource3Ave * 1.1);
+            rank[5] = (double)(fBWinAve + fBCourceWin * 1.1);
+            rank[6] = (double)(fB3Ave + fBCource3Ave * 1.1);
 
             if(type == 1)
             {
@@ -381,7 +399,7 @@ namespace LibRaceAnalyze
     }
     
 
-    class Details
+   public class Details
     {
         private String name;
         private String value;
@@ -395,18 +413,28 @@ namespace LibRaceAnalyze
     {
         private int Umaban;
         private Details Jockey;
-        private float Futan;
+        private double Futan;
 
         private Details OldJockey;
         private Details Trainer;
         private Details Sire;
 
         public int Umaban1 { get => Umaban; set => Umaban = value; }
-        public float Futan1 { get => Futan; set => Futan = value; }
+        public double Futan1 { get => Futan; set => Futan = value; }
         internal Details Jockey1 { get => Jockey; set => Jockey = value; }
         internal Details OldJockey1 { get => OldJockey; set => OldJockey = value; }
         internal Details Trainer1 { get => Trainer; set => Trainer = value; }
         internal Details Sire1 { get => Sire; set => Sire = value; }
+
+        public void SetJockey( Details Detais) { Jockey = Detais; }
+        public Details GetJockey() { return Jockey; }
+
+        public void SetOldJockey(Details Detais) { OldJockey = Detais; }
+        public Details GetOldJockey() { return OldJockey; }
+        public void SetTrainer(Details Detais) { Trainer = Detais; }
+        public Details GetTrainer() { return Trainer; }
+        public void SetSire(Details Detais) { Sire = Detais; }
+        public Details GetSire() { return Sire; }
     }
 
     public class RaceInfo

@@ -21,6 +21,7 @@ using AngleSharp.Html.Dom;
 using System.Net.Http;
 using AngleSharp.Html.Parser;
 using WpfApp1.form.chokyo;
+using LibRaceAnalyze;
 
 namespace WpfApp1.form
 {
@@ -53,8 +54,11 @@ namespace WpfApp1.form
         const int SE_NAME = 8;
         const int SE_CODE = 9;
         const int SE_FUTAN = 13;
+        const int SE_JOCKEY_CODE = 15;
         const int SE_JOCKEY = 16;
         const int SE_MINARA = 17;
+        const int SE_TRANER_NAME = 31;
+        const int SE_TRANER_CODE = 32;
 
         /* 定数定義 */
         const int MAX_TOSU = 19;
@@ -71,6 +75,9 @@ namespace WpfApp1.form
 
         /* 人気パラメーター */
         int RankParam = 0;
+
+        /* データ分析用インスタンス */
+        RaceAnalyzeMain Analyze;
 
         enum DT
         {
@@ -106,9 +113,21 @@ namespace WpfApp1.form
 
         }
 
+        public Syutsuba(String RA, int Clr, ref RaceAnalyzeMain Ana)
+        {
+            Analyze = Ana;
+            InitializeComponent();
+            Syutsuba_common(RA, Clr);
+        }
+
         public Syutsuba(String RA, int Clr)
         {
             InitializeComponent();
+            Syutsuba_common(RA, Clr);
+        }
+
+        void Syutsuba_common(String RA, int Clr)
+        {
             String tmp = "";
             List<String> Radata = new List<string>();
 
@@ -139,7 +158,7 @@ namespace WpfApp1.form
             
 #endif
             CourceColor = Clr;
- 
+
             int ret = main.JvGetRTData(RaClassData.getRaceDate()); //速報データ取得
             SetCourceStatusWrite();
 
@@ -720,6 +739,15 @@ namespace WpfApp1.form
             //人気信頼ランク表示
             RankAverageOutput();
             toolStripStatusLabel1.Text = "準備完了";
+
+            /* 分析ボタンの有効化 */
+            button8.Enabled = false;
+            if (Analyze != null)
+            {
+                //分析ボタンを有効にする
+                LOG.CONSOLE_TIME_MD("SY", "Analyze Button Enable!!");
+                button8.Enabled = true;
+            }
 
             FinishProfresBar();
             LOG.CONSOLE_TIME_MD("SY", "Syutsuba form Load Finish!!");
@@ -1892,6 +1920,140 @@ namespace WpfApp1.form
         }
         #endregion
 
+
+        #region 分析ボタン
+        private void button8_Click(object sender, EventArgs e)
+        {
+            LOG.CONSOLE_TIME_MD("SY", "Analyze Button On");
+            //ここではすでにインスタンスは有効化されている前提
+            //Analyze.RaceAnalyzeExec(hc:, rc:, type:, ret)
+            HorceInfo hc = new HorceInfo();
+            RaceInfo rc = new RaceInfo();
+            Details dt = new Details();
+            String refString = "";
+            double retValue = 0;
+            List<String> Arraytmp;
+
+            refString = RaClassData.getCourceTrack();
+            rc.Baba1 = LOG.JvSysMappingFunction(20091, ref refString).Substring(0,1);
+
+            rc.Distance1 = Int32.Parse(RaClassData.getDistance());
+
+            rc.Cource1 = this.RaceNum.Text; //出馬表は正しく表示されている前提
+
+            //レースキーは固定のため、先に入れておく
+            String SE_KEY = RaClassData.GET_RA_KEY();
+
+            //UMマスターを取得する
+            List<String> UM_Master = new List<string>();
+            db.DbReadAllData("0", "UM", 0, ref UM_Master, SE_KEY, 0);
+            if(UM_Master.Count == 0)
+            {
+                //UMの取得に失敗
+                LOG.CONSOLE_MODULE(SPEC, "UM..ReadErr...");
+                return;
+            }
+
+            //SEマスターを取得する
+            List<String> SE_Master = new List<string>();
+            db.DbReadAllData("0", "SE", 0, ref SE_Master, SE_KEY, 0);
+            if (SE_Master.Count == 0)
+            {
+                //UMの取得に失敗
+                LOG.CONSOLE_MODULE(SPEC, "SE..ReadErr...");
+                return;
+            }
+
+
+            //出走馬データの存在有無
+            if (horceClasses.Count == 0)
+            {
+                LOG.CONSOLE_MODULE(SPEC, "HorceClasses...ReadErr");
+                return;
+            }
+
+            //出走馬分のループを回す
+            for (int i = 0; i < RaClassData.Tosu1; i++)
+            {
+                hc = new HorceInfo();
+                Arraytmp = new List<string>();
+
+                if (db.TextReader_Col(SE_KEY.Substring(0, 8), "SE", 0, ref Arraytmp, SE_KEY + String.Format("{0:00}", i + 1)) == 0)
+                {
+                    continue;
+                }
+                if (Arraytmp.Count == 0) { break; }
+
+                hc.Umaban1 = Int32.Parse(Arraytmp[SE_UMA]);
+                dt.Name = Arraytmp[SE_JOCKEY];
+                dt.Value = Arraytmp[SE_JOCKEY_CODE];
+                hc.SetJockey(dt);
+
+                dt = new Details();
+                dt.Name = Arraytmp[SE_TRANER_NAME];
+                dt.Value = Arraytmp[SE_TRANER_CODE];
+                hc.SetTrainer(dt);
+
+                hc.Futan1 = float.Parse(Arraytmp[SE_FUTAN].Substring(0, 2) + "." + Arraytmp[SE_FUTAN].Substring(2, 1));
+
+                //前走騎手
+                dt = new Details();
+                //String name = "";
+                for(int j=0; j < SE_Master.Count; j++)
+                {
+                    //カンマ区切りにする
+                    var param = SE_Master[j].Split(',');
+                    if ( Arraytmp[7] == param[7].Substring(0,10) )
+                    {
+                        //name = param[7].Substring(0, 10);
+
+                        //前走騎手の名前・コードを入れる
+                        dt.Name = param[16];
+                        dt.Value = param[15];
+                        hc.SetOldJockey(dt);
+                        break;
+                    }
+                }
+
+
+                for (int j = 0; j < UM_Master.Count; j++)
+                {
+                    //カンマ区切りにする
+                    var param = UM_Master[j].Split(',');
+                    //horceClassesには出走馬順に入っている前提
+                    if (param[0] == horceClasses[i].KettoNum1.ToString())
+                    {
+                        //String[]型とList<String>となっているため、ArrayTmpにいれるように変換する
+                        for (int idx = 0; idx < param.Length; idx++)
+                        {
+                            dt = new Details();
+                            dt.Name = param[6];
+                            dt.Value = "";  //現状参照していないため
+                            hc.SetSire(dt);
+                            break;
+                        }
+
+                    }
+                }
+
+
+                //全部入れたら、ライブラリ関数コール
+                if(Analyze.RaceAnalyzeExec(hc, rc, 1, ref retValue))
+                {
+                    LOG.CONSOLE_TIME_MD("SY", "Analyze num:" + i + "Value " + retValue);
+                }
+                else
+                {
+                    LOG.CONSOLE_TIME_MD("SY", "Analyze num:" + i + "Err");
+                }
+
+            }
+
+
+            LOG.CONSOLE_TIME_MD("SY", "Analyze Button " + RaClassData.Tosu1 + " End");
+
+        }
+        #endregion
     }
 
     class Shirushi
